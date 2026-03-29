@@ -12,13 +12,8 @@ const HERO_DEMO_VIDEO_SRC =
   "https://www.hive68.com/wp-content/uploads/2019/10/Clip-1.mp4";
 const HERO_VIDEO_SRC = HERO_DEMO_VIDEO_SRC;
 
-// Navbar height estimate + visual breathing room above text.
-// This ensures "WELCOME TO" tag is always visible below the fixed navbar.
-const NAVBAR_H = 80;
-// Equal visual gap above text (below navbar) and below text (before image).
-const VISUAL_GAP = 48;
-// Where the text block starts from viewport top.
-const TEXT_TOP = NAVBAR_H + VISUAL_GAP; // 128px
+const DESKTOP_NAVBAR_H = 128;
+const MOBILE_NAVBAR_H = 72;
 
 // --- Shared text content for dual-header technique ---
 const HeroTextContent = ({
@@ -89,12 +84,15 @@ export const HeroSection = ({
 
   // viewportH drives all pixel-based layout values.
   const [viewportH, setViewportH] = useState(900);
+  const [navbarH, setNavbarH] = useState(MOBILE_NAVBAR_H);
   // Measured height of the text block (tag + title).
   const [textH, setTextH] = useState(160);
+  // Keep top/bottom breathing room around text block in sync.
+  const visualGap = navbarH >= DESKTOP_NAVBAR_H ? 48 : 28;
+  const textTop = navbarH + visualGap;
 
-  // imageStartPx: symmetric gaps — VISUAL_GAP above and below text (below navbar).
-  // IMAGE_GAP_PX equals VISUAL_GAP so space above text = space below text.
-  const imageStartPx = TEXT_TOP + textH + VISUAL_GAP;
+  // imageStartPx: symmetric gaps above and below text (below navbar).
+  const imageStartPx = textTop + textH + visualGap;
 
   // MotionValue for imageStartPx — lets transforms re-evaluate reactively
   // whenever textH is measured (not just on scroll events).
@@ -106,6 +104,9 @@ export const HeroSection = ({
   useEffect(() => {
     const measure = () => {
       setViewportH(window.innerHeight);
+      setNavbarH(
+        window.innerWidth >= 1024 ? DESKTOP_NAVBAR_H : MOBILE_NAVBAR_H,
+      );
       if (textMeasureRef.current) {
         setTextH(textMeasureRef.current.offsetHeight);
       }
@@ -148,7 +149,7 @@ export const HeroSection = ({
 
   // White text is positioned inside layer2 (the image container).
   // Setting top = -currentImageTop keeps the white text visually pinned at
-  // viewport y = 0, then TEXT_TOP margin inside puts it at the same
+  // viewport y = 0, then textTop margin inside puts it at the same
   // position as the dark text. layer2's overflow:hidden clips everything
   // above the image boundary, so white text only shows within the image.
   const whiteTextAbsTop = useTransform(
@@ -236,7 +237,7 @@ export const HeroSection = ({
                   y: textY,
                   opacity: textOpacity,
                   scale: textScale,
-                  marginTop: `${TEXT_TOP}px`,
+                  marginTop: `${textTop}px`,
                 }}
                 className="pointer-events-auto"
               >
@@ -324,7 +325,7 @@ export const HeroSection = ({
                   y: textY,
                   opacity: textOpacity,
                   scale: textScale,
-                  marginTop: `${TEXT_TOP}px`,
+                  marginTop: `${textTop}px`,
                 }}
                 className="pointer-events-auto"
               >
