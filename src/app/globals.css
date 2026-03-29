@@ -43,7 +43,7 @@
 
 /* Nav link with animated underline */
 .nav-link {
-  @apply text-[13px] uppercase tracking-[0.15em] font-sans font-normal transition-all duration-300 relative;
+  @apply text-[13px] uppercase tracking-[0.2em] font-sans font-bold transition-all duration-300 relative;
 }
 
 .nav-link::after {

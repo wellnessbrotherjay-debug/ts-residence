@@ -55,13 +55,13 @@ export const Navbar = ({
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={`fixed top-0 left-0 w-full z-[60] transition-all duration-700 ${
+        className={`fixed top-0 left-0 w-full z-60 transition-all duration-700 ${
           isScrolled
-            ? "bg-white/95 backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.05)] py-3"
+            ? "bg-white/80 backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.05)] py-3"
             : "bg-cream py-5 lg:py-6"
         }`}
       >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between">
+        <div className="max-w-350 mx-auto px-6 md:px-10 flex items-center justify-between">
           {/* Left Nav - Desktop */}
           <div className="hidden lg:flex items-center gap-8 flex-1">
             {leftNav.map((item) => (
@@ -106,7 +106,7 @@ export const Navbar = ({
             ))}
             <button
               onClick={() => setPage("contact")}
-              className="px-7 py-2.5 text-[12px] uppercase tracking-[0.2em] font-sans font-medium border transition-all duration-500 ml-4 border-ink/20 text-ink hover:bg-ink hover:text-white"
+              className="ml-4 border border-ink bg-ink px-9 py-3.5 text-[13px] font-sans font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:border-gold hover:bg-gold"
             >
               Book
             </button>
