@@ -1,6 +1,6 @@
 import { Instagram, Send, Phone, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BTN_SOLID } from "../constants";
 import type { Page } from "../types";
 
@@ -13,9 +13,25 @@ export const Navbar = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showTopLogo, setShowTopLogo] = useState(true);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 60);
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setIsScrolled(currentY > 40);
+
+      if (currentY < 20) {
+        setShowTopLogo(true);
+      } else if (currentY > lastScrollY.current + 2) {
+        setShowTopLogo(false);
+      } else if (currentY < lastScrollY.current - 2) {
+        setShowTopLogo(true);
+      }
+
+      lastScrollY.current = currentY;
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -55,70 +71,90 @@ export const Navbar = ({
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={`fixed top-0 left-0 w-full z-60 transition-all duration-700 ${
+        className={`fixed top-0 left-0 w-full z-60 border-b border-black/12 transition-all duration-700 ${
           isScrolled
-            ? "bg-white/80 backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.05)] py-3"
-            : "bg-cream py-5 lg:py-6"
+            ? "bg-white/90 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.05)]"
+            : "bg-cream"
         }`}
       >
-        <div className="max-w-350 mx-auto px-6 md:px-10 flex items-center justify-between">
-          {/* Left Nav - Desktop */}
-          <div className="hidden lg:flex items-center gap-8 flex-1">
-            {leftNav.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => setPage(item.value)}
-                className={`nav-link text-ink/60 hover:text-ink ${currentPage === item.value ? "font-medium text-ink" : ""}`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Logo - Center */}
-          <button
-            onClick={() => setPage("home")}
-            className="flex flex-col items-center gap-0.5 group"
-          >
-            <div className="flex items-baseline gap-0">
-              <span className="text-3xl lg:text-4xl font-serif font-light tracking-tight transition-colors duration-500 text-ink">
-                T
-              </span>
-              <span className="text-3xl lg:text-4xl font-serif font-light tracking-tight transition-colors duration-500 text-ink">
-                S
-              </span>
-            </div>
-            <span className="text-[8px] tracking-[0.45em] uppercase font-sans font-semibold transition-colors duration-500 text-ink/50">
-              Residence
-            </span>
-          </button>
-
-          {/* Right Nav - Desktop */}
-          <div className="hidden lg:flex items-center gap-8 flex-1 justify-end">
-            {rightNav.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => setPage(item.value)}
-                className={`nav-link text-ink/60 hover:text-ink ${currentPage === item.value ? "font-medium text-ink" : ""}`}
-              >
-                {item.label}
-              </button>
-            ))}
+        <div className="w-full px-4">
+          {/* Mobile Header */}
+          <div className="lg:hidden flex items-center justify-between">
+            <div className="w-10" />
             <button
-              onClick={() => setPage("contact")}
-              className="ml-4 border border-ink bg-ink px-9 py-3.5 text-[13px] font-sans font-semibold uppercase tracking-[0.2em] text-white transition-all duration-500 hover:border-gold hover:bg-gold"
+              onClick={() => setPage("home")}
+              className="flex flex-col items-center gap-0.5 group"
             >
-              Book
+              <div className="flex items-baseline gap-0">
+                <span className="text-3xl font-serif font-light tracking-tight transition-colors duration-500 text-ink">
+                  T
+                </span>
+                <span className="text-3xl font-serif font-light tracking-tight transition-colors duration-500 text-ink">
+                  S
+                </span>
+              </div>
+              <span className="text-[8px] tracking-[0.45em] uppercase font-sans font-semibold transition-colors duration-500 text-ink/50">
+                Residence
+              </span>
+            </button>
+            <button
+              className="p-2 transition-colors text-ink"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <Menu size={24} />
             </button>
           </div>
 
-          {/* Mobile Toggle */}
-          <button
-            className="lg:hidden p-2 transition-colors text-ink"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Menu size={24} />
-          </button>
+          {/* Desktop Header */}
+          <div className="hidden lg:block">
+            <motion.div
+              animate={{
+                opacity: showTopLogo ? 1 : 0,
+                y: showTopLogo ? 0 : -10,
+                height: showTopLogo ? 64 : 0,
+              }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="flex justify-center items-center overflow-hidden border-b border-black/15"
+              style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
+            >
+              <button
+                onClick={() => setPage("home")}
+                className="justify-self-center flex flex-col items-center gap-1 text-ink"
+              >
+                <div className="flex items-baseline gap-0">
+                  <span className="text-4xl font-serif font-light leading-none tracking-tight text-ink">
+                    T
+                  </span>
+                  <span className="text-4xl font-serif font-light leading-none tracking-tight text-ink">
+                    S
+                  </span>
+                </div>
+                <span className="text-[8px] tracking-[0.45em] uppercase font-sans font-semibold text-ink/55">
+                  Residence
+                </span>
+              </button>
+            </motion.div>
+
+            <div className="relative flex h-16 items-center justify-center">
+              <div className="flex items-center gap-10">
+                {allNav.map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={() => setPage(item.value)}
+                    className={`nav-link text-ink/70 hover:text-ink ${currentPage === item.value ? "font-medium text-ink" : ""}`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => setPage("contact")}
+                className="absolute right-0 rounded-sm bg-[#8b7658] px-8 py-3 text-[13px] font-sans font-semibold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#755f44]"
+              >
+                Book
+              </button>
+            </div>
+          </div>
         </div>
       </motion.nav>
 
