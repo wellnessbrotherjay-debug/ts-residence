@@ -13,7 +13,7 @@ export const Navbar = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showTopLogo, setShowTopLogo] = useState(true);
+  const [showTopLogo, setShowTopLogo] = useState(false);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -32,8 +32,15 @@ export const Navbar = ({
       lastScrollY.current = currentY;
     };
 
+    const initFrame = requestAnimationFrame(() => {
+      handleScroll();
+    });
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      cancelAnimationFrame(initFrame);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -68,9 +75,9 @@ export const Navbar = ({
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        initial={{ y: -64, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         className={`fixed top-0 left-0 w-full z-60 border-b border-black/12 transition-all duration-700 ${
           isScrolled
             ? "bg-white/90 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.05)]"
