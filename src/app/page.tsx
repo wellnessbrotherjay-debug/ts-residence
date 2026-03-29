@@ -1,65 +1,78 @@
-import Image from "next/image";
+"use client";
+
+import { MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect } from "react";
+import type { Page } from "@/types";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { HomePage } from "@/sections/HomePage";
+import { GalleryPage } from "@/sections/GalleryPage";
+import { OffersPage } from "@/sections/OffersPage";
+import { FiveStarPage } from "@/sections/FiveStarPage";
+import { HealthyLivingPage } from "@/sections/HealthyLivingPage";
+import { EasyLivingPage } from "@/sections/EasyLivingPage";
+import { AdminPage } from "@/sections/AdminPage";
+import { ContactPage } from "@/sections/ContactPage";
+import { ApartmentPage } from "@/sections/ApartmentPage";
 
 export default function Home() {
+  const [page, setPage] = useState<Page>("home");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === "A") setPage("admin");
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen flex flex-col">
+      <Navbar currentPage={page} setPage={setPage} />
+
+      <main className="grow">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={page}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+            {page === "home" && <HomePage setPage={setPage} />}
+            {page === "apartments" && <HomePage setPage={setPage} />}
+            {page === "solo" && <ApartmentPage type="solo" setPage={setPage} />}
+            {page === "studio" && (
+              <ApartmentPage type="studio" setPage={setPage} />
+            )}
+            {page === "soho" && <ApartmentPage type="soho" setPage={setPage} />}
+            {page === "five-star" && <FiveStarPage />}
+            {page === "healthy" && <HealthyLivingPage />}
+            {page === "easy" && <EasyLivingPage />}
+            {page === "gallery" && <GalleryPage />}
+            {page === "offers" && <OffersPage />}
+            {page === "contact" && <ContactPage />}
+            {page === "admin" && <AdminPage />}
+          </motion.div>
+        </AnimatePresence>
       </main>
+
+      <Footer setPage={setPage} />
+
+      {/* Floating WhatsApp */}
+      <a
+        href="https://wa.me/6281119028111"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 hover:shadow-green-500/30 transition-all duration-300"
+      >
+        <MessageCircle size={24} />
+      </a>
     </div>
   );
 }
