@@ -1,4 +1,13 @@
-import { ApartmentDetailPage } from "@/components/site/page-sections";
+import { notFound } from "next/navigation";
+import { ApartmentDetailClient } from "@/components/apartments/ApartmentDetailClient";
+import {
+  apartmentDetailMap,
+  type ApartmentKey,
+} from "@/lib/apartments-content";
+
+export function generateStaticParams() {
+  return [{ slug: "solo" }, { slug: "studio" }, { slug: "soho" }];
+}
 
 export default async function Page({
   params,
@@ -6,6 +15,6 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-
-  return <ApartmentDetailPage slug={slug} />;
+  if (!apartmentDetailMap[slug as ApartmentKey]) notFound();
+  return <ApartmentDetailClient slug={slug as ApartmentKey} />;
 }

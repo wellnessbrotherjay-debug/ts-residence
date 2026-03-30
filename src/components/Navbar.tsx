@@ -91,22 +91,14 @@ export const Navbar = () => {
     };
   }, [isMenuOpen]);
 
-  const leftNav: { label: string; value: Page }[] = [
+  const allNav: { label: string; value: Page }[] = [
     { label: "Apartments", value: "apartments" },
     { label: "Offers", value: "offers" },
+    { label: "Five-star living", value: "five-star" },
+    { label: "Healthy living", value: "healthy" },
+    { label: "Easy living", value: "easy" },
     { label: "Gallery", value: "gallery" },
-  ];
-
-  const rightNav: { label: string; value: Page }[] = [
-    { label: "Five-Star Living", value: "five-star" },
-    { label: "Wellness", value: "healthy" },
     { label: "Contact", value: "contact" },
-  ];
-
-  const allNav = [
-    ...leftNav,
-    ...rightNav,
-    { label: "Easy Living", value: "easy" as Page },
   ];
 
   const handleNavClick = (page: Page) => setPage(page);
@@ -119,7 +111,7 @@ export const Navbar = () => {
         transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         className={`fixed top-0 left-0 w-full z-60 border-b border-gold/35 transition-all duration-700 ${
           isScrolled
-            ? "bg-white/90 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.05)]"
+            ? "bg-white/72 backdrop-blur-2xl shadow-[0_6px_28px_rgba(0,0,0,0.06)]"
             : "bg-cream"
         }`}
       >
@@ -197,7 +189,7 @@ export const Navbar = () => {
                 onClick={() => setPage("contact")}
                 className="absolute right-0  bg-[#8b7658] px-10 py-3 text-[14px] font-sans font-semibold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#755f44]"
               >
-                Book
+                Book now
               </button>
             </div>
           </div>
