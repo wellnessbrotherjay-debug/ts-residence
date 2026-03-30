@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
+import { useEffect, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import {
   FadeInView,
   StaggerContainer,
@@ -119,45 +124,126 @@ const communityMoments = [
 
 export default function Page() {
   const [galleryIndex, setGalleryIndex] = useState<number>(-1);
-  const gallerySlides = communityMoments.map((item) => ({
-    src: item.src,
-    alt: item.alt,
-  }));
+  const heroRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroImageY = useSpring(useTransform(heroProgress, [0, 1], [0, 115]), {
+    stiffness: 84,
+    damping: 23,
+    mass: 0.42,
+  });
+  const heroImageScale = useSpring(
+    useTransform(heroProgress, [0, 1], [1, 1.08]),
+    {
+      stiffness: 92,
+      damping: 24,
+      mass: 0.45,
+    },
+  );
+  const heroContentY = useSpring(useTransform(heroProgress, [0, 1], [0, -38]), {
+    stiffness: 96,
+    damping: 26,
+    mass: 0.42,
+  });
+  const heroContentOpacity = useTransform(heroProgress, [0, 0.86], [1, 0.76]);
+  useEffect(() => {
+    if (galleryIndex < 0) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setGalleryIndex(-1);
+      if (event.key === "ArrowRight") {
+        setGalleryIndex((prev) => (prev + 1) % communityMoments.length);
+      }
+      if (event.key === "ArrowLeft") {
+        setGalleryIndex(
+          (prev) =>
+            (prev - 1 + communityMoments.length) % communityMoments.length,
+        );
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [galleryIndex]);
 
   return (
     <div className="overflow-x-hidden bg-cream">
-      <section className="relative min-h-[78vh] border-y border-gold/30 md:min-h-[92vh]">
-        <img
+      <section
+        ref={heroRef}
+        className="relative min-h-[78vh] overflow-hidden border-y border-gold/30 md:min-h-[92vh]"
+      >
+        <motion.img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-wellness-club-building-gate.webp"
           alt="Healthy Living at TS Residence"
           className="absolute inset-0 h-full w-full object-cover"
+          style={{ y: heroImageY, scale: heroImageScale }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/52 to-black/32" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/52 via-transparent to-black/28" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_22%,rgba(196,160,96,0.23),transparent_46%)]" />
         <div className="absolute inset-y-0 left-0 w-[58%] bg-gradient-to-r from-black/36 to-transparent" />
 
-        <div className="relative flex min-h-[78vh] w-full items-end px-6 pb-10 pt-28 md:min-h-[92vh] md:px-12 md:pb-14 md:pt-34 lg:px-20 lg:pb-18 xl:px-28">
-          <FadeInView className="w-full max-w-[1120px] text-white">
-            <div className="inline-flex items-center gap-3 border border-gold/50 bg-black/30 px-4 py-2 backdrop-blur-md">
+        <motion.div
+          className="relative flex min-h-[78vh] w-full items-end px-6 pb-10 pt-28 md:min-h-[92vh] md:px-12 md:pb-14 md:pt-34 lg:px-20 lg:pb-18 xl:px-28"
+          style={{ y: heroContentY, opacity: heroContentOpacity }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-[1120px] text-white"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.9,
+                delay: 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="inline-flex items-center gap-3 border border-gold/50 bg-black/30 px-4 py-2 backdrop-blur-md"
+            >
               <span className="label-caps text-gold-light">Healthy Living</span>
               <span className="h-1 w-1 rounded-full bg-gold-light/85" />
               <span className="text-[10px] uppercase tracking-[0.24em] text-white/80">
                 No.1 Wellness Club
               </span>
-            </div>
+            </motion.div>
 
-            <div className="mt-7 h-px w-28 bg-gradient-to-r from-gold/90 to-gold/20" />
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.35, ease: "easeOut" }}
+              className="mt-7 h-px w-28 origin-left bg-gradient-to-r from-gold/90 to-gold/20"
+            />
 
-            <h1 className="mt-7 max-w-[18ch] font-serif text-[2.55rem] leading-[0.95] tracking-[-0.03em] sm:text-6xl md:text-[4.4rem] lg:text-[5.5rem]">
+            <motion.h1
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1.15,
+                delay: 0.42,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-7 max-w-[18ch] font-serif text-[2.55rem] leading-[0.95] tracking-[-0.03em] sm:text-6xl md:text-[4.4rem] lg:text-[5.5rem]"
+            >
               Elevated
               <br />
               wellness living
               <br />
               in Seminyak.
-            </h1>
+            </motion.h1>
 
-            <div className="mt-9 max-w-[760px] border border-gold/28 bg-black/28 p-6 backdrop-blur-md md:p-8">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1.1,
+                delay: 0.55,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-9 max-w-[760px] border border-gold/28 bg-black/28 p-6 backdrop-blur-md md:p-8"
+            >
               <p className="text-[1.02rem] leading-8 text-white/92 md:text-[1.12rem] md:leading-9">
                 Build your daily rhythm around movement, recovery, and premium
                 support facilities designed for healthier monthly residence.
@@ -168,9 +254,9 @@ export default function Page() {
                 <span>Performance</span>
                 <span>Community</span>
               </div>
-            </div>
-          </FadeInView>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
       <section className="border-b border-gold/30 bg-white">
@@ -182,11 +268,11 @@ export default function Page() {
             {wellnessPillars.map((item, idx) => (
               <StaggerItem
                 key={item.title}
-                className="group border border-gold/25 bg-cream px-6 py-7 transition-all duration-700 hover:-translate-y-0.5 hover:shadow-[0_20px_42px_rgba(28,25,23,0.08)] md:px-7 md:py-8"
+                className="group border border-gold/25 bg-cream px-6 py-7 transition-all duration-[900ms] hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(28,25,23,0.1)] md:px-7 md:py-8"
               >
                 <div className="flex items-center justify-between">
                   <p className="label-caps text-gold-dark">{item.title}</p>
-                  <span className="font-serif text-[1.35rem] text-gold/60">
+                  <span className="font-serif text-[1.35rem] text-gold/60 transition-all duration-700 group-hover:translate-x-1 group-hover:text-gold-dark">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                 </div>
@@ -227,12 +313,16 @@ export default function Page() {
               key={facility.title}
               className="group h-full overflow-hidden border border-gold/25 bg-white"
             >
-              <article className="h-full">
+              <motion.article
+                className="h-full"
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              >
                 <div className="h-[280px] overflow-hidden md:h-[320px] lg:h-[350px]">
-                  <img
+                  <motion.img
                     src={facility.image}
                     alt={facility.title}
-                    className="h-full w-full object-cover transition-transform duration-[1700ms] ease-out group-hover:scale-[1.045]"
+                    className="h-full w-full object-cover transition-transform duration-[1900ms] ease-out group-hover:scale-[1.06]"
                   />
                 </div>
                 <div className="flex min-h-[280px] flex-col p-6 md:min-h-[300px] md:p-7">
@@ -244,7 +334,7 @@ export default function Page() {
                     {facility.description}
                   </p>
                 </div>
-              </article>
+              </motion.article>
             </StaggerItem>
           ))}
         </StaggerContainer>
@@ -256,10 +346,12 @@ export default function Page() {
             direction="left"
             className="relative min-h-[360px] overflow-hidden md:min-h-[420px] lg:min-h-[540px]"
           >
-            <img
+            <motion.img
               src="https://tsresidence.id/wp-content/uploads/2025/10/massage-room.webp"
               alt="Massage recovery room"
               className="h-full w-full object-cover transition-transform duration-[1800ms] ease-out hover:scale-[1.04]"
+              whileHover={{ scale: 1.04 }}
+              transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
           </FadeInView>
@@ -277,17 +369,21 @@ export default function Page() {
               </p>
               <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="overflow-hidden border border-gold/25 bg-cream">
-                  <img
+                  <motion.img
                     src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-dressing-room.webp"
                     alt="Dressing room"
                     className="h-[180px] w-full object-cover"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                   />
                 </div>
                 <div className="overflow-hidden border border-gold/25 bg-cream">
-                  <img
+                  <motion.img
                     src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-iv-room.webp"
                     alt="IV room"
                     className="h-[180px] w-full object-cover"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                   />
                 </div>
               </div>
@@ -321,10 +417,12 @@ export default function Page() {
                   className="relative block h-full w-full cursor-pointer overflow-hidden border-0 bg-transparent p-0 appearance-none"
                   aria-label={`Open gallery image ${i + 1}`}
                 >
-                  <img
+                  <motion.img
                     src={image.src}
                     alt={image.alt}
-                    className={`w-full aspect-video object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-[1.06]`}
+                    className="aspect-video w-full object-cover transition-transform duration-[1700ms] ease-out group-hover:scale-[1.07]"
+                    whileHover={{ scale: 1.07 }}
+                    transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   <div className="pointer-events-none absolute bottom-3 left-3 right-3 flex items-center justify-between text-white/90 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
@@ -358,12 +456,69 @@ export default function Page() {
         </div>
       </section>
 
-      <Lightbox
-        open={galleryIndex >= 0}
-        close={() => setGalleryIndex(-1)}
-        index={galleryIndex < 0 ? 0 : galleryIndex}
-        slides={gallerySlides}
-      />
+      <AnimatePresence>
+        {galleryIndex >= 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: "easeOut" }}
+            className="fixed inset-0 z-[140] flex items-center justify-center bg-black/88 px-4 py-10 md:px-8"
+            onClick={() => setGalleryIndex(-1)}
+          >
+            <button
+              onClick={() => setGalleryIndex(-1)}
+              className="absolute top-4 right-4 z-10 h-11 w-11 cursor-pointer border border-white/30 bg-black/30 text-2xl leading-none text-white transition-colors hover:bg-white/15 md:top-6 md:right-6"
+              aria-label="Close gallery"
+            >
+              ×
+            </button>
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                setGalleryIndex(
+                  (prev) =>
+                    (prev - 1 + communityMoments.length) %
+                    communityMoments.length,
+                );
+              }}
+              className="absolute left-2 z-10 h-11 w-11 cursor-pointer border border-white/25 bg-black/30 text-2xl leading-none text-white transition-colors hover:bg-white/15 md:left-6"
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                setGalleryIndex((prev) => (prev + 1) % communityMoments.length);
+              }}
+              className="absolute right-2 z-10 h-11 w-11 cursor-pointer border border-white/25 bg-black/30 text-2xl leading-none text-white transition-colors hover:bg-white/15 md:right-6"
+              aria-label="Next image"
+            >
+              ›
+            </button>
+
+            <motion.figure
+              key={communityMoments[galleryIndex].src}
+              initial={{ opacity: 0, scale: 0.97, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: 8 }}
+              transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full max-w-[1320px]"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <img
+                src={communityMoments[galleryIndex].src}
+                alt={communityMoments[galleryIndex].alt}
+                className="max-h-[82vh] w-full object-contain"
+              />
+              <figcaption className="mt-4 text-center text-[12px] uppercase tracking-[0.18em] text-white/80">
+                {galleryIndex + 1} / {communityMoments.length}
+              </figcaption>
+            </motion.figure>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
