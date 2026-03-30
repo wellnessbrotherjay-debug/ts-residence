@@ -200,11 +200,16 @@ export default function Page() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="inline-flex items-center gap-3 bg-black/22 px-4 py-2"
+              className="inline-flex items-center gap-3 border border-gold/45 bg-black/58 px-5 py-2.5"
             >
-              <span className="label-caps text-gold-light">Healthy Living</span>
-              <span className="h-1 w-1 rounded-full bg-gold-light/85" />
-              <span className="text-[10px] uppercase tracking-[0.24em] text-white/80">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-light">
+                Healthy Living
+              </span>
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-gold-light opacity-75 [animation:ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-light" />
+              </span>
+              <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/95">
                 No.1 Wellness Club
               </span>
             </motion.div>
