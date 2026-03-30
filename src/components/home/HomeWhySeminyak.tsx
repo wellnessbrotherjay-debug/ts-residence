@@ -1,6 +1,5 @@
 import { BTN_SOLID } from "../../constants";
 import { FadeInView } from "../animations";
-import { EditableImage } from "../EditableImage";
 import type { Page } from "../../types";
 
 interface HomeWhySeminyakProps {
@@ -14,31 +13,21 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
       direction="left"
       className="relative min-h-[58vh] lg:min-h-full"
     >
-      <EditableImage
-        src={imgSrc}
-        alt="TS Residence Pool"
-        category="general"
-        className="h-full w-full"
-        onImageChange={() => {}}
-      >
-        {(src: string) => (
-          <div className="relative h-full w-full">
-            <img
-              src={src}
-              alt="TS Residence Pool"
-              className="h-full w-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
-            <div className="absolute right-0 bottom-0 left-0 p-8 text-white md:p-10 lg:p-14">
-              <p className="label-caps text-white/65">Seminyak Atmosphere</p>
-              <p className="mt-4 max-w-104 font-serif text-[2rem] leading-none md:text-[2.6rem] lg:text-[3.2rem]">
-                Resort calm with city access
-              </p>
-            </div>
-          </div>
-        )}
-      </EditableImage>
+      <div className="relative h-full w-full">
+        <img
+          src={imgSrc}
+          alt="TS Residence Pool"
+          className="h-full w-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
+        <div className="absolute right-0 bottom-0 left-0 p-8 text-white md:p-10 lg:p-14">
+          <p className="label-caps text-white/65">Seminyak Atmosphere</p>
+          <p className="mt-4 max-w-104 font-serif text-[2rem] leading-none md:text-[2.6rem] lg:text-[3.2rem]">
+            Resort calm with city access
+          </p>
+        </div>
+      </div>
     </FadeInView>
 
     <div className="flex items-center px-6 py-20 md:px-12 lg:px-16 lg:py-24 xl:px-20">

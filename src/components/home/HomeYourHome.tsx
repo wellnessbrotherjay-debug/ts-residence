@@ -1,6 +1,5 @@
 import { BTN_SOLID } from "../../constants";
 import { FadeInView } from "../animations";
-import { EditableImage } from "../EditableImage";
 import type { Page } from "../../types";
 
 interface HomeYourHomeProps {
@@ -14,24 +13,12 @@ export const HomeYourHome = ({ setPage, imgSrc }: HomeYourHomeProps) => (
       direction="left"
       className="relative min-h-[56vh] lg:min-h-full"
     >
-      <div className="h-full w-full">
-        <EditableImage
-          src={imgSrc}
-          alt="Life at TS Residence"
-          category="general"
-          className="h-full w-full"
-          onImageChange={() => {}}
-        >
-          {(src: string) => (
-            <img
-              src={src}
-              alt="Life at TS Residence"
-              className="h-full w-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-          )}
-        </EditableImage>
-      </div>
+      <img
+        src={imgSrc}
+        alt="Life at TS Residence"
+        className="h-full w-full object-cover"
+        referrerPolicy="no-referrer"
+      />
     </FadeInView>
 
     <div className="flex items-center px-6 py-20 md:px-12 lg:px-16 lg:py-24 xl:px-20">

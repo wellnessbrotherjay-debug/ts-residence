@@ -6,7 +6,6 @@ import {
   useMotionValue,
 } from "motion/react";
 import { useState, useEffect, useRef } from "react";
-import { EditableImage } from "./EditableImage";
 
 const HERO_DEMO_VIDEO_SRC =
   "https://www.hive68.com/wp-content/uploads/2019/10/Clip-1.mp4";
@@ -68,13 +67,7 @@ const HeroTextContent = ({
 );
 
 // --- Hero Section (Berkeley Double-Header Masking) ---
-export const HeroSection = ({
-  heroImage,
-  setHeroImage,
-}: {
-  heroImage: string;
-  setHeroImage: (url: string) => void;
-}) => {
+export const HeroSection = ({ heroImage }: { heroImage: string }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasVideoError, setHasVideoError] = useState(false);
@@ -270,51 +263,39 @@ export const HeroSection = ({
               }}
               className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 overflow-hidden"
             >
-              <EditableImage
+              <img
                 src={heroImage}
                 alt="TS Residence"
-                category="hero"
-                className="h-full w-full"
-                onImageChange={setHeroImage}
-              >
-                {(src: string) => (
-                  <>
-                    <img
-                      src={src}
-                      alt="TS Residence"
-                      loading="eager"
-                      fetchPriority="high"
-                      decoding="async"
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                    {videoSrc && !hasVideoError && (
-                      <video
-                        key={videoSrc}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                        poster={src}
-                        onCanPlay={() => setIsVideoReady(true)}
-                        onError={() => {
-                          if (videoSrc !== HERO_DEMO_VIDEO_SRC) {
-                            setIsVideoReady(false);
-                            setVideoSrc(HERO_DEMO_VIDEO_SRC);
-                            return;
-                          }
-                          setHasVideoError(true);
-                        }}
-                        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-                          isVideoReady ? "opacity-100" : "opacity-0"
-                        }`}
-                      >
-                        <source src={videoSrc} type="video/mp4" />
-                      </video>
-                    )}
-                  </>
-                )}
-              </EditableImage>
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              {videoSrc && !hasVideoError && (
+                <video
+                  key={videoSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster={heroImage}
+                  onCanPlay={() => setIsVideoReady(true)}
+                  onError={() => {
+                    if (videoSrc !== HERO_DEMO_VIDEO_SRC) {
+                      setIsVideoReady(false);
+                      setVideoSrc(HERO_DEMO_VIDEO_SRC);
+                      return;
+                    }
+                    setHasVideoError(true);
+                  }}
+                  className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+                    isVideoReady ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <source src={videoSrc} type="video/mp4" />
+                </video>
+              )}
               <motion.div
                 style={{ opacity: overlayOpacity }}
                 className="absolute inset-0 bg-black/70"

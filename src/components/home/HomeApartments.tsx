@@ -1,7 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { BTN_GOLD } from "../../constants";
 import { StaggerContainer, StaggerItem } from "../animations";
-import { EditableImage } from "../EditableImage";
 import type { Page } from "../../types";
 
 interface Apartment {
@@ -16,13 +15,11 @@ interface Apartment {
 interface HomeApartmentsProps {
   setPage: (p: Page) => void;
   apartments: Apartment[];
-  onImageChange: (index: number, url: string) => void;
 }
 
 export const HomeApartments = ({
   setPage,
   apartments,
-  onImageChange,
 }: HomeApartmentsProps) => (
   <section className="bg-white px-6 py-24 md:px-12 lg:px-20 lg:py-32 xl:px-28">
     <div className="mb-14 flex flex-col gap-6 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
@@ -59,22 +56,12 @@ export const HomeApartments = ({
             className="group w-full cursor-pointer text-left"
           >
             <div className="relative aspect-4/5 overflow-hidden">
-              <EditableImage
+              <img
                 src={apt.img}
                 alt={apt.name}
-                category={apt.page}
-                className="h-full w-full"
-                onImageChange={(url) => onImageChange(i, url)}
-              >
-                {(src: string) => (
-                  <img
-                    src={src}
-                    alt={apt.name}
-                    className="h-full w-full object-cover transition-transform duration-1600 ease-out group-hover:scale-[1.05]"
-                    referrerPolicy="no-referrer"
-                  />
-                )}
-              </EditableImage>
+                className="h-full w-full object-cover transition-transform duration-1600 ease-out group-hover:scale-[1.05]"
+                referrerPolicy="no-referrer"
+              />
               <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute right-0 bottom-0 left-0 p-7 text-white md:p-8">
                 <span className="text-[12px] tracking-[0.24em] text-white/72 uppercase">
