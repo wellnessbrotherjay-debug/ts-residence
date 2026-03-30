@@ -245,6 +245,84 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      <section className="border-b border-gold/30 bg-cream">
+        <div className="w-full px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
+          <FadeInView className="mb-10">
+            <h2 className="font-serif text-[2rem] leading-[1.03] text-ink md:text-[2.8rem]">
+              Terms &amp; Condition
+            </h2>
+          </FadeInView>
+
+          <StaggerContainer
+            className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:gap-6"
+            staggerDelay={0.12}
+          >
+            <StaggerItem className="border border-gold/25 bg-white p-6 md:p-8">
+              <h3 className="font-serif text-[1.7rem] leading-none text-ink md:text-[2rem]">
+                Terms of Payment
+              </h3>
+              <ol className="mt-5 list-decimal space-y-3 pl-5 text-[1rem] leading-8 text-ink/80">
+                <li>
+                  Rental cost paid monthly in advance, by latest on 25th day of
+                  the current month. First payment shall be made before Lease
+                  Commencement Date.
+                </li>
+                <li>
+                  Refundable Security Deposit, in amount of 1 (one) month rental
+                  cost, shall be paid before Lease Commencement Date, together
+                  with the first payment of rental cost.
+                </li>
+                <li>
+                  All costs paid are applicable to tax and service charge.
+                </li>
+              </ol>
+            </StaggerItem>
+
+            <StaggerItem className="border border-gold/25 bg-white p-6 md:p-8">
+              <h3 className="font-serif text-[1.7rem] leading-none text-ink md:text-[2rem]">
+                Included in Rental Cost
+              </h3>
+              <ol className="mt-5 list-decimal space-y-2.5 pl-5 text-[1rem] leading-8 text-ink/80">
+                <li>All units fully furnished</li>
+                <li>
+                  Access to public area facilities: Pool, Gym,
+                  Restaurant/Lounge, Business Center at TS Suites hotel
+                </li>
+                <li>Parking spot for 1 (one) vehicle</li>
+                <li>
+                  Room Mechanical, Electrical, &amp; Plumbing maintenance
+                  periodically
+                </li>
+                <li>Internet connection</li>
+                <li>TV</li>
+                <li>Water usage</li>
+                <li>Concierge services</li>
+              </ol>
+            </StaggerItem>
+
+            <StaggerItem className="border border-gold/25 bg-white p-6 md:p-8">
+              <h3 className="font-serif text-[1.7rem] leading-none text-ink md:text-[2rem]">
+                Additional Cost (paid separately)
+              </h3>
+              <ol className="mt-5 list-decimal space-y-2.5 pl-5 text-[1rem] leading-8 text-ink/80">
+                <li>Electricity</li>
+              </ol>
+            </StaggerItem>
+
+            <StaggerItem className="border border-gold/25 bg-white p-6 md:p-8">
+              <h3 className="font-serif text-[1.7rem] leading-none text-ink md:text-[2rem]">
+                Optional/Add on Services
+              </h3>
+              <ol className="mt-5 list-decimal space-y-2.5 pl-5 text-[1rem] leading-8 text-ink/80">
+                <li>Laundry</li>
+                <li>Housekeeping</li>
+                <li>Breakfast</li>
+              </ol>
+            </StaggerItem>
+          </StaggerContainer>
+        </div>
+      </section>
     </div>
   );
 }
