@@ -1,6 +1,6 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
-import type { Metadata } from "next";
 import {
   FadeInView,
   StaggerContainer,
@@ -63,24 +63,14 @@ const facilityCards = [
   },
 ];
 
-export const metadata: Metadata = {
-  title: "Five-Star Living",
-  description:
-    "Experience integrated five-star facilities and service-led long-stay living at TS Residence.",
-  alternates: { canonical: "/five-star-living" },
-};
-
 export default function Page() {
   return (
     <div className="bg-cream overflow-x-hidden">
       <section className="border-gold/30 relative min-h-[76vh] overflow-hidden border-y md:min-h-[90vh]">
-        <Image
+        <img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
           alt="TS Residence Five-Star Living"
-          fill
-          priority
-          sizes="100vw"
-          className="absolute inset-0 object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/64" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.09),transparent_42%),radial-gradient(circle_at_80%_80%,rgba(184,150,90,0.18),transparent_52%)]" />
@@ -187,12 +177,9 @@ export default function Page() {
             >
               <article className="h-full">
                 <div className="h-70 overflow-hidden md:h-80 lg:h-87.5">
-                  <Image
+                  <img
                     src={facility.image}
                     alt={facility.title}
-                    width={1200}
-                    height={900}
-                    sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
                     className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.045]"
                   />
                 </div>
@@ -217,11 +204,9 @@ export default function Page() {
             direction="left"
             className="relative min-h-90 overflow-hidden md:min-h-105 lg:min-h-130"
           >
-            <Image
+            <img
               src="https://tsresidence.id/wp-content/uploads/2025/10/TS-Suites-Rooftop-Infinity-Pool.webp"
               alt="Five-star facilities"
-              fill
-              sizes="(min-width: 1024px) 48vw, 100vw"
               className="h-full w-full object-cover transition-transform duration-1800 ease-out hover:scale-[1.04]"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/10 to-transparent" />

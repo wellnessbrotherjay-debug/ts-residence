@@ -1,6 +1,6 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
-import type { Metadata } from "next";
 import { offers } from "@/lib/site-data";
 import {
   FadeInView,
@@ -14,13 +14,6 @@ const metaPoints = [
   "Flexible payment options for practical planning",
   "Resident privileges across dining and wellness",
 ];
-
-export const metadata: Metadata = {
-  title: "Offers",
-  description:
-    "Explore exclusive monthly-stay offers and long-stay privileges at TS Residence.",
-  alternates: { canonical: "/offers" },
-};
 
 export default function Page() {
   const featured = offers[0];
@@ -82,11 +75,9 @@ export default function Page() {
         <FadeInView delay={0.1} className="overflow-hidden">
           <div className="group grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="relative min-h-85 overflow-hidden md:min-h-115 lg:min-h-155">
-              <Image
+              <img
                 src={featured.image}
                 alt={featured.title}
-                fill
-                sizes="(min-width: 1024px) 60vw, 100vw"
                 className="h-full w-full object-cover transition-transform duration-1800 ease-out group-hover:scale-[1.03]"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/15 to-transparent" />
@@ -130,12 +121,9 @@ export default function Page() {
             >
               <article className="h-full">
                 <div className="h-70 overflow-hidden md:h-80 lg:h-90">
-                  <Image
+                  <img
                     src={offer.image}
                     alt={offer.title}
-                    width={1200}
-                    height={900}
-                    sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                     className="h-full w-full object-cover transition-transform duration-1800 ease-out hover:scale-[1.045]"
                   />
                 </div>
@@ -166,11 +154,9 @@ export default function Page() {
 
       <section className="border-gold/35 relative border-y">
         <div className="absolute inset-0">
-          <Image
+          <img
             src="https://images.unsplash.com/photo-1468824357306-a439d58ccb1c?auto=format&fit=crop&w=2200&q=80"
             alt="Seminyak coast"
-            fill
-            sizes="100vw"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/50" />

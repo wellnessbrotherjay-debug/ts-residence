@@ -1,7 +1,31 @@
-import Link from "next/link";
-import { Instagram, Mail, MapPin, Phone } from "lucide-react";
+"use client";
 
-export function Footer() {
+import { Instagram, Send, Phone, MapPin, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
+import type { Page } from "../types";
+
+function pageToPath(page: Page): string {
+  if (page === "home") return "/";
+  if (page === "apartments") return "/apartments";
+  if (page === "offers") return "/offers";
+  if (page === "gallery") return "/gallery";
+  if (page === "contact") return "/contact";
+  if (page === "five-star") return "/five-star-living";
+  if (page === "healthy") return "/healthy-living";
+  if (page === "easy") return "/easy-living";
+  if (page === "solo") return "/apartments/solo";
+  if (page === "studio") return "/apartments/studio";
+  if (page === "soho") return "/apartments/soho";
+  if (page === "admin") return "/";
+  return "/";
+}
+
+export const Footer = () => {
+  const router = useRouter();
+  const setPage = (page: Page) => {
+    router.push(pageToPath(page));
+  };
+
   return (
     <footer className="border-gold/25 relative overflow-hidden border-t bg-[#14110f] text-white">
       <div className="pointer-events-none absolute inset-0">
@@ -42,10 +66,15 @@ export function Footer() {
                 <Instagram size={16} />
               </a>
               <a
-                href="https://wa.me/6281119028111"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp"
+                href="#"
+                aria-label="Telegram"
+                className="hover:border-gold/65 hover:bg-gold/15 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white/80 transition-all duration-500 hover:-translate-y-0.5 hover:text-white"
+              >
+                <Send size={16} />
+              </a>
+              <a
+                href="#"
+                aria-label="Phone"
                 className="hover:border-gold/65 hover:bg-gold/15 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white/80 transition-all duration-500 hover:-translate-y-0.5 hover:text-white"
               >
                 <Phone size={16} />
@@ -60,18 +89,18 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {[
-                { label: "SOLO Apartment", href: "/apartments/solo" },
-                { label: "STUDIO Apartment", href: "/apartments/studio" },
-                { label: "SOHO Apartment", href: "/apartments/soho" },
-                { label: "Special Offers", href: "/offers" },
+                { label: "SOLO Apartment", page: "solo" as Page },
+                { label: "STUDIO Apartment", page: "studio" as Page },
+                { label: "SOHO Apartment", page: "soho" as Page },
+                { label: "Special Offers", page: "offers" as Page },
               ].map((item) => (
                 <li key={item.label}>
-                  <Link
-                    href={item.href}
+                  <button
+                    onClick={() => setPage(item.page)}
                     className="text-sm text-white/75 transition-all duration-300 hover:translate-x-1 hover:text-white"
                   >
                     {item.label}
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -84,18 +113,18 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {[
-                { label: "Five-Star Living", href: "/five-star-living" },
-                { label: "Wellness Club", href: "/healthy-living" },
-                { label: "Easy Living", href: "/easy-living" },
-                { label: "Gallery", href: "/gallery" },
+                { label: "Five-Star Living", page: "five-star" as Page },
+                { label: "Wellness Club", page: "healthy" as Page },
+                { label: "Easy Living", page: "easy" as Page },
+                { label: "Gallery", page: "gallery" as Page },
               ].map((item) => (
                 <li key={item.label}>
-                  <Link
-                    href={item.href}
+                  <button
+                    onClick={() => setPage(item.page)}
                     className="text-sm text-white/75 transition-all duration-300 hover:translate-x-1 hover:text-white"
                   >
                     {item.label}
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -146,14 +175,14 @@ export function Footer() {
               Terms
             </a>
           </div>
-          <Link
-            href="/"
+          <button
+            onClick={() => setPage("admin")}
             className="text-[10px] tracking-[0.15em] text-white/40 uppercase transition-colors duration-300 hover:text-white/70"
           >
             Admin
-          </Link>
+          </button>
         </div>
       </div>
     </footer>
   );
-}
+};

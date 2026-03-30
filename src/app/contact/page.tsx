@@ -1,6 +1,6 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
-import type { Metadata } from "next";
 import {
   FadeInView,
   StaggerContainer,
@@ -27,24 +27,14 @@ const contactCards = [
   },
 ];
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Contact TS Residence concierge for apartment availability, bookings, and long-stay plans in Seminyak.",
-  alternates: { canonical: "/contact" },
-};
-
 export default function Page() {
   return (
     <div className="bg-cream overflow-x-hidden">
       <section className="border-gold/30 relative min-h-[72vh] overflow-hidden border-y md:min-h-[86vh]">
-        <Image
+        <img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
           alt="Contact TS Residence"
-          fill
-          priority
-          sizes="100vw"
-          className="absolute inset-0 object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/66" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
@@ -121,11 +111,9 @@ export default function Page() {
               direction="left"
               className="relative min-h-90 overflow-hidden md:min-h-130"
             >
-              <Image
+              <img
                 src="https://tsresidence.id/wp-content/uploads/2025/08/img-need-help.webp"
                 alt="TS Residence contact concierge"
-                fill
-                sizes="(min-width: 1024px) 45vw, 100vw"
                 className="h-full w-full object-cover transition-transform duration-1700 ease-out hover:scale-[1.04]"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/10 to-transparent" />

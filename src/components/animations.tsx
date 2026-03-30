@@ -1,4 +1,6 @@
-import type { CSSProperties, Key, ReactNode } from "react";
+import { motion, useInView } from "motion/react";
+import type { Key, ReactNode } from "react";
+import { useRef } from "react";
 
 export const FadeInView = ({
   children,
@@ -11,21 +13,26 @@ export const FadeInView = ({
   delay?: number;
   direction?: "up" | "down" | "left" | "right" | "none";
 }) => {
-  const dirClass = {
-    up: "reveal-up",
-    down: "reveal-down",
-    left: "reveal-left",
-    right: "reveal-right",
-    none: "reveal-none",
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const dirMap = {
+    up: { y: 40, x: 0 },
+    down: { y: -40, x: 0 },
+    left: { x: 40, y: 0 },
+    right: { x: -40, y: 0 },
+    none: { x: 0, y: 0 },
   };
 
   return (
-    <div
-      style={{ animationDelay: `${delay}s` }}
-      className={`reveal ${dirClass[direction]} ${className}`.trim()}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, ...dirMap[direction] }}
+      animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
 
@@ -38,13 +45,22 @@ export const StaggerContainer = ({
   className?: string;
   staggerDelay?: number;
 }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
   return (
-    <div
-      style={{ "--stagger-delay": `${staggerDelay}s` } as CSSProperties}
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={{
+        hidden: {},
+        visible: { transition: { staggerChildren: staggerDelay } },
+      }}
       className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
 
@@ -55,4 +71,18 @@ export const StaggerItem = ({
   children: ReactNode;
   className?: string;
   key?: Key;
-}) => <div className={`reveal reveal-up ${className}`.trim()}>{children}</div>;
+}) => (
+  <motion.div
+    variants={{
+      hidden: { opacity: 0, y: 30 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+      },
+    }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);

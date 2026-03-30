@@ -1,11 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans:
-    "Avenir Next", "Avenir", "Segoe UI", "Helvetica Neue", ui-sans-serif,
-    system-ui, sans-serif;
-  --font-serif:
-    "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+  --font-sans: var(--font-raleway), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
 
   --color-cream: #faf8f5;
   --color-cream-dark: #f0ebe3;
@@ -174,54 +171,4 @@
 
 .img-zoom:hover img {
   @apply scale-105;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.reveal {
-  opacity: 0;
-  transform: translate3d(0, 24px, 0);
-  animation: reveal-in 0.72s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.reveal-up {
-  transform: translate3d(0, 24px, 0);
-}
-
-.reveal-down {
-  transform: translate3d(0, -24px, 0);
-}
-
-.reveal-left {
-  transform: translate3d(24px, 0, 0);
-}
-
-.reveal-right {
-  transform: translate3d(-24px, 0, 0);
-}
-
-.reveal-none {
-  transform: none;
-}
-
-@keyframes reveal-in {
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
 }
