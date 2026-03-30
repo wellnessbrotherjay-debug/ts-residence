@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Raleway } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const sans = Raleway({
@@ -15,9 +16,56 @@ const serif = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "TS Residence",
-  description:
-    "Five-star long-stay apartments in Seminyak, Bali with wellness, hospitality, and flexible living.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: DEFAULT_SEO.title,
+    template: "%s | TS Residence",
+  },
+  description: DEFAULT_SEO.description,
+  alternates: {
+    canonical: "/",
+  },
+  keywords: [
+    "TS Residence",
+    "Seminyak apartments",
+    "Bali long stay apartment",
+    "monthly apartment Bali",
+    "serviced apartment Seminyak",
+    "wellness living Bali",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: DEFAULT_SEO.siteName,
+    url: SITE_URL,
+    title: DEFAULT_SEO.title,
+    description: DEFAULT_SEO.description,
+    images: [
+      {
+        url: DEFAULT_SEO.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "TS Residence Seminyak",
+      },
+    ],
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: DEFAULT_SEO.title,
+    description: DEFAULT_SEO.description,
+    images: [DEFAULT_SEO.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({

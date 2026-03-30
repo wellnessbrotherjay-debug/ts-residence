@@ -1,30 +1,55 @@
-"use client";
+import type { Metadata } from "next";
+import { HomeClient } from "@/app/home-client";
+import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 
-import { useRouter } from "next/navigation";
-import { HomePage } from "@/sections/HomePage";
-import type { Page } from "@/types";
-
-function pageToPath(page: Page): string {
-  if (page === "home") return "/";
-  if (page === "apartments") return "/apartments";
-  if (page === "offers") return "/offers";
-  if (page === "gallery") return "/gallery";
-  if (page === "contact") return "/contact";
-  if (page === "five-star") return "/five-star-living";
-  if (page === "healthy") return "/healthy-living";
-  if (page === "easy") return "/easy-living";
-  if (page === "solo") return "/apartments/solo";
-  if (page === "studio") return "/apartments/studio";
-  if (page === "soho") return "/apartments/soho";
-  if (page === "admin") return "/";
-  return "/";
-}
+export const metadata: Metadata = {
+  title: "Home",
+  description:
+    "Premium long-stay apartments in Seminyak with five-star living, wellness experiences, and easy monthly stay options.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "TS Residence | Home",
+    description:
+      "Premium long-stay apartments in Seminyak with five-star living, wellness experiences, and easy monthly stay options.",
+    url: SITE_URL,
+    images: [
+      {
+        url: DEFAULT_SEO.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "TS Residence Seminyak",
+      },
+    ],
+  },
+};
 
 export default function Page() {
-  const router = useRouter();
-  const setPage = (page: Page) => {
-    router.push(pageToPath(page));
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    name: DEFAULT_SEO.siteName,
+    url: SITE_URL,
+    image: DEFAULT_SEO.ogImage,
+    telephone: "+62 811 1902 8111",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Jl. Nakula No.18, Legian, Seminyak",
+      addressLocality: "Badung",
+      addressRegion: "Bali",
+      postalCode: "80361",
+      addressCountry: "ID",
+    },
   };
 
-  return <HomePage setPage={setPage} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <HomeClient />
+    </>
+  );
 }

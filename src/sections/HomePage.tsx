@@ -11,7 +11,7 @@ import { listImages } from "@/lib/images-client";
 
 export const HomePage = ({ setPage }: { setPage: (p: Page) => void }) => {
   const [heroImage, setHeroImage] = useState<string>(
-    "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=80",
+    "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1600&q=70",
   );
   const [apartmentImages, setApartmentImages] = useState<DBImage[]>([]);
   const [generalImages, setGeneralImages] = useState<DBImage[]>([]);

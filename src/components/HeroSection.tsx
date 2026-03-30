@@ -78,7 +78,7 @@ export const HeroSection = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasVideoError, setHasVideoError] = useState(false);
-  const [videoSrc, setVideoSrc] = useState(HERO_VIDEO_SRC);
+  const [videoSrc, setVideoSrc] = useState("");
   const heroRef = useRef<HTMLDivElement>(null);
   const textMeasureRef = useRef<HTMLDivElement>(null);
 
@@ -201,6 +201,12 @@ export const HeroSection = ({
   ];
 
   useEffect(() => {
+    const startVideo = () => setVideoSrc(HERO_VIDEO_SRC);
+    const timer = setTimeout(startVideo, 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 8000);
@@ -276,16 +282,19 @@ export const HeroSection = ({
                     <img
                       src={src}
                       alt="TS Residence"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
                       className="absolute inset-0 h-full w-full object-cover"
                     />
-                    {!hasVideoError && (
+                    {videoSrc && !hasVideoError && (
                       <video
                         key={videoSrc}
                         autoPlay
                         muted
                         loop
                         playsInline
-                        preload="auto"
+                        preload="metadata"
                         poster={src}
                         onCanPlay={() => setIsVideoReady(true)}
                         onError={() => {
