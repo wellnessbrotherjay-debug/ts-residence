@@ -47,7 +47,7 @@ export const HomeYourHome = ({ setPage, imgSrc }: HomeYourHomeProps) => (
           personal.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-px bg-black/8 sm:grid-cols-2">
+        <div className="mt-12 grid grid-cols-1 gap-px bg-gold/20 sm:grid-cols-2">
           {[
             "Digital nomads & remote workers",
             "Couples & young professionals",

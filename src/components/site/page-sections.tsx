@@ -428,13 +428,13 @@ export function ContactPageContent() {
                 <input
                   type={field.type}
                   placeholder={field.placeholder}
-                  className="w-full border-b border-border bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted/40 focus:border-gold"
+                  className="w-full border-b border-gold/20 bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted/40 focus:border-gold"
                 />
               </div>
             ))}
             <div className="space-y-2 md:col-span-2">
               <label className="label-caps text-ink">Stay Duration</label>
-              <select className="w-full appearance-none border-b border-border bg-transparent py-3 text-sm outline-none transition-colors focus:border-gold">
+              <select className="w-full appearance-none border-b border-gold/20 bg-transparent py-3 text-sm outline-none transition-colors focus:border-gold">
                 <option>Monthly</option>
                 <option>Quarterly</option>
                 <option>Yearly</option>
@@ -445,7 +445,7 @@ export function ContactPageContent() {
               <textarea
                 rows={4}
                 placeholder="Type your message here..."
-                className="w-full resize-none border-b border-border bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted/40 focus:border-gold"
+                className="w-full resize-none border-b border-gold/20 bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted/40 focus:border-gold"
               />
             </div>
             <div className="pt-4 md:col-span-2">
@@ -457,7 +457,7 @@ export function ContactPageContent() {
         </div>
       </FadeInView>
 
-      <div className="border-t border-border pt-20">
+      <div className="border-t border-gold/35 pt-20">
         <h2 className="mb-14 text-2xl text-ink md:text-3xl">
           Terms &amp; Conditions
         </h2>

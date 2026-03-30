@@ -68,7 +68,7 @@ export const GalleryPage = () => {
           return (
             <StaggerItem key={cat.name}>
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-11 h-11 rounded-full overflow-hidden border border-border">
+                <div className="w-11 h-11 rounded-full overflow-hidden border border-gold/20">
                   <img
                     src={cat.avatar}
                     alt={cat.name}

@@ -46,7 +46,7 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => (
     </div>
 
     <StaggerContainer
-      className="grid grid-cols-1 gap-px bg-black/8 lg:grid-cols-3"
+      className="grid grid-cols-1 gap-px bg-gold/20 lg:grid-cols-3"
       staggerDelay={0.15}
     >
       {PILLARS.map((pillar, i) => (

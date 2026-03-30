@@ -9,7 +9,7 @@ interface HomeWhySeminyakProps {
 }
 
 export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
-  <section className="grid grid-cols-1 bg-cream-dark lg:min-h-[100vh] lg:grid-cols-[1.2fr_0.8fr]">
+  <section className="grid grid-cols-1 border-y border-gold/35 bg-cream-dark lg:min-h-[100vh] lg:grid-cols-[1.2fr_0.8fr]">
     <FadeInView
       direction="left"
       className="relative min-h-[58vh] lg:min-h-full"
@@ -55,7 +55,7 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
         </FadeInView>
 
         <FadeInView direction="right" delay={0.2}>
-          <div className="mt-12 space-y-6 border-t border-black/8 pt-8">
+          <div className="mt-12 space-y-6 border-t border-gold/20 pt-8">
             {[
               "Strategically located with fast access to everything",
               "Safe, expat-friendly, and walkable neighborhood",
@@ -72,7 +72,7 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
         </FadeInView>
 
         <FadeInView direction="right" delay={0.35}>
-          <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-black/8 pt-8">
+          <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-gold/20 pt-8">
             {[
               ["Beach", "8 min"],
               ["Dining", "Walkable"],

@@ -56,12 +56,12 @@ export const AdminPage = () => {
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-1 bg-white p-8 border border-border h-fit">
+        <div className="lg:col-span-1 bg-white p-8 border border-gold/20 h-fit">
           <h2 className="text-lg font-semibold mb-6">
             {editingImage ? "Edit Image" : "Upload New Image"}
           </h2>
           {editingImage && (
-            <div className="mb-4 aspect-video overflow-hidden border border-border">
+            <div className="mb-4 aspect-video overflow-hidden border border-gold/20">
               <img
                 src={editingImage.url}
                 alt={editingImage.alt}
@@ -86,7 +86,7 @@ export const AdminPage = () => {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full border-b border-border py-2 outline-none focus:border-gold bg-transparent"
+                className="w-full border-b border-gold/20 py-2 outline-none focus:border-gold bg-transparent"
               >
                 <option value="hero">Hero Section</option>
                 <option value="residence">Gallery: TS Residence</option>
@@ -108,7 +108,7 @@ export const AdminPage = () => {
                 value={alt}
                 onChange={(e) => setAlt(e.target.value)}
                 placeholder="Describe the image"
-                className="w-full border-b border-border py-2 outline-none focus:border-gold bg-transparent text-sm"
+                className="w-full border-b border-gold/20 py-2 outline-none focus:border-gold bg-transparent text-sm"
               />
             </div>
             <div className="flex gap-2">
@@ -123,7 +123,7 @@ export const AdminPage = () => {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-4 py-3 border border-border text-sm hover:bg-cream transition-colors"
+                  className="px-4 py-3 border border-gold/20 text-sm hover:bg-cream transition-colors"
                 >
                   Cancel
                 </button>
@@ -146,7 +146,7 @@ export const AdminPage = () => {
                   setAlt(img.alt);
                   setSelectedFile(null);
                 }}
-                className="group relative aspect-square overflow-hidden border border-border bg-cream cursor-pointer hover:ring-2 hover:ring-gold transition-all"
+                className="group relative aspect-square overflow-hidden border border-gold/20 bg-cream cursor-pointer hover:ring-2 hover:ring-gold transition-all"
               >
                 <img
                   src={img.url}

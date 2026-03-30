@@ -83,7 +83,7 @@ export const HomeApartments = ({
               </div>
             </div>
 
-            <div className="border-x border-b border-black/8 px-6 py-8 md:px-8 md:py-9">
+            <div className="border-x border-b border-gold/20 px-6 py-8 md:px-8 md:py-9">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="font-serif text-[2rem] leading-none text-ink md:text-[2.4rem]">

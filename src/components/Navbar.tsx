@@ -78,7 +78,7 @@ export const Navbar = ({
         initial={{ y: -64, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={`fixed top-0 left-0 w-full z-60 border-b border-black/12 transition-all duration-700 ${
+        className={`fixed top-0 left-0 w-full z-60 border-b border-gold/35 transition-all duration-700 ${
           isScrolled
             ? "bg-white/90 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.05)]"
             : "bg-cream"
@@ -121,7 +121,7 @@ export const Navbar = ({
                 height: showTopLogo ? 64 : 0,
               }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="flex justify-center items-center overflow-hidden border-b border-black/15"
+              className="flex justify-center items-center overflow-hidden border-b border-gold/35"
               style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
             >
               <button
@@ -156,7 +156,7 @@ export const Navbar = ({
               </div>
               <button
                 onClick={() => setPage("contact")}
-                className="absolute right-0 rounded-sm bg-[#8b7658] px-8 py-3 text-[13px] font-sans font-semibold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#755f44]"
+                className="absolute right-0  bg-[#8b7658] px-10 py-3 text-[14px] font-sans font-semibold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#755f44]"
               >
                 Book
               </button>

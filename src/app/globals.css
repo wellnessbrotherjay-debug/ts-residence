@@ -39,6 +39,17 @@
   ::selection {
     @apply bg-gold/20 text-ink;
   }
+
+  a,
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
 }
 
 /* Nav link with animated underline */
@@ -121,7 +132,7 @@
 }
 
 .card-surface {
-  @apply border border-black/6 bg-white shadow-[0_20px_60px_rgba(28,25,23,0.06)];
+  @apply border border-gold/20 bg-white shadow-[0_20px_60px_rgba(28,25,23,0.06)];
 }
 
 .image-frame {
@@ -129,7 +140,7 @@
 }
 
 .soft-divider {
-  @apply h-px w-full bg-gradient-to-r from-transparent via-black/10 to-transparent;
+  @apply h-px w-full bg-gradient-to-r from-transparent via-gold/35 to-transparent;
 }
 
 /* Scrollbar */

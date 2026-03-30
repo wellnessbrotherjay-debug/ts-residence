@@ -34,7 +34,7 @@ export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
     </div>
 
     <FadeInView delay={0.5}>
-      <div className="mt-20 grid grid-cols-1 border-t border-black/8 md:grid-cols-3">
+      <div className="mt-20 grid grid-cols-1 border-t border-gold/35 md:grid-cols-3">
         {[
           [
             "Prime Address",
@@ -51,7 +51,7 @@ export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
         ].map(([title, desc]) => (
           <div
             key={title}
-            className="px-0 py-10 text-center md:px-10 lg:px-14 [&:not(:last-child)]:border-b [&:not(:last-child)]:border-black/8 md:[&:not(:last-child)]:border-b-0 md:[&:not(:last-child)]:border-r"
+            className="px-0 py-10 text-center md:px-10 lg:px-14 [&:not(:last-child)]:border-b [&:not(:last-child)]:border-gold/20 md:[&:not(:last-child)]:border-b-0 md:[&:not(:last-child)]:border-r"
           >
             <p className="label-caps text-gold">{title}</p>
             <p className="mt-5 text-body text-ink-light">{desc}</p>

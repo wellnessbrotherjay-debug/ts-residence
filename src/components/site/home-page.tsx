@@ -103,7 +103,7 @@ function PillarsSection() {
       </div>
 
       <StaggerContainer
-        className="mt-16 grid grid-cols-1 gap-px bg-black/8 lg:grid-cols-3"
+        className="mt-16 grid grid-cols-1 gap-px bg-gold/20 lg:grid-cols-3"
         staggerDelay={0.15}
       >
         {homePillars.map((pillar) => (
@@ -177,7 +177,7 @@ function WhySeminyakSection() {
           </FadeInView>
 
           <FadeInView direction="right" delay={0.2}>
-            <div className="mt-12 space-y-6 border-t border-black/8 pt-8">
+            <div className="mt-12 space-y-6 border-t border-gold/20 pt-8">
               {[
                 "Strategically located with fast access to everything",
                 "Safe, expat-friendly, and walkable neighborhood",
@@ -194,7 +194,7 @@ function WhySeminyakSection() {
           </FadeInView>
 
           <FadeInView direction="right" delay={0.35}>
-            <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-black/8 pt-8">
+            <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-gold/20 pt-8">
               {[
                 ["Beach", "8 min"],
                 ["Dining", "Walkable"],
@@ -265,7 +265,7 @@ function ApartmentsSection() {
                     </span>
                   </div>
                 </div>
-                <div className="border-x border-b border-black/8 px-6 py-8 md:px-8 md:py-9">
+                <div className="border-x border-b border-gold/20 px-6 py-8 md:px-8 md:py-9">
                   <h3 className="text-[2rem] leading-none text-ink md:text-[2.4rem]">
                     {apt.name}
                   </h3>
@@ -334,7 +334,7 @@ function YourHomeSection() {
             base, TS Residence is designed to feel polished, practical, and
             warmly personal.
           </p>
-          <div className="mt-12 grid grid-cols-1 gap-px bg-black/8 sm:grid-cols-2">
+          <div className="mt-12 grid grid-cols-1 gap-px bg-gold/20 sm:grid-cols-2">
             {[
               "Digital nomads & remote workers",
               "Couples & young professionals",
