@@ -1,16 +1,52 @@
+"use client";
+
 import { Instagram, Send, Phone, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { BTN_SOLID } from "../constants";
 import type { Page } from "../types";
 
-export const Navbar = ({
-  currentPage,
-  setPage,
-}: {
-  currentPage: Page;
-  setPage: (p: Page) => void;
-}) => {
+function pathnameToPage(pathname: string): Page {
+  if (pathname === "/") return "home";
+  if (pathname === "/apartments") return "apartments";
+  if (pathname === "/offers") return "offers";
+  if (pathname === "/gallery") return "gallery";
+  if (pathname === "/contact") return "contact";
+  if (pathname === "/five-star") return "five-star";
+  if (pathname === "/healthy-living") return "healthy";
+  if (pathname === "/easy-living") return "easy";
+  if (pathname === "/apartments/solo") return "solo";
+  if (pathname === "/apartments/studio") return "studio";
+  if (pathname === "/apartments/soho") return "soho";
+  return "home";
+}
+
+function pageToPath(page: Page): string {
+  if (page === "home") return "/";
+  if (page === "apartments") return "/apartments";
+  if (page === "offers") return "/offers";
+  if (page === "gallery") return "/gallery";
+  if (page === "contact") return "/contact";
+  if (page === "five-star") return "/five-star";
+  if (page === "healthy") return "/healthy-living";
+  if (page === "easy") return "/easy-living";
+  if (page === "solo") return "/apartments/solo";
+  if (page === "studio") return "/apartments/studio";
+  if (page === "soho") return "/apartments/soho";
+  if (page === "admin") return "/";
+  return "/";
+}
+
+export const Navbar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentPage = pathnameToPage(pathname);
+
+  const setPage = (page: Page) => {
+    router.push(pageToPath(page));
+  };
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTopLogo, setShowTopLogo] = useState(false);
@@ -71,6 +107,8 @@ export const Navbar = ({
     ...rightNav,
     { label: "Easy Living", value: "easy" as Page },
   ];
+
+  const handleNavClick = (page: Page) => setPage(page);
 
   return (
     <>
@@ -147,7 +185,7 @@ export const Navbar = ({
                 {allNav.map((item) => (
                   <button
                     key={item.label}
-                    onClick={() => setPage(item.value)}
+                    onClick={() => handleNavClick(item.value)}
                     className={`nav-link text-ink/70 hover:text-ink ${currentPage === item.value ? "font-medium text-ink" : ""}`}
                   >
                     {item.label}
@@ -208,7 +246,7 @@ export const Navbar = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08, duration: 0.5 }}
                   onClick={() => {
-                    setPage(item.value);
+                    handleNavClick(item.value);
                     setIsMenuOpen(false);
                   }}
                   className="text-3xl md:text-4xl font-serif font-light text-ink hover:text-gold transition-colors py-3"
