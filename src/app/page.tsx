@@ -10,7 +10,7 @@ function pageToPath(page: Page): string {
   if (page === "offers") return "/offers";
   if (page === "gallery") return "/gallery";
   if (page === "contact") return "/contact";
-  if (page === "five-star") return "/five-star";
+  if (page === "five-star") return "/five-star-living";
   if (page === "healthy") return "/healthy-living";
   if (page === "easy") return "/easy-living";
   if (page === "solo") return "/apartments/solo";

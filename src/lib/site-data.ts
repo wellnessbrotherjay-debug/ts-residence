@@ -7,7 +7,7 @@ export const navGroups = {
     { label: "Gallery", href: "/gallery" },
   ],
   right: [
-    { label: "Five-Star", href: "/five-star" },
+    { label: "Five-Star Living", href: "/five-star-living" },
     { label: "Wellness", href: "/healthy-living" },
     { label: "Contact", href: "/contact" },
   ],
@@ -87,7 +87,7 @@ export const homePillars = [
     title: "Five-Star Living",
     description:
       "Full privileges of a luxury hotel with coworking, dining, salon, and retail in one polished address.",
-    href: "/five-star",
+    href: "/five-star-living",
     image:
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
     stat: "Hotel-grade privileges",

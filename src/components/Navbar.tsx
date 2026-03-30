@@ -13,7 +13,8 @@ function pathnameToPage(pathname: string): Page {
   if (pathname === "/offers") return "offers";
   if (pathname === "/gallery") return "gallery";
   if (pathname === "/contact") return "contact";
-  if (pathname === "/five-star") return "five-star";
+  if (pathname === "/five-star" || pathname === "/five-star-living")
+    return "five-star";
   if (pathname === "/healthy-living") return "healthy";
   if (pathname === "/easy-living") return "easy";
   if (pathname === "/apartments/solo") return "solo";
@@ -28,7 +29,7 @@ function pageToPath(page: Page): string {
   if (page === "offers") return "/offers";
   if (page === "gallery") return "/gallery";
   if (page === "contact") return "/contact";
-  if (page === "five-star") return "/five-star";
+  if (page === "five-star") return "/five-star-living";
   if (page === "healthy") return "/healthy-living";
   if (page === "easy") return "/easy-living";
   if (page === "solo") return "/apartments/solo";
@@ -97,7 +98,7 @@ export const Navbar = () => {
   ];
 
   const rightNav: { label: string; value: Page }[] = [
-    { label: "Five-Star", value: "five-star" },
+    { label: "Five-Star Living", value: "five-star" },
     { label: "Wellness", value: "healthy" },
     { label: "Contact", value: "contact" },
   ];
