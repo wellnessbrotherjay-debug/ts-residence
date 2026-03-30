@@ -130,19 +130,19 @@ export default function Page() {
           className="absolute inset-0 h-full w-full object-cover"
           style={{ y: heroImageY, scale: heroImageScale }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/48 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/22" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(196,160,96,0.22),transparent_46%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/52 via-black/34 to-black/64" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_80%_80%,rgba(196,160,96,0.18),transparent_52%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
         <motion.div
-          className="relative flex min-h-[78vh] w-full items-end px-6 pb-12 pt-28 md:min-h-[92vh] md:px-12 md:pb-16 md:pt-36 lg:px-20 lg:pb-18 xl:px-28"
+          className="relative flex min-h-[78vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[92vh] md:px-12 md:py-22 lg:px-20 lg:py-24 xl:px-28"
           style={{ y: heroContentY, opacity: heroContentOpacity }}
         >
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-[1120px] text-white"
+            className="w-full max-w-[1200px] text-white"
           >
             <motion.div
               initial={{ opacity: 0, y: 14 }}
@@ -152,7 +152,7 @@ export default function Page() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="inline-flex items-center gap-3 border border-gold/50 bg-black/30 px-4 py-2 backdrop-blur-md"
+              className="inline-flex items-center gap-3 bg-black/22 px-4 py-2"
             >
               <span className="label-caps text-gold-light">Easy Living</span>
               <span className="h-1 w-1 rounded-full bg-gold-light/85" />
@@ -165,7 +165,7 @@ export default function Page() {
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 1, delay: 0.35, ease: "easeOut" }}
-              className="mt-7 h-px w-28 origin-left bg-gradient-to-r from-gold/90 to-gold/20"
+              className="mx-auto mt-7 h-px w-28 origin-center bg-gradient-to-r from-transparent via-gold/80 to-transparent"
             />
 
             <motion.h1
@@ -176,7 +176,7 @@ export default function Page() {
                 delay: 0.42,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mt-7 max-w-[18ch] font-serif text-[2.55rem] leading-[0.95] tracking-[-0.03em] sm:text-6xl md:text-[4.4rem] lg:text-[5.5rem]"
+              className="mx-auto mt-7 max-w-[14.5ch] font-serif text-[3.4rem] leading-[0.9] tracking-[-0.03em] sm:text-7xl md:text-[6.2rem] lg:text-[7.3rem]"
             >
               Stay longer
               <br />
@@ -185,7 +185,7 @@ export default function Page() {
               more quality.
             </motion.h1>
 
-            <motion.div
+            <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -193,19 +193,26 @@ export default function Page() {
                 delay: 0.55,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mt-9 max-w-[760px] border border-gold/28 bg-black/28 p-6 backdrop-blur-md md:p-8"
+              className="mx-auto mt-9 max-w-[760px] text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9"
             >
-              <p className="text-[1.02rem] leading-8 text-white/92 md:text-[1.12rem] md:leading-9">
-                Easy Living is designed for monthly residents who need smooth
-                logistics, reliable support, and a residence standard that feels
-                premium every day.
-              </p>
+              Easy Living is designed for monthly residents who need smooth
+              logistics, reliable support, and a residence standard that feels
+              premium every day.
+            </motion.p>
 
-              <div className="mt-6 grid grid-cols-1 gap-3 border-t border-gold/25 pt-5 text-[11px] uppercase tracking-[0.2em] text-white/78 sm:grid-cols-3">
-                <span>Prime Location</span>
-                <span>Flexible Terms</span>
-                <span>Operational Ease</span>
-              </div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1,
+                delay: 0.62,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mx-auto mt-7 grid max-w-[760px] grid-cols-1 gap-3 text-[11px] uppercase tracking-[0.2em] text-white/78 sm:grid-cols-3"
+            >
+              <span>Prime Location</span>
+              <span>Flexible Terms</span>
+              <span>Operational Ease</span>
             </motion.div>
           </motion.div>
         </motion.div>

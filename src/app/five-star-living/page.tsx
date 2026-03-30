@@ -66,19 +66,19 @@ const facilityCards = [
 export default function Page() {
   return (
     <div className="overflow-x-hidden bg-cream">
-      <section className="relative min-h-[76vh] overflow-hidden border-y border-gold/30 md:min-h-[88vh]">
+      <section className="relative min-h-[76vh] overflow-hidden border-y border-gold/30 md:min-h-[90vh]">
         <img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
           alt="TS Residence Five-Star Living"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/48 to-black/78" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.18),transparent_42%),radial-gradient(circle_at_82%_78%,rgba(184,150,90,0.18),transparent_48%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-44 bg-linear-to-t from-black/72 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/52 via-black/34 to-black/64" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.09),transparent_42%),radial-gradient(circle_at_80%_80%,rgba(184,150,90,0.18),transparent_52%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
-        <div className="section-shell relative flex min-h-[76vh] items-end px-6 pb-14 md:min-h-[88vh] md:px-12 md:pb-18 lg:px-20 lg:pb-20 xl:px-28">
-          <FadeInView className="w-full max-w-[980px] text-white">
-            <div className="inline-flex items-center gap-3 border border-gold/50 bg-black/25 px-4 py-2 backdrop-blur-sm">
+        <div className="relative flex min-h-[76vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[90vh] md:px-12 md:py-22 lg:px-20 lg:py-24 xl:px-28">
+          <FadeInView className="w-full max-w-[1200px] text-white">
+            <div className="inline-flex items-center gap-3 bg-black/22 px-4 py-2">
               <span className="label-caps text-gold-light">
                 Five-Star Living
               </span>
@@ -88,7 +88,7 @@ export default function Page() {
               </span>
             </div>
 
-            <h1 className="mt-6 font-serif text-[2.65rem] leading-[0.96] tracking-[-0.03em] text-white sm:text-6xl md:text-7xl lg:text-[5.55rem]">
+            <h1 className="mx-auto mt-8 max-w-[14.5ch] font-serif text-[3.45rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[6.3rem] lg:text-[7.4rem]">
               Five-star service,
               <br />
               now redefined for
@@ -96,13 +96,13 @@ export default function Page() {
               long-stay residence.
             </h1>
 
-            <p className="mt-8 max-w-[46rem] text-[1.05rem] leading-8 text-white/92 md:text-[1.14rem]">
+            <p className="mx-auto mt-9 max-w-[760px] text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9">
               Experience seamless access to curated facilities and hospitality
               standards designed for comfort, productivity, and elevated living
               in Seminyak.
             </p>
 
-            <div className="mt-9 h-px w-full max-w-[420px] bg-gradient-to-r from-gold/70 via-gold/30 to-transparent" />
+            <div className="mx-auto mt-9 h-px w-full max-w-[460px] bg-gradient-to-r from-transparent via-gold/55 to-transparent" />
           </FadeInView>
         </div>
       </section>
