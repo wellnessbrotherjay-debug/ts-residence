@@ -1,6 +1,6 @@
-"use client";
-
 import Link from "next/link";
+import Image from "next/image";
+import type { Metadata } from "next";
 import {
   FadeInView,
   StaggerContainer,
@@ -9,14 +9,24 @@ import {
 import { BTN_DARK, BTN_GOLD } from "@/components/site/buttons";
 import { apartmentDisplayList } from "@/lib/apartments-content";
 
+export const metadata: Metadata = {
+  title: "Apartments",
+  description:
+    "Browse SOLO, STUDIO, and SOHO apartment options at TS Residence in Seminyak.",
+  alternates: { canonical: "/apartments" },
+};
+
 export default function Page() {
   return (
     <div className="bg-cream overflow-x-hidden">
       <section className="border-gold/30 relative min-h-[72vh] overflow-hidden border-y md:min-h-[86vh]">
-        <img
+        <Image
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-building-front-left.webp"
           alt="TS Residence Apartments"
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/66" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
@@ -82,9 +92,12 @@ export default function Page() {
                   <div
                     className={`relative overflow-hidden ${index % 2 === 1 ? "lg:order-2" : ""}`}
                   >
-                    <img
+                    <Image
                       src={apartment.image}
                       alt={apartment.name}
+                      width={1200}
+                      height={900}
+                      sizes="(min-width: 1024px) 50vw, 100vw"
                       className="h-90 w-full object-cover transition-transform duration-1800 ease-out group-hover:scale-[1.06] md:h-107.5 lg:h-130"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
