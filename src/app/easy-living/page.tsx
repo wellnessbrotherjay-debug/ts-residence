@@ -204,21 +204,6 @@ export default function Page() {
               logistics, reliable support, and a residence standard that feels
               premium every day.
             </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1,
-                delay: 0.62,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mx-auto mt-7 grid max-w-[760px] grid-cols-1 gap-3 text-[11px] uppercase tracking-[0.2em] text-white/78 sm:grid-cols-3"
-            >
-              <span>Prime Location</span>
-              <span>Flexible Terms</span>
-              <span>Operational Ease</span>
-            </motion.div>
           </motion.div>
         </motion.div>
       </section>
