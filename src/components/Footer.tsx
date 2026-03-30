@@ -84,9 +84,9 @@ export const Footer = () => {
 
           {/* Stay */}
           <div className="lg:col-span-2">
-            <h4 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
+            <h3 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
               Stay
-            </h4>
+            </h3>
             <ul className="space-y-3">
               {[
                 { label: "SOLO Apartment", page: "solo" as Page },
@@ -108,9 +108,9 @@ export const Footer = () => {
 
           {/* Experience */}
           <div className="lg:col-span-2">
-            <h4 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
+            <h3 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
               Experience
-            </h4>
+            </h3>
             <ul className="space-y-3">
               {[
                 { label: "Five-Star Living", page: "five-star" as Page },
@@ -132,9 +132,9 @@ export const Footer = () => {
 
           {/* Contact */}
           <div className="lg:col-span-4">
-            <h4 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
+            <h3 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
               Contact
-            </h4>
+            </h3>
             <div className="space-y-4 text-sm leading-7 text-white/78">
               <p className="flex items-start gap-3">
                 <MapPin size={16} className="text-gold-light mt-0.5 shrink-0" />

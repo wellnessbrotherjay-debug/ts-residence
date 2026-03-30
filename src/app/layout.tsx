@@ -87,10 +87,10 @@ export default function RootLayout({
             href="https://wa.me/6281119028111"
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed right-8 bottom-8 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-sm font-semibold tracking-[0.14em] text-white uppercase shadow-2xl transition-transform duration-300 hover:scale-110"
-            aria-label="Chat on WhatsApp"
+            className="fixed right-8 bottom-8 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-sm font-semibold tracking-[0.14em] text-[#0d2a1b] uppercase shadow-2xl transition-transform duration-300 hover:scale-110"
+            aria-label="WA chat on WhatsApp"
           >
-            WA
+            <span aria-hidden="true">WA</span>
           </a>
         </div>
       </body>

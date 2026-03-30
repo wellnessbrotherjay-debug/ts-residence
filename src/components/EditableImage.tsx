@@ -43,6 +43,7 @@ export const EditableImage = ({
         className="text-ink absolute top-4 right-4 z-10 rounded-full bg-white/90 p-3 opacity-0 shadow-lg transition-all group-hover:opacity-100 hover:scale-110 hover:bg-white disabled:opacity-50"
         disabled={uploading}
         title="Replace image"
+        aria-label={uploading ? "Uploading image" : "Replace image"}
       >
         {uploading ? (
           "..."

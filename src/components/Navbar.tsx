@@ -122,6 +122,7 @@ export const Navbar = () => {
             <button
               onClick={() => setPage("home")}
               className="group flex flex-col items-center gap-0.5"
+              aria-label="TS Residence home"
             >
               <div className="flex items-baseline gap-0">
                 <span className="text-ink font-serif text-3xl font-light tracking-tight transition-colors duration-500">
@@ -131,13 +132,14 @@ export const Navbar = () => {
                   S
                 </span>
               </div>
-              <span className="text-ink/50 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase transition-colors duration-500">
+              <span className="text-ink/70 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase transition-colors duration-500">
                 Residence
               </span>
             </button>
             <button
               className="text-ink p-2 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               <Menu size={24} />
             </button>
@@ -158,6 +160,7 @@ export const Navbar = () => {
               <button
                 onClick={() => setPage("home")}
                 className="text-ink flex flex-col items-center gap-1 justify-self-center"
+                aria-label="TS Residence home"
               >
                 <div className="flex items-baseline gap-0">
                   <span className="text-ink font-serif text-4xl leading-none font-light tracking-tight">
@@ -210,6 +213,7 @@ export const Navbar = () => {
               <button
                 onClick={() => setPage("home")}
                 className="flex flex-col items-center gap-0.5"
+                aria-label="TS Residence home"
               >
                 <div className="flex items-baseline">
                   <span className="text-ink font-serif text-3xl font-light">
@@ -226,6 +230,7 @@ export const Navbar = () => {
               <button
                 onClick={() => setIsMenuOpen(false)}
                 className="text-ink p-2"
+                aria-label="Close menu"
               >
                 <X size={24} />
               </button>

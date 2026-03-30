@@ -146,10 +146,10 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
                       <img
                         src={image}
                         alt={`${apartment.name} ${index + 1}`}
-                        className={`w-full object-cover transition-transform duration-[1700ms] ease-out group-hover:scale-[1.05] ${
+                        className={`w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05] ${
                           index === 0
-                            ? "h-[60vw] min-h-[320px]"
-                            : "h-[52vw] min-h-[260px]"
+                            ? "h-[60vw] min-h-80"
+                            : "h-[52vw] min-h-65"
                         }`}
                       />
                       <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 via-black/6 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

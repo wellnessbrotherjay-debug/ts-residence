@@ -39,7 +39,7 @@ export const HomeApartments = ({
 
       <button
         onClick={() => setPage("apartments")}
-        className={`${BTN_GOLD} self-start lg:self-auto`}
+        className={`${BTN_GOLD} border-gold-dark text-gold-dark hover:bg-gold-dark self-start lg:self-auto`}
       >
         View All <ArrowRight size={14} />
       </button>

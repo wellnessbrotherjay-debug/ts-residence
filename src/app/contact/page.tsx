@@ -143,31 +143,36 @@ export default function Page() {
                 <form className="mt-8 grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
                   {[
                     {
+                      id: "firstName",
                       label: "First Name",
                       type: "text",
                       placeholder: "First Name",
                     },
                     {
+                      id: "lastName",
                       label: "Last Name",
                       type: "text",
                       placeholder: "Last Name",
                     },
                     {
+                      id: "email",
                       label: "Email",
                       type: "email",
                       placeholder: "Email address",
                     },
                     {
+                      id: "phone",
                       label: "Phone (optional)",
                       type: "text",
                       placeholder: "Phone number",
                     },
                   ].map((field) => (
                     <div key={field.label} className="space-y-2">
-                      <label className="label-caps text-ink">
+                      <label htmlFor={field.id} className="label-caps text-ink">
                         {field.label}
                       </label>
                       <input
+                        id={field.id}
                         type={field.type}
                         placeholder={field.placeholder}
                         className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
@@ -175,18 +180,27 @@ export default function Page() {
                     </div>
                   ))}
                   <div className="space-y-2 md:col-span-2">
-                    <label className="label-caps text-ink">Stay Duration</label>
-                    <select className="border-gold/25 focus:border-gold w-full appearance-none border-b bg-transparent py-3 text-sm transition-colors outline-none">
+                    <label
+                      htmlFor="stayDuration"
+                      className="label-caps text-ink"
+                    >
+                      Stay Duration
+                    </label>
+                    <select
+                      id="stayDuration"
+                      className="border-gold/25 focus:border-gold w-full appearance-none border-b bg-transparent py-3 text-sm transition-colors outline-none"
+                    >
                       <option>Monthly</option>
                       <option>Quarterly</option>
                       <option>Yearly</option>
                     </select>
                   </div>
                   <div className="space-y-2 md:col-span-2">
-                    <label className="label-caps text-ink">
+                    <label htmlFor="message" className="label-caps text-ink">
                       Message (optional)
                     </label>
                     <textarea
+                      id="message"
                       rows={4}
                       placeholder="Type your message here..."
                       className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full resize-none border-b bg-transparent py-3 text-sm transition-colors outline-none"

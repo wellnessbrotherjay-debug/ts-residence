@@ -353,10 +353,11 @@ export const HeroSection = ({
               <button
                 key={i}
                 onClick={() => setCurrentSlide(i)}
+                aria-label={`Go to slide ${i + 1}`}
                 className={`rounded-full transition-all duration-700 ${
                   i === currentSlide
-                    ? "bg-gold h-1.5 w-8"
-                    : "h-1.5 w-1.5 bg-white/30 hover:bg-white/50"
+                    ? "bg-gold h-6 w-10"
+                    : "h-6 w-6 bg-white/30 hover:bg-white/50"
                 }`}
               />
             ))}

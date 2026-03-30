@@ -57,7 +57,7 @@ export default function Page() {
                   <p className="text-gold-dark text-[11px] font-semibold tracking-[0.24em] uppercase">
                     Privilege
                   </p>
-                  <span className="text-gold/55 group-hover:text-gold-dark font-serif text-[1.4rem] leading-none transition-colors duration-300">
+                  <span className="text-ink/70 group-hover:text-ink font-serif text-[1.4rem] leading-none transition-colors duration-300">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                 </div>
