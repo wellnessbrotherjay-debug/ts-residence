@@ -119,10 +119,10 @@ export default function Page() {
   }, [galleryIndex]);
 
   return (
-    <div className="overflow-x-hidden bg-cream">
+    <div className="bg-cream overflow-x-hidden">
       <section
         ref={heroRef}
-        className="relative min-h-[78vh] overflow-hidden border-y border-gold/30 md:min-h-[92vh]"
+        className="border-gold/30 relative min-h-[78vh] overflow-hidden border-y md:min-h-[92vh]"
       >
         <motion.img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
@@ -130,7 +130,7 @@ export default function Page() {
           className="absolute inset-0 h-full w-full object-cover"
           style={{ y: heroImageY, scale: heroImageScale }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/52 via-black/34 to-black/64" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/64" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_80%_80%,rgba(196,160,96,0.18),transparent_52%)]" />
         <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
@@ -142,7 +142,7 @@ export default function Page() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-[1200px] text-white"
+            className="w-full max-w-300 text-white"
           >
             <motion.div
               initial={{ opacity: 0, y: 14 }}
@@ -152,16 +152,16 @@ export default function Page() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="inline-flex items-center gap-3 border border-gold/45 bg-black/58 px-5 py-2.5"
+              className="border-gold/45 inline-flex items-center gap-3 border bg-black/58 px-5 py-2.5"
             >
-              <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-light">
+              <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
                 Easy Living
               </span>
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-gold-light opacity-75 [animation:ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite]" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-light" />
+                <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
+                <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
               </span>
-              <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/95">
+              <span className="text-[11px] font-medium tracking-[0.2em] text-white/95 uppercase">
                 Long-Stay Simplicity
               </span>
             </motion.div>
@@ -170,7 +170,7 @@ export default function Page() {
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 1, delay: 0.35, ease: "easeOut" }}
-              className="mx-auto mt-7 h-px w-28 origin-center bg-gradient-to-r from-transparent via-gold/80 to-transparent"
+              className="via-gold/80 mx-auto mt-7 h-px w-28 origin-center bg-linear-to-r from-transparent to-transparent"
             />
 
             <motion.h1
@@ -198,7 +198,7 @@ export default function Page() {
                 delay: 0.55,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mx-auto mt-9 max-w-[760px] text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9"
+              className="mx-auto mt-9 max-w-190 text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9"
             >
               Easy Living is designed for monthly residents who need smooth
               logistics, reliable support, and a residence standard that feels
@@ -208,7 +208,7 @@ export default function Page() {
         </motion.div>
       </section>
 
-      <section className="border-b border-gold/30 bg-white">
+      <section className="border-gold/30 border-b bg-white">
         <div className="section-shell px-6 py-16 md:px-12 md:py-18 lg:px-20 lg:py-22 xl:px-28">
           <StaggerContainer
             className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-5"
@@ -217,16 +217,16 @@ export default function Page() {
             {easePillars.map((item) => (
               <StaggerItem
                 key={item.title}
-                className="group border border-gold/25 bg-cream px-6 py-7 transition-all duration-[900ms] hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(28,25,23,0.1)] md:px-7 md:py-8"
+                className="group border-gold/25 bg-cream border px-6 py-7 transition-all duration-900 hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(28,25,23,0.1)] md:px-7 md:py-8"
               >
                 <div className="flex items-center justify-between">
                   <p className="label-caps text-gold-dark">{item.title}</p>
-                  <span className="font-serif text-[1.35rem] text-gold/70 transition-all duration-700 group-hover:translate-x-1 group-hover:text-gold-dark">
+                  <span className="text-gold/70 group-hover:text-gold-dark font-serif text-[1.35rem] transition-all duration-700 group-hover:translate-x-1">
                     {item.stat}
                   </span>
                 </div>
-                <div className="mt-4 h-px w-full bg-gradient-to-r from-gold/30 via-gold/15 to-transparent" />
-                <p className="mt-5 text-[1rem] leading-8 text-ink/80">
+                <div className="from-gold/30 via-gold/15 mt-4 h-px w-full bg-linear-to-r to-transparent" />
+                <p className="text-ink/80 mt-5 text-[1rem] leading-8">
                   {item.description}
                 </p>
               </StaggerItem>
@@ -235,53 +235,53 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-b border-gold/30 bg-cream">
+      <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
             <FadeInView
               direction="left"
-              className="overflow-hidden border border-gold/25"
+              className="border-gold/25 overflow-hidden border"
             >
               <motion.img
                 src="https://tsresidence.id/wp-content/uploads/2025/08/panoramic-view-of-sunset-on-a-beah-near-tsresidence-scaled.webp"
                 alt="Seminyak beach near TS Residence"
-                className="h-full min-h-[360px] w-full object-cover"
+                className="h-full min-h-90 w-full object-cover"
                 whileHover={{ scale: 1.03 }}
                 transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
               />
             </FadeInView>
             <FadeInView
               direction="right"
-              className="flex items-center border border-gold/25 bg-white px-6 py-10 md:px-10 lg:px-12"
+              className="border-gold/25 flex items-center border bg-white px-6 py-10 md:px-10 lg:px-12"
             >
-              <div className="max-w-[40rem]">
+              <div className="max-w-160">
                 <p className="label-caps text-gold">Strategic Access</p>
-                <h2 className="mt-5 font-serif text-[2.25rem] leading-[1.03] tracking-[-0.03em] text-ink md:text-[3rem]">
+                <h2 className="text-ink mt-5 font-serif text-[2.25rem] leading-[1.03] tracking-[-0.03em] md:text-[3rem]">
                   Live close to what matters,
                   <br />
                   move through Bali faster.
                 </h2>
-                <p className="mt-6 text-[1.03rem] leading-8 text-ink/80 md:text-[1.1rem]">
+                <p className="text-ink/80 mt-6 text-[1.03rem] leading-8 md:text-[1.1rem]">
                   Positioned in Seminyak with direct connectivity to beach
                   areas, lifestyle hubs, and practical daily destinations. Easy
                   Living is built around better day-to-day flow.
                 </p>
-                <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-gold/25 pt-6">
+                <div className="border-gold/25 mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t pt-6">
                   <div>
                     <p className="label-caps text-ink/55">Seminyak Beach</p>
-                    <p className="mt-2 font-serif text-3xl text-ink">8 min</p>
+                    <p className="text-ink mt-2 font-serif text-3xl">8 min</p>
                   </div>
                   <div>
                     <p className="label-caps text-ink/55">Sunset Road</p>
-                    <p className="mt-2 font-serif text-3xl text-ink">5 min</p>
+                    <p className="text-ink mt-2 font-serif text-3xl">5 min</p>
                   </div>
                   <div>
                     <p className="label-caps text-ink/55">Dining & Cafes</p>
-                    <p className="mt-2 font-serif text-3xl text-ink">Nearby</p>
+                    <p className="text-ink mt-2 font-serif text-3xl">Nearby</p>
                   </div>
                   <div>
                     <p className="label-caps text-ink/55">Support Services</p>
-                    <p className="mt-2 font-serif text-3xl text-ink">Daily</p>
+                    <p className="text-ink mt-2 font-serif text-3xl">Daily</p>
                   </div>
                 </div>
               </div>
@@ -290,10 +290,10 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="w-full border-b border-gold/30 bg-white px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
-        <FadeInView className="mx-auto max-w-[980px] text-center">
+      <section className="border-gold/30 w-full border-b bg-white px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
+        <FadeInView className="mx-auto max-w-245 text-center">
           <p className="label-caps text-gold">Apartment Collection</p>
-          <h3 className="mt-4 font-serif text-[2.2rem] leading-[1.03] text-ink md:text-[3rem]">
+          <h3 className="text-ink mt-4 font-serif text-[2.2rem] leading-[1.03] md:text-[3rem]">
             Choose your long-stay layout
             <br />
             based on your rhythm.
@@ -307,34 +307,34 @@ export default function Page() {
           {apartmentTypes.map((unit) => (
             <StaggerItem
               key={unit.name}
-              className="group overflow-hidden border border-gold/25 bg-cream"
+              className="group border-gold/25 bg-cream overflow-hidden border"
             >
               <motion.article
                 className="h-full"
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="h-[300px] overflow-hidden md:h-[340px]">
+                <div className="h-75 overflow-hidden md:h-85">
                   <motion.img
                     src={unit.image}
                     alt={`${unit.name} apartment`}
-                    className="h-full w-full object-cover transition-transform duration-[1900ms] ease-out group-hover:scale-[1.06]"
+                    className="h-full w-full object-cover transition-transform duration-1900 ease-out group-hover:scale-[1.06]"
                   />
                 </div>
-                <div className="flex min-h-[260px] flex-col p-7 md:p-8">
+                <div className="flex min-h-65 flex-col p-7 md:p-8">
                   <div className="flex items-center justify-between">
-                    <p className="font-serif text-[2.1rem] leading-none text-ink">
+                    <p className="text-ink font-serif text-[2.1rem] leading-none">
                       {unit.name}
                     </p>
                     <p className="label-caps text-gold-dark">{unit.area}</p>
                   </div>
-                  <p className="mt-5 text-[1rem] leading-8 text-ink/80">
+                  <p className="text-ink/80 mt-5 text-[1rem] leading-8">
                     {unit.description}
                   </p>
-                  <div className="mt-auto border-t border-gold/25 pt-6">
+                  <div className="border-gold/25 mt-auto border-t pt-6">
                     <Link
                       href={unit.href}
-                      className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold-dark transition-all duration-500 hover:text-ink group-hover:tracking-[0.26em]"
+                      className="text-gold-dark hover:text-ink text-[11px] font-semibold tracking-[0.22em] uppercase transition-all duration-500 group-hover:tracking-[0.26em]"
                     >
                       View Apartment
                     </Link>
@@ -346,7 +346,7 @@ export default function Page() {
         </StaggerContainer>
       </section>
 
-      <section className="border-b border-gold/30 bg-cream">
+      <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
           <StaggerContainer
             className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4"
@@ -355,17 +355,17 @@ export default function Page() {
             {easyMoments.map((image, index) => (
               <StaggerItem
                 key={image}
-                className="group overflow-hidden border border-gold/25 bg-white"
+                className="group border-gold/25 overflow-hidden border bg-white"
               >
                 <button
                   onClick={() => setGalleryIndex(index)}
-                  className="relative block h-full w-full cursor-pointer overflow-hidden border-0 bg-transparent p-0 appearance-none"
+                  className="relative block h-full w-full cursor-pointer appearance-none overflow-hidden border-0 bg-transparent p-0"
                   aria-label={`Open gallery image ${index + 1}`}
                 >
                   <motion.img
                     src={image}
                     alt={`Easy living moment ${index + 1}`}
-                    className="aspect-[4/3] w-full object-cover transition-transform duration-[1700ms] ease-out group-hover:scale-[1.06]"
+                    className="aspect-4/3 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
                     whileHover={{ scale: 1.06 }}
                     transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
                   />
@@ -374,8 +374,8 @@ export default function Page() {
             ))}
           </StaggerContainer>
 
-          <FadeInView className="mx-auto mt-14 w-full max-w-[1120px] text-center">
-            <p className="mx-auto max-w-[920px] text-[1.05rem] leading-8 text-ink/80 md:text-[1.16rem] md:leading-9">
+          <FadeInView className="mx-auto mt-14 w-full max-w-280 text-center">
+            <p className="text-ink/80 mx-auto max-w-230 text-[1.05rem] leading-8 md:text-[1.16rem] md:leading-9">
               Easy Living means fewer operational worries and more energy for
               what matters: work, wellness, and enjoying Bali with a stable
               monthly base.
@@ -399,7 +399,7 @@ export default function Page() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28, ease: "easeOut" }}
-            className="fixed inset-0 z-[140] flex items-center justify-center bg-black/88 px-4 py-10 md:px-8"
+            className="fixed inset-0 z-140 flex items-center justify-center bg-black/88 px-4 py-10 md:px-8"
             onClick={() => setGalleryIndex(-1)}
           >
             <button
@@ -439,7 +439,7 @@ export default function Page() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98, y: 8 }}
               transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-[1320px]"
+              className="relative w-full max-w-330"
               onClick={(event) => event.stopPropagation()}
             >
               <img
@@ -447,7 +447,7 @@ export default function Page() {
                 alt={`Easy living moment ${galleryIndex + 1}`}
                 className="max-h-[82vh] w-full object-contain"
               />
-              <figcaption className="mt-4 text-center text-[12px] uppercase tracking-[0.18em] text-white/80">
+              <figcaption className="mt-4 text-center text-[12px] tracking-[0.18em] text-white/80 uppercase">
                 {galleryIndex + 1} / {easyMoments.length}
               </figcaption>
             </motion.figure>

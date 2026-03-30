@@ -32,12 +32,12 @@ const PILLARS = [
 export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => (
   <section className="bg-white">
     <div className="px-6 py-24 md:px-12 lg:px-20 lg:py-32 xl:px-28">
-      <FadeInView className="mx-auto max-w-[920px] text-center">
+      <FadeInView className="mx-auto max-w-230 text-center">
         <span className="label-caps text-gold">Our Philosophy</span>
-        <h2 className="heading-section mt-5 text-ink">
+        <h2 className="heading-section text-ink mt-5">
           Three Pillars of Elevated Living
         </h2>
-        <p className="text-body mx-auto mt-6 max-w-[720px] text-ink-light">
+        <p className="text-body text-ink-light mx-auto mt-6 max-w-180">
           The experience is shaped with the same precision as a grand hotel:
           composed service, deeply restorative wellness, and convenience that
           feels quiet rather than transactional.
@@ -46,7 +46,7 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => (
     </div>
 
     <StaggerContainer
-      className="grid grid-cols-1 gap-px bg-gold/20 lg:grid-cols-3"
+      className="bg-gold/20 grid grid-cols-1 gap-px lg:grid-cols-3"
       staggerDelay={0.15}
     >
       {PILLARS.map((pillar, i) => (
@@ -55,29 +55,29 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => (
             onClick={() => setPage(pillar.page)}
             className="group block w-full text-left"
           >
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-4/5 overflow-hidden">
               <img
                 src={pillar.img}
                 alt={pillar.title}
-                className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.05]"
+                className="h-full w-full object-cover transition-transform duration-1600 ease-out group-hover:scale-[1.05]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-7 text-white md:p-9">
                 <p className="label-caps text-white/65">{pillar.stat}</p>
-                <div className="mt-5 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.24em] text-white/90">
+                <div className="mt-5 inline-flex items-center gap-2 text-[12px] tracking-[0.24em] text-white/90 uppercase">
                   Discover <ArrowRight size={14} />
                 </div>
               </div>
             </div>
 
-            <div className="min-h-[280px] px-6 py-8 md:px-8 md:py-10 lg:px-10">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/20 bg-gold/10 text-gold">
+            <div className="min-h-70 px-6 py-8 md:px-8 md:py-10 lg:px-10">
+              <span className="border-gold/20 bg-gold/10 text-gold flex h-12 w-12 items-center justify-center rounded-full border">
                 {pillar.icon}
               </span>
-              <h3 className="mt-8 font-serif text-[2.1rem] leading-none text-ink md:text-[2.5rem]">
+              <h3 className="text-ink mt-8 font-serif text-[2.1rem] leading-none md:text-[2.5rem]">
                 {pillar.title}
               </h3>
-              <p className="mt-5 text-body text-ink-light">{pillar.desc}</p>
+              <p className="text-body text-ink-light mt-5">{pillar.desc}</p>
             </div>
           </button>
         </StaggerItem>

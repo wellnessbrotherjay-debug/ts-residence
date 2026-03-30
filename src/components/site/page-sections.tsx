@@ -17,7 +17,7 @@ export function ApartmentsIndexPage() {
         <h1 className="heading-display mt-5 text-5xl md:text-6xl lg:text-7xl">
           Find the apartment that fits your rhythm
         </h1>
-        <p className="mt-6 max-w-2xl text-body">
+        <p className="text-body mt-6 max-w-2xl">
           From compact solo living to generous family-sized layouts, each
           residence is fully furnished and supported by the services of TS
           Suites.
@@ -34,13 +34,13 @@ export function ApartmentsIndexPage() {
               href={`/apartments/${apartment.slug}`}
               className="group block"
             >
-              <div className="relative aspect-[4/5] overflow-hidden">
+              <div className="relative aspect-4/5 overflow-hidden">
                 <img
                   src={apartment.image}
                   alt={apartment.name}
-                  className="h-full w-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-1400 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-8 text-white">
                   <span className="label-caps text-white/70">
                     {apartment.sqm} · {apartment.bed}
@@ -71,7 +71,7 @@ export function ApartmentDetailPage({ slug }: { slug: string }) {
           alt={apartment.name}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/20 to-black/50" />
         <div className="relative z-10 px-6 text-center text-white">
           <FadeInView>
             <span className="label-caps text-white/70">
@@ -88,12 +88,12 @@ export function ApartmentDetailPage({ slug }: { slug: string }) {
         <div className="section-shell grid grid-cols-1 items-start gap-16 lg:grid-cols-2 lg:gap-20">
           <FadeInView direction="left">
             <h2 className="heading-section">Exceptional Living Space</h2>
-            <p className="mt-8 max-w-lg text-body">{apartment.description}</p>
+            <p className="text-body mt-8 max-w-lg">{apartment.description}</p>
             <div className="mt-10 grid grid-cols-2 gap-6">
               {apartment.features.map((feature) => (
                 <div key={feature} className="flex items-center gap-3">
-                  <div className="h-1.5 w-1.5 rounded-full bg-gold" />
-                  <span className="text-sm text-ink">{feature}</span>
+                  <div className="bg-gold h-1.5 w-1.5 rounded-full" />
+                  <span className="text-ink text-sm">{feature}</span>
                 </div>
               ))}
             </div>
@@ -109,7 +109,7 @@ export function ApartmentDetailPage({ slug }: { slug: string }) {
                   <img
                     src={image}
                     alt={apartment.name}
-                    className="aspect-[4/3] h-full w-full object-cover"
+                    className="aspect-4/3 h-full w-full object-cover"
                   />
                 </div>
               ))}
@@ -138,23 +138,23 @@ export function OffersPageContent() {
         {offers.map((offer) => (
           <StaggerItem key={offer.title}>
             <div className="group">
-              <div className="relative mb-6 aspect-[16/10] overflow-hidden">
+              <div className="relative mb-6 aspect-16/10 overflow-hidden">
                 <img
                   src={offer.image}
                   alt={offer.title}
-                  className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-1200 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
+                <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
+                <div className="absolute right-6 bottom-6 left-6">
                   <span className="label-caps text-white/80">
                     Special Offer
                   </span>
                 </div>
               </div>
-              <h2 className="text-2xl transition-colors group-hover:text-gold">
+              <h2 className="group-hover:text-gold text-2xl transition-colors">
                 {offer.title}
               </h2>
-              <p className="mt-2 text-body">{offer.description}</p>
+              <p className="text-body mt-2">{offer.description}</p>
             </div>
           </StaggerItem>
         ))}
@@ -180,14 +180,14 @@ export function GalleryPageContent() {
         {galleryCategories.map((cat) => (
           <StaggerItem key={cat.name}>
             <div className="mb-6">
-              <h2 className="text-sm font-semibold text-ink">{cat.name}</h2>
-              <p className="text-xs text-muted">{cat.handle}</p>
+              <h2 className="text-ink text-sm font-semibold">{cat.name}</h2>
+              <p className="text-muted text-xs">{cat.handle}</p>
             </div>
             <div className="overflow-hidden">
               <img
                 src={cat.image}
                 alt={cat.name}
-                className="aspect-[16/10] h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-105"
+                className="aspect-16/10 h-full w-full object-cover transition-transform duration-1200 hover:scale-105"
               />
             </div>
           </StaggerItem>
@@ -206,7 +206,7 @@ export function FiveStarPageContent() {
           alt="Five Star Living"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/20 to-black/50" />
         <div className="relative z-10 px-6 text-center text-white">
           <FadeInView>
             <span className="label-caps text-white/70">Luxury Redefined</span>
@@ -220,8 +220,8 @@ export function FiveStarPageContent() {
       <section className="bg-cream py-24">
         <div className="section-shell max-w-3xl text-center">
           <FadeInView>
-            <div className="mx-auto mb-10 h-20 w-px bg-gold/30" />
-            <h2 className="text-2xl leading-relaxed text-ink md:text-3xl">
+            <div className="bg-gold/30 mx-auto mb-10 h-20 w-px" />
+            <h2 className="text-ink text-2xl leading-relaxed md:text-3xl">
               At TS Residence, you don&apos;t just live. You live with the full
               privileges of a five-star hotel, from coworking and dining to
               salon and lifestyle services.
@@ -242,7 +242,7 @@ export function FiveStarPageContent() {
                   <img
                     src={facility.image}
                     alt={facility.title}
-                    className="aspect-[4/3] h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-105"
+                    className="aspect-4/3 h-full w-full object-cover transition-transform duration-1200 hover:scale-105"
                   />
                 </div>
                 <h3 className="label-caps text-ink">{facility.title}</h3>
@@ -269,19 +269,19 @@ export function HealthyLivingPageContent() {
                 Healthy Living
               </h1>
             </div>
-            <p className="max-w-lg text-body">
+            <p className="text-body max-w-lg">
               TS Residence combines five-star luxury with holistic wellness,
               giving residents daily access to restorative spaces and a calmer
               long-stay rhythm in Seminyak.
             </p>
             <div>
-              <h2 className="text-2xl text-ink md:text-3xl">
+              <h2 className="text-ink text-2xl md:text-3xl">
                 No.1 Wellness Club
               </h2>
-              <p className="mt-3 text-sm italic text-gold">
+              <p className="text-gold mt-3 text-sm italic">
                 You are our number one. Your well-being is our number one.
               </p>
-              <p className="mt-4 max-w-lg text-body">
+              <p className="text-body mt-4 max-w-lg">
                 A space for rejuvenation, recovery, and mindful activity. Where
                 the body regains strength, the mind finds calm, and your energy
                 returns to its natural state.
@@ -293,7 +293,7 @@ export function HealthyLivingPageContent() {
           <img
             src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80"
             alt="No.1 Wellness Club"
-            className="aspect-[4/5] h-full w-full object-cover"
+            className="aspect-4/5 h-full w-full object-cover"
           />
         </FadeInView>
       </div>
@@ -304,7 +304,7 @@ export function HealthyLivingPageContent() {
 export function EasyLivingPageContent() {
   return (
     <div className="section-shell py-12 pb-24 lg:py-16">
-      <section className="mx-auto max-w-[1400px] text-center">
+      <section className="mx-auto max-w-350 text-center">
         <FadeInView>
           <span className="label-caps text-gold">
             Convenience &amp; Freedom
@@ -312,7 +312,7 @@ export function EasyLivingPageContent() {
           <h1 className="heading-display mt-4 text-5xl md:text-6xl lg:text-7xl">
             Easy Living
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-body">
+          <p className="text-body mx-auto mt-6 max-w-2xl">
             Apartments designed for monthly rentals, giving you a polished and
             hassle-free long-stay base in Bali.
           </p>
@@ -341,8 +341,8 @@ export function EasyLivingPageContent() {
           ].map((item, index) => (
             <StaggerItem key={item.title}>
               <div className="space-y-4 text-center">
-                <span className="text-4xl text-gold">0{index + 1}</span>
-                <h2 className="text-xl text-ink">{item.title}</h2>
+                <span className="text-gold text-4xl">0{index + 1}</span>
+                <h2 className="text-ink text-xl">{item.title}</h2>
                 <p className="text-body">{item.description}</p>
               </div>
             </StaggerItem>
@@ -353,7 +353,7 @@ export function EasyLivingPageContent() {
           <img
             src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80"
             alt="Seminyak Location"
-            className="aspect-[21/9] h-full w-full object-cover"
+            className="aspect-21/9 h-full w-full object-cover"
           />
         </FadeInView>
       </section>
@@ -366,26 +366,26 @@ export function ContactPageContent() {
     <div className="section-shell py-12 pb-20 lg:py-16">
       <FadeInView className="mb-20">
         <span className="label-caps text-gold">Get in Touch</span>
-        <h1 className="heading-display mt-4 mb-16 text-5xl text-ink md:text-6xl lg:text-7xl">
+        <h1 className="heading-display text-ink mt-4 mb-16 text-5xl md:text-6xl lg:text-7xl">
           Let&apos;s talk about your long-stay
         </h1>
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <div className="space-y-3">
             <p className="label-caps">Phone / WhatsApp</p>
-            <p className="text-xl text-ink md:text-2xl">+62 811 1902 8111</p>
+            <p className="text-ink text-xl md:text-2xl">+62 811 1902 8111</p>
             <p className="label-caps pt-4">Telegram</p>
-            <p className="text-xl text-ink md:text-2xl">+62 811 1902 8111</p>
+            <p className="text-ink text-xl md:text-2xl">+62 811 1902 8111</p>
           </div>
           <div className="space-y-3">
             <p className="label-caps">Email</p>
-            <p className="text-xl text-ink md:text-2xl">
+            <p className="text-ink text-xl md:text-2xl">
               tsresidence@townsquare.co.id
             </p>
           </div>
           <div className="space-y-3">
             <p className="label-caps">Address</p>
-            <p className="text-xl leading-relaxed text-ink md:text-2xl">
+            <p className="text-ink text-xl leading-relaxed md:text-2xl">
               Jl. Nakula No.18, Legian, Seminyak, Bali
             </p>
           </div>
@@ -397,16 +397,16 @@ export function ContactPageContent() {
           <img
             src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80"
             alt="TS Residence"
-            className="aspect-[4/5] h-full min-h-[400px] w-full object-cover"
+            className="aspect-4/5 h-full min-h-100 w-full object-cover"
           />
         </div>
 
         <div className="space-y-10 lg:col-span-7">
           <div>
-            <h2 className="text-3xl text-ink md:text-4xl">
+            <h2 className="text-ink text-3xl md:text-4xl">
               Looking for a long-term stay?
             </h2>
-            <p className="mt-3 text-body">
+            <p className="text-body mt-3">
               Tell us what you&apos;re looking for and our team will get back to
               you with personalized recommendations.
             </p>
@@ -428,13 +428,13 @@ export function ContactPageContent() {
                 <input
                   type={field.type}
                   placeholder={field.placeholder}
-                  className="w-full border-b border-gold/20 bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted/40 focus:border-gold"
+                  className="border-gold/20 placeholder:text-muted/40 focus:border-gold w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
                 />
               </div>
             ))}
             <div className="space-y-2 md:col-span-2">
               <label className="label-caps text-ink">Stay Duration</label>
-              <select className="w-full appearance-none border-b border-gold/20 bg-transparent py-3 text-sm outline-none transition-colors focus:border-gold">
+              <select className="border-gold/20 focus:border-gold w-full appearance-none border-b bg-transparent py-3 text-sm transition-colors outline-none">
                 <option>Monthly</option>
                 <option>Quarterly</option>
                 <option>Yearly</option>
@@ -445,7 +445,7 @@ export function ContactPageContent() {
               <textarea
                 rows={4}
                 placeholder="Type your message here..."
-                className="w-full resize-none border-b border-gold/20 bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted/40 focus:border-gold"
+                className="border-gold/20 placeholder:text-muted/40 focus:border-gold w-full resize-none border-b bg-transparent py-3 text-sm transition-colors outline-none"
               />
             </div>
             <div className="pt-4 md:col-span-2">
@@ -457,14 +457,14 @@ export function ContactPageContent() {
         </div>
       </FadeInView>
 
-      <div className="border-t border-gold/35 pt-20">
-        <h2 className="mb-14 text-2xl text-ink md:text-3xl">
+      <div className="border-gold/35 border-t pt-20">
+        <h2 className="text-ink mb-14 text-2xl md:text-3xl">
           Terms &amp; Conditions
         </h2>
-        <div className="grid grid-cols-1 gap-10 text-[12px] leading-relaxed text-muted md:grid-cols-2 lg:grid-cols-4 lg:gap-16">
+        <div className="text-muted grid grid-cols-1 gap-10 text-[12px] leading-relaxed md:grid-cols-2 lg:grid-cols-4 lg:gap-16">
           <div className="space-y-10 lg:col-span-2">
             <div>
-              <h3 className="label-caps mb-4 text-ink">Terms of Payment</h3>
+              <h3 className="label-caps text-ink mb-4">Terms of Payment</h3>
               <ol className="list-decimal space-y-3 pl-4">
                 <li>
                   Rental cost paid monthly in advance by the 25th day of the
@@ -478,14 +478,14 @@ export function ContactPageContent() {
               </ol>
             </div>
             <div>
-              <h3 className="label-caps mb-4 text-ink">Additional Cost</h3>
+              <h3 className="label-caps text-ink mb-4">Additional Cost</h3>
               <ol className="list-decimal space-y-2 pl-4">
                 <li>Electricity</li>
               </ol>
             </div>
           </div>
           <div>
-            <h3 className="label-caps mb-4 text-ink">Included in Rental</h3>
+            <h3 className="label-caps text-ink mb-4">Included in Rental</h3>
             <ol className="list-decimal space-y-3 pl-4">
               <li>All units fully furnished</li>
               <li>
@@ -498,7 +498,7 @@ export function ContactPageContent() {
             </ol>
           </div>
           <div>
-            <h3 className="label-caps mb-4 text-ink">Optional Services</h3>
+            <h3 className="label-caps text-ink mb-4">Optional Services</h3>
             <ol className="list-decimal space-y-3 pl-4">
               <li>Laundry</li>
               <li>Housekeeping</li>

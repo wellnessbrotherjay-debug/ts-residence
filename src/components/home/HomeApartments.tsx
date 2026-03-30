@@ -26,12 +26,12 @@ export const HomeApartments = ({
 }: HomeApartmentsProps) => (
   <section className="bg-white px-6 py-24 md:px-12 lg:px-20 lg:py-32 xl:px-28">
     <div className="mb-14 flex flex-col gap-6 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
-      <div className="max-w-[48rem]">
+      <div className="max-w-3xl">
         <span className="label-caps text-gold">Suites &amp; Apartments</span>
-        <h2 className="heading-section mt-5 text-ink">
+        <h2 className="heading-section text-ink mt-5">
           Find Your Perfect Space
         </h2>
-        <p className="text-body mt-6 max-w-[42rem] text-ink-light">
+        <p className="text-body text-ink-light mt-6 max-w-2xl">
           Each residence is composed with generous proportions, understated
           finishes, and the comfort of a fully serviced stay.
         </p>
@@ -58,7 +58,7 @@ export const HomeApartments = ({
             tabIndex={0}
             className="group w-full cursor-pointer text-left"
           >
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-4/5 overflow-hidden">
               <EditableImage
                 src={apt.img}
                 alt={apt.name}
@@ -70,30 +70,30 @@ export const HomeApartments = ({
                   <img
                     src={src}
                     alt={apt.name}
-                    className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.05]"
+                    className="h-full w-full object-cover transition-transform duration-1600 ease-out group-hover:scale-[1.05]"
                     referrerPolicy="no-referrer"
                   />
                 )}
               </EditableImage>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-7 text-white md:p-8">
-                <span className="text-[12px] uppercase tracking-[0.24em] text-white/72">
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute right-0 bottom-0 left-0 p-7 text-white md:p-8">
+                <span className="text-[12px] tracking-[0.24em] text-white/72 uppercase">
                   {apt.sqm} sqm &middot; {apt.bed}
                 </span>
               </div>
             </div>
 
-            <div className="border-x border-b border-gold/20 px-6 py-8 md:px-8 md:py-9">
+            <div className="border-gold/20 border-x border-b px-6 py-8 md:px-8 md:py-9">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-[2rem] leading-none text-ink md:text-[2.4rem]">
+                  <h3 className="text-ink font-serif text-[2rem] leading-none md:text-[2.4rem]">
                     {apt.name}
                   </h3>
-                  <p className="mt-4 text-body text-ink-light">{apt.desc}</p>
+                  <p className="text-body text-ink-light mt-4">{apt.desc}</p>
                 </div>
                 <ArrowRight
                   size={18}
-                  className="mt-1 shrink-0 text-muted transition-all group-hover:translate-x-1 group-hover:text-gold"
+                  className="text-muted group-hover:text-gold mt-1 shrink-0 transition-all group-hover:translate-x-1"
                 />
               </div>
             </div>

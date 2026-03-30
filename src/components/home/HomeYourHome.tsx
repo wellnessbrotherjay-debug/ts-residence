@@ -9,7 +9,7 @@ interface HomeYourHomeProps {
 }
 
 export const HomeYourHome = ({ setPage, imgSrc }: HomeYourHomeProps) => (
-  <section className="grid grid-cols-1 bg-cream lg:min-h-[92vh] lg:grid-cols-[0.9fr_1.1fr]">
+  <section className="bg-cream grid grid-cols-1 lg:min-h-[92vh] lg:grid-cols-[0.9fr_1.1fr]">
     <FadeInView
       direction="left"
       className="relative min-h-[56vh] lg:min-h-full"
@@ -35,19 +35,19 @@ export const HomeYourHome = ({ setPage, imgSrc }: HomeYourHomeProps) => (
     </FadeInView>
 
     <div className="flex items-center px-6 py-20 md:px-12 lg:px-16 lg:py-24 xl:px-20">
-      <FadeInView direction="right" className="max-w-[40rem]">
+      <FadeInView direction="right" className="max-w-160">
         <span className="label-caps text-gold">Your Home in Bali</span>
-        <h2 className="heading-section mt-5 text-ink">
+        <h2 className="heading-section text-ink mt-5">
           TS Residence is composed for modern long-stay living
         </h2>
-        <p className="text-body mt-7 max-w-[36rem] text-ink-light">
+        <p className="text-body text-ink-light mt-7 max-w-xl">
           Whether you&apos;re a digital nomad seeking inspiration, a couple
           embracing island life, or a family looking for a safe and connected
           base, TS Residence is designed to feel polished, practical, and warmly
           personal.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-px bg-gold/20 sm:grid-cols-2">
+        <div className="bg-gold/20 mt-12 grid grid-cols-1 gap-px sm:grid-cols-2">
           {[
             "Digital nomads & remote workers",
             "Couples & young professionals",

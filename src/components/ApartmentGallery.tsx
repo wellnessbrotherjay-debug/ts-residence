@@ -18,24 +18,24 @@ export const ApartmentGallery = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-dark-bg flex flex-col"
+      className="bg-dark-bg fixed inset-0 z-100 flex flex-col"
     >
       <div className="flex items-center justify-between px-6 py-4">
-        <span className="text-white/60 text-sm font-serif">{type}</span>
+        <span className="font-serif text-sm text-white/60">{type}</span>
         <button
           onClick={onClose}
-          className="text-white/60 hover:text-white p-2 transition-colors"
+          className="p-2 text-white/60 transition-colors hover:text-white"
         >
           <X size={24} />
         </button>
       </div>
 
-      <div className="flex-grow relative flex items-center justify-center px-4 md:px-20">
+      <div className="relative flex grow items-center justify-center px-4 md:px-20">
         <button
           onClick={() =>
             setCurrentIndex((p) => (p - 1 + images.length) % images.length)
           }
-          className="absolute left-4 md:left-8 z-10 text-white/40 hover:text-white p-3 transition-colors"
+          className="absolute left-4 z-10 p-3 text-white/40 transition-colors hover:text-white md:left-8"
         >
           <ChevronLeft size={36} />
         </button>
@@ -48,24 +48,24 @@ export const ApartmentGallery = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="max-w-full max-h-full object-contain"
+            className="max-h-full max-w-full object-contain"
             referrerPolicy="no-referrer"
           />
         </AnimatePresence>
         <button
           onClick={() => setCurrentIndex((p) => (p + 1) % images.length)}
-          className="absolute right-4 md:right-8 z-10 text-white/40 hover:text-white p-3 transition-colors"
+          className="absolute right-4 z-10 p-3 text-white/40 transition-colors hover:text-white md:right-8"
         >
           <ChevronRight size={36} />
         </button>
       </div>
 
-      <div className="py-6 flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-2 py-6">
         {images.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrentIndex(i)}
-            className={`transition-all duration-300 rounded-full ${i === currentIndex ? "w-6 h-1.5 bg-gold" : "w-1.5 h-1.5 bg-white/20"}`}
+            className={`rounded-full transition-all duration-300 ${i === currentIndex ? "bg-gold h-1.5 w-6" : "h-1.5 w-1.5 bg-white/20"}`}
           />
         ))}
       </div>

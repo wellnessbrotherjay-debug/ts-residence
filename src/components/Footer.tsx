@@ -27,27 +27,27 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="relative overflow-hidden border-t border-gold/25 bg-[#14110f] text-white">
+    <footer className="border-gold/25 relative overflow-hidden border-t bg-[#14110f] text-white">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 -right-16 h-72 w-72 rounded-full bg-gold/10 blur-3xl" />
+        <div className="bg-gold/10 absolute -top-24 -right-16 h-72 w-72 rounded-full blur-3xl" />
         <div className="absolute -bottom-20 -left-16 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
       </div>
 
       {/* Main Footer */}
-      <div className="relative mx-auto max-w-[1400px] px-6 pt-20 pb-16 md:px-10 lg:pt-24 lg:pb-18">
+      <div className="relative mx-auto max-w-350 px-6 pt-20 pb-16 md:px-10 lg:pt-24 lg:pb-18">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-10">
           {/* Brand */}
-          <div className="lg:col-span-4 space-y-8">
+          <div className="space-y-8 lg:col-span-4">
             <div className="flex flex-col items-start gap-0.5">
               <div className="flex items-baseline">
-                <span className="text-4xl font-serif font-light text-white">
+                <span className="font-serif text-4xl font-light text-white">
                   T
                 </span>
-                <span className="text-4xl font-serif font-light text-white">
+                <span className="font-serif text-4xl font-light text-white">
                   S
                 </span>
               </div>
-              <span className="text-[8px] tracking-[0.45em] uppercase font-sans font-semibold text-white/65">
+              <span className="font-sans text-[8px] font-semibold tracking-[0.45em] text-white/65 uppercase">
                 Residence
               </span>
             </div>
@@ -61,21 +61,21 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white/80 transition-all duration-500 hover:-translate-y-0.5 hover:border-gold/65 hover:bg-gold/15 hover:text-white"
+                className="hover:border-gold/65 hover:bg-gold/15 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white/80 transition-all duration-500 hover:-translate-y-0.5 hover:text-white"
               >
                 <Instagram size={16} />
               </a>
               <a
                 href="#"
                 aria-label="Telegram"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white/80 transition-all duration-500 hover:-translate-y-0.5 hover:border-gold/65 hover:bg-gold/15 hover:text-white"
+                className="hover:border-gold/65 hover:bg-gold/15 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white/80 transition-all duration-500 hover:-translate-y-0.5 hover:text-white"
               >
                 <Send size={16} />
               </a>
               <a
                 href="#"
                 aria-label="Phone"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white/80 transition-all duration-500 hover:-translate-y-0.5 hover:border-gold/65 hover:bg-gold/15 hover:text-white"
+                className="hover:border-gold/65 hover:bg-gold/15 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white/80 transition-all duration-500 hover:-translate-y-0.5 hover:text-white"
               >
                 <Phone size={16} />
               </a>
@@ -84,7 +84,7 @@ export const Footer = () => {
 
           {/* Stay */}
           <div className="lg:col-span-2">
-            <h4 className="mb-6 text-[11px] font-sans font-semibold uppercase tracking-[0.22em] text-gold-light">
+            <h4 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
               Stay
             </h4>
             <ul className="space-y-3">
@@ -108,7 +108,7 @@ export const Footer = () => {
 
           {/* Experience */}
           <div className="lg:col-span-2">
-            <h4 className="mb-6 text-[11px] font-sans font-semibold uppercase tracking-[0.22em] text-gold-light">
+            <h4 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
               Experience
             </h4>
             <ul className="space-y-3">
@@ -132,12 +132,12 @@ export const Footer = () => {
 
           {/* Contact */}
           <div className="lg:col-span-4">
-            <h4 className="mb-6 text-[11px] font-sans font-semibold uppercase tracking-[0.22em] text-gold-light">
+            <h4 className="text-gold-light mb-6 font-sans text-[11px] font-semibold tracking-[0.22em] uppercase">
               Contact
             </h4>
             <div className="space-y-4 text-sm leading-7 text-white/78">
               <p className="flex items-start gap-3">
-                <MapPin size={16} className="mt-0.5 shrink-0 text-gold-light" />
+                <MapPin size={16} className="text-gold-light mt-0.5 shrink-0" />
                 <span>
                   Jl. Nakula No.18, Legian, Seminyak,
                   <br />
@@ -145,11 +145,11 @@ export const Footer = () => {
                 </span>
               </p>
               <p className="flex items-center gap-3">
-                <Mail size={16} className="shrink-0 text-gold-light" />
+                <Mail size={16} className="text-gold-light shrink-0" />
                 <span>tsresidence@townsquare.co.id</span>
               </p>
               <p className="flex items-center gap-3">
-                <Phone size={16} className="shrink-0 text-gold-light" />
+                <Phone size={16} className="text-gold-light shrink-0" />
                 <span>+62 811 1902 8111</span>
               </p>
             </div>
@@ -159,8 +159,8 @@ export const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/12">
-        <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row md:px-10">
-          <div className="flex flex-wrap justify-center gap-6 text-[10px] uppercase tracking-[0.15em] text-white/55">
+        <div className="mx-auto flex max-w-350 flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row md:px-10">
+          <div className="flex flex-wrap justify-center gap-6 text-[10px] tracking-[0.15em] text-white/55 uppercase">
             <span>&copy; {new Date().getFullYear()} TS Residence</span>
             <a
               href="#"
@@ -177,7 +177,7 @@ export const Footer = () => {
           </div>
           <button
             onClick={() => setPage("admin")}
-            className="text-[10px] uppercase tracking-[0.15em] text-white/40 transition-colors duration-300 hover:text-white/70"
+            className="text-[10px] tracking-[0.15em] text-white/40 uppercase transition-colors duration-300 hover:text-white/70"
           >
             Admin
           </button>

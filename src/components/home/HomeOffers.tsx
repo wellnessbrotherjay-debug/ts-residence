@@ -9,14 +9,14 @@ export const HomeOffers = ({ setPage }: { setPage: (p: Page) => void }) => (
       alt="Special Offers"
       className="absolute inset-0 h-full w-full object-cover"
     />
-    <div className="absolute inset-0 bg-gradient-to-r from-black/78 via-black/54 to-black/40" />
+    <div className="absolute inset-0 bg-linear-to-r from-black/78 via-black/54 to-black/40" />
     <div className="relative flex min-h-[72vh] items-end px-6 py-12 md:px-12 md:py-16 lg:px-20 lg:py-20 xl:px-28">
-      <FadeInView className="max-w-[760px]">
+      <FadeInView className="max-w-190">
         <span className="label-caps text-gold-light">Limited Time</span>
         <h2 className="heading-display mt-6 text-5xl text-white sm:text-6xl md:text-7xl lg:text-[6.2rem]">
           Special Opening Celebration
         </h2>
-        <p className="mt-7 max-w-[640px] text-body text-white/76">
+        <p className="text-body mt-7 max-w-160 text-white/76">
           Stay 3 months, pay for 2. Available across all apartment categories
           for a more generous start in Seminyak.
         </p>

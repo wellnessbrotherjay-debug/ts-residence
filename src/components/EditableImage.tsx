@@ -30,17 +30,17 @@ export const EditableImage = ({
   };
 
   return (
-    <div className={`relative group ${className || ""}`}>
+    <div className={`group relative ${className || ""}`}>
       {typeof children === "function" ? (
         children(src)
       ) : children ? (
         children
       ) : (
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
+        <img src={src} alt={alt} className="h-full w-full object-cover" />
       )}
       <button
         onClick={() => inputRef.current?.click()}
-        className="absolute top-4 right-4 z-10 bg-white/90 hover:bg-white text-ink p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:scale-110 disabled:opacity-50"
+        className="text-ink absolute top-4 right-4 z-10 rounded-full bg-white/90 p-3 opacity-0 shadow-lg transition-all group-hover:opacity-100 hover:scale-110 hover:bg-white disabled:opacity-50"
         disabled={uploading}
         title="Replace image"
       >

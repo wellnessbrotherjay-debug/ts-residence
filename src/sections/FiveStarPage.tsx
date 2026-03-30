@@ -40,29 +40,29 @@ export const FiveStarPage = () => {
   return (
     <div className="w-full">
       {/* Hero */}
-      <section className="relative h-[85vh] flex items-center justify-center">
+      <section className="relative flex h-[85vh] items-center justify-center">
         <EditableImage
           src={heroImage}
           alt="Five Star Living"
           category="five-star"
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 h-full w-full"
           onImageChange={setHeroImage}
         >
           {(src: string) => (
             <img
               src={src}
               alt="Five Star Living"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           )}
         </EditableImage>
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
-        <div className="relative text-center px-6 z-10">
+        <div className="relative z-10 px-6 text-center">
           <FadeInView>
             <span className="label-caps text-gold-light mb-6 block">
               Luxury Redefined
             </span>
-            <h1 className="text-white heading-display text-5xl md:text-7xl lg:text-8xl max-w-4xl mx-auto">
+            <h1 className="heading-display mx-auto max-w-4xl text-5xl text-white md:text-7xl lg:text-8xl">
               Five-Star Living, Every Day
             </h1>
           </FadeInView>
@@ -71,10 +71,10 @@ export const FiveStarPage = () => {
 
       {/* Intro */}
       <section className="section-pad bg-cream">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="mx-auto max-w-3xl text-center">
           <FadeInView>
-            <div className="w-px h-20 bg-gold/30 mx-auto mb-10" />
-            <h2 className="text-2xl md:text-3xl font-serif text-ink leading-relaxed">
+            <div className="bg-gold/30 mx-auto mb-10 h-20 w-px" />
+            <h2 className="text-ink font-serif text-2xl leading-relaxed md:text-3xl">
               At TS Residence, you don't just live — you live with the full
               privileges of a five-star hotel. Enjoy exclusive access to TS
               Suites facilities designed for residents who expect more.
@@ -85,19 +85,19 @@ export const FiveStarPage = () => {
 
       {/* Facilities Grid */}
       <section className="section-pad bg-white">
-        <div className="max-w-[1400px] mx-auto">
+        <div className="mx-auto max-w-[1400px]">
           <StaggerContainer
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8"
             staggerDelay={0.1}
           >
             {facilities.map((item, idx) => (
               <StaggerItem key={idx}>
-                <div className="img-zoom aspect-[4/3] mb-4 cursor-pointer">
+                <div className="img-zoom mb-4 aspect-[4/3] cursor-pointer">
                   <EditableImage
                     src={facilityImages[idx]}
                     alt={item.title}
                     category="five-star"
-                    className="w-full h-full"
+                    className="h-full w-full"
                     onImageChange={(url) =>
                       setFacilityImages((prev) => {
                         const n = [...prev];
@@ -110,7 +110,7 @@ export const FiveStarPage = () => {
                       <img
                         src={src}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="h-full w-full object-cover"
                       />
                     )}
                   </EditableImage>

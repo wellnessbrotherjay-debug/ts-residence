@@ -83,31 +83,31 @@ export const ApartmentPage = ({
   return (
     <div className="w-full">
       {/* Hero */}
-      <section className="relative h-[80vh] flex items-center justify-center">
+      <section className="relative flex h-[80vh] items-center justify-center">
         <EditableImage
           src={heroImage}
           alt={current.title}
           category={type}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 h-full w-full"
           onImageChange={setHeroImage}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
-        <div className="relative text-center z-10 px-6">
+        <div className="relative z-10 px-6 text-center">
           <FadeInView>
             <span className="label-caps text-gold-light mb-4 block">
               {current.sqm} &middot; {current.bed} &middot; Fully Furnished
             </span>
-            <h1 className="text-white heading-display text-6xl md:text-8xl lg:text-9xl">
+            <h1 className="heading-display text-6xl text-white md:text-8xl lg:text-9xl">
               {current.title}
             </h1>
-            <p className="text-white/50 text-sm mt-6">{current.subtitle}</p>
+            <p className="mt-6 text-sm text-white/50">{current.subtitle}</p>
           </FadeInView>
         </div>
       </section>
 
       {/* Details */}
       <section className="section-pad bg-cream">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-start">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-16 lg:grid-cols-2 lg:gap-20">
           <FadeInView direction="left">
             <div className="space-y-10">
               <h2 className="heading-section text-ink">
@@ -117,8 +117,8 @@ export const ApartmentPage = ({
               <div className="grid grid-cols-2 gap-6">
                 {current.features.map((f, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                    <span className="text-sm text-ink">{f}</span>
+                    <div className="bg-gold h-1.5 w-1.5 rounded-full" />
+                    <span className="text-ink text-sm">{f}</span>
                   </div>
                 ))}
               </div>
@@ -134,7 +134,7 @@ export const ApartmentPage = ({
                   <img
                     src={img}
                     alt={`${current.title} ${i}`}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                     referrerPolicy="no-referrer"
                   />
                 </div>

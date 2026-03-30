@@ -6,20 +6,20 @@ import {
 
 export const EasyLivingPage = () => (
   <div className="pt-32 pb-20">
-    <section className="px-6 md:px-10 max-w-[1400px] mx-auto text-center">
+    <section className="mx-auto max-w-[1400px] px-6 text-center md:px-10">
       <FadeInView>
         <span className="label-caps text-gold">Convenience & Freedom</span>
-        <h1 className="heading-display text-5xl md:text-6xl lg:text-7xl text-ink mt-4 mb-6">
+        <h1 className="heading-display text-ink mt-4 mb-6 text-5xl md:text-6xl lg:text-7xl">
           Easy Living
         </h1>
-        <p className="text-body max-w-2xl mx-auto mb-6">
+        <p className="text-body mx-auto mb-6 max-w-2xl">
           Apartments designed for monthly rentals, for your hassle-free
           long-stay in Bali.
         </p>
       </FadeInView>
 
       <StaggerContainer
-        className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mt-20 max-w-5xl mx-auto"
+        className="mx-auto mt-20 grid max-w-5xl grid-cols-1 gap-12 md:grid-cols-3 lg:gap-16"
         staggerDelay={0.15}
       >
         {[
@@ -37,9 +37,9 @@ export const EasyLivingPage = () => (
           },
         ].map((item, i) => (
           <StaggerItem key={i}>
-            <div className="text-center space-y-4">
-              <span className="text-4xl font-serif text-gold">0{i + 1}</span>
-              <h4 className="text-xl font-serif text-ink">{item.title}</h4>
+            <div className="space-y-4 text-center">
+              <span className="text-gold font-serif text-4xl">0{i + 1}</span>
+              <h4 className="text-ink font-serif text-xl">{item.title}</h4>
               <p className="text-body">{item.desc}</p>
             </div>
           </StaggerItem>
@@ -47,11 +47,11 @@ export const EasyLivingPage = () => (
       </StaggerContainer>
 
       <FadeInView className="mt-24">
-        <div className="aspect-[21/9] overflow-hidden max-w-[1200px] mx-auto">
+        <div className="mx-auto aspect-[21/9] max-w-[1200px] overflow-hidden">
           <img
             src="https://picsum.photos/seed/seminyak-location/1920/800"
             alt="Seminyak Location"
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
         </div>
       </FadeInView>

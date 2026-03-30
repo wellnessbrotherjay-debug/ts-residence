@@ -38,7 +38,7 @@ const HeroTextContent = ({
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.3 }}
-        className={`text-[12px] sm:text-[13px] md:text-[18px] uppercase tracking-[0.4em] font-sans font-semibold ${
+        className={`font-sans text-[12px] font-semibold tracking-[0.4em] uppercase sm:text-[13px] md:text-[18px] ${
           isDark ? "text-ink" : "text-white"
         }`}
       >
@@ -49,7 +49,7 @@ const HeroTextContent = ({
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`heading-display text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] xl:text-[11rem] leading-none ${
+        className={`heading-display text-6xl leading-none sm:text-7xl md:text-8xl lg:text-[9rem] xl:text-[11rem] ${
           isDark ? "text-ink" : "text-white"
         }`}
         style={
@@ -226,8 +226,8 @@ export const HeroSection = ({
           className="absolute inset-0"
         >
           {/* LAYER 1: Cream background + Dark text */}
-          <div className="absolute inset-0 bg-cream z-10">
-            <div className="absolute inset-0 flex flex-col items-center pointer-events-none">
+          <div className="bg-cream absolute inset-0 z-10">
+            <div className="pointer-events-none absolute inset-0 flex flex-col items-center">
               {/* Motion is applied directly to the text content div, not a full-screen wrapper.
                   This ensures scale/y transforms originate from the text block itself —
                   the same origin used by the white text copy in Layer 2. */}
@@ -253,7 +253,7 @@ export const HeroSection = ({
           {/* LAYER 2: Image + White text (clips to image bounds) */}
           <motion.div
             style={{ top: imageTop }}
-            className="absolute left-0 right-0 bottom-0 z-20 overflow-hidden"
+            className="absolute right-0 bottom-0 left-0 z-20 overflow-hidden"
           >
             {/* Image frame — fills layer2 height, starts narrow, expands to full bleed */}
             <motion.div
@@ -262,13 +262,13 @@ export const HeroSection = ({
                 width: imageWidth,
                 borderRadius: imageBorderRadius,
               }}
-              className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 overflow-hidden"
+              className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 overflow-hidden"
             >
               <EditableImage
                 src={heroImage}
                 alt="TS Residence"
                 category="hero"
-                className="w-full h-full"
+                className="h-full w-full"
                 onImageChange={setHeroImage}
               >
                 {(src: string) => (
@@ -318,7 +318,7 @@ export const HeroSection = ({
                 to the dark text content div — so both share the same transform origin. */}
             <motion.div
               style={{ top: whiteTextAbsTop }}
-              className="absolute left-0 right-0 flex flex-col items-center pointer-events-none"
+              className="pointer-events-none absolute right-0 left-0 flex flex-col items-center"
             >
               <motion.div
                 style={{
@@ -339,15 +339,15 @@ export const HeroSection = ({
           </motion.div>
 
           {/* Slide Indicators */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-30">
+          <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3">
             {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentSlide(i)}
-                className={`transition-all duration-700 rounded-full ${
+                className={`rounded-full transition-all duration-700 ${
                   i === currentSlide
-                    ? "w-8 h-1.5 bg-gold"
-                    : "w-1.5 h-1.5 bg-white/30 hover:bg-white/50"
+                    ? "bg-gold h-1.5 w-8"
+                    : "h-1.5 w-1.5 bg-white/30 hover:bg-white/50"
                 }`}
               />
             ))}
@@ -359,15 +359,15 @@ export const HeroSection = ({
             animate={{ opacity: 1 }}
             transition={{ delay: 2, duration: 1 }}
             style={{ opacity: textOpacity }}
-            className="absolute bottom-8 right-8 hidden md:flex flex-col items-center gap-2 z-30"
+            className="absolute right-8 bottom-8 z-30 hidden flex-col items-center gap-2 md:flex"
           >
-            <span className="text-white/40 text-[10px] uppercase tracking-[0.3em] font-sans [writing-mode:vertical-lr]">
+            <span className="font-sans text-[10px] tracking-[0.3em] text-white/40 uppercase [writing-mode:vertical-lr]">
               Scroll
             </span>
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="w-px h-8 bg-linear-to-b from-white/40 to-transparent"
+              className="h-8 w-px bg-linear-to-b from-white/40 to-transparent"
             />
           </motion.div>
         </motion.div>

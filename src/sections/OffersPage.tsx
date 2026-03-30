@@ -53,29 +53,29 @@ export const OffersPage = () => {
 
   return (
     <div className="pt-32 pb-0">
-      <div className="px-6 md:px-10 mb-20 max-w-[1400px] mx-auto">
+      <div className="mx-auto mb-20 max-w-[1400px] px-6 md:px-10">
         <FadeInView>
           <span className="label-caps text-gold">Exclusive Deals</span>
-          <h1 className="heading-display text-5xl md:text-6xl lg:text-7xl text-ink mt-4">
+          <h1 className="heading-display text-ink mt-4 text-5xl md:text-6xl lg:text-7xl">
             Special Offers
           </h1>
         </FadeInView>
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 pb-20">
+      <div className="mx-auto max-w-[1400px] px-6 pb-20 md:px-10">
         <StaggerContainer
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8"
           staggerDelay={0.15}
         >
           {displayOffers.map((offer, i) => (
             <StaggerItem key={i}>
               <div className="group cursor-pointer">
-                <div className="relative aspect-[16/10] overflow-hidden mb-6">
+                <div className="relative mb-6 aspect-[16/10] overflow-hidden">
                   <EditableImage
                     src={offer.img}
                     alt={offer.title}
                     category="offers"
-                    className="w-full h-full"
+                    className="h-full w-full"
                     onImageChange={() => {
                       listImages("offers").then((d) => setImages(d));
                     }}
@@ -84,19 +84,19 @@ export const OffersPage = () => {
                       <img
                         src={src}
                         alt={offer.title}
-                        className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
+                        className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
                         referrerPolicy="no-referrer"
                       />
                     )}
                   </EditableImage>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <div className="absolute bottom-6 left-6 right-6">
+                  <div className="absolute right-6 bottom-6 left-6">
                     <span className="label-caps text-gold-light">
                       Special Offer
                     </span>
                   </div>
                 </div>
-                <h3 className="text-2xl font-serif text-ink group-hover:text-gold transition-colors mb-2">
+                <h3 className="text-ink group-hover:text-gold mb-2 font-serif text-2xl transition-colors">
                   {offer.title}
                 </h3>
                 <p className="text-body">{offer.desc}</p>

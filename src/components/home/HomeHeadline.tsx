@@ -9,16 +9,16 @@ export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
         <span className="label-caps text-gold">Seminyak, Bali</span>
       </FadeInView>
       <FadeInView delay={0.15}>
-        <h2 className="mt-6 font-serif font-normal text-5xl leading-[1.02] tracking-[-0.03em] text-ink md:text-7xl lg:text-8xl xl:text-[7rem]">
+        <h2 className="text-ink mt-6 font-serif text-5xl leading-[1.02] font-normal tracking-[-0.03em] md:text-7xl lg:text-8xl xl:text-[7rem]">
           Where five-star
           <br />
-          <em className="not-italic text-gold">hospitality</em> meets
+          <em className="text-gold not-italic">hospitality</em> meets
           <br />
           long-stay living.
         </h2>
       </FadeInView>
       <FadeInView delay={0.3}>
-        <p className="mx-auto mt-10 max-w-2xl text-body text-ink-light">
+        <p className="text-body text-ink-light mx-auto mt-10 max-w-2xl">
           TS Residence by TS Suites offers premium apartments for monthly living
           — a calm, highly serviced experience in one of Bali&apos;s most
           desirable neighborhoods.
@@ -34,7 +34,7 @@ export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
     </div>
 
     <FadeInView delay={0.5}>
-      <div className="mt-20 grid grid-cols-1 border-t border-gold/35 md:grid-cols-3">
+      <div className="border-gold/35 mt-20 grid grid-cols-1 border-t md:grid-cols-3">
         {[
           [
             "Prime Address",
@@ -51,10 +51,10 @@ export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
         ].map(([title, desc]) => (
           <div
             key={title}
-            className="px-0 py-10 text-center md:px-10 lg:px-14 [&:not(:last-child)]:border-b [&:not(:last-child)]:border-gold/20 md:[&:not(:last-child)]:border-b-0 md:[&:not(:last-child)]:border-r"
+            className="not-last:border-gold/20 px-0 py-10 text-center not-last:border-b md:px-10 md:not-last:border-r md:not-last:border-b-0 lg:px-14"
           >
             <p className="label-caps text-gold">{title}</p>
-            <p className="mt-5 text-body text-ink-light">{desc}</p>
+            <p className="text-body text-ink-light mt-5">{desc}</p>
           </div>
         ))}
       </div>

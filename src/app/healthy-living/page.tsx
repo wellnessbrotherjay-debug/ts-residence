@@ -167,10 +167,10 @@ export default function Page() {
   }, [galleryIndex]);
 
   return (
-    <div className="overflow-x-hidden bg-cream">
+    <div className="bg-cream overflow-x-hidden">
       <section
         ref={heroRef}
-        className="relative min-h-[78vh] overflow-hidden border-y border-gold/30 md:min-h-[92vh]"
+        className="border-gold/30 relative min-h-[78vh] overflow-hidden border-y md:min-h-[92vh]"
       >
         <motion.img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-wellness-club-building-gate.webp"
@@ -178,7 +178,7 @@ export default function Page() {
           className="absolute inset-0 h-full w-full object-cover"
           style={{ y: heroImageY, scale: heroImageScale }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/52 via-black/34 to-black/64" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/64" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_80%_80%,rgba(196,160,96,0.18),transparent_52%)]" />
         <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
@@ -190,7 +190,7 @@ export default function Page() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-[1200px] text-white"
+            className="w-full max-w-300 text-white"
           >
             <motion.div
               initial={{ opacity: 0, y: 14 }}
@@ -200,16 +200,16 @@ export default function Page() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="inline-flex items-center gap-3 border border-gold/45 bg-black/58 px-5 py-2.5"
+              className="border-gold/45 inline-flex items-center gap-3 border bg-black/58 px-5 py-2.5"
             >
-              <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-light">
+              <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
                 Healthy Living
               </span>
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-gold-light opacity-75 [animation:ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite]" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-light" />
+                <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
+                <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
               </span>
-              <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/95">
+              <span className="text-[11px] font-medium tracking-[0.2em] text-white/95 uppercase">
                 No.1 Wellness Club
               </span>
             </motion.div>
@@ -218,7 +218,7 @@ export default function Page() {
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 1, delay: 0.35, ease: "easeOut" }}
-              className="mx-auto mt-7 h-px w-28 origin-center bg-gradient-to-r from-transparent via-gold/80 to-transparent"
+              className="via-gold/80 mx-auto mt-7 h-px w-28 origin-center bg-linear-to-r from-transparent to-transparent"
             />
 
             <motion.h1
@@ -246,7 +246,7 @@ export default function Page() {
                 delay: 0.55,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mx-auto mt-9 max-w-[760px] text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9"
+              className="mx-auto mt-9 max-w-190 text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9"
             >
               Build your daily rhythm around movement, recovery, and premium
               support facilities designed for healthier monthly residence.
@@ -255,7 +255,7 @@ export default function Page() {
         </motion.div>
       </section>
 
-      <section className="border-b border-gold/30 bg-white">
+      <section className="border-gold/30 border-b bg-white">
         <div className="section-shell px-6 py-16 md:px-12 md:py-18 lg:px-20 lg:py-22 xl:px-28">
           <StaggerContainer
             className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-5"
@@ -264,16 +264,16 @@ export default function Page() {
             {wellnessPillars.map((item, idx) => (
               <StaggerItem
                 key={item.title}
-                className="group border border-gold/25 bg-cream px-6 py-7 transition-all duration-[900ms] hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(28,25,23,0.1)] md:px-7 md:py-8"
+                className="group border-gold/25 bg-cream border px-6 py-7 transition-all duration-900 hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(28,25,23,0.1)] md:px-7 md:py-8"
               >
                 <div className="flex items-center justify-between">
                   <p className="label-caps text-gold-dark">{item.title}</p>
-                  <span className="font-serif text-[1.35rem] text-gold/60 transition-all duration-700 group-hover:translate-x-1 group-hover:text-gold-dark">
+                  <span className="text-gold/60 group-hover:text-gold-dark font-serif text-[1.35rem] transition-all duration-700 group-hover:translate-x-1">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <div className="mt-4 h-px w-full bg-gradient-to-r from-gold/30 via-gold/15 to-transparent" />
-                <p className="mt-5 text-[1rem] leading-8 text-ink/80">
+                <div className="from-gold/30 via-gold/15 mt-4 h-px w-full bg-linear-to-r to-transparent" />
+                <p className="text-ink/80 mt-5 text-[1rem] leading-8">
                   {item.description}
                 </p>
               </StaggerItem>
@@ -282,16 +282,16 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-b border-gold/30 bg-cream">
+      <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
-          <FadeInView className="mx-auto max-w-[900px] text-center">
+          <FadeInView className="mx-auto max-w-225 text-center">
             <p className="label-caps text-gold">No.1 Wellness Club</p>
-            <h2 className="mt-5 font-serif text-[2.35rem] leading-[1.02] tracking-[-0.03em] text-ink sm:text-5xl md:text-[3.2rem] lg:text-6xl">
+            <h2 className="text-ink mt-5 font-serif text-[2.35rem] leading-[1.02] tracking-[-0.03em] sm:text-5xl md:text-[3.2rem] lg:text-6xl">
               A complete wellness ecosystem,
               <br />
               integrated with residence life.
             </h2>
-            <p className="mx-auto mt-7 max-w-[760px] text-[1.03rem] leading-8 text-ink/80 md:text-[1.1rem]">
+            <p className="text-ink/80 mx-auto mt-7 max-w-190 text-[1.03rem] leading-8 md:text-[1.1rem]">
               Designed for consistent health routines, from guided movement and
               body recovery to nutrition and social wellness moments.
             </p>
@@ -307,26 +307,26 @@ export default function Page() {
           {wellnessFacilities.map((facility) => (
             <StaggerItem
               key={facility.title}
-              className="group h-full overflow-hidden border border-gold/25 bg-white"
+              className="group border-gold/25 h-full overflow-hidden border bg-white"
             >
               <motion.article
                 className="h-full"
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="h-[280px] overflow-hidden md:h-[320px] lg:h-[350px]">
+                <div className="h-70 overflow-hidden md:h-80 lg:h-87.5">
                   <motion.img
                     src={facility.image}
                     alt={facility.title}
-                    className="h-full w-full object-cover transition-transform duration-[1900ms] ease-out group-hover:scale-[1.06]"
+                    className="h-full w-full object-cover transition-transform duration-1900 ease-out group-hover:scale-[1.06]"
                   />
                 </div>
-                <div className="flex min-h-[280px] flex-col p-6 md:min-h-[300px] md:p-7">
+                <div className="flex min-h-70 flex-col p-6 md:min-h-75 md:p-7">
                   <p className="label-caps text-gold-dark">Wellness Facility</p>
-                  <h3 className="mt-3 font-serif text-[2rem] leading-[1.04] text-ink">
+                  <h3 className="text-ink mt-3 font-serif text-[2rem] leading-[1.04]">
                     {facility.title}
                   </h3>
-                  <p className="mt-4 text-[1rem] leading-7 text-ink/80">
+                  <p className="text-ink/80 mt-4 text-[1rem] leading-7">
                     {facility.description}
                   </p>
                 </div>
@@ -336,48 +336,48 @@ export default function Page() {
         </StaggerContainer>
       </section>
 
-      <section className="border-y border-gold/30 bg-white">
+      <section className="border-gold/30 border-y bg-white">
         <div className="grid w-full grid-cols-1 lg:grid-cols-[1.05fr_0.95fr]">
           <FadeInView
             direction="left"
-            className="relative min-h-[360px] overflow-hidden md:min-h-[420px] lg:min-h-[540px]"
+            className="relative min-h-90 overflow-hidden md:min-h-105 lg:min-h-135"
           >
             <motion.img
               src="https://tsresidence.id/wp-content/uploads/2025/10/massage-room.webp"
               alt="Massage recovery room"
-              className="h-full w-full object-cover transition-transform duration-[1800ms] ease-out hover:scale-[1.04]"
+              className="h-full w-full object-cover transition-transform duration-1800 ease-out hover:scale-[1.04]"
               whileHover={{ scale: 1.04 }}
               transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/10 to-transparent" />
           </FadeInView>
           <div className="flex items-center px-6 py-14 md:px-12 lg:px-14 lg:py-18">
-            <FadeInView direction="right" className="max-w-[36rem]">
+            <FadeInView direction="right" className="max-w-xl">
               <p className="label-caps text-gold">Recovery Rooms</p>
-              <h3 className="mt-5 font-serif text-[2.2rem] leading-[1.04] tracking-[-0.03em] text-ink md:text-[2.9rem]">
+              <h3 className="text-ink mt-5 font-serif text-[2.2rem] leading-[1.04] tracking-[-0.03em] md:text-[2.9rem]">
                 Dedicated spaces for
                 <br />
                 deeper physical recovery.
               </h3>
-              <p className="mt-6 text-[1.02rem] leading-8 text-ink/80">
+              <p className="text-ink/80 mt-6 text-[1.02rem] leading-8">
                 Transition between massage therapy, preparation lounge, and
                 wellness treatment spaces in one seamless resident experience.
               </p>
               <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="overflow-hidden border border-gold/25 bg-cream">
+                <div className="border-gold/25 bg-cream overflow-hidden border">
                   <motion.img
                     src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-dressing-room.webp"
                     alt="Dressing room"
-                    className="h-[180px] w-full object-cover"
+                    className="h-45 w-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                   />
                 </div>
-                <div className="overflow-hidden border border-gold/25 bg-cream">
+                <div className="border-gold/25 bg-cream overflow-hidden border">
                   <motion.img
                     src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-iv-room.webp"
                     alt="IV room"
-                    className="h-[180px] w-full object-cover"
+                    className="h-45 w-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                   />
@@ -388,11 +388,11 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-b border-gold/30 bg-cream">
+      <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
-          <FadeInView className="mx-auto max-w-[900px] text-center">
+          <FadeInView className="mx-auto max-w-225 text-center">
             <p className="label-caps text-gold">Community Moments</p>
-            <h4 className="mt-4 font-serif text-[2.25rem] leading-[1.03] text-ink md:text-[2.9rem]">
+            <h4 className="text-ink mt-4 font-serif text-[2.25rem] leading-[1.03] md:text-[2.9rem]">
               Healthy living is also social, inspiring,
               <br />
               and deeply connected.
@@ -406,26 +406,26 @@ export default function Page() {
             {communityMoments.map((image, i) => (
               <StaggerItem
                 key={image.src}
-                className="group overflow-hidden border border-gold/25 bg-white"
+                className="group border-gold/25 overflow-hidden border bg-white"
               >
                 <button
                   onClick={() => setGalleryIndex(i)}
-                  className="relative block h-full w-full cursor-pointer overflow-hidden border-0 bg-transparent p-0 appearance-none"
+                  className="relative block h-full w-full cursor-pointer appearance-none overflow-hidden border-0 bg-transparent p-0"
                   aria-label={`Open gallery image ${i + 1}`}
                 >
                   <motion.img
                     src={image.src}
                     alt={image.alt}
-                    className="aspect-video w-full object-cover transition-transform duration-[1700ms] ease-out group-hover:scale-[1.07]"
+                    className="aspect-video w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.07]"
                     whileHover={{ scale: 1.07 }}
                     transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="pointer-events-none absolute bottom-3 left-3 right-3 flex items-center justify-between text-white/90 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    <span className="text-[10px] uppercase tracking-[0.2em]">
+                  <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="pointer-events-none absolute right-3 bottom-3 left-3 flex items-center justify-between text-white/90 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <span className="text-[10px] tracking-[0.2em] uppercase">
                       View Image
                     </span>
-                    <span className="text-[10px] uppercase tracking-[0.2em]">
+                    <span className="text-[10px] tracking-[0.2em] uppercase">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
@@ -434,8 +434,8 @@ export default function Page() {
             ))}
           </StaggerContainer>
 
-          <FadeInView className="mx-auto mt-14 w-full max-w-[1120px] text-center">
-            <p className="mx-auto max-w-[920px] text-[1.05rem] leading-8 text-ink/80 md:text-[1.16rem] md:leading-9">
+          <FadeInView className="mx-auto mt-14 w-full max-w-280 text-center">
+            <p className="text-ink/80 mx-auto max-w-230 text-[1.05rem] leading-8 md:text-[1.16rem] md:leading-9">
               From yoga and pilates classes to pool activities, networking, and
               curated social events, the wellness journey extends into
               community.
@@ -459,7 +459,7 @@ export default function Page() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28, ease: "easeOut" }}
-            className="fixed inset-0 z-[140] flex items-center justify-center bg-black/88 px-4 py-10 md:px-8"
+            className="fixed inset-0 z-140 flex items-center justify-center bg-black/88 px-4 py-10 md:px-8"
             onClick={() => setGalleryIndex(-1)}
           >
             <button
@@ -500,7 +500,7 @@ export default function Page() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98, y: 8 }}
               transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-[1320px]"
+              className="relative w-full max-w-330"
               onClick={(event) => event.stopPropagation()}
             >
               <img
@@ -508,7 +508,7 @@ export default function Page() {
                 alt={communityMoments[galleryIndex].alt}
                 className="max-h-[82vh] w-full object-contain"
               />
-              <figcaption className="mt-4 text-center text-[12px] uppercase tracking-[0.18em] text-white/80">
+              <figcaption className="mt-4 text-center text-[12px] tracking-[0.18em] text-white/80 uppercase">
                 {galleryIndex + 1} / {communityMoments.length}
               </figcaption>
             </motion.figure>

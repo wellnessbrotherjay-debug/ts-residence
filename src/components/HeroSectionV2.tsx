@@ -68,7 +68,7 @@ const GoldRule = ({
   width?: number;
 }) => (
   <motion.div
-    className="h-px bg-gold origin-center"
+    className="bg-gold h-px origin-center"
     initial={{ scaleX: 0, opacity: 0 }}
     animate={{ scaleX: 1, opacity: 1 }}
     transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
@@ -161,7 +161,7 @@ export const HeroSectionV2 = ({
           <img
             src={heroImage}
             alt="TS Residence"
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
           {!hasVideoError && (
             <video
@@ -181,7 +181,7 @@ export const HeroSectionV2 = ({
                 }
                 setHasVideoError(true);
               }}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
                 isVideoReady ? "opacity-100" : "opacity-0"
               }`}
             >
@@ -192,18 +192,18 @@ export const HeroSectionV2 = ({
 
         {/* Cinematic vignette gradient */}
         <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-black/80" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/30 via-transparent to-black/30" />
 
         {/* ── Cinematic entrance: two bars retract from center ── */}
         <motion.div
-          className="absolute top-0 inset-x-0 bg-[#090909] z-50 origin-top"
+          className="absolute inset-x-0 top-0 z-50 origin-top bg-[#090909]"
           initial={{ height: "55%" }}
           animate={{ height: "0%" }}
           transition={{ duration: 1.35, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}
         />
         <motion.div
-          className="absolute bottom-0 inset-x-0 bg-[#090909] z-50 origin-bottom"
+          className="absolute inset-x-0 bottom-0 z-50 origin-bottom bg-[#090909]"
           initial={{ height: "55%" }}
           animate={{ height: "0%" }}
           transition={{ duration: 1.35, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}
@@ -211,38 +211,38 @@ export const HeroSectionV2 = ({
 
         {/* ── Left chrome: slide counter ── */}
         <motion.div
-          className="absolute left-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center gap-3 z-20"
+          className="absolute top-1/2 left-8 z-20 hidden -translate-y-1/2 flex-col items-center gap-3 md:flex"
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: d.chrome }}
         >
-          <span className="text-white/70 text-[11px] font-mono tracking-[0.15em]">
+          <span className="font-mono text-[11px] tracking-[0.15em] text-white/70">
             {slideNum}
           </span>
           {/* Progress line */}
-          <div className="w-px h-16 bg-white/10 relative overflow-hidden rounded-full">
+          <div className="relative h-16 w-px overflow-hidden rounded-full bg-white/10">
             <motion.div
               key={currentSlide}
-              className="absolute top-0 inset-x-0 bg-gold rounded-full"
+              className="bg-gold absolute inset-x-0 top-0 rounded-full"
               initial={{ height: "0%" }}
               animate={{ height: "100%" }}
               transition={{ duration: 8, ease: "linear" }}
             />
           </div>
-          <span className="text-white/20 text-[11px] font-mono tracking-[0.15em]">
+          <span className="font-mono text-[11px] tracking-[0.15em] text-white/20">
             {totalNum}
           </span>
         </motion.div>
 
         {/* ── Right chrome: location text ── */}
         <motion.div
-          className="absolute right-8 top-1/2 -translate-y-1/2 hidden md:block z-20"
+          className="absolute top-1/2 right-8 z-20 hidden -translate-y-1/2 md:block"
           initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: d.chrome }}
         >
           <span
-            className="text-white/25 text-[9px] uppercase tracking-[0.42em] font-sans"
+            className="font-sans text-[9px] tracking-[0.42em] text-white/25 uppercase"
             style={{ writingMode: "vertical-rl" }}
           >
             Seminyak&nbsp;·&nbsp;Bali
@@ -250,7 +250,7 @@ export const HeroSectionV2 = ({
         </motion.div>
 
         {/* ── Center: main text (cross-fades between slides) ── */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-8">
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -258,18 +258,18 @@ export const HeroSectionV2 = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.55, ease: "easeInOut" }}
-              className="text-center w-full max-w-5xl"
+              className="w-full max-w-5xl text-center"
             >
               {/* Gold rules + tag */}
               <motion.div
-                className="flex items-center justify-center gap-4 mb-5"
+                className="mb-5 flex items-center justify-center gap-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.7, delay: d.tag }}
               >
                 <GoldRule delay={d.tag} />
                 <span
-                  className="text-white text-[11px] sm:text-[12px] uppercase tracking-[0.48em] font-sans font-semibold"
+                  className="font-sans text-[11px] font-semibold tracking-[0.48em] text-white uppercase sm:text-[12px]"
                   style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
                 >
                   {SLIDES[currentSlide].tag}
@@ -291,7 +291,7 @@ export const HeroSectionV2 = ({
 
               {/* Subtitle */}
               <motion.p
-                className="text-white/75 text-base sm:text-lg font-sans font-light tracking-wide max-w-sm sm:max-w-md mx-auto mb-11"
+                className="mx-auto mb-11 max-w-sm font-sans text-base font-light tracking-wide text-white/75 sm:max-w-md sm:text-lg"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -313,7 +313,7 @@ export const HeroSectionV2 = ({
                   ease: [0.16, 1, 0.3, 1],
                 }}
               >
-                <button className="group inline-flex items-center gap-3.5 border border-white/40 hover:border-gold/70 text-white/85 hover:text-gold text-[13px] uppercase tracking-[0.32em] font-sans px-10 py-5 transition-colors duration-500">
+                <button className="group hover:border-gold/70 hover:text-gold inline-flex items-center gap-3.5 border border-white/40 px-10 py-5 font-sans text-[13px] tracking-[0.32em] text-white/85 uppercase transition-colors duration-500">
                   <span>Explore the Residence</span>
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
@@ -334,27 +334,27 @@ export const HeroSectionV2 = ({
 
         {/* ── Bottom bar ── */}
         <motion.div
-          className="absolute bottom-8 inset-x-0 flex items-center justify-between px-8 z-20"
+          className="absolute inset-x-0 bottom-8 z-20 flex items-center justify-between px-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: isInitialMount ? 2.3 : 0 }}
         >
           {/* Star rating */}
-          <div className="hidden md:flex items-center gap-2.5">
+          <div className="hidden items-center gap-2.5 md:flex">
             <span className="text-gold text-[11px] tracking-wide">★★★★★</span>
-            <div className="w-px h-3 bg-white/15" />
-            <span className="text-white/22 text-[9px] uppercase tracking-[0.32em] font-sans">
+            <div className="h-3 w-px bg-white/15" />
+            <span className="font-sans text-[9px] tracking-[0.32em] text-white/22 uppercase">
               Five Star
             </span>
           </div>
 
           {/* Slide progress indicators */}
-          <div className="flex items-center gap-2.5 mx-auto md:mx-0">
+          <div className="mx-auto flex items-center gap-2.5 md:mx-0">
             {SLIDES.map((_, i) => (
               <button
                 key={i}
                 onClick={() => handleSlideClick(i)}
-                className="relative h-0.5 overflow-hidden transition-all duration-500 cursor-pointer"
+                className="relative h-0.5 cursor-pointer overflow-hidden transition-all duration-500"
                 style={{ width: i === currentSlide ? 52 : 16 }}
                 aria-label={`Go to slide ${i + 1}`}
               >
@@ -362,7 +362,7 @@ export const HeroSectionV2 = ({
                 {i === currentSlide && (
                   <motion.div
                     key={currentSlide}
-                    className="absolute top-0 left-0 h-full bg-gold"
+                    className="bg-gold absolute top-0 left-0 h-full"
                     initial={{ width: "0%" }}
                     animate={{ width: "100%" }}
                     transition={{ duration: 8, ease: "linear" }}
@@ -373,9 +373,9 @@ export const HeroSectionV2 = ({
           </div>
 
           {/* Scroll hint */}
-          <div className="hidden md:flex flex-col items-center gap-2">
+          <div className="hidden flex-col items-center gap-2 md:flex">
             <span
-              className="text-white/22 text-[9px] uppercase tracking-[0.35em] font-sans"
+              className="font-sans text-[9px] tracking-[0.35em] text-white/22 uppercase"
               style={{ writingMode: "vertical-rl" }}
             >
               Scroll
@@ -387,7 +387,7 @@ export const HeroSectionV2 = ({
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="w-px h-6 bg-gradient-to-b from-white/25 to-transparent"
+              className="h-6 w-px bg-linear-to-b from-white/25 to-transparent"
             />
           </div>
         </motion.div>

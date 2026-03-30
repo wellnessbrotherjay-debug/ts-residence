@@ -19,15 +19,15 @@ export const HealthyLivingPage = () => {
 
   return (
     <div className="pt-32 pb-20">
-      <section className="px-6 md:px-10 max-w-[1400px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+      <section className="mx-auto max-w-[1400px] px-6 md:px-10">
+        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-20">
           <FadeInView direction="left">
             <div className="space-y-10">
               <div>
                 <span className="label-caps text-gold">
                   Wellness & Recovery
                 </span>
-                <h1 className="heading-display text-5xl md:text-6xl lg:text-7xl text-ink mt-4">
+                <h1 className="heading-display text-ink mt-4 text-5xl md:text-6xl lg:text-7xl">
                   Healthy Living
                 </h1>
               </div>
@@ -36,10 +36,10 @@ export const HealthyLivingPage = () => {
                 Seminyak's premier location.
               </p>
               <div>
-                <h2 className="text-2xl md:text-3xl font-serif text-ink mb-3">
+                <h2 className="text-ink mb-3 font-serif text-2xl md:text-3xl">
                   No.1 Wellness Club
                 </h2>
-                <p className="text-sm font-serif text-gold italic mb-4">
+                <p className="text-gold mb-4 font-serif text-sm italic">
                   You are our number one. Your well-being is our number one.
                 </p>
                 <p className="text-body max-w-lg">
@@ -56,7 +56,7 @@ export const HealthyLivingPage = () => {
                 src={heroImage}
                 alt="No.1 Wellness Club"
                 category="healthy"
-                className="w-full h-full"
+                className="h-full w-full"
                 onImageChange={setHeroImage}
               />
             </div>

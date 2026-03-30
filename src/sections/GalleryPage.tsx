@@ -47,16 +47,16 @@ export const GalleryPage = () => {
   ];
 
   return (
-    <div className="pt-32 pb-40 px-6 md:px-10 max-w-[1400px] mx-auto">
+    <div className="mx-auto max-w-[1400px] px-6 pt-32 pb-40 md:px-10">
       <FadeInView className="mb-20">
         <span className="label-caps text-gold">Visual Journey</span>
-        <h1 className="heading-display text-5xl md:text-6xl lg:text-7xl text-ink mt-4">
+        <h1 className="heading-display text-ink mt-4 text-5xl md:text-6xl lg:text-7xl">
           Gallery
         </h1>
       </FadeInView>
 
       <StaggerContainer
-        className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-20"
+        className="grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2"
         staggerDelay={0.15}
       >
         {categories.map((cat) => {
@@ -67,27 +67,27 @@ export const GalleryPage = () => {
 
           return (
             <StaggerItem key={cat.name}>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-11 h-11 rounded-full overflow-hidden border border-gold/20">
+              <div className="mb-6 flex items-center gap-4">
+                <div className="border-gold/20 h-11 w-11 overflow-hidden rounded-full border">
                   <img
                     src={cat.avatar}
                     alt={cat.name}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                   />
                 </div>
                 <div>
-                  <h4 className="text-sm font-sans font-semibold text-ink">
+                  <h4 className="text-ink font-sans text-sm font-semibold">
                     {cat.name}
                   </h4>
-                  <p className="text-xs text-muted">{cat.handle}</p>
+                  <p className="text-muted text-xs">{cat.handle}</p>
                 </div>
               </div>
-              <div className="img-zoom aspect-[16/10] cursor-pointer relative">
+              <div className="img-zoom relative aspect-[16/10] cursor-pointer">
                 <EditableImage
                   src={displayImg}
                   alt={cat.name}
                   category={cat.filter}
-                  className="w-full h-full"
+                  className="h-full w-full"
                   onImageChange={() => {
                     listImages().then((d) => setImages(d));
                   }}
@@ -96,7 +96,7 @@ export const GalleryPage = () => {
                     <img
                       src={src}
                       alt={cat.name}
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover"
                       referrerPolicy="no-referrer"
                     />
                   )}

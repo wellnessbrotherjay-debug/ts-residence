@@ -31,7 +31,7 @@ export default function RootLayout({
       className={`${sans.variable} ${serif.variable} h-full scroll-smooth antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <div className="min-h-screen bg-cream text-ink">
+        <div className="bg-cream text-ink min-h-screen">
           <Navbar />
           <main className="flex-1 pt-24 lg:pt-28">{children}</main>
           <Footer />
@@ -39,7 +39,7 @@ export default function RootLayout({
             href="https://wa.me/6281119028111"
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed right-8 bottom-8 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-sm font-semibold uppercase tracking-[0.14em] text-white shadow-2xl transition-transform duration-300 hover:scale-110"
+            className="fixed right-8 bottom-8 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-sm font-semibold tracking-[0.14em] text-white uppercase shadow-2xl transition-transform duration-300 hover:scale-110"
             aria-label="Chat on WhatsApp"
           >
             WA

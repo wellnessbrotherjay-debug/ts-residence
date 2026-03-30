@@ -146,7 +146,7 @@ export const HeroSectionV3 = ({
 
           {/* ── RIGHT: Image / Video panel ── */}
           <motion.div
-            className="relative flex-1 md:flex-[0_0_62%] md:order-2 overflow-hidden"
+            className="relative flex-1 overflow-hidden md:order-2 md:flex-[0_0_62%]"
             initial={{ x: "8%", opacity: 0 }}
             animate={{ x: "0%", opacity: 1 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
@@ -168,7 +168,7 @@ export const HeroSectionV3 = ({
                   <img
                     src={heroImage}
                     alt="TS Residence"
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                   />
                   {!hasVideoError && (
                     <video
@@ -188,7 +188,7 @@ export const HeroSectionV3 = ({
                         }
                         setHasVideoError(true);
                       }}
-                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
                         isVideoReady ? "opacity-100" : "opacity-0"
                       }`}
                     >
@@ -197,20 +197,20 @@ export const HeroSectionV3 = ({
                   )}
                 </motion.div>
                 {/* Subtle left-edge gradient to blend into panel */}
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-black/30" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent md:hidden" />
+                <div className="absolute inset-0 bg-linear-to-l from-transparent via-transparent to-black/30" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent md:hidden" />
               </motion.div>
             </AnimatePresence>
 
             {/* Bottom-left: location tag on image (desktop only) */}
             <motion.div
-              className="absolute bottom-8 left-8 hidden md:flex items-center gap-2 z-10"
+              className="absolute bottom-8 left-8 z-10 hidden items-center gap-2 md:flex"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.8 }}
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-              <span className="text-white/60 text-[10px] uppercase tracking-[0.38em] font-sans">
+              <div className="bg-gold h-1.5 w-1.5 rounded-full" />
+              <span className="font-sans text-[10px] tracking-[0.38em] text-white/60 uppercase">
                 Seminyak, Bali
               </span>
             </motion.div>
@@ -218,14 +218,7 @@ export const HeroSectionV3 = ({
 
           {/* ── LEFT: Text panel ── */}
           <motion.div
-            className="
-              absolute bottom-0 left-0 right-0 md:static
-              md:flex-[0_0_38%] md:order-1
-              bg-[#0c0c0c]/90 md:bg-[#0c0c0c]
-              flex flex-col justify-between
-              px-8 pt-8 pb-8
-              md:px-12 md:pt-14 md:pb-10
-            "
+            className="absolute right-0 bottom-0 left-0 flex flex-col justify-between bg-[#0c0c0c]/90 px-8 pt-8 pb-8 md:static md:order-1 md:flex-[0_0_38%] md:bg-[#0c0c0c] md:px-12 md:pt-14 md:pb-10"
             initial={{ x: "-8%", opacity: 0 }}
             animate={{ x: "0%", opacity: 1 }}
             transition={{
@@ -235,14 +228,14 @@ export const HeroSectionV3 = ({
             }}
           >
             {/* Thin vertical gold accent line on right edge (desktop) */}
-            <div className="absolute right-0 top-16 bottom-16 w-px bg-gold/30 hidden md:block" />
+            <div className="bg-gold/30 absolute top-16 right-0 bottom-16 hidden w-px md:block" />
 
             {/* ── Top row: slide number + nav dots ── */}
-            <div className="flex items-center justify-between mb-auto md:mb-0">
+            <div className="mb-auto flex items-center justify-between md:mb-0">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentSlide}
-                  className="font-mono text-[11px] text-white/30 tracking-[0.2em]"
+                  className="font-mono text-[11px] tracking-[0.2em] text-white/30"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -258,10 +251,10 @@ export const HeroSectionV3 = ({
                   <button
                     key={i}
                     onClick={() => handleSlideClick(i)}
-                    className={`transition-all duration-500 rounded-full ${
+                    className={`rounded-full transition-all duration-500 ${
                       i === currentSlide
-                        ? "w-5 h-1 bg-gold"
-                        : "w-1 h-1 bg-white/20 hover:bg-white/40"
+                        ? "bg-gold h-1 w-5"
+                        : "h-1 w-1 bg-white/20 hover:bg-white/40"
                     }`}
                     aria-label={`Slide ${i + 1}`}
                   />
@@ -270,19 +263,19 @@ export const HeroSectionV3 = ({
             </div>
 
             {/* ── Main text ── */}
-            <div className="flex-1 flex flex-col justify-center my-6 md:my-0 md:py-10">
+            <div className="my-6 flex flex-1 flex-col justify-center md:my-0 md:py-10">
               <AnimatePresence mode="wait">
                 <div key={currentSlide}>
                   {/* Tag */}
                   <motion.div
-                    className="flex items-center gap-3 mb-5 md:mb-7"
+                    className="mb-5 flex items-center gap-3 md:mb-7"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.4, delay: d.tag }}
                   >
-                    <div className="h-px w-8 bg-gold/60" />
-                    <span className="text-gold/80 text-[12px] uppercase tracking-[0.4em] font-sans font-medium">
+                    <div className="bg-gold/60 h-px w-8" />
+                    <span className="text-gold/80 font-sans text-[12px] font-medium tracking-[0.4em] uppercase">
                       {slide.tag}
                     </span>
                   </motion.div>
@@ -290,7 +283,7 @@ export const HeroSectionV3 = ({
                   {/* Title line A */}
                   <LineReveal delay={d.titleA}>
                     <h1
-                      className="heading-display text-white leading-none"
+                      className="heading-display leading-none text-white"
                       style={{ fontSize: "clamp(2.8rem, 4vw, 5rem)" }}
                     >
                       {slide.titleA}
@@ -300,7 +293,7 @@ export const HeroSectionV3 = ({
                   {/* Title line B — italic for elegance */}
                   <LineReveal delay={d.titleB} className="mb-6 md:mb-8">
                     <h1
-                      className="heading-display text-white leading-none italic"
+                      className="heading-display leading-none text-white italic"
                       style={{ fontSize: "clamp(2.8rem, 4vw, 5rem)" }}
                     >
                       {slide.titleB}
@@ -309,7 +302,7 @@ export const HeroSectionV3 = ({
 
                   {/* Subtitle */}
                   <motion.p
-                    className="text-white/60 text-base md:text-lg font-sans font-light leading-relaxed mb-7 md:mb-9"
+                    className="mb-7 font-sans text-base leading-relaxed font-light text-white/60 md:mb-9 md:text-lg"
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
@@ -324,7 +317,7 @@ export const HeroSectionV3 = ({
 
                   {/* Amenity tags */}
                   <motion.div
-                    className="flex flex-wrap gap-2 mb-8 md:mb-10"
+                    className="mb-8 flex flex-wrap gap-2 md:mb-10"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -333,7 +326,7 @@ export const HeroSectionV3 = ({
                     {slide.amenities.map((tag, i) => (
                       <span
                         key={i}
-                        className="text-white/45 text-[11px] uppercase tracking-[0.28em] font-sans border border-white/15 px-3.5 py-2"
+                        className="border border-white/15 px-3.5 py-2 font-sans text-[11px] tracking-[0.28em] text-white/45 uppercase"
                       >
                         {tag}
                       </span>
@@ -346,7 +339,7 @@ export const HeroSectionV3 = ({
             {/* ── Bottom: CTA + star rating ── */}
             <div className="flex items-center justify-between gap-4">
               <motion.button
-                className="group flex items-center gap-3 bg-gold/90 hover:bg-gold text-[#0c0c0c] text-[13px] uppercase tracking-[0.28em] font-sans font-semibold px-8 py-5 transition-colors duration-300"
+                className="group bg-gold/90 hover:bg-gold flex items-center gap-3 px-8 py-5 font-sans text-[13px] font-semibold tracking-[0.28em] text-[#0c0c0c] uppercase transition-colors duration-300"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -377,7 +370,7 @@ export const HeroSectionV3 = ({
                 <span className="text-gold text-[11px] tracking-wider">
                   ★★★★★
                 </span>
-                <span className="text-white/20 text-[8px] uppercase tracking-[0.3em] font-sans">
+                <span className="font-sans text-[8px] tracking-[0.3em] text-white/20 uppercase">
                   Five Star
                 </span>
               </motion.div>

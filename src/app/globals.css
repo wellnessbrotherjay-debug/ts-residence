@@ -54,12 +54,12 @@
 
 /* Nav link with animated underline */
 .nav-link {
-  @apply text-[15px] uppercase tracking-[0.1em] font-sans font-semibold transition-all duration-300 relative;
+  @apply relative font-sans text-[15px] font-semibold tracking-[0.1em] uppercase transition-all duration-300;
 }
 
 .nav-link::after {
   content: "";
-  @apply absolute bottom-0 left-0 w-0 h-px bg-current transition-all duration-500;
+  @apply absolute bottom-0 left-0 h-px w-0 bg-current transition-all duration-500;
 }
 
 .nav-link:hover::after {
@@ -68,16 +68,16 @@
 
 /* Label style */
 .label-caps {
-  @apply text-[12px] uppercase tracking-[0.32em] font-sans font-medium text-muted;
+  @apply text-muted font-sans text-[12px] font-medium tracking-[0.32em] uppercase;
 }
 
 /* Headings */
 .heading-display {
-  @apply font-serif font-light leading-[1.02] tracking-[-0.02em];
+  @apply font-serif leading-[1.02] font-light tracking-[-0.02em];
 }
 
 .heading-section {
-  @apply font-serif font-normal text-4xl leading-[1.02] tracking-[-0.03em];
+  @apply font-serif text-4xl leading-[1.02] font-normal tracking-[-0.03em];
 }
 
 @media (min-width: 768px) {
@@ -98,7 +98,7 @@
 
 /* Section padding */
 .section-pad {
-  @apply py-28 px-6;
+  @apply px-6 py-28;
 }
 
 @media (min-width: 768px) {
@@ -132,7 +132,7 @@
 }
 
 .card-surface {
-  @apply border border-gold/20 bg-white shadow-[0_20px_60px_rgba(28,25,23,0.06)];
+  @apply border-gold/20 border bg-white shadow-[0_20px_60px_rgba(28,25,23,0.06)];
 }
 
 .image-frame {
@@ -140,7 +140,7 @@
 }
 
 .soft-divider {
-  @apply h-px w-full bg-gradient-to-r from-transparent via-gold/35 to-transparent;
+  @apply via-gold/35 h-px w-full bg-gradient-to-r from-transparent to-transparent;
 }
 
 /* Scrollbar */

@@ -109,34 +109,34 @@ export const Navbar = () => {
         initial={{ y: -64, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={`fixed top-0 left-0 w-full z-60 border-b border-gold/35 transition-all duration-700 ${
+        className={`border-gold/35 fixed top-0 left-0 z-60 w-full border-b transition-all duration-700 ${
           isScrolled
-            ? "bg-white/72 backdrop-blur-2xl shadow-[0_6px_28px_rgba(0,0,0,0.06)]"
+            ? "bg-white/72 shadow-[0_6px_28px_rgba(0,0,0,0.06)] backdrop-blur-2xl"
             : "bg-cream"
         }`}
       >
         <div className="w-full px-4">
           {/* Mobile Header */}
-          <div className="lg:hidden flex items-center justify-between">
+          <div className="flex items-center justify-between lg:hidden">
             <div className="w-10" />
             <button
               onClick={() => setPage("home")}
-              className="flex flex-col items-center gap-0.5 group"
+              className="group flex flex-col items-center gap-0.5"
             >
               <div className="flex items-baseline gap-0">
-                <span className="text-3xl font-serif font-light tracking-tight transition-colors duration-500 text-ink">
+                <span className="text-ink font-serif text-3xl font-light tracking-tight transition-colors duration-500">
                   T
                 </span>
-                <span className="text-3xl font-serif font-light tracking-tight transition-colors duration-500 text-ink">
+                <span className="text-ink font-serif text-3xl font-light tracking-tight transition-colors duration-500">
                   S
                 </span>
               </div>
-              <span className="text-[8px] tracking-[0.45em] uppercase font-sans font-semibold transition-colors duration-500 text-ink/50">
+              <span className="text-ink/50 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase transition-colors duration-500">
                 Residence
               </span>
             </button>
             <button
-              className="p-2 transition-colors text-ink"
+              className="text-ink p-2 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <Menu size={24} />
@@ -152,22 +152,22 @@ export const Navbar = () => {
                 height: showTopLogo ? 64 : 0,
               }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="flex justify-center items-center overflow-hidden border-b border-gold/35"
+              className="border-gold/35 flex items-center justify-center overflow-hidden border-b"
               style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
             >
               <button
                 onClick={() => setPage("home")}
-                className="justify-self-center flex flex-col items-center gap-1 text-ink"
+                className="text-ink flex flex-col items-center gap-1 justify-self-center"
               >
                 <div className="flex items-baseline gap-0">
-                  <span className="text-4xl font-serif font-light leading-none tracking-tight text-ink">
+                  <span className="text-ink font-serif text-4xl leading-none font-light tracking-tight">
                     T
                   </span>
-                  <span className="text-4xl font-serif font-light leading-none tracking-tight text-ink">
+                  <span className="text-ink font-serif text-4xl leading-none font-light tracking-tight">
                     S
                   </span>
                 </div>
-                <span className="text-[8px] tracking-[0.45em] uppercase font-sans font-semibold text-ink/55">
+                <span className="text-ink/55 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase">
                   Residence
                 </span>
               </button>
@@ -179,7 +179,7 @@ export const Navbar = () => {
                   <button
                     key={item.label}
                     onClick={() => handleNavClick(item.value)}
-                    className={`nav-link text-ink/70 hover:text-ink ${currentPage === item.value ? "font-medium text-ink" : ""}`}
+                    className={`nav-link text-ink/70 hover:text-ink ${currentPage === item.value ? "text-ink font-medium" : ""}`}
                   >
                     {item.label}
                   </button>
@@ -187,7 +187,7 @@ export const Navbar = () => {
               </div>
               <button
                 onClick={() => setPage("contact")}
-                className="absolute right-0  bg-[#8b7658] px-10 py-3 text-[14px] font-sans font-semibold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#755f44]"
+                className="absolute right-0 bg-[#8b7658] px-10 py-3 font-sans text-[14px] font-semibold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#755f44]"
               >
                 Book now
               </button>
@@ -204,7 +204,7 @@ export const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-[100] bg-cream flex flex-col"
+            className="bg-cream fixed inset-0 z-100 flex flex-col"
           >
             <div className="flex items-center justify-between px-6 py-5">
               <button
@@ -212,26 +212,26 @@ export const Navbar = () => {
                 className="flex flex-col items-center gap-0.5"
               >
                 <div className="flex items-baseline">
-                  <span className="text-3xl font-serif font-light text-ink">
+                  <span className="text-ink font-serif text-3xl font-light">
                     T
                   </span>
-                  <span className="text-3xl font-serif font-light text-ink">
+                  <span className="text-ink font-serif text-3xl font-light">
                     S
                   </span>
                 </div>
-                <span className="text-[8px] tracking-[0.45em] uppercase font-sans font-semibold text-ink/60">
+                <span className="text-ink/60 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase">
                   Residence
                 </span>
               </button>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 text-ink"
+                className="text-ink p-2"
               >
                 <X size={24} />
               </button>
             </div>
 
-            <div className="flex-1 flex flex-col items-center justify-center gap-1">
+            <div className="flex flex-1 flex-col items-center justify-center gap-1">
               {allNav.map((item, i) => (
                 <motion.button
                   key={item.label}
@@ -242,14 +242,14 @@ export const Navbar = () => {
                     handleNavClick(item.value);
                     setIsMenuOpen(false);
                   }}
-                  className="text-3xl md:text-4xl font-serif font-light text-ink hover:text-gold transition-colors py-3"
+                  className="text-ink hover:text-gold py-3 font-serif text-3xl font-light transition-colors md:text-4xl"
                 >
                   {item.label}
                 </motion.button>
               ))}
             </div>
 
-            <div className="px-6 pb-10 flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center gap-6 px-6 pb-10">
               <button
                 onClick={() => {
                   setPage("contact");

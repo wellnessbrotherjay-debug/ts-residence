@@ -151,28 +151,28 @@ export default function Page() {
   }, [activeCollection, activeImage]);
 
   return (
-    <div className="overflow-x-hidden bg-cream">
-      <section className="relative min-h-[72vh] overflow-hidden border-y border-gold/30 md:min-h-[86vh]">
+    <div className="bg-cream overflow-x-hidden">
+      <section className="border-gold/30 relative min-h-[72vh] overflow-hidden border-y md:min-h-[86vh]">
         <img
           src="https://tsresidence.id/wp-content/uploads/2025/08/ts-residence-img.webp"
           alt="TS Residence Gallery"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/52 via-black/34 to-black/66" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/66" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
         <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
         <div className="relative flex min-h-[72vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[86vh] md:px-12 md:py-22 lg:px-20 lg:py-24 xl:px-28">
-          <FadeInView className="w-full max-w-[1200px] text-white">
-            <div className="inline-flex items-center gap-3 border border-gold/45 bg-black/58 px-5 py-2.5">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-light">
+          <FadeInView className="w-full max-w-300 text-white">
+            <div className="border-gold/45 inline-flex items-center gap-3 border bg-black/58 px-5 py-2.5">
+              <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
                 Gallery
               </span>
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-gold-light opacity-75 [animation:ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite]" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-light" />
+                <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
+                <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
               </span>
-              <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/95">
+              <span className="text-[11px] font-medium tracking-[0.2em] text-white/95 uppercase">
                 Visual Journey
               </span>
             </div>
@@ -183,21 +183,21 @@ export default function Page() {
               life at TS Residence.
             </h1>
 
-            <p className="mx-auto mt-9 max-w-[760px] text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9">
+            <p className="mx-auto mt-9 max-w-190 text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9">
               Explore apartment ambiance, five-star facilities, wellness
               culture, and everyday long-stay experiences in Seminyak.
             </p>
 
-            <div className="mx-auto mt-9 h-px w-full max-w-[460px] bg-gradient-to-r from-transparent via-gold/55 to-transparent" />
+            <div className="via-gold/55 mx-auto mt-9 h-px w-full max-w-115 bg-linear-to-r from-transparent to-transparent" />
           </FadeInView>
         </div>
       </section>
 
-      <section className="border-b border-gold/30 bg-white">
-        <div className="mx-auto w-full max-w-[1760px] px-6 py-16 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
-          <FadeInView className="mb-14 max-w-[1020px]">
+      <section className="border-gold/30 border-b bg-white">
+        <div className="mx-auto w-full max-w-440 px-6 py-16 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
+          <FadeInView className="mb-14 max-w-255">
             <p className="label-caps text-gold">Official Channels</p>
-            <h2 className="mt-4 font-serif text-[2.3rem] leading-[1.03] text-ink md:text-[3.2rem]">
+            <h2 className="text-ink mt-4 font-serif text-[2.3rem] leading-[1.03] md:text-[3.2rem]">
               Explore visual stories from
               <br />
               each TS ecosystem.
@@ -205,13 +205,13 @@ export default function Page() {
           </FadeInView>
 
           <StaggerContainer
-            className="mb-16 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4 lg:gap-6"
+            className="mb-16 grid grid-cols-1 gap-5 md:grid-cols-2 lg:gap-6 xl:grid-cols-4"
             staggerDelay={0.12}
           >
             {officialAccounts.map((account) => (
               <StaggerItem
                 key={account.name}
-                className="border border-gold/25 bg-cream transition-all duration-700 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(28,25,23,0.08)]"
+                className="border-gold/25 bg-cream border transition-all duration-700 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(28,25,23,0.08)]"
               >
                 <a
                   href={account.href}
@@ -219,7 +219,7 @@ export default function Page() {
                   rel="noopener noreferrer"
                   className="flex h-full cursor-pointer items-center gap-4 p-6"
                 >
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border border-gold/30 bg-white">
+                  <div className="border-gold/30 flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border bg-white">
                     <img
                       src={account.logo}
                       alt={account.name}
@@ -227,10 +227,10 @@ export default function Page() {
                     />
                   </div>
                   <div>
-                    <p className="font-serif text-[1.4rem] leading-none text-ink">
+                    <p className="text-ink font-serif text-[1.4rem] leading-none">
                       {account.name}
                     </p>
-                    <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-ink/60">
+                    <p className="text-ink/60 mt-2 text-[11px] tracking-[0.2em] uppercase">
                       {account.handle}
                     </p>
                   </div>
@@ -239,9 +239,9 @@ export default function Page() {
             ))}
           </StaggerContainer>
 
-          <FadeInView className="mb-12 max-w-[1080px]">
+          <FadeInView className="mb-12 max-w-270">
             <p className="label-caps text-gold">Collections</p>
-            <h2 className="mt-4 font-serif text-[2.3rem] leading-[1.03] text-ink md:text-[3.2rem]">
+            <h2 className="text-ink mt-4 font-serif text-[2.3rem] leading-[1.03] md:text-[3.2rem]">
               Curated visual sets from
               <br />
               each lifestyle experience.
@@ -255,35 +255,35 @@ export default function Page() {
             {collections.map((collection, collectionIndex) => (
               <StaggerItem
                 key={collection.name}
-                className="group overflow-hidden border border-gold/25 bg-cream"
+                className="group border-gold/25 bg-cream overflow-hidden border"
               >
                 <button
                   onClick={() => {
                     setActiveCollection(collectionIndex);
                     setActiveImage(0);
                   }}
-                  className="block h-full w-full cursor-pointer border-0 bg-transparent p-0 text-left appearance-none"
+                  className="block h-full w-full cursor-pointer appearance-none border-0 bg-transparent p-0 text-left"
                 >
                   <div className="overflow-hidden">
                     <img
                       src={collection.cover}
                       alt={collection.name}
-                      className="h-[260px] w-full object-cover transition-transform duration-[1700ms] ease-out group-hover:scale-[1.05] md:h-[300px]"
+                      className="h-65 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05] md:h-75"
                     />
                   </div>
                   <div className="p-6 md:p-7">
                     <div className="flex items-center justify-between">
-                      <p className="font-serif text-[2rem] leading-none text-ink">
+                      <p className="text-ink font-serif text-[2rem] leading-none">
                         {collection.name}
                       </p>
                       <span className="label-caps text-gold-dark">
                         {collection.images.length} Photos
                       </span>
                     </div>
-                    <p className="mt-4 text-[1rem] leading-8 text-ink/80">
+                    <p className="text-ink/80 mt-4 text-[1rem] leading-8">
                       {collection.description}
                     </p>
-                    <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-ink/55">
+                    <p className="text-ink/55 mt-4 text-[11px] tracking-[0.2em] uppercase">
                       {collection.handle}
                     </p>
                   </div>
@@ -294,12 +294,12 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-b border-gold/30 bg-cream">
+      <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <FadeInView className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="label-caps text-gold">All Moments</p>
-              <h3 className="mt-3 font-serif text-[2rem] leading-[1.03] text-ink md:text-[2.7rem]">
+              <h3 className="text-ink mt-3 font-serif text-[2rem] leading-[1.03] md:text-[2.7rem]">
                 Browse by category.
               </h3>
             </div>
@@ -310,10 +310,10 @@ export default function Page() {
                   onClick={() => {
                     startTransition(() => setSelectedCollection(item));
                   }}
-                  className={`cursor-pointer border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-500 ${
+                  className={`cursor-pointer border px-4 py-2 text-[11px] font-medium tracking-[0.2em] uppercase transition-all duration-500 ${
                     selectedCollection === item
                       ? "border-gold bg-gold text-white"
-                      : "border-gold/35 bg-white text-ink hover:border-gold hover:text-gold-dark"
+                      : "border-gold/35 text-ink hover:border-gold hover:text-gold-dark bg-white"
                   }`}
                 >
                   {item}
@@ -333,7 +333,7 @@ export default function Page() {
               {filteredImages.map((item, index) => (
                 <StaggerItem
                   key={`${item.src}-${index}`}
-                  className="group overflow-hidden border border-gold/25 bg-white"
+                  className="group border-gold/25 overflow-hidden border bg-white"
                 >
                   <button
                     onClick={() => {
@@ -348,14 +348,14 @@ export default function Page() {
                       setActiveCollection(collectionIndex);
                       setActiveImage(imageIndex);
                     }}
-                    className="relative block h-full w-full cursor-pointer border-0 bg-transparent p-0 appearance-none"
+                    className="relative block h-full w-full cursor-pointer appearance-none border-0 bg-transparent p-0"
                   >
                     <img
                       src={item.src}
                       alt={item.collection}
-                      className="aspect-video w-full object-cover transition-transform duration-[1700ms] ease-out group-hover:scale-[1.07]"
+                      className="aspect-video w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.07]"
                     />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </button>
                 </StaggerItem>
               ))}
@@ -371,7 +371,7 @@ export default function Page() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28, ease: "easeOut" }}
-            className="fixed inset-0 z-[140] flex items-center justify-center bg-black/88 px-4 py-10 md:px-8"
+            className="fixed inset-0 z-140 flex items-center justify-center bg-black/88 px-4 py-10 md:px-8"
             onClick={() => {
               setActiveCollection(-1);
               setActiveImage(-1);
@@ -421,7 +421,7 @@ export default function Page() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98, y: 8 }}
               transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-[1320px]"
+              className="relative w-full max-w-330"
               onClick={(event) => event.stopPropagation()}
             >
               <img
@@ -429,7 +429,7 @@ export default function Page() {
                 alt={collections[activeCollection].name}
                 className="max-h-[82vh] w-full object-contain"
               />
-              <figcaption className="mt-4 text-center text-[12px] uppercase tracking-[0.18em] text-white/80">
+              <figcaption className="mt-4 text-center text-[12px] tracking-[0.18em] text-white/80 uppercase">
                 {collections[activeCollection].name} | {activeImage + 1} /{" "}
                 {collections[activeCollection].images.length}
               </figcaption>
