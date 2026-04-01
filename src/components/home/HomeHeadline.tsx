@@ -3,7 +3,7 @@ import { FadeInView } from "../animations";
 import type { Page } from "../../types";
 
 export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
-  <section className="bg-white px-6 py-24 md:px-12 lg:px-20 lg:py-40 xl:px-28">
+  <section className="bg-white px-6 py-14 md:px-12 md:py-20 lg:px-20 lg:py-40 xl:px-28">
     <div className="text-center">
       <FadeInView>
         <span className="label-caps text-gold">Seminyak, Bali</span>
@@ -34,7 +34,7 @@ export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
     </div>
 
     <FadeInView delay={0.5}>
-      <div className="border-gold/35 mt-20 grid grid-cols-1 border-t md:grid-cols-3">
+      <div className="border-gold/35 mt-12 grid grid-cols-1 border-t md:mt-16 md:grid-cols-3 lg:mt-20">
         {[
           [
             "Prime Address",
@@ -51,7 +51,7 @@ export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
         ].map(([title, desc]) => (
           <div
             key={title}
-            className="not-last:border-gold/20 px-0 py-10 text-center not-last:border-b md:px-10 md:not-last:border-r md:not-last:border-b-0 lg:px-14"
+            className="not-last:border-gold/20 px-0 py-7 text-center not-last:border-b md:px-10 md:py-10 md:not-last:border-r md:not-last:border-b-0 lg:px-14"
           >
             <p className="label-caps text-gold">{title}</p>
             <p className="text-body text-ink-light mt-5">{desc}</p>

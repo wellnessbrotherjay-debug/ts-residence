@@ -364,9 +364,9 @@ export function EasyLivingPageContent() {
 export function ContactPageContent() {
   return (
     <div className="section-shell py-12 pb-20 lg:py-16">
-      <FadeInView className="mb-20">
+      <FadeInView className="mb-12 md:mb-16 lg:mb-20">
         <span className="label-caps text-gold">Get in Touch</span>
-        <h1 className="heading-display text-ink mt-4 mb-16 text-5xl md:text-6xl lg:text-7xl">
+        <h1 className="heading-display text-ink mt-4 mb-10 text-5xl md:mb-14 md:text-6xl lg:mb-16 lg:text-7xl">
           Let&apos;s talk about your long-stay
         </h1>
 
@@ -392,12 +392,12 @@ export function ContactPageContent() {
         </div>
       </FadeInView>
 
-      <FadeInView className="mb-24 grid grid-cols-1 items-start gap-12 bg-white p-8 md:p-14 lg:grid-cols-12 lg:gap-20 lg:p-20">
+      <FadeInView className="mb-14 grid grid-cols-1 items-start gap-12 bg-white p-8 md:mb-20 md:p-14 lg:mb-24 lg:grid-cols-12 lg:gap-20 lg:p-20">
         <div className="lg:col-span-5">
           <img
             src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80"
             alt="TS Residence"
-            className="aspect-4/5 h-full min-h-100 w-full object-cover"
+            className="aspect-4/5 h-full min-h-64 w-full object-cover md:min-h-80 lg:min-h-100"
           />
         </div>
 
@@ -457,8 +457,8 @@ export function ContactPageContent() {
         </div>
       </FadeInView>
 
-      <div className="border-gold/35 border-t pt-20">
-        <h2 className="text-ink mb-14 text-2xl md:text-3xl">
+      <div className="border-gold/35 border-t pt-12 md:pt-16 lg:pt-20">
+        <h2 className="text-ink mb-8 text-2xl md:mb-12 md:text-3xl lg:mb-14">
           Terms &amp; Conditions
         </h2>
         <div className="text-muted grid grid-cols-1 gap-10 text-[12px] leading-relaxed md:grid-cols-2 lg:grid-cols-4 lg:gap-16">

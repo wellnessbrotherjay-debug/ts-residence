@@ -48,7 +48,7 @@ const HeroTextContent = ({
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`heading-display text-6xl leading-none sm:text-7xl md:text-8xl lg:text-[9rem] xl:text-[11rem] ${
+        className={`heading-display text-5xl leading-none sm:text-6xl md:text-8xl lg:text-[9rem] xl:text-[11rem] ${
           isDark ? "text-ink" : "text-white"
         }`}
         style={
@@ -81,7 +81,7 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
   // Measured height of the text block (tag + title).
   const [textH, setTextH] = useState(160);
   // Keep top/bottom breathing room around text block in sync.
-  const visualGap = navbarH >= DESKTOP_NAVBAR_H ? 48 : 28;
+  const visualGap = navbarH >= DESKTOP_NAVBAR_H ? 48 : 16;
   const textTop = navbarH + visualGap;
 
   // imageStartPx: symmetric gaps above and below text (below navbar).
@@ -162,7 +162,12 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
   );
   const textScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.93]);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const imageWidth = useTransform(scrollYProgress, [0, 0.4], ["88%", "100%"]);
+  const imageWidthStart = navbarH >= DESKTOP_NAVBAR_H ? "88%" : "92%";
+  const imageWidth = useTransform(
+    scrollYProgress,
+    [0, 0.4],
+    [imageWidthStart, "100%"],
+  );
   const imageBorderRadius = useTransform(
     scrollYProgress,
     [0, 0.4],
@@ -212,7 +217,7 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
       className="relative"
       style={{
         position: "relative",
-        height: `${Math.round(viewportH * 1.7)}px`,
+        height: `${Math.round(viewportH * (navbarH >= DESKTOP_NAVBAR_H ? 1.7 : 1.35))}px`,
       }}
     >
       {/* Sticky container — one viewport tall in pixels */}

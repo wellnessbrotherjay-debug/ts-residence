@@ -66,7 +66,7 @@ const facilityCards = [
 export default function Page() {
   return (
     <div className="bg-cream overflow-x-hidden">
-      <section className="border-gold/30 relative min-h-[76vh] overflow-hidden border-y md:min-h-[90vh]">
+      <section className="border-gold/30 relative min-h-[60vh] overflow-hidden border-y md:min-h-[76vh] lg:min-h-[90vh]">
         <img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
           alt="TS Residence Five-Star Living"
@@ -76,17 +76,17 @@ export default function Page() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.09),transparent_42%),radial-gradient(circle_at_80%_80%,rgba(184,150,90,0.18),transparent_52%)]" />
         <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
-        <div className="relative flex min-h-[76vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[90vh] md:px-12 md:py-22 lg:px-20 lg:py-24 xl:px-28">
+        <div className="relative flex min-h-[60vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[76vh] md:px-12 md:py-22 lg:min-h-[90vh] lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="w-full max-w-300 text-white">
-            <div className="border-gold/45 inline-flex items-center gap-3 border bg-black/58 px-5 py-2.5">
+            <div className="border-gold/45 inline-flex flex-col items-center gap-1 border bg-black/58 px-5 py-2 sm:flex-row sm:gap-3 sm:py-2.5">
               <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
                 Five-Star Living
               </span>
-              <span className="relative flex h-2 w-2">
+              <span className="relative hidden h-2 w-2 sm:flex">
                 <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
                 <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
               </span>
-              <span className="text-[11px] font-medium tracking-[0.2em] text-white/95 uppercase">
+              <span className="text-[10px] font-medium tracking-[0.2em] text-white/95 uppercase sm:text-[11px]">
                 Everyday | 06.00 AM - 10.00 PM
               </span>
             </div>
@@ -176,14 +176,14 @@ export default function Page() {
               className="group border-gold/25 h-full overflow-hidden border bg-white"
             >
               <article className="h-full">
-                <div className="h-70 overflow-hidden md:h-80 lg:h-87.5">
+                <div className="h-52 overflow-hidden md:h-65 lg:h-80">
                   <img
                     src={facility.image}
                     alt={facility.title}
                     className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.045]"
                   />
                 </div>
-                <div className="flex min-h-70 flex-col p-6 md:min-h-75 md:p-7">
+                <div className="flex min-h-48 flex-col p-6 md:min-h-56 md:p-7 lg:min-h-70">
                   <p className="label-caps text-gold-dark">Facility Access</p>
                   <h3 className="text-ink mt-3 font-serif text-[2rem] leading-[1.04]">
                     {facility.title}
@@ -202,7 +202,7 @@ export default function Page() {
         <div className="section-shell grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
           <FadeInView
             direction="left"
-            className="relative min-h-90 overflow-hidden md:min-h-105 lg:min-h-130"
+            className="relative min-h-64 overflow-hidden md:min-h-90 lg:min-h-130"
           >
             <img
               src="https://tsresidence.id/wp-content/uploads/2025/10/TS-Suites-Rooftop-Infinity-Pool.webp"

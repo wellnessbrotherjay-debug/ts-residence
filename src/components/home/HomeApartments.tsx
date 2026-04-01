@@ -21,8 +21,8 @@ export const HomeApartments = ({
   setPage,
   apartments,
 }: HomeApartmentsProps) => (
-  <section className="bg-white px-6 py-24 md:px-12 lg:px-20 lg:py-32 xl:px-28">
-    <div className="mb-14 flex flex-col gap-6 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
+  <section className="bg-white px-6 py-14 md:px-12 md:py-20 lg:px-20 lg:py-32 xl:px-28">
+    <div className="mb-10 flex flex-col gap-6 md:mb-14 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
       <div className="max-w-3xl">
         <span className="label-caps text-gold">Suites &amp; Apartments</span>
         <h2 className="heading-section text-ink mt-5">
@@ -55,7 +55,7 @@ export const HomeApartments = ({
             tabIndex={0}
             className="group w-full cursor-pointer text-left"
           >
-            <div className="relative aspect-4/5 overflow-hidden">
+            <div className="relative aspect-3/4 overflow-hidden sm:aspect-4/5">
               <img
                 src={apt.img}
                 alt={apt.name}

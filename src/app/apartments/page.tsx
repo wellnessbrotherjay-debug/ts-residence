@@ -12,7 +12,7 @@ import { apartmentDisplayList } from "@/lib/apartments-content";
 export default function Page() {
   return (
     <div className="bg-cream overflow-x-hidden">
-      <section className="border-gold/30 relative min-h-[72vh] overflow-hidden border-y md:min-h-[86vh]">
+      <section className="border-gold/30 relative min-h-[56vh] overflow-hidden border-y md:min-h-[72vh] lg:min-h-[86vh]">
         <img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-building-front-left.webp"
           alt="TS Residence Apartments"
@@ -22,17 +22,17 @@ export default function Page() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
         <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
-        <div className="relative flex min-h-[72vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[86vh] md:px-12 md:py-22 lg:px-20 lg:py-24 xl:px-28">
+        <div className="relative flex min-h-[56vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[72vh] md:px-12 md:py-22 lg:min-h-[86vh] lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="w-full max-w-300 text-white">
-            <div className="border-gold/45 inline-flex items-center gap-3 border bg-black/58 px-5 py-2.5">
+            <div className="border-gold/45 inline-flex flex-col items-center gap-1 border bg-black/58 px-5 py-2 sm:flex-row sm:gap-3 sm:py-2.5">
               <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
                 Apartments
               </span>
-              <span className="relative flex h-2 w-2">
+              <span className="relative hidden h-2 w-2 sm:flex">
                 <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
                 <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
               </span>
-              <span className="text-[11px] font-medium tracking-[0.2em] text-white/95 uppercase">
+              <span className="text-[10px] font-medium tracking-[0.2em] text-white/95 uppercase sm:text-[11px]">
                 SOLO | STUDIO | SOHO
               </span>
             </div>
@@ -85,7 +85,7 @@ export default function Page() {
                     <img
                       src={apartment.image}
                       alt={apartment.name}
-                      className="h-90 w-full object-cover transition-transform duration-1800 ease-out group-hover:scale-[1.06] md:h-107.5 lg:h-130"
+                      className="h-60 w-full object-cover transition-transform duration-1800 ease-out group-hover:scale-[1.06] md:h-80 lg:h-130"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
                     <div className="absolute right-5 bottom-5 border border-white/35 bg-black/28 px-3 py-2 text-[10px] tracking-[0.2em] text-white/90 uppercase backdrop-blur-sm md:right-7 md:bottom-7">

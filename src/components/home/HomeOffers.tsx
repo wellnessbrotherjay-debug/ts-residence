@@ -3,14 +3,14 @@ import { FadeInView } from "../animations";
 import type { Page } from "../../types";
 
 export const HomeOffers = ({ setPage }: { setPage: (p: Page) => void }) => (
-  <section className="relative min-h-[72vh] overflow-hidden">
+  <section className="relative min-h-[56vh] overflow-hidden md:min-h-[64vh] lg:min-h-[72vh]">
     <img
       src="https://picsum.photos/seed/offer-hero/1920/1080"
       alt="Special Offers"
       className="absolute inset-0 h-full w-full object-cover"
     />
     <div className="absolute inset-0 bg-linear-to-r from-black/78 via-black/54 to-black/40" />
-    <div className="relative flex min-h-[72vh] items-end px-6 py-12 md:px-12 md:py-16 lg:px-20 lg:py-20 xl:px-28">
+    <div className="relative flex min-h-[56vh] items-end px-6 py-12 md:min-h-[64vh] md:px-12 md:py-16 lg:min-h-[72vh] lg:px-20 lg:py-20 xl:px-28">
       <FadeInView className="max-w-190">
         <span className="label-caps text-gold-light">Limited Time</span>
         <h2 className="heading-display mt-6 text-5xl text-white sm:text-6xl md:text-7xl lg:text-[6.2rem]">

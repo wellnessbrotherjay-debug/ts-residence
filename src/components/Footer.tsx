@@ -106,9 +106,9 @@ export const Footer = () => {
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
       </div>
 
-      <div className="relative px-6 py-16 md:px-10 lg:px-14 lg:py-20 xl:px-16 2xl:px-20">
+      <div className="relative px-6 py-10 md:px-10 md:py-14 lg:px-14 lg:py-20 xl:px-16 2xl:px-20">
         <div className="mx-auto w-full max-w-400">
-          <div className="border-gold/20 grid gap-10 border-b pb-12 md:grid-cols-2 md:gap-x-8 md:gap-y-10 lg:grid-cols-12 lg:gap-8 lg:pb-14">
+          <div className="border-gold/20 grid gap-7 border-b pb-8 md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:pb-12 lg:grid-cols-12 lg:gap-8 lg:pb-14">
             <div className="md:col-span-2 lg:col-span-5">
               <div className="max-w-2xl">
                 <div className="flex flex-col items-start gap-1">
@@ -125,18 +125,18 @@ export const Footer = () => {
                   </span>
                 </div>
 
-                <p className="mt-8 max-w-xl font-serif text-[1.7rem] leading-[1.08] tracking-[-0.03em] text-white sm:text-[1.9rem] md:text-[2.2rem] lg:text-[2.35rem]">
+                <p className="mt-6 max-w-xl font-serif text-[1.4rem] leading-[1.08] tracking-[-0.03em] text-white sm:text-[1.7rem] md:mt-8 md:text-[2.2rem] lg:text-[2.35rem]">
                   A refined long-stay address in Seminyak, shaped by five-star
                   hospitality, wellness, and effortless daily living.
                 </p>
 
-                <p className="mt-6 max-w-xl text-[0.95rem] leading-7 text-white/68 sm:text-[1rem] sm:leading-8">
+                <p className="mt-4 max-w-xl text-[0.95rem] leading-7 text-white/68 sm:text-[1rem] sm:leading-8 md:mt-6">
                   The new residence concept combines apartment privacy with the
                   comfort, service, and atmosphere of a polished lifestyle
                   destination.
                 </p>
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-8">
                   <Link
                     href="/contact"
                     className="border-gold/50 bg-gold text-ink inline-flex w-full items-center justify-center gap-2 border px-6 py-3 text-center text-[11px] font-semibold tracking-[0.24em] uppercase transition-all duration-300 hover:bg-[#c7a96f] sm:w-auto"

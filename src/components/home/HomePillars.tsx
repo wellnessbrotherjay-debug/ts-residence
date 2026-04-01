@@ -31,7 +31,7 @@ const PILLARS = [
 
 export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => (
   <section className="bg-white">
-    <div className="px-6 py-24 md:px-12 lg:px-20 lg:py-32 xl:px-28">
+    <div className="px-6 py-14 md:px-12 md:py-20 lg:px-20 lg:py-32 xl:px-28">
       <FadeInView className="mx-auto max-w-230 text-center">
         <span className="label-caps text-gold">Our Philosophy</span>
         <h2 className="heading-section text-ink mt-5">
@@ -46,7 +46,7 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => (
     </div>
 
     <StaggerContainer
-      className="bg-gold/20 grid grid-cols-1 gap-px lg:grid-cols-3"
+      className="bg-gold/20 grid grid-cols-1 gap-px md:grid-cols-2 lg:grid-cols-3"
       staggerDelay={0.15}
     >
       {PILLARS.map((pillar, i) => (
@@ -55,7 +55,7 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => (
             onClick={() => setPage(pillar.page)}
             className="group block w-full text-left"
           >
-            <div className="relative aspect-4/5 overflow-hidden">
+            <div className="relative aspect-3/4 overflow-hidden md:aspect-4/5">
               <img
                 src={pillar.img}
                 alt={pillar.title}
@@ -70,11 +70,11 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => (
               </div>
             </div>
 
-            <div className="min-h-70 px-6 py-8 md:px-8 md:py-10 lg:px-10">
+            <div className="min-h-52 px-6 py-8 md:min-h-60 md:px-8 md:py-10 lg:min-h-70 lg:px-10">
               <span className="border-gold/20 bg-gold/10 text-gold flex h-12 w-12 items-center justify-center rounded-full border">
                 {pillar.icon}
               </span>
-              <h3 className="text-ink mt-8 font-serif text-[2.1rem] leading-none md:text-[2.5rem]">
+              <h3 className="text-ink mt-5 font-serif text-[2.1rem] leading-none md:mt-8 md:text-[2.5rem]">
                 {pillar.title}
               </h3>
               <p className="text-body text-ink-light mt-5">{pillar.desc}</p>

@@ -122,7 +122,7 @@ export default function Page() {
     <div className="bg-cream overflow-x-hidden">
       <section
         ref={heroRef}
-        className="border-gold/30 relative min-h-[78vh] overflow-hidden border-y md:min-h-[92vh]"
+        className="border-gold/30 relative min-h-[60vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
       >
         <motion.img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
@@ -135,7 +135,7 @@ export default function Page() {
         <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
         <motion.div
-          className="relative flex min-h-[78vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[92vh] md:px-12 md:py-22 lg:px-20 lg:py-24 xl:px-28"
+          className="relative flex min-h-[60vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[78vh] md:px-12 md:py-22 lg:min-h-[92vh] lg:px-20 lg:py-24 xl:px-28"
           style={{ y: heroContentY, opacity: heroContentOpacity }}
         >
           <motion.div
@@ -152,16 +152,16 @@ export default function Page() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="border-gold/45 inline-flex items-center gap-3 border bg-black/58 px-5 py-2.5"
+              className="border-gold/45 inline-flex flex-col items-center gap-1 border bg-black/58 px-5 py-2 sm:flex-row sm:gap-3 sm:py-2.5"
             >
               <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
                 Easy Living
               </span>
-              <span className="relative flex h-2 w-2">
+              <span className="relative hidden h-2 w-2 sm:flex">
                 <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
                 <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
               </span>
-              <span className="text-[11px] font-medium tracking-[0.2em] text-white/95 uppercase">
+              <span className="text-[10px] font-medium tracking-[0.2em] text-white/95 uppercase sm:text-[11px]">
                 Long-Stay Simplicity
               </span>
             </motion.div>
@@ -314,14 +314,14 @@ export default function Page() {
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="h-75 overflow-hidden md:h-85">
+                <div className="h-52 overflow-hidden md:h-70 lg:h-85">
                   <motion.img
                     src={unit.image}
                     alt={`${unit.name} apartment`}
                     className="h-full w-full object-cover transition-transform duration-1900 ease-out group-hover:scale-[1.06]"
                   />
                 </div>
-                <div className="flex min-h-65 flex-col p-7 md:p-8">
+                <div className="flex min-h-48 flex-col p-7 md:min-h-56 md:p-8 lg:min-h-65">
                   <div className="flex items-center justify-between">
                     <p className="text-ink font-serif text-[2.1rem] leading-none">
                       {unit.name}

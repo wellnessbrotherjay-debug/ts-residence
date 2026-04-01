@@ -11,7 +11,7 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
   <section className="border-gold/35 bg-cream-dark grid grid-cols-1 border-y lg:min-h-screen lg:grid-cols-[1.2fr_0.8fr]">
     <FadeInView
       direction="left"
-      className="relative min-h-[58vh] lg:min-h-full"
+      className="relative min-h-[40vh] md:min-h-[50vh] lg:min-h-full"
     >
       <div className="relative h-full w-full">
         <img
@@ -30,7 +30,7 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
       </div>
     </FadeInView>
 
-    <div className="flex items-center px-6 py-20 md:px-12 lg:px-16 lg:py-24 xl:px-20">
+    <div className="flex items-center px-6 py-12 md:px-12 md:py-16 lg:px-16 lg:py-24 xl:px-20">
       <div className="max-w-136">
         <FadeInView direction="right">
           <span className="label-caps text-gold">Why Seminyak</span>
@@ -44,7 +44,7 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
         </FadeInView>
 
         <FadeInView direction="right" delay={0.2}>
-          <div className="border-gold/20 mt-12 space-y-6 border-t pt-8">
+          <div className="border-gold/20 mt-8 space-y-4 border-t pt-6 md:mt-10 md:space-y-6 md:pt-8 lg:mt-12">
             {[
               "Strategically located with fast access to everything",
               "Safe, expat-friendly, and walkable neighborhood",
@@ -61,7 +61,7 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
         </FadeInView>
 
         <FadeInView direction="right" delay={0.35}>
-          <div className="border-gold/20 mt-12 grid grid-cols-2 gap-x-8 gap-y-8 border-t pt-8">
+          <div className="border-gold/20 mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t pt-6 md:mt-10 md:gap-y-8 md:pt-8 lg:mt-12">
             {[
               ["Beach", "8 min"],
               ["Dining", "Walkable"],
@@ -81,7 +81,7 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
         <FadeInView direction="right" delay={0.45}>
           <button
             onClick={() => setPage("contact")}
-            className={`${BTN_SOLID} mt-12`}
+            className={`${BTN_SOLID} mt-8 md:mt-10 lg:mt-12`}
           >
             Book Apartment
           </button>
