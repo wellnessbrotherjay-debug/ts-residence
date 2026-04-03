@@ -35,11 +35,11 @@ const collections: GalleryCollection[] = [
     handle: "@tsresidences",
     description: "SOLO, STUDIO, and SOHO apartment perspectives.",
     cover:
-      "https://tsresidence.id/wp-content/uploads/2025/08/studio-main-image.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c7d7a14d-6caa-4eaa-dd61-26a5f852f900/public",
     images: [
-      "https://tsresidence.id/wp-content/uploads/2025/08/solo-main-image.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/52b605cf-2c98-48f3-cce2-b317f0dbd800/public",
       "https://tsresidence.id/wp-content/uploads/2025/08/studio-main-image.webp",
-      "https://tsresidence.id/wp-content/uploads/2025/08/soho-main-image.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/2fef14ff-25f6-41d7-e15e-b19d9b793100/public",
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp",
     ],
   },
@@ -164,20 +164,7 @@ export default function Page() {
 
         <div className="relative flex min-h-[56vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[72vh] md:px-12 md:py-22 lg:min-h-[86vh] lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="w-full max-w-300 text-white">
-            <div className="border-gold/45 inline-flex flex-col items-center gap-1 border bg-black/58 px-5 py-2 sm:flex-row sm:gap-3 sm:py-2.5">
-              <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
-                Gallery
-              </span>
-              <span className="relative hidden h-2 w-2 sm:flex">
-                <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
-                <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
-              </span>
-              <span className="text-[10px] font-medium tracking-[0.2em] text-white/95 uppercase sm:text-[11px]">
-                Visual Journey
-              </span>
-            </div>
-
-            <h1 className="mx-auto mt-8 max-w-[14ch] font-serif text-[3.2rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[5.7rem] lg:text-[6.8rem]">
+            <h1 className="mx-auto max-w-[14ch] font-serif text-[3.2rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[5.7rem] lg:text-[6.8rem]">
               Moments that define
               <br />
               life at TS Residence.

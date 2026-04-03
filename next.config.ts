@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "tsresidence.id" },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "picsum.photos" },
+      { protocol: "https", hostname: "imagedelivery.net" },
       { protocol: "https", hostname: "www.hive68.com" },
     ],
   },

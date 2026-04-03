@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Raleway } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 import "./globals.css";
-
-const sans = Raleway({
-  variable: "--font-raleway",
-  subsets: ["latin"],
-});
-
-const serif = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -74,10 +63,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${sans.variable} ${serif.variable} h-full scroll-smooth antialiased`}
-    >
+    <html lang="en" className="h-full scroll-smooth antialiased">
       <body className="flex min-h-full flex-col">
         <div className="bg-cream text-ink min-h-screen">
           <Navbar />

@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { Instagram, Send, Phone, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { BTN_SOLID } from "../constants";
 import type { Page } from "../types";
+import { apartmentDisplayList } from "@/lib/apartments-content";
 
 function pathnameToPage(pathname: string): Page {
   if (pathname === "/") return "home";
@@ -50,23 +52,14 @@ export const Navbar = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isApartmentsOpen, setIsApartmentsOpen] = useState(false);
   const [showTopLogo, setShowTopLogo] = useState(false);
-  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY;
       setIsScrolled(currentY > 40);
-
-      if (currentY < 20) {
-        setShowTopLogo(true);
-      } else if (currentY > lastScrollY.current + 2) {
-        setShowTopLogo(false);
-      } else if (currentY < lastScrollY.current - 2) {
-        setShowTopLogo(true);
-      }
-
-      lastScrollY.current = currentY;
+      setShowTopLogo(currentY > 24);
     };
 
     const initFrame = requestAnimationFrame(() => {
@@ -81,6 +74,10 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
+    setIsApartmentsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -92,7 +89,6 @@ export const Navbar = () => {
   }, [isMenuOpen]);
 
   const allNav: { label: string; value: Page }[] = [
-    { label: "Apartments", value: "apartments" },
     { label: "Offers", value: "offers" },
     { label: "Five-star living", value: "five-star" },
     { label: "Healthy living", value: "healthy" },
@@ -102,6 +98,11 @@ export const Navbar = () => {
   ];
 
   const handleNavClick = (page: Page) => setPage(page);
+  const isApartmentPage =
+    currentPage === "apartments" ||
+    currentPage === "solo" ||
+    currentPage === "studio" ||
+    currentPage === "soho";
 
   return (
     <>
@@ -149,17 +150,22 @@ export const Navbar = () => {
           <div className="hidden lg:block">
             <motion.div
               animate={{
-                opacity: showTopLogo ? 1 : 0,
-                y: showTopLogo ? 0 : -10,
-                height: showTopLogo ? 64 : 0,
+                opacity: 1,
+                height: showTopLogo ? 0 : 64,
               }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="border-gold/35 flex items-center justify-center overflow-hidden border-b"
-              style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
+              className={`border-gold/35 flex items-center overflow-hidden border-b transition-[padding,justify-content] duration-500 ${
+                "justify-center px-6"
+              }`}
             >
-              <button
+              <motion.button
                 onClick={() => setPage("home")}
-                className="text-ink flex flex-col items-center gap-1 justify-self-center"
+                animate={{
+                  scale: 1,
+                  opacity: showTopLogo ? 0 : 1,
+                }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="text-ink flex flex-col items-center gap-1 transition-all duration-500"
                 aria-label="TS Residence home"
               >
                 <div className="flex items-baseline gap-0">
@@ -173,11 +179,130 @@ export const Navbar = () => {
                 <span className="text-ink/55 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase">
                   Residence
                 </span>
-              </button>
+              </motion.button>
             </motion.div>
 
-            <div className="relative flex h-16 items-center justify-center">
-              <div className="flex items-center gap-10">
+            <div className={`relative flex items-center justify-center transition-[height,padding] duration-500 ${showTopLogo ? "h-12" : "h-16"}`}>
+              <motion.button
+                onClick={() => setPage("home")}
+                initial={false}
+                animate={{
+                  opacity: showTopLogo ? 1 : 0,
+                  x: showTopLogo ? 0 : -12,
+                }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="text-ink absolute left-4 flex flex-col items-start gap-0.5 lg:left-6"
+                style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
+                aria-label="TS Residence home"
+              >
+                <div className="flex items-baseline gap-0">
+                  <span className="text-ink font-serif text-3xl leading-none font-light tracking-tight">
+                    T
+                  </span>
+                  <span className="text-ink font-serif text-3xl leading-none font-light tracking-tight">
+                    S
+                  </span>
+                </div>
+                <span className="text-ink/55 font-sans text-[7px] font-semibold tracking-[0.4em] uppercase">
+                  Residence
+                </span>
+              </motion.button>
+
+              <div className={`flex items-center transition-[gap,padding-left] duration-500 ${showTopLogo ? "gap-8 pl-24" : "gap-10"}`}>
+                <div
+                  className="relative"
+                  onMouseEnter={() => setIsApartmentsOpen(true)}
+                  onMouseLeave={() => setIsApartmentsOpen(false)}
+                >
+                  <div
+                    className={`nav-link text-ink/70 hover:text-ink flex items-center gap-2 ${isApartmentPage ? "text-ink font-medium" : ""}`}
+                  >
+                    <Link
+                      href="/apartments"
+                      onClick={() => setIsApartmentsOpen(false)}
+                      className="focus:outline-hidden"
+                    >
+                      <span>Apartments</span>
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setIsApartmentsOpen((prev) => !prev)}
+                      onBlur={(event) => {
+                        if (
+                          !event.currentTarget.parentElement?.parentElement?.contains(
+                            event.relatedTarget as Node | null,
+                          )
+                        ) {
+                          setIsApartmentsOpen(false);
+                        }
+                      }}
+                      aria-expanded={isApartmentsOpen}
+                      aria-haspopup="menu"
+                      aria-label="Toggle apartments menu"
+                      className="flex items-center"
+                    >
+                    <span
+                      className={`text-[10px] transition-transform duration-300 ${isApartmentsOpen ? "translate-y-px rotate-180" : ""}`}
+                    >
+                      ▾
+                    </span>
+                    </button>
+                  </div>
+
+                  <AnimatePresence>
+                    {isApartmentsOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.22, ease: "easeOut" }}
+                        className="absolute top-full left-1/2 z-80 mt-4 w-[48rem] -translate-x-1/2 border border-[#d9ccb7] bg-[#fbf8f2] p-4 shadow-[0_20px_60px_rgba(28,25,23,0.12)]"
+                      >
+                        <div className="mb-4 flex items-center justify-between border-b border-[#e8dfd3] pb-3">
+                          <p className="font-serif text-[1.55rem] leading-none text-[#2d241a]">
+                            Apartment Collection
+                          </p>
+                          <Link
+                            href="/apartments"
+                            className="text-[11px] font-semibold tracking-[0.22em] text-[#7f6747] uppercase transition-colors hover:text-[#2d241a]"
+                            onClick={() => setIsApartmentsOpen(false)}
+                          >
+                            View all
+                          </Link>
+                        </div>
+
+                        <div className="space-y-3">
+                          {apartmentDisplayList.map((apartment) => (
+                            <Link
+                              key={apartment.slug}
+                              href={`/apartments/${apartment.slug}`}
+                              className="group grid grid-cols-[120px_1fr] gap-4 border border-transparent p-2 transition-all duration-300 hover:border-[#e4d7c2] hover:bg-white"
+                              onClick={() => setIsApartmentsOpen(false)}
+                            >
+                              <div className="overflow-hidden bg-[#f1eadf]">
+                                <img
+                                  src={apartment.image}
+                                  alt={apartment.name}
+                                  className="h-20 w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                                />
+                              </div>
+                              <div className="flex min-w-0 flex-col justify-center">
+                                <p className="font-serif text-[1.1rem] leading-6 text-[#2d241a]">
+                                  {apartment.name} — {apartment.sqm},{" "}
+                                  {apartment.bed}
+                                </p>
+                                <p className="mt-1 line-clamp-2 text-[0.96rem] leading-7 text-[#5e5244]">
+                                  {apartment.short}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 {allNav.map((item) => (
                   <button
                     key={item.label}

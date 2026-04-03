@@ -3,7 +3,6 @@ import {
   AnimatePresence,
   useScroll,
   useTransform,
-  useMotionValue,
 } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 
@@ -19,10 +18,12 @@ const HeroTextContent = ({
   slides,
   currentSlide,
   isDark,
+  isInitialLoad,
 }: {
   slides: { tag: string; title: string; subtitle: string }[];
   currentSlide: number;
   isDark: boolean;
+  isInitialLoad: boolean;
 }) => (
   <AnimatePresence mode="wait">
     <motion.div
@@ -30,13 +31,19 @@ const HeroTextContent = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1, ease: "easeInOut" }}
+      transition={{
+        duration: isInitialLoad ? 1.1 : 0.35,
+        ease: isInitialLoad ? [0.22, 1, 0.36, 1] : "easeOut",
+      }}
       className="flex flex-col items-center text-center"
     >
       <motion.span
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.3 }}
+        transition={{
+          duration: isInitialLoad ? 0.95 : 0.35,
+          delay: isInitialLoad ? 0.16 : 0.02,
+        }}
         className={`font-sans text-[12px] font-semibold tracking-[0.4em] uppercase sm:text-[13px] md:text-[18px] ${
           isDark ? "text-ink" : "text-white"
         }`}
@@ -45,9 +52,13 @@ const HeroTextContent = ({
       </motion.span>
 
       <motion.h1
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        transition={{
+          duration: isInitialLoad ? 1.2 : 0.55,
+          delay: isInitialLoad ? 0.24 : 0.06,
+          ease: [0.16, 1, 0.3, 1],
+        }}
         className={`heading-display text-5xl leading-none sm:text-6xl md:text-8xl lg:text-[9rem] xl:text-[11rem] ${
           isDark ? "text-ink" : "text-white"
         }`}
@@ -67,32 +78,25 @@ const HeroTextContent = ({
 );
 
 // --- Hero Section (Berkeley Double-Header Masking) ---
-export const HeroSection = ({ heroImage }: { heroImage: string }) => {
+export const HeroSection = ({
+  heroImage,
+  showVideo = true,
+}: {
+  heroImage: string;
+  showVideo?: boolean;
+}) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasVideoError, setHasVideoError] = useState(false);
-  const [videoSrc, setVideoSrc] = useState("");
+  const [videoSrc, setVideoSrc] = useState(showVideo ? HERO_VIDEO_SRC : "");
   const heroRef = useRef<HTMLDivElement>(null);
   const textMeasureRef = useRef<HTMLDivElement>(null);
 
   // viewportH drives all pixel-based layout values.
   const [viewportH, setViewportH] = useState(900);
   const [navbarH, setNavbarH] = useState(MOBILE_NAVBAR_H);
-  // Measured height of the text block (tag + title).
-  const [textH, setTextH] = useState(160);
-  // Keep top/bottom breathing room around text block in sync.
-  const visualGap = navbarH >= DESKTOP_NAVBAR_H ? 48 : 16;
-  const textTop = navbarH + visualGap;
-
-  // imageStartPx: symmetric gaps above and below text (below navbar).
-  const imageStartPx = textTop + textH + visualGap;
-
-  // MotionValue for imageStartPx — lets transforms re-evaluate reactively
-  // whenever textH is measured (not just on scroll events).
-  const imageStartMV = useMotionValue(imageStartPx);
-  useEffect(() => {
-    imageStartMV.set(imageStartPx);
-  }, [imageStartPx, imageStartMV]);
+  const textRestOffset = navbarH >= DESKTOP_NAVBAR_H ? 220 : 140;
 
   useEffect(() => {
     const measure = () => {
@@ -100,9 +104,6 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
       setNavbarH(
         window.innerWidth >= 1024 ? DESKTOP_NAVBAR_H : MOBILE_NAVBAR_H,
       );
-      if (textMeasureRef.current) {
-        setTextH(textMeasureRef.current.offsetHeight);
-      }
     };
     measure();
     // Re-measure after fonts have settled
@@ -114,47 +115,22 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
     };
   }, []);
 
-  // Re-measure when slide changes
-  useEffect(() => {
-    if (textMeasureRef.current) {
-      setTextH(textMeasureRef.current.offsetHeight);
-    }
-  }, [currentSlide]);
-
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
 
-  const easeInOutCubic = (t: number) =>
-    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-  // Image slides up from imageStartPx → 0 over the first 40% of the scroll zone.
-  // Both imageTop and whiteTextAbsTop depend on imageStartMV so they re-evaluate
-  // immediately when the measured text height updates (not just on scroll).
-  const imageTop = useTransform(
-    [scrollYProgress, imageStartMV],
-    ([p, start]: number[]) => {
-      const eased = easeInOutCubic(Math.min(p / 0.4, 1));
-      return `${Math.round(start * (1 - eased))}px`;
-    },
-  );
-
-  // White text is positioned inside layer2 (the image container).
-  // Setting top = -currentImageTop keeps the white text visually pinned at
-  // viewport y = 0, then textTop margin inside puts it at the same
-  // position as the dark text. layer2's overflow:hidden clips everything
-  // above the image boundary, so white text only shows within the image.
-  const whiteTextAbsTop = useTransform(
-    [scrollYProgress, imageStartMV],
-    ([p, start]: number[]) => {
-      const eased = easeInOutCubic(Math.min(p / 0.4, 1));
-      return `-${Math.round(start * (1 - eased))}px`;
-    },
-  );
+  // Keep the media full-bleed from the first frame. The previous staged reveal
+  // made the hero feel like it was expanding open on load.
+  const imageTop = "0px";
+  const whiteTextAbsTop = "0px";
 
   // Other scroll-driven animations
-  const textY = useTransform(scrollYProgress, [0, 0.3, 0.6], [0, -20, -90]);
+  const textY = useTransform(
+    scrollYProgress,
+    [0, 0.3, 0.6],
+    [textRestOffset, textRestOffset - 18, textRestOffset - 84],
+  );
   const textOpacity = useTransform(
     scrollYProgress,
     [0, 0.2, 0.45],
@@ -162,17 +138,8 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
   );
   const textScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.93]);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const imageWidthStart = navbarH >= DESKTOP_NAVBAR_H ? "88%" : "92%";
-  const imageWidth = useTransform(
-    scrollYProgress,
-    [0, 0.4],
-    [imageWidthStart, "100%"],
-  );
-  const imageBorderRadius = useTransform(
-    scrollYProgress,
-    [0, 0.4],
-    ["18px", "0px"],
-  );
+  const imageWidth = "100%";
+  const imageBorderRadius = "0px";
   const overlayOpacity = useTransform(
     scrollYProgress,
     [0, 0.08, 0.22, 0.48],
@@ -199,15 +166,25 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
   ];
 
   useEffect(() => {
-    const startVideo = () => setVideoSrc(HERO_VIDEO_SRC);
-    const timer = setTimeout(startVideo, 800);
+    const timer = setTimeout(() => setIsInitialLoad(false), 1600);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
+    if (!showVideo) {
+      setVideoSrc("");
+      setIsVideoReady(false);
+      setHasVideoError(false);
+      return;
+    }
+
+    setVideoSrc(HERO_VIDEO_SRC);
+  }, [showVideo]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 8000);
+    }, 2000);
     return () => clearInterval(interval);
   }, [slides.length]);
 
@@ -231,7 +208,10 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
         >
           {/* LAYER 1: Cream background + Dark text */}
           <div className="bg-cream absolute inset-0 z-10">
-            <div className="pointer-events-none absolute inset-0 flex flex-col items-center">
+            <div
+              className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center"
+              style={{ paddingTop: `${navbarH}px` }}
+            >
               {/* Motion is applied directly to the text content div, not a full-screen wrapper.
                   This ensures scale/y transforms originate from the text block itself —
                   the same origin used by the white text copy in Layer 2. */}
@@ -241,7 +221,6 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
                   y: textY,
                   opacity: textOpacity,
                   scale: textScale,
-                  marginTop: `${textTop}px`,
                 }}
                 className="pointer-events-auto"
               >
@@ -249,6 +228,7 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
                   slides={slides}
                   currentSlide={currentSlide}
                   isDark={true}
+                  isInitialLoad={isInitialLoad}
                 />
               </motion.div>
             </div>
@@ -313,14 +293,17 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
                 to the dark text content div — so both share the same transform origin. */}
             <motion.div
               style={{ top: whiteTextAbsTop }}
-              className="pointer-events-none absolute right-0 left-0 flex flex-col items-center"
+              className="pointer-events-none absolute right-0 left-0 flex flex-col items-center justify-center"
+              style={{
+                top: whiteTextAbsTop,
+                paddingTop: `${navbarH}px`,
+              }}
             >
               <motion.div
                 style={{
                   y: textY,
                   opacity: textOpacity,
                   scale: textScale,
-                  marginTop: `${textTop}px`,
                 }}
                 className="pointer-events-auto"
               >
@@ -328,6 +311,7 @@ export const HeroSection = ({ heroImage }: { heroImage: string }) => {
                   slides={slides}
                   currentSlide={currentSlide}
                   isDark={false}
+                  isInitialLoad={isInitialLoad}
                 />
               </motion.div>
             </motion.div>

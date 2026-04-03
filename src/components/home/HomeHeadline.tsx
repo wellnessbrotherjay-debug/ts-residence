@@ -3,61 +3,40 @@ import { FadeInView } from "../animations";
 import type { Page } from "../../types";
 
 export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
-  <section className="bg-white px-6 py-14 md:px-12 md:py-20 lg:px-20 lg:py-40 xl:px-28">
-    <div className="text-center">
+  <section className="bg-white px-6 py-12 md:px-12 md:py-16 lg:px-20 lg:py-18 xl:px-28">
+    <div className="mx-auto max-w-220">
       <FadeInView>
-        <span className="label-caps text-gold">Seminyak, Bali</span>
+        <div className="flex items-center justify-center gap-4">
+          <span className="bg-gold/35 h-px w-10" />
+          <span className="label-caps text-gold">Seminyak, Bali</span>
+          <span className="bg-gold/35 h-px w-10" />
+        </div>
       </FadeInView>
-      <FadeInView delay={0.15}>
-        <h2 className="text-ink mt-6 font-serif text-5xl leading-[1.02] font-normal tracking-[-0.03em] md:text-7xl lg:text-8xl xl:text-[7rem]">
-          Where five-star
-          <br />
-          <em className="text-gold not-italic">hospitality</em> meets
-          <br />
-          long-stay living.
-        </h2>
+
+      <FadeInView delay={0.12}>
+        <div className="mt-8 text-center">
+          <h2 className="text-ink mx-auto max-w-205 font-serif text-[1.95rem] leading-[1.14] font-normal tracking-[-0.035em] md:text-[2.55rem] lg:text-[3rem] xl:text-[3.35rem]">
+            TS RESIDENCE is a new living concept by TS Suites that combines
+            Five Star, Healthy and Easy Living by being in Seminyak&apos;s
+            premier location.
+          </h2>
+        </div>
       </FadeInView>
-      <FadeInView delay={0.3}>
-        <p className="text-body text-ink-light mx-auto mt-10 max-w-2xl">
-          TS Residence by TS Suites offers premium apartments for monthly living
-          — a calm, highly serviced experience in one of Bali&apos;s most
-          desirable neighborhoods.
+
+      <FadeInView delay={0.22}>
+        <p className="text-body text-ink-light mx-auto mt-6 max-w-160 text-center text-[0.98rem] leading-[1.7] md:text-[1.02rem]">
+          Apartments designed for monthly rental for your indefinite long stay
+          in Bali.
         </p>
       </FadeInView>
-      <FadeInView delay={0.4}>
-        <div className="mt-12 flex justify-center">
+
+      <FadeInView delay={0.32}>
+        <div className="mt-7 flex justify-center">
           <button onClick={() => setPage("contact")} className={BTN_GOLD}>
             Explore More
           </button>
         </div>
       </FadeInView>
     </div>
-
-    <FadeInView delay={0.5}>
-      <div className="border-gold/35 mt-12 grid grid-cols-1 border-t md:mt-16 md:grid-cols-3 lg:mt-20">
-        {[
-          [
-            "Prime Address",
-            "Steps from Seminyak's best dining, beach clubs, and lifestyle spots",
-          ],
-          [
-            "Wellness Access",
-            "Integrated facilities for movement, recovery, and daily self-care",
-          ],
-          [
-            "Long-Stay Ease",
-            "Monthly living with hospitality standards and concierge attention",
-          ],
-        ].map(([title, desc]) => (
-          <div
-            key={title}
-            className="not-last:border-gold/20 px-0 py-7 text-center not-last:border-b md:px-10 md:py-10 md:not-last:border-r md:not-last:border-b-0 lg:px-14"
-          >
-            <p className="label-caps text-gold">{title}</p>
-            <p className="text-body text-ink-light mt-5">{desc}</p>
-          </div>
-        ))}
-      </div>
-    </FadeInView>
   </section>
 );

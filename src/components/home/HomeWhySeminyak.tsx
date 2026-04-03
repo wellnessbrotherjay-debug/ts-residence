@@ -2,12 +2,14 @@ import { BTN_SOLID } from "../../constants";
 import { FadeInView } from "../animations";
 import type { Page } from "../../types";
 
-interface HomeWhySeminyakProps {
-  setPage: (p: Page) => void;
-  imgSrc: string;
-}
+const EXTERIOR_IMAGES = [
+  "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7aef4db4-582a-4beb-c3f9-5934b61e2200/public",
+  "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/50e943cf-1406-4e25-7663-1b9c16259700/public",
+  "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/6250f682-f8c1-4fff-feba-276285468b00/public",
+  "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c4bdd92c-22b9-428a-1af4-5b4e3134c000/public",
+];
 
-export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
+export const HomeWhySeminyak = ({ setPage }: { setPage: (p: Page) => void }) => (
   <section className="border-gold/35 bg-cream-dark grid grid-cols-1 border-y lg:min-h-screen lg:grid-cols-[1.2fr_0.8fr]">
     <FadeInView
       direction="left"
@@ -15,16 +17,16 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
     >
       <div className="relative h-full w-full">
         <img
-          src={imgSrc}
-          alt="TS Residence Pool"
+          src={EXTERIOR_IMAGES[0]}
+          alt="TS Residence exterior"
           className="h-full w-full object-cover"
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
         <div className="absolute right-0 bottom-0 left-0 p-8 text-white md:p-10 lg:p-14">
-          <p className="label-caps text-white/65">Seminyak Atmosphere</p>
+          <p className="label-caps text-white/65">TS Residence Exterior</p>
           <p className="mt-4 max-w-104 font-serif text-[2rem] leading-none md:text-[2.6rem] lg:text-[3.2rem]">
-            Resort calm with city access
+            A premier address with hotel presence
           </p>
         </div>
       </div>
@@ -46,11 +48,11 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
         <FadeInView direction="right" delay={0.2}>
           <div className="border-gold/20 mt-8 space-y-4 border-t pt-6 md:mt-10 md:space-y-6 md:pt-8 lg:mt-12">
             {[
-              "Strategically located with fast access to everything",
-              "Safe, expat-friendly, and walkable neighborhood",
-              "Vibrant culture, wellness, dining, and digital-friendly cafes",
-              "Well-developed infrastructure with hospital, co-working, and retail",
-              "Breathtaking beaches at your doorstep",
+              "Strategically located for shopping, dining, and entertainment",
+              "Safe, expat-friendly, and easy to navigate",
+              "Digital-friendly cafes and daily convenience close by",
+              "Well-developed access to hospital, wellness, and retail",
+              "A practical base for long stays in Bali",
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-4">
                 <div className="bg-gold mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full" />
@@ -63,10 +65,10 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
         <FadeInView direction="right" delay={0.35}>
           <div className="border-gold/20 mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t pt-6 md:mt-10 md:gap-y-8 md:pt-8 lg:mt-12">
             {[
-              ["Beach", "8 min"],
-              ["Dining", "Walkable"],
-              ["Wellness", "Daily access"],
-              ["Lease", "Flexible"],
+              ["Seminyak Beach", "5 min"],
+              ["Hospital", "10 min"],
+              ["Airport", "20 min"],
+              ["Access", "Easy"],
             ].map(([label, value]) => (
               <div key={label}>
                 <p className="label-caps text-ink/55">{label}</p>
@@ -75,6 +77,27 @@ export const HomeWhySeminyak = ({ setPage, imgSrc }: HomeWhySeminyakProps) => (
                 </p>
               </div>
             ))}
+          </div>
+        </FadeInView>
+
+        <FadeInView direction="right" delay={0.42}>
+          <div className="border-gold/20 mt-8 border-t pt-6 md:mt-10 md:pt-8 lg:mt-12">
+            <p className="label-caps text-gold mb-4">Arrival Perspective</p>
+            <div className="grid grid-cols-3 gap-3">
+              {EXTERIOR_IMAGES.slice(1).map((image, index) => (
+                <div
+                  key={image}
+                  className="border-gold/18 overflow-hidden border bg-white"
+                >
+                  <img
+                    src={image}
+                    alt={`TS Residence exterior detail ${index + 2}`}
+                    className="aspect-4/3 h-full w-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </FadeInView>
 

@@ -60,7 +60,7 @@ const apartmentTypes = [
     name: "SOHO",
     area: "80 sqm",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/08/soho-main-image.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/2fef14ff-25f6-41d7-e15e-b19d9b793100/public",
     description:
       "Two-bedroom long-stay option for families or residents who need maximum room.",
     href: "/apartments/soho",
@@ -145,32 +145,10 @@ export default function Page() {
             className="w-full max-w-300 text-white"
           >
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.9,
-                delay: 0.2,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="border-gold/45 inline-flex flex-col items-center gap-1 border bg-black/58 px-5 py-2 sm:flex-row sm:gap-3 sm:py-2.5"
-            >
-              <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
-                Easy Living
-              </span>
-              <span className="relative hidden h-2 w-2 sm:flex">
-                <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
-                <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
-              </span>
-              <span className="text-[10px] font-medium tracking-[0.2em] text-white/95 uppercase sm:text-[11px]">
-                Long-Stay Simplicity
-              </span>
-            </motion.div>
-
-            <motion.div
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 1, delay: 0.35, ease: "easeOut" }}
-              className="via-gold/80 mx-auto mt-7 h-px w-28 origin-center bg-linear-to-r from-transparent to-transparent"
+              className="via-gold/80 mx-auto h-px w-28 origin-center bg-linear-to-r from-transparent to-transparent"
             />
 
             <motion.h1

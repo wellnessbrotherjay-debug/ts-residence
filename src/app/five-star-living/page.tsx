@@ -78,20 +78,7 @@ export default function Page() {
 
         <div className="relative flex min-h-[60vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[76vh] md:px-12 md:py-22 lg:min-h-[90vh] lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="w-full max-w-300 text-white">
-            <div className="border-gold/45 inline-flex flex-col items-center gap-1 border bg-black/58 px-5 py-2 sm:flex-row sm:gap-3 sm:py-2.5">
-              <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
-                Five-Star Living
-              </span>
-              <span className="relative hidden h-2 w-2 sm:flex">
-                <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
-                <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
-              </span>
-              <span className="text-[10px] font-medium tracking-[0.2em] text-white/95 uppercase sm:text-[11px]">
-                Everyday | 06.00 AM - 10.00 PM
-              </span>
-            </div>
-
-            <h1 className="mx-auto mt-8 max-w-[14.5ch] font-serif text-[3.45rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[6.3rem] lg:text-[7.4rem]">
+            <h1 className="mx-auto max-w-[14.5ch] font-serif text-[3.45rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[6.3rem] lg:text-[7.4rem]">
               Five-star service,
               <br />
               now redefined for

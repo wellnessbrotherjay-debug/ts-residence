@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-raleway), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans:
+    "Avenir Next", "Raleway", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif:
+    "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 
   --color-cream: #faf8f5;
   --color-cream-dark: #f0ebe3;
@@ -34,6 +37,7 @@
   h5,
   h6 {
     @apply font-serif font-normal;
+    text-wrap: balance;
   }
 
   ::selection {
@@ -69,15 +73,18 @@
 /* Label style */
 .label-caps {
   @apply text-muted font-sans text-[12px] font-medium tracking-[0.32em] uppercase;
+  white-space: nowrap;
 }
 
 /* Headings */
 .heading-display {
   @apply font-serif leading-[1.02] font-light tracking-[-0.02em];
+  text-wrap: balance;
 }
 
 .heading-section {
   @apply font-serif text-4xl leading-[1.02] font-normal tracking-[-0.03em];
+  text-wrap: balance;
 }
 
 @media (min-width: 768px) {
@@ -94,6 +101,7 @@
 /* Body text */
 .text-body {
   @apply text-muted font-sans text-[15px] leading-[1.75] font-light;
+  text-wrap: pretty;
 }
 
 @media (min-width: 768px) {

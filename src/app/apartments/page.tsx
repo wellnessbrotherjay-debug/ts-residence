@@ -12,11 +12,11 @@ import { apartmentDisplayList } from "@/lib/apartments-content";
 export default function Page() {
   return (
     <div className="bg-cream overflow-x-hidden">
-      <section className="border-gold/30 relative min-h-[56vh] overflow-hidden border-y md:min-h-[72vh] lg:min-h-[86vh]">
+      <section className="border-gold/30 relative min-h-[56vh] overflow-hidden border-y bg-[#171310] md:min-h-[72vh] lg:min-h-[86vh]">
         <img
-          src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-building-front-left.webp"
+          src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c4bdd92c-22b9-428a-1af4-5b4e3134c000/public"
           alt="TS Residence Apartments"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/66" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
@@ -24,20 +24,7 @@ export default function Page() {
 
         <div className="relative flex min-h-[56vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[72vh] md:px-12 md:py-22 lg:min-h-[86vh] lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="w-full max-w-300 text-white">
-            <div className="border-gold/45 inline-flex flex-col items-center gap-1 border bg-black/58 px-5 py-2 sm:flex-row sm:gap-3 sm:py-2.5">
-              <span className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
-                Apartments
-              </span>
-              <span className="relative hidden h-2 w-2 sm:flex">
-                <span className="bg-gold-light absolute inline-flex h-full w-full animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full opacity-75" />
-                <span className="bg-gold-light relative inline-flex h-2 w-2 rounded-full" />
-              </span>
-              <span className="text-[10px] font-medium tracking-[0.2em] text-white/95 uppercase sm:text-[11px]">
-                SOLO | STUDIO | SOHO
-              </span>
-            </div>
-
-            <h1 className="mx-auto mt-8 max-w-[14ch] font-serif text-[3.25rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[5.8rem] lg:text-[6.9rem]">
+            <h1 className="mx-auto max-w-[14ch] font-serif text-[3.25rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[5.8rem] lg:text-[6.9rem]">
               Find the apartment
               <br />
               that matches
@@ -60,7 +47,7 @@ export default function Page() {
           <FadeInView className="mb-12 max-w-260">
             <p className="label-caps text-gold">Apartment Collection</p>
             <h2 className="text-ink mt-4 font-serif text-[2.3rem] leading-[1.03] md:text-[3.2rem]">
-              Three apartment typologies,
+              Three apartment options,
               <br />
               one premium long-stay standard.
             </h2>

@@ -4,10 +4,9 @@ import { useRouter } from "next/navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { HomeHeadline } from "@/components/home/HomeHeadline";
 import { HomePillars } from "@/components/home/HomePillars";
+import { HomeResidents } from "@/components/home/HomeResidents";
 import { HomeWhySeminyak } from "@/components/home/HomeWhySeminyak";
 import { HomeApartments } from "@/components/home/HomeApartments";
-import { HomeOffers } from "@/components/home/HomeOffers";
-import { HomeYourHome } from "@/components/home/HomeYourHome";
 import type { Page } from "@/types";
 
 function pageToPath(page: Page): string {
@@ -33,7 +32,7 @@ export function HomeClient() {
   };
 
   const heroImage =
-    "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1600&q=70";
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7aef4db4-582a-4beb-c3f9-5934b61e2200/public";
 
   const apartments = [
     {
@@ -41,7 +40,7 @@ export function HomeClient() {
       sqm: "36",
       bed: "1 Bedroom",
       desc: "Compact luxury for solo explorers",
-      img: "https://picsum.photos/seed/solo-apt/1920/1080",
+      img: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/52b605cf-2c98-48f3-cce2-b317f0dbd800/public",
       page: "solo" as Page,
     },
     {
@@ -49,7 +48,7 @@ export function HomeClient() {
       sqm: "48",
       bed: "1 Bedroom",
       desc: "Spacious elegance for couples",
-      img: "https://picsum.photos/seed/studio-apt/1920/1080",
+      img: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/f5609092-040f-47f7-b9f7-d3fd8c13be00/public",
       page: "studio" as Page,
     },
     {
@@ -57,26 +56,19 @@ export function HomeClient() {
       sqm: "80",
       bed: "2 Bedrooms",
       desc: "Ultimate space for families",
-      img: "https://picsum.photos/seed/soho-apt/1920/1080",
+      img: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/2fef14ff-25f6-41d7-e15e-b19d9b793100/public",
       page: "soho" as Page,
     },
   ];
 
   return (
     <div className="w-full">
-      <HeroSection heroImage={heroImage} />
+      <HeroSection heroImage={heroImage} showVideo={false} />
       <HomeHeadline setPage={setPage} />
       <HomePillars setPage={setPage} />
-      <HomeWhySeminyak
-        setPage={setPage}
-        imgSrc="https://picsum.photos/seed/seminyak-pool/1600/1800"
-      />
+      <HomeWhySeminyak setPage={setPage} />
+      <HomeResidents />
       <HomeApartments setPage={setPage} apartments={apartments} />
-      <HomeOffers setPage={setPage} />
-      <HomeYourHome
-        setPage={setPage}
-        imgSrc="https://picsum.photos/seed/young-family/1200/1600"
-      />
     </div>
   );
 }
