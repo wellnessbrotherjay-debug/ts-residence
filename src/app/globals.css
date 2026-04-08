@@ -1,11 +1,18 @@
-/* Absolutely force all body text inside .bg-cream to black and normal weight */
-.bg-cream p,
-.bg-cream li,
-.bg-cream span,
-.bg-cream .text-body,
-.bg-cream .text-muted {
+/* Only force body text inside .bg-cream > .section-shell to black and normal weight */
+.bg-cream > .section-shell p,
+.bg-cream > .section-shell li,
+.bg-cream > .section-shell span,
+.bg-cream > .section-shell .text-body,
+.bg-cream > .section-shell .text-muted {
   color: #111 !important;
   font-weight: 400 !important;
+}
+
+/* Utility: text-over-image for white text over images */
+.text-over-image,
+.text-over-image * {
+  color: #fff !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.38);
 }
 /* Force all text inside .bg-cream to black for maximum readability */
 .bg-cream,
