@@ -11,6 +11,9 @@ import {
 } from "lucide-react";
 import type { Page } from "../types";
 
+const LOGO_URL =
+  "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/cce3ff72-a0c2-4b10-826e-c47befe5db00/public";
+
 function pageToPath(page: Page): string {
   if (page === "home") return "/";
   if (page === "apartments") return "/apartments";
@@ -111,19 +114,11 @@ export const Footer = () => {
           <div className="border-gold/20 grid gap-7 border-b pb-8 md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:pb-12 lg:grid-cols-12 lg:gap-8 lg:pb-14">
             <div className="md:col-span-2 lg:col-span-4">
               <div className="max-w-md">
-                <div className="flex flex-col items-start gap-1">
-                  <div className="flex items-baseline">
-                    <span className="font-serif text-4xl font-light tracking-tight text-white sm:text-5xl">
-                      T
-                    </span>
-                    <span className="font-serif text-4xl font-light tracking-tight text-white sm:text-5xl">
-                      S
-                    </span>
-                  </div>
-                  <span className="font-sans text-[9px] font-semibold tracking-[0.48em] text-white/62 uppercase">
-                    Residence
-                  </span>
-                </div>
+                <img
+                  src={LOGO_URL}
+                  alt="TS Residence"
+                  className="h-14 w-auto sm:h-16"
+                />
               </div>
             </div>
 

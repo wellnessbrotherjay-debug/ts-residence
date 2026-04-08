@@ -127,6 +127,7 @@ export const HeroSectionV3 = ({
   return (
     <div
       ref={heroRef}
+      data-no-global-reveal="true"
       className="relative"
       style={{ height: `${Math.round(viewportH * 1.65)}px` }}
     >

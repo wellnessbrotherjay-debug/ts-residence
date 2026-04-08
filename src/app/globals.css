@@ -21,6 +21,21 @@
   --color-dark-surface: #292524;
 }
 
+:root {
+  --reveal-duration-fast: 600ms;
+  --reveal-duration-base: 900ms;
+  --reveal-duration-slow: 1200ms;
+  --reveal-duration-hero: 1400ms;
+  --reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --reveal-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --stagger-word: 60ms;
+  --stagger-line: 80ms;
+  --stagger-section: 120ms;
+  --blur-start: 6px;
+  --scale-start: 1.08;
+  --parallax-offset: 24px;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -185,4 +200,229 @@
 
 .img-zoom:hover img {
   @apply scale-105;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  main
+    img:not([data-no-image-hover="true"]):not([class*="group-hover:scale"]):not(
+      [class*="hover:scale"]
+    ),
+  footer
+    img:not([data-no-image-hover="true"]):not([class*="group-hover:scale"]):not(
+      [class*="hover:scale"]
+    ) {
+    transition:
+      transform 620ms var(--reveal-ease),
+      filter 620ms var(--reveal-ease);
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  main
+    img:not([data-no-image-hover="true"]):not([class*="group-hover:scale"]):not(
+      [class*="hover:scale"]
+    ):hover,
+  footer
+    img:not([data-no-image-hover="true"]):not([class*="group-hover:scale"]):not(
+      [class*="hover:scale"]
+    ):hover {
+    transform: scale(1.018);
+    filter: saturate(1.01);
+  }
+}
+
+@keyframes luxuryImageEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(
+        0,
+        var(--reveal-image-distance, var(--parallax-offset)),
+        0
+      )
+      scale(var(--reveal-image-start-scale, var(--scale-start)));
+    filter: blur(var(--reveal-image-blur-start, 4px));
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes luxuryTextFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes luxuryLineReveal {
+  from {
+    width: 0%;
+    opacity: 0;
+  }
+
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-reveal-image,
+  .scroll-reveal-text,
+  .scroll-reveal-rule {
+    --reveal-delay: 0ms;
+    opacity: 0;
+    will-change: opacity, transform, filter, clip-path;
+    backface-visibility: hidden;
+  }
+
+  .scroll-reveal-image {
+    transform: translate3d(
+        0,
+        var(--reveal-image-distance, var(--parallax-offset)),
+        0
+      )
+      scale(var(--reveal-image-start-scale, var(--scale-start)));
+    transform-origin: center;
+    filter: blur(var(--reveal-image-blur-start, 4px));
+  }
+
+  .scroll-reveal-image.is-visible {
+    animation: luxuryImageEnter
+      var(--reveal-image-duration, var(--reveal-duration-hero))
+      var(--reveal-ease) forwards;
+    animation-delay: var(--reveal-delay);
+  }
+
+  .scroll-reveal-text {
+    transform: translate3d(0, var(--reveal-text-distance, 28px), 0)
+      scale(var(--reveal-text-start-scale, 1.005));
+    filter: blur(var(--reveal-text-blur-start, 2px));
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .scroll-reveal-text.is-visible {
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+    clip-path: inset(0 0 0% 0);
+    opacity: 1;
+    transition:
+      transform var(--reveal-text-duration, var(--reveal-duration-base))
+        var(--reveal-ease) var(--reveal-delay),
+      filter var(--reveal-text-duration, var(--reveal-duration-base))
+        var(--reveal-ease) var(--reveal-delay),
+      clip-path var(--reveal-text-duration, var(--reveal-duration-base))
+        var(--reveal-ease) var(--reveal-delay),
+      opacity 520ms linear var(--reveal-delay);
+  }
+
+  .scroll-reveal-text.reveal-profile-subtle {
+    clip-path: none;
+    transform: none;
+    filter: none;
+  }
+
+  .scroll-reveal-text.reveal-profile-subtle.is-visible {
+    animation: luxuryTextFade var(--reveal-duration-fast) var(--reveal-ease)
+      forwards;
+    animation-delay: var(--reveal-delay);
+    transition: none;
+  }
+
+  .scroll-reveal-text.reveal-body-copy {
+    clip-path: none;
+    transform: translate3d(0, 4px, 0);
+    filter: none;
+  }
+
+  .scroll-reveal-text.reveal-body-copy.is-visible {
+    transform: translate3d(0, 0, 0);
+    clip-path: none;
+    opacity: 1;
+    transition:
+      transform 260ms var(--reveal-ease) var(--reveal-delay),
+      opacity 260ms linear var(--reveal-delay);
+  }
+
+  .scroll-reveal-words {
+    clip-path: none;
+    transform: none;
+    filter: none;
+    opacity: 1;
+  }
+
+  .scroll-reveal-words .reveal-word-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: baseline;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .scroll-reveal-words .reveal-word {
+    display: inline-block;
+    transform: translate3d(0, 120%, 0);
+    opacity: 0;
+    filter: blur(2px);
+    will-change: transform, opacity;
+    transition:
+      transform var(--reveal-text-duration, 1000ms) var(--reveal-ease),
+      opacity var(--reveal-text-duration, 1000ms) var(--reveal-ease),
+      filter var(--reveal-text-duration, 1000ms) var(--reveal-ease);
+    transition-delay: calc(
+      var(--reveal-delay) + (var(--word-index, 0) * var(--stagger-word))
+    );
+  }
+
+  .scroll-reveal-text.reveal-profile-cinematic .reveal-word {
+    transition-duration: 1100ms;
+  }
+
+  .scroll-reveal-text.reveal-profile-hero .reveal-word {
+    filter: blur(var(--blur-start));
+    transition:
+      transform var(--reveal-duration-hero) var(--reveal-ease),
+      opacity var(--reveal-duration-hero) var(--reveal-ease),
+      filter var(--reveal-duration-hero) var(--reveal-ease);
+  }
+
+  .scroll-reveal-words.is-visible .reveal-word {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  .scroll-reveal-rule {
+    width: 0%;
+  }
+
+  .scroll-reveal-rule.is-visible {
+    animation: luxuryLineReveal var(--reveal-rule-duration, 800ms)
+      var(--reveal-ease) forwards;
+    animation-delay: var(--reveal-delay);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal-image,
+  .scroll-reveal-text,
+  .scroll-reveal-rule,
+  .scroll-reveal-image.is-visible,
+  .scroll-reveal-text.is-visible,
+  .scroll-reveal-rule.is-visible,
+  .scroll-reveal-words .reveal-word,
+  .scroll-reveal-words.is-visible .reveal-word {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    clip-path: none;
+    width: 100%;
+    animation: none;
+    transition: none;
+  }
 }

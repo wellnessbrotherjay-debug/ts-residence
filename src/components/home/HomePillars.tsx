@@ -48,7 +48,7 @@ const PILLARS = [
       "Flexible long-stay setup",
     ],
     page: "easy" as Page,
-    img: "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+    img: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
   },
 ];
 
@@ -57,18 +57,23 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => {
   const pillar = PILLARS[activePillar];
 
   return (
-    <section className="bg-white px-6 pb-14 md:px-12 md:pb-16 lg:px-20 lg:pb-18 xl:px-28">
+    <section
+      data-reveal-profile="cinematic"
+      className="bg-white px-5 pb-12 md:px-12 md:pb-16 lg:px-20 lg:pb-18 xl:px-28"
+    >
       <FadeInView className="mx-auto max-w-210">
-        <div className="border-gold/18 border-t pt-8">
+        <div className="border-gold/18 border-t pt-7 md:pt-8">
           <div className="mx-auto max-w-160 text-center">
-            <p className="label-caps text-gold">Three Pillars. One Lifestyle.</p>
-            <p className="text-body text-ink-light mt-4 leading-[1.75]">
+            <p className="label-caps text-gold">
+              Three Pillars. One Lifestyle.
+            </p>
+            <p className="text-body text-ink-light mt-3 text-[0.95rem] leading-[1.65] md:mt-4 md:text-base md:leading-[1.75]">
               Everything here is designed to elevate how you live, feel, and
               perform daily.
             </p>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-2 border-b border-[#e7ddd0] pb-4">
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-b border-[#e7ddd0] pb-4 md:mt-8 md:gap-x-7">
             {PILLARS.map((item, index) => {
               const isActive = index === activePillar;
 
@@ -77,7 +82,7 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => {
                   key={item.title}
                   type="button"
                   onClick={() => setActivePillar(index)}
-                  className={`font-serif text-[1.3rem] leading-none transition-all duration-300 md:text-[1.55rem] ${
+                  className={`font-serif text-[1.08rem] leading-none transition-all duration-300 sm:text-[1.18rem] md:text-[1.55rem] ${
                     isActive
                       ? "text-ink underline decoration-[#2c2218] underline-offset-[8px]"
                       : "text-[#b7aea4] hover:text-[#857768]"
@@ -89,27 +94,27 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => {
             })}
           </div>
 
-          <div className="grid grid-cols-1 gap-8 pt-7 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+          <div className="grid grid-cols-1 gap-7 pt-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
             <AnimatePresence mode="wait">
               <motion.div
                 key={pillar.title}
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 className="max-w-125"
               >
-                <p className="text-[0.95rem] font-semibold tracking-[0.08em] text-[#8b7453] uppercase">
+                <p className="text-[0.82rem] font-semibold tracking-[0.08em] text-[#8b7453] uppercase md:text-[0.95rem]">
                   {pillar.eyebrow}
                 </p>
-                <p className="text-body text-ink-light mt-5">
+                <p className="text-body text-ink-light mt-4 text-[0.97rem] leading-7 md:mt-5 md:text-base md:leading-8">
                   {pillar.desc}
                 </p>
-                <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-3 md:grid-cols-2">
+                <div className="mt-5 grid grid-cols-1 gap-x-8 gap-y-2.5 md:mt-6 md:grid-cols-2 md:gap-y-3">
                   {pillar.bullets.map((item) => (
                     <div key={item} className="flex items-start gap-3">
                       <span className="bg-gold mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full" />
-                      <p className="text-[0.98rem] leading-7 text-[#5f5448]">
+                      <p className="text-[0.94rem] leading-6.5 text-[#5f5448] md:text-[0.98rem] md:leading-7">
                         {item}
                       </p>
                     </div>
@@ -128,17 +133,17 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => {
               <motion.button
                 key={pillar.img}
                 type="button"
-                initial={{ opacity: 0, scale: 1.02 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.99 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
                 onClick={() => setPage(pillar.page)}
-                className="group relative block overflow-hidden border border-[#eadfcd] bg-white"
+                className="group relative block overflow-hidden border border-[#eadfcd] bg-white md:max-w-88 lg:max-w-none"
               >
                 <img
                   src={pillar.img}
                   alt={pillar.title}
-                  className="aspect-[4/5] w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.02]"
+                  className="aspect-5/4 w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.02] md:aspect-4/5"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/34 via-transparent to-transparent" />
               </motion.button>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LockedPageHero } from "@/components/site/LockedPageHero";
 import {
   FadeInView,
   StaggerContainer,
@@ -11,42 +12,28 @@ import { apartmentDisplayList } from "@/lib/apartments-content";
 
 export default function Page() {
   return (
-    <div className="bg-cream overflow-x-hidden">
-      <section className="border-gold/30 relative min-h-[56vh] overflow-hidden border-y bg-[#171310] md:min-h-[72vh] lg:min-h-[86vh]">
-        <img
-          src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c4bdd92c-22b9-428a-1af4-5b4e3134c000/public"
-          alt="TS Residence Apartments"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/66" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
+    <div className="relative isolate overflow-x-hidden">
+      <LockedPageHero
+        image="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c4bdd92c-22b9-428a-1af4-5b4e3134c000/public"
+        alt="TS Residence Apartments"
+        heightClassName="h-[86vh] md:h-[88vh]"
+        title={
+          <>
+            Find the apartment
+            <br />
+            that matches
+            <br />
+            your rhythm.
+          </>
+        }
+        description="Premium monthly residences designed with five-star comfort, practical layouts, and service-led convenience in Seminyak."
+      />
 
-        <div className="relative flex min-h-[56vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[72vh] md:px-12 md:py-22 lg:min-h-[86vh] lg:px-20 lg:py-24 xl:px-28">
-          <FadeInView className="w-full max-w-300 text-white">
-            <h1 className="mx-auto max-w-[14ch] font-serif text-[3.25rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[5.8rem] lg:text-[6.9rem]">
-              Find the apartment
-              <br />
-              that matches
-              <br />
-              your rhythm.
-            </h1>
-
-            <p className="mx-auto mt-9 max-w-190 text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9">
-              Premium monthly residences designed with five-star comfort,
-              practical layouts, and service-led convenience in Seminyak.
-            </p>
-
-            <div className="via-gold/55 mx-auto mt-9 h-px w-full max-w-115 bg-linear-to-r from-transparent to-transparent" />
-          </FadeInView>
-        </div>
-      </section>
-
-      <section className="border-gold/30 border-b bg-white">
-        <div className="mx-auto w-full max-w-440 px-6 py-16 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
+      <section className="border-gold/30 relative z-10 border-b bg-white">
+        <div className="mx-auto w-full max-w-440 px-5 py-12 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
           <FadeInView className="mb-12 max-w-260">
             <p className="label-caps text-gold">Apartment Collection</p>
-            <h2 className="text-ink mt-4 font-serif text-[2.3rem] leading-[1.03] md:text-[3.2rem]">
+            <h2 className="text-ink mt-4 font-serif text-[1.95rem] leading-[1.04] md:text-[3.2rem]">
               Three apartment options,
               <br />
               one premium long-stay standard.
@@ -54,7 +41,7 @@ export default function Page() {
           </FadeInView>
 
           <StaggerContainer
-            className="space-y-7 md:space-y-8"
+            className="space-y-5 md:space-y-8"
             staggerDelay={0.14}
           >
             {apartmentDisplayList.map((apartment, index) => (
@@ -72,7 +59,7 @@ export default function Page() {
                     <img
                       src={apartment.image}
                       alt={apartment.name}
-                      className="h-60 w-full object-cover transition-transform duration-1800 ease-out group-hover:scale-[1.06] md:h-80 lg:h-130"
+                      className="h-54 w-full object-cover transition-transform duration-1800 ease-out group-hover:scale-[1.06] md:h-80 lg:h-130"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
                     <div className="absolute right-5 bottom-5 border border-white/35 bg-black/28 px-3 py-2 text-[10px] tracking-[0.2em] text-white/90 uppercase backdrop-blur-sm md:right-7 md:bottom-7">
@@ -81,25 +68,25 @@ export default function Page() {
                   </div>
 
                   <div
-                    className={`flex items-center px-6 py-10 md:px-9 md:py-12 lg:px-12 lg:py-14 ${index % 2 === 1 ? "lg:order-1" : ""}`}
+                    className={`flex items-center px-5 py-7 md:px-9 md:py-12 lg:px-12 lg:py-14 ${index % 2 === 1 ? "lg:order-1" : ""}`}
                   >
                     <div className="max-w-lg">
                       <p className="label-caps text-gold-dark">
                         Apartment Type
                       </p>
-                      <h3 className="text-ink mt-4 font-serif text-[2.9rem] leading-[0.92] md:text-[3.6rem]">
+                      <h3 className="text-ink mt-3 font-serif text-[2.25rem] leading-[0.95] md:mt-4 md:text-[3.6rem]">
                         {apartment.name}
                       </h3>
-                      <p className="text-ink/60 mt-3 text-[12px] tracking-[0.2em] uppercase">
+                      <p className="text-ink/60 mt-2 text-[11px] tracking-[0.16em] uppercase md:mt-3 md:text-[12px] md:tracking-[0.2em]">
                         {apartment.bed}
                       </p>
-                      <p className="text-ink/80 mt-6 text-[1.08rem] leading-8">
+                      <p className="text-ink/80 mt-4 text-[0.98rem] leading-7 md:mt-6 md:text-[1.08rem] md:leading-8">
                         {apartment.short}
                       </p>
-                      <p className="text-ink/65 mt-4 text-[0.98rem] leading-7">
+                      <p className="text-ink/65 mt-3 text-[0.92rem] leading-6.5 md:mt-4 md:text-[0.98rem] md:leading-7">
                         {apartment.audience}
                       </p>
-                      <div className="border-gold/25 mt-7 border-t pt-6">
+                      <div className="border-gold/25 mt-5 border-t pt-5 md:mt-7 md:pt-6">
                         <span className="text-gold-dark group-hover:text-ink text-[11px] font-semibold tracking-[0.22em] uppercase transition-all duration-500 group-hover:tracking-[0.26em]">
                           View Details
                         </span>
@@ -113,16 +100,16 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-gold/30 bg-cream border-b">
-        <div className="w-full px-6 py-14 text-center md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
+      <section className="border-gold/30 bg-cream relative z-10 border-b">
+        <div className="w-full px-5 py-12 text-center md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <FadeInView className="mx-auto max-w-245">
             <p className="label-caps text-gold">Need Recommendation?</p>
-            <h3 className="text-ink mt-4 font-serif text-[2.2rem] leading-[1.03] md:text-[3rem]">
+            <h3 className="text-ink mt-4 font-serif text-[1.9rem] leading-[1.05] md:text-[3rem]">
               Let our team suggest the most suitable apartment
               <br />
               for your duration and lifestyle.
             </h3>
-            <div className="mt-10 flex flex-wrap justify-center gap-4 md:gap-5">
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap md:mt-10 md:gap-5">
               <Link href="/contact" className={BTN_GOLD}>
                 Contact Concierge
               </Link>

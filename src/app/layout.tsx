@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { GlobalTextReveal } from "@/components/site/GlobalTextReveal";
+import { Analytics } from "@/components/Analytics";
 import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -65,15 +67,19 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full scroll-smooth antialiased">
       <body className="flex min-h-full flex-col">
+        <Analytics />
         <div className="bg-cream text-ink min-h-screen">
           <Navbar />
-          <main className="flex-1 pt-24 lg:pt-28">{children}</main>
+          <main className="flex-1 pt-18 lg:pt-28">
+            <GlobalTextReveal />
+            {children}
+          </main>
           <Footer />
           <a
             href="https://wa.me/6281119028111"
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed right-8 bottom-8 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-sm font-semibold tracking-[0.14em] text-[#0d2a1b] uppercase shadow-2xl transition-transform duration-300 hover:scale-110"
+            className="fixed right-4 bottom-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-[11px] font-semibold tracking-[0.14em] text-[#0d2a1b] uppercase shadow-2xl transition-transform duration-300 hover:scale-110 md:right-8 md:bottom-8 md:h-14 md:w-14 md:text-sm"
             aria-label="WA chat on WhatsApp"
           >
             <span aria-hidden="true">WA</span>

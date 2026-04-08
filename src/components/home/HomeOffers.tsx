@@ -17,8 +17,8 @@ export const HomeOffers = ({ setPage }: { setPage: (p: Page) => void }) => (
           Special Opening Celebration
         </h2>
         <p className="text-body mt-7 max-w-160 text-white/76">
-          Stay 3 months, pay for 2. Available across all apartment categories
-          for a more generous start in Seminyak.
+          Stay 3 months, pay for 2 on the SOLO unit only, for a more generous
+          start in Seminyak.
         </p>
         <button
           onClick={() => setPage("offers")}

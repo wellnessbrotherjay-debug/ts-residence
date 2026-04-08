@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LockedPageHero } from "@/components/site/LockedPageHero";
 import {
   FadeInView,
   StaggerContainer,
@@ -65,39 +66,30 @@ const facilityCards = [
 
 export default function Page() {
   return (
-    <div className="bg-cream overflow-x-hidden">
-      <section className="border-gold/30 relative min-h-[60vh] overflow-hidden border-y md:min-h-[76vh] lg:min-h-[90vh]">
-        <img
-          src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
-          alt="TS Residence Five-Star Living"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/64" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.09),transparent_42%),radial-gradient(circle_at_80%_80%,rgba(184,150,90,0.18),transparent_52%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
+    <div
+      data-reveal-profile="cinematic"
+      className="relative isolate overflow-x-hidden"
+    >
+      <LockedPageHero
+        image="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/95522767-3643-482c-5a4d-5068cf935600/public"
+        alt="TS Residence Five-Star Living"
+        heightClassName="h-[90vh] md:h-[92vh] lg:h-[94vh]"
+        title={
+          <>
+            Five-star service,
+            <br />
+            now redefined for
+            <br />
+            long-stay residence.
+          </>
+        }
+        description="Experience seamless access to curated facilities and hospitality standards designed for comfort, productivity, and elevated living in Seminyak."
+      />
 
-        <div className="relative flex min-h-[60vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[76vh] md:px-12 md:py-22 lg:min-h-[90vh] lg:px-20 lg:py-24 xl:px-28">
-          <FadeInView className="w-full max-w-300 text-white">
-            <h1 className="mx-auto max-w-[14.5ch] font-serif text-[3.45rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[6.3rem] lg:text-[7.4rem]">
-              Five-star service,
-              <br />
-              now redefined for
-              <br />
-              long-stay residence.
-            </h1>
-
-            <p className="mx-auto mt-9 max-w-190 text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9">
-              Experience seamless access to curated facilities and hospitality
-              standards designed for comfort, productivity, and elevated living
-              in Seminyak.
-            </p>
-
-            <div className="via-gold/55 mx-auto mt-9 h-px w-full max-w-115 bg-linear-to-r from-transparent to-transparent" />
-          </FadeInView>
-        </div>
-      </section>
-
-      <section className="border-gold/30 border-b bg-white">
+      <section
+        data-reveal-profile="cinematic"
+        className="border-gold/30 relative z-10 border-b bg-white"
+      >
         <div className="section-shell px-6 py-16 md:px-12 md:py-18 lg:px-20 lg:py-22 xl:px-28">
           <FadeInView className="mx-auto mb-10 max-w-215 text-center lg:mb-12">
             <p className="label-caps text-gold">Operating Signature</p>
@@ -135,7 +127,10 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-gold/30 bg-cream border-b">
+      <section
+        data-reveal-profile="cinematic"
+        className="border-gold/30 bg-cream relative z-10 border-b"
+      >
         <div className="section-shell px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="mx-auto max-w-225 text-center">
             <p className="label-caps text-gold">Signature Facilities</p>
@@ -152,7 +147,10 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="w-full px-6 py-12 md:px-10 md:py-14 lg:px-12 lg:py-16 xl:px-14">
+      <section
+        data-reveal-profile="cinematic"
+        className="bg-cream relative z-10 w-full px-6 py-12 md:px-10 md:py-14 lg:px-12 lg:py-16 xl:px-14"
+      >
         <StaggerContainer
           className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4"
           staggerDelay={0.14}
@@ -185,16 +183,19 @@ export default function Page() {
         </StaggerContainer>
       </section>
 
-      <section className="border-gold/30 border-y bg-white">
+      <section
+        data-reveal-profile="cinematic"
+        className="border-gold/30 relative z-10 border-y bg-white"
+      >
         <div className="section-shell grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
           <FadeInView
             direction="left"
-            className="relative min-h-64 overflow-hidden md:min-h-90 lg:min-h-130"
+            className="group relative min-h-64 overflow-hidden md:min-h-90 lg:min-h-130"
           >
             <img
               src="https://tsresidence.id/wp-content/uploads/2025/10/TS-Suites-Rooftop-Infinity-Pool.webp"
               alt="Five-star facilities"
-              className="h-full w-full object-cover transition-transform duration-1800 ease-out hover:scale-[1.04]"
+              className="h-full w-full object-cover transition-transform duration-1500 ease-out group-hover:scale-[1.04]"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/10 to-transparent" />
           </FadeInView>
@@ -224,7 +225,10 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-gold/30 bg-cream border-b">
+      <section
+        data-reveal-profile="cinematic"
+        className="border-gold/30 bg-cream relative z-10 border-b"
+      >
         <div className="section-shell px-6 py-14 text-center md:px-12 md:py-16 lg:px-20 lg:py-20 xl:px-28">
           <FadeInView className="mx-auto max-w-200">
             <p className="label-caps text-gold">Private Tour</p>

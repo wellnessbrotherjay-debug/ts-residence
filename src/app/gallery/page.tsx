@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState, useTransition } from "react";
+import { LockedPageHero } from "@/components/site/LockedPageHero";
 import {
   FadeInView,
   StaggerContainer,
@@ -89,7 +90,7 @@ const officialAccounts = [
     name: "TS Residence",
     handle: "@tsresidences",
     href: "https://www.instagram.com/tsresidences/",
-    logo: "https://tsresidence.id/wp-content/uploads/2025/08/ts-residence-logo.webp",
+    logo: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/cce3ff72-a0c2-4b10-826e-c47befe5db00/public",
   },
   {
     name: "TS Suites",
@@ -151,36 +152,22 @@ export default function Page() {
   }, [activeCollection, activeImage]);
 
   return (
-    <div className="bg-cream overflow-x-hidden">
-      <section className="border-gold/30 relative min-h-[56vh] overflow-hidden border-y md:min-h-[72vh] lg:min-h-[86vh]">
-        <img
-          src="https://tsresidence.id/wp-content/uploads/2025/08/ts-residence-img.webp"
-          alt="TS Residence Gallery"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/66" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
+    <div className="relative isolate overflow-x-hidden">
+      <LockedPageHero
+        image="https://tsresidence.id/wp-content/uploads/2025/08/ts-residence-img.webp"
+        alt="TS Residence Gallery"
+        heightClassName="h-[86vh] md:h-[88vh]"
+        title={
+          <>
+            Moments that define
+            <br />
+            life at TS Residence.
+          </>
+        }
+        description="Explore apartment ambiance, five-star facilities, wellness culture, and everyday long-stay experiences in Seminyak."
+      />
 
-        <div className="relative flex min-h-[56vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[72vh] md:px-12 md:py-22 lg:min-h-[86vh] lg:px-20 lg:py-24 xl:px-28">
-          <FadeInView className="w-full max-w-300 text-white">
-            <h1 className="mx-auto max-w-[14ch] font-serif text-[3.2rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[5.7rem] lg:text-[6.8rem]">
-              Moments that define
-              <br />
-              life at TS Residence.
-            </h1>
-
-            <p className="mx-auto mt-9 max-w-190 text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9">
-              Explore apartment ambiance, five-star facilities, wellness
-              culture, and everyday long-stay experiences in Seminyak.
-            </p>
-
-            <div className="via-gold/55 mx-auto mt-9 h-px w-full max-w-115 bg-linear-to-r from-transparent to-transparent" />
-          </FadeInView>
-        </div>
-      </section>
-
-      <section className="border-gold/30 border-b bg-white">
+      <section className="border-gold/30 relative z-10 border-b bg-white">
         <div className="mx-auto w-full max-w-440 px-6 py-16 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
           <FadeInView className="mb-14 max-w-255">
             <p className="label-caps text-gold">Official Channels</p>
@@ -281,7 +268,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-gold/30 bg-cream border-b">
+      <section className="border-gold/30 bg-cream relative z-10 border-b">
         <div className="w-full px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <FadeInView className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <div>
@@ -402,12 +389,8 @@ export default function Page() {
               ›
             </button>
 
-            <motion.figure
+            <figure
               key={collections[activeCollection].images[activeImage]}
-              initial={{ opacity: 0, scale: 0.97, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.98, y: 8 }}
-              transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
               className="relative w-full max-w-330"
               onClick={(event) => event.stopPropagation()}
             >
@@ -420,7 +403,7 @@ export default function Page() {
                 {collections[activeCollection].name} | {activeImage + 1} /{" "}
                 {collections[activeCollection].images.length}
               </figcaption>
-            </motion.figure>
+            </figure>
           </motion.div>
         )}
       </AnimatePresence>

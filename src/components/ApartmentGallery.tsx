@@ -1,5 +1,5 @@
 import { ChevronRight, ChevronLeft, X } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { useState } from "react";
 
 export const ApartmentGallery = ({
@@ -39,19 +39,13 @@ export const ApartmentGallery = ({
         >
           <ChevronLeft size={36} />
         </button>
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={currentIndex}
-            src={images[currentIndex]}
-            alt={`${type} ${currentIndex}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-h-full max-w-full object-contain"
-            referrerPolicy="no-referrer"
-          />
-        </AnimatePresence>
+        <img
+          key={currentIndex}
+          src={images[currentIndex]}
+          alt={`${type} ${currentIndex}`}
+          className="max-h-full max-w-full object-contain"
+          referrerPolicy="no-referrer"
+        />
         <button
           onClick={() => setCurrentIndex((p) => (p + 1) % images.length)}
           className="absolute right-4 z-10 p-3 text-white/40 transition-colors hover:text-white md:right-8"

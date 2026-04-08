@@ -19,7 +19,8 @@ export const apartments = [
     name: "SOLO",
     sqm: "36 sqm",
     bed: "1 Bedroom",
-    short: "Compact & Efficient — Perfect for solo professionals or digital nomads.",
+    short:
+      "Compact & Efficient — Perfect for solo professionals or digital nomads.",
     description:
       "Live with intention in our 36 sqm private apartment, crafted for individuals who prioritize focus, independence, and flexibility. With a smart layout, natural light, and curated essentials, SOLO offers a quiet space to work, recharge, and thrive in Seminyak's vibrant energy.",
     image:
@@ -61,7 +62,8 @@ export const apartments = [
     name: "STUDIO",
     sqm: "48 sqm",
     bed: "1 Bedroom",
-    short: "Spacious Comfort — Perfect for couples, creatives, and wellness seekers.",
+    short:
+      "Spacious Comfort — Perfect for couples, creatives, and wellness seekers.",
     description:
       "Blending style and function, the STUDIO offers 48 sqm of open-plan living ideal for two. Whether you're creating, relaxing, or reconnecting, this thoughtfully designed residence gives you the space to stretch out — with seamless access to wellness programs and lifestyle perks.",
     image:
@@ -103,7 +105,8 @@ export const apartments = [
     name: "SOHO",
     sqm: "80 sqm",
     bed: "2 Bedrooms",
-    short: "Spacious Two-Bedroom Living — Perfect for small families or digital entrepreneurs.",
+    short:
+      "Spacious Two-Bedroom Living — Perfect for small families or digital entrepreneurs.",
     description:
       "With 80 sqm of thoughtfully designed space, SOHO redefines long-term apartment living for those who value comfort and functionality. A dedicated living area, private sleeping spaces, and a full kitchen make this the perfect sanctuary for families or remote professionals building a life in Bali.",
     image:
@@ -166,7 +169,7 @@ export const homePillars = [
       "A seamless monthly stay near Seminyak Beach with concierge support and effortless day-to-day convenience.",
     href: "/easy-living",
     image:
-      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
     stat: "Flexible long-stay living",
   },
 ];
@@ -201,7 +204,7 @@ export const galleryCategories = [
 export const offers = [
   {
     title: "Opening Celebration",
-    description: "Stay 3 months, pay 2 months on all apartment categories.",
+    description: "Stay 3 months, pay 2 months on the SOLO unit only.",
     image:
       "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80",
   },

@@ -46,21 +46,21 @@ const wellnessFacilities = [
     description:
       "A calm, beautifully curated environment for yoga, mindfulness, and guided movement sessions.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-wellness-studio.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12a96763-9bfb-47d8-8199-4702767d5d00/public",
   },
   {
     title: "Reformer Pilates",
     description:
       "Specialized reformer programs for posture, flexibility, and full-body conditioning.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-reformer-pilater.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
   },
   {
     title: "Night Sauna",
     description:
       "Evening heat therapy sessions to release tension and support deep-quality rest.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-night-sauna.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c4706bf4-10a7-4895-5be3-6c35b0eb3100/public",
   },
   {
     title: "IV Therapy Room",
@@ -170,7 +170,7 @@ export default function Page() {
     <div className="bg-cream overflow-x-hidden">
       <section
         ref={heroRef}
-        className="border-gold/30 relative min-h-[60vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
+        className="border-gold/30 relative min-h-[48vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
       >
         <motion.img
           src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-wellness-club-building-gate.webp"
@@ -183,14 +183,12 @@ export default function Page() {
         <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
 
         <motion.div
-          className="relative flex min-h-[60vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[78vh] md:px-12 md:py-22 lg:min-h-[92vh] lg:px-20 lg:py-24 xl:px-28"
+          className="relative flex min-h-[48vh] w-full items-center justify-center px-5 py-14 text-center md:min-h-[78vh] md:px-12 md:py-22 lg:min-h-[92vh] lg:px-20 lg:py-24 xl:px-28"
           style={{ y: heroContentY, opacity: heroContentOpacity }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-300 translate-y-8 text-white md:translate-y-10 lg:translate-y-12"
+          <div
+            data-reveal-group="0.1"
+            className="w-full max-w-300 translate-y-4 text-white md:translate-y-10 lg:translate-y-12"
           >
             <motion.div
               initial={{ scaleX: 0, opacity: 0 }}
@@ -199,37 +197,19 @@ export default function Page() {
               className="via-gold/80 mx-auto h-px w-28 origin-center bg-linear-to-r from-transparent to-transparent"
             />
 
-            <motion.h1
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1.15,
-                delay: 0.42,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mx-auto mt-7 max-w-[14.5ch] font-serif text-[3.2rem] leading-[0.9] tracking-[-0.03em] sm:text-7xl md:text-[5.7rem] lg:text-[6.8rem]"
-            >
+            <h1 className="mx-auto mt-6 max-w-[12ch] font-serif text-[2.75rem] leading-[0.9] tracking-[-0.03em] sm:text-7xl md:mt-7 md:max-w-[14.5ch] md:text-[5.7rem] lg:text-[6.8rem]">
               Elevated
               <br />
               wellness living
               <br />
               in Seminyak.
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1.1,
-                delay: 0.55,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mx-auto mt-9 max-w-190 text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9"
-            >
+            <p className="mx-auto mt-6 max-w-125 text-[0.97rem] leading-7 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:mt-9 md:max-w-190 md:text-[1.16rem] md:leading-9">
               Build your daily rhythm around movement, recovery, and premium
               support facilities designed for healthier monthly residence.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
         </motion.div>
       </section>
 
@@ -321,8 +301,8 @@ export default function Page() {
             className="relative min-h-64 overflow-hidden md:min-h-90 lg:min-h-135"
           >
             <motion.img
-              src="https://tsresidence.id/wp-content/uploads/2025/10/massage-room.webp"
-              alt="Massage recovery room"
+              src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/13c17e41-4ce4-4d5f-b7a8-22b22d8cc600/public"
+              alt="Spa recovery room"
               className="h-full w-full object-cover transition-transform duration-1800 ease-out hover:scale-[1.04]"
               whileHover={{ scale: 1.04 }}
               transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
@@ -344,8 +324,8 @@ export default function Page() {
               <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="border-gold/25 bg-cream overflow-hidden border">
                   <motion.img
-                    src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-dressing-room.webp"
-                    alt="Dressing room"
+                    src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7b91f79d-d4da-4872-4dea-b407d4e9d500/public"
+                    alt="Recovery room lounge"
                     className="h-45 w-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -353,8 +333,8 @@ export default function Page() {
                 </div>
                 <div className="border-gold/25 bg-cream overflow-hidden border">
                   <motion.img
-                    src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-iv-room.webp"
-                    alt="IV room"
+                    src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/13c17e41-4ce4-4d5f-b7a8-22b22d8cc600/public"
+                    alt="Recovery treatment area"
                     className="h-45 w-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -472,12 +452,8 @@ export default function Page() {
               ›
             </button>
 
-            <motion.figure
+            <figure
               key={communityMoments[galleryIndex].src}
-              initial={{ opacity: 0, scale: 0.97, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.98, y: 8 }}
-              transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
               className="relative w-full max-w-330"
               onClick={(event) => event.stopPropagation()}
             >
@@ -489,7 +465,7 @@ export default function Page() {
               <figcaption className="mt-4 text-center text-[12px] tracking-[0.18em] text-white/80 uppercase">
                 {galleryIndex + 1} / {communityMoments.length}
               </figcaption>
-            </motion.figure>
+            </figure>
           </motion.div>
         )}
       </AnimatePresence>

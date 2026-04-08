@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LockedPageHero } from "@/components/site/LockedPageHero";
 import {
   FadeInView,
   StaggerContainer,
@@ -29,38 +30,24 @@ const contactCards = [
 
 export default function Page() {
   return (
-    <div className="bg-cream overflow-x-hidden">
-      <section className="border-gold/30 relative min-h-[56vh] overflow-hidden border-y md:min-h-[72vh] lg:min-h-[86vh]">
-        <img
-          src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
-          alt="Contact TS Residence"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/66" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-black/62 to-transparent" />
+    <div className="relative isolate overflow-x-hidden">
+      <LockedPageHero
+        image="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
+        alt="Contact TS Residence"
+        heightClassName="h-[86vh] md:h-[88vh]"
+        title={
+          <>
+            Let&apos;s plan
+            <br />
+            your long-stay
+            <br />
+            with confidence.
+          </>
+        }
+        description="Reach our team for apartment availability, offers, and tailored monthly stay recommendations based on your lifestyle and timeline."
+      />
 
-        <div className="relative flex min-h-[56vh] w-full items-center justify-center px-6 py-18 text-center md:min-h-[72vh] md:px-12 md:py-22 lg:min-h-[86vh] lg:px-20 lg:py-24 xl:px-28">
-          <FadeInView className="w-full max-w-300 text-white">
-            <h1 className="mx-auto max-w-[14ch] font-serif text-[3.2rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:text-[5.7rem] lg:text-[6.8rem]">
-              Let&apos;s plan
-              <br />
-              your long-stay
-              <br />
-              with confidence.
-            </h1>
-
-            <p className="mx-auto mt-9 max-w-190 text-[1.08rem] leading-8 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:text-[1.16rem] md:leading-9">
-              Reach our team for apartment availability, offers, and tailored
-              monthly stay recommendations based on your lifestyle and timeline.
-            </p>
-
-            <div className="via-gold/55 mx-auto mt-9 h-px w-full max-w-115 bg-linear-to-r from-transparent to-transparent" />
-          </FadeInView>
-        </div>
-      </section>
-
-      <section className="border-gold/30 border-b bg-white">
+      <section className="border-gold/30 relative z-10 border-b bg-white">
         <div className="section-shell px-6 py-16 md:px-12 md:py-18 lg:px-20 lg:py-22 xl:px-28">
           <StaggerContainer
             className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-5"
@@ -91,7 +78,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-gold/30 bg-cream border-b">
+      <section className="border-gold/30 bg-cream relative z-10 border-b">
         <div className="w-full px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <div className="border-gold/25 grid grid-cols-1 border bg-white lg:grid-cols-[0.95fr_1.05fr]">
             <FadeInView
@@ -205,7 +192,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-gold/30 border-b bg-white">
+      <section className="border-gold/30 relative z-10 border-b bg-white">
         <div className="w-full px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_0.9fr]">
             <FadeInView className="border-gold/25 overflow-hidden border">
@@ -247,7 +234,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-gold/30 bg-cream border-b">
+      <section className="border-gold/30 bg-cream relative z-10 border-b">
         <div className="w-full px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <FadeInView className="mb-10">
             <h2 className="text-ink font-serif text-[2rem] leading-[1.03] md:text-[2.8rem]">

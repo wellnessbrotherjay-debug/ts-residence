@@ -1,9 +1,5 @@
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-} from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+import { FadeInView } from "./site/animations";
 import { useState, useEffect, useRef } from "react";
 
 const HERO_DEMO_VIDEO_SRC =
@@ -37,47 +33,36 @@ const HeroTextContent = ({
       }}
       className="flex flex-col items-center text-center"
     >
-      <motion.span
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: isInitialLoad ? 0.95 : 0.35,
-          delay: isInitialLoad ? 0.16 : 0.02,
-        }}
-        className={`font-sans text-[12px] font-semibold tracking-[0.4em] uppercase sm:text-[13px] md:text-[18px] ${
-          isDark ? "text-ink" : "text-white"
-        }`}
-      >
-        {slides[currentSlide].tag}
-      </motion.span>
-
-      <motion.h1
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: isInitialLoad ? 1.2 : 0.55,
-          delay: isInitialLoad ? 0.24 : 0.06,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-        className={`heading-display text-5xl leading-none sm:text-6xl md:text-8xl lg:text-[9rem] xl:text-[11rem] ${
-          isDark ? "text-ink" : "text-white"
-        }`}
-        style={
-          isDark
-            ? {}
-            : {
-                textShadow:
-                  "0 4px 60px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.3)",
-              }
-        }
-      >
-        {slides[currentSlide].title}
-      </motion.h1>
+      <FadeInView delay={isInitialLoad ? 0.16 : 0.02}>
+        <span
+          className={`font-sans text-[10px] font-semibold tracking-[0.28em] uppercase sm:text-[12px] md:text-[18px] ${
+            isDark ? "text-ink" : "text-white"
+          }`}
+        >
+          {slides[currentSlide].tag}
+        </span>
+      </FadeInView>
+      <FadeInView delay={isInitialLoad ? 0.24 : 0.06}>
+        <h1
+          className={`heading-display text-[3.35rem] leading-[0.92] sm:text-6xl md:text-8xl lg:text-[9rem] xl:text-[11rem] ${
+            isDark ? "text-ink" : "text-white"
+          }`}
+          style={
+            isDark
+              ? {}
+              : {
+                  textShadow:
+                    "0 4px 60px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.3)",
+                }
+          }
+        >
+          {slides[currentSlide].title}
+        </h1>
+      </FadeInView>
     </motion.div>
   </AnimatePresence>
 );
 
-// --- Hero Section (Berkeley Double-Header Masking) ---
 export const HeroSection = ({
   heroImage,
   showVideo = true,
@@ -96,7 +81,7 @@ export const HeroSection = ({
   // viewportH drives all pixel-based layout values.
   const [viewportH, setViewportH] = useState(900);
   const [navbarH, setNavbarH] = useState(MOBILE_NAVBAR_H);
-  const textRestOffset = navbarH >= DESKTOP_NAVBAR_H ? 220 : 140;
+  const textRestOffset = navbarH >= DESKTOP_NAVBAR_H ? 220 : 185;
 
   useEffect(() => {
     const measure = () => {
@@ -172,13 +157,16 @@ export const HeroSection = ({
 
   useEffect(() => {
     if (!showVideo) {
-      setVideoSrc("");
-      setIsVideoReady(false);
-      setHasVideoError(false);
+      queueMicrotask(() => {
+        setVideoSrc("");
+        setIsVideoReady(false);
+        setHasVideoError(false);
+      });
       return;
     }
-
-    setVideoSrc(HERO_VIDEO_SRC);
+    queueMicrotask(() => {
+      setVideoSrc(HERO_VIDEO_SRC);
+    });
   }, [showVideo]);
 
   useEffect(() => {
@@ -191,10 +179,11 @@ export const HeroSection = ({
   return (
     <div
       ref={heroRef}
+      data-no-global-reveal="true"
       className="relative"
       style={{
         position: "relative",
-        height: `${Math.round(viewportH * (navbarH >= DESKTOP_NAVBAR_H ? 1.7 : 1.35))}px`,
+        height: `${Math.round(viewportH * (navbarH >= DESKTOP_NAVBAR_H ? 1.7 : 1.12))}px`,
       }}
     >
       {/* Sticky container — one viewport tall in pixels */}
@@ -292,7 +281,6 @@ export const HeroSection = ({
                 Motion (y/opacity/scale) lives on the inner content div — identical
                 to the dark text content div — so both share the same transform origin. */}
             <motion.div
-              style={{ top: whiteTextAbsTop }}
               className="pointer-events-none absolute right-0 left-0 flex flex-col items-center justify-center"
               style={{
                 top: whiteTextAbsTop,
@@ -318,7 +306,7 @@ export const HeroSection = ({
           </motion.div>
 
           {/* Slide Indicators */}
-          <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3">
+          <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 md:bottom-8 md:gap-3">
             {slides.map((_, i) => (
               <button
                 key={i}
@@ -326,8 +314,8 @@ export const HeroSection = ({
                 aria-label={`Go to slide ${i + 1}`}
                 className={`rounded-full transition-all duration-700 ${
                   i === currentSlide
-                    ? "bg-gold h-6 w-10"
-                    : "h-6 w-6 bg-white/30 hover:bg-white/50"
+                    ? "bg-gold h-3.5 w-7 md:h-6 md:w-10"
+                    : "h-3.5 w-3.5 bg-white/30 hover:bg-white/50 md:h-6 md:w-6"
                 }`}
               />
             ))}

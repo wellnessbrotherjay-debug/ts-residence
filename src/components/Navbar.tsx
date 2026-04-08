@@ -9,6 +9,9 @@ import { BTN_SOLID } from "../constants";
 import type { Page } from "../types";
 import { apartmentDisplayList } from "@/lib/apartments-content";
 
+const LOGO_URL =
+  "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/cce3ff72-a0c2-4b10-826e-c47befe5db00/public";
+
 function pathnameToPage(pathname: string): Page {
   if (pathname === "/") return "home";
   if (pathname === "/apartments") return "apartments";
@@ -74,7 +77,9 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    setIsApartmentsOpen(false);
+    queueMicrotask(() => {
+      setIsApartmentsOpen(false);
+    });
   }, [pathname]);
 
   useEffect(() => {
@@ -107,6 +112,7 @@ export const Navbar = () => {
   return (
     <>
       <motion.nav
+        data-no-global-reveal="true"
         initial={{ y: -64, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -118,24 +124,18 @@ export const Navbar = () => {
       >
         <div className="w-full px-4">
           {/* Mobile Header */}
-          <div className="flex items-center justify-between lg:hidden">
+          <div className="flex h-18 items-center justify-between lg:hidden">
             <div className="w-10" />
             <button
               onClick={() => setPage("home")}
               className="group flex flex-col items-center gap-0.5"
               aria-label="TS Residence home"
             >
-              <div className="flex items-baseline gap-0">
-                <span className="text-ink font-serif text-3xl font-light tracking-tight transition-colors duration-500">
-                  T
-                </span>
-                <span className="text-ink font-serif text-3xl font-light tracking-tight transition-colors duration-500">
-                  S
-                </span>
-              </div>
-              <span className="text-ink/70 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase transition-colors duration-500">
-                Residence
-              </span>
+              <img
+                src={LOGO_URL}
+                alt="TS Residence"
+                className="h-10 w-auto transition-opacity duration-500 group-hover:opacity-85"
+              />
             </button>
             <button
               className="text-ink p-2 transition-colors"
@@ -154,9 +154,7 @@ export const Navbar = () => {
                 height: showTopLogo ? 0 : 64,
               }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className={`border-gold/35 flex items-center overflow-hidden border-b transition-[padding,justify-content] duration-500 ${
-                "justify-center px-6"
-              }`}
+              className={`border-gold/35 flex items-center overflow-hidden border-b transition-[padding,justify-content] duration-500 ${"justify-center px-6"}`}
             >
               <motion.button
                 onClick={() => setPage("home")}
@@ -165,24 +163,20 @@ export const Navbar = () => {
                   opacity: showTopLogo ? 0 : 1,
                 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="text-ink flex flex-col items-center gap-1 transition-all duration-500"
+                className="flex items-center justify-center transition-all duration-500"
                 aria-label="TS Residence home"
               >
-                <div className="flex items-baseline gap-0">
-                  <span className="text-ink font-serif text-4xl leading-none font-light tracking-tight">
-                    T
-                  </span>
-                  <span className="text-ink font-serif text-4xl leading-none font-light tracking-tight">
-                    S
-                  </span>
-                </div>
-                <span className="text-ink/55 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase">
-                  Residence
-                </span>
+                <img
+                  src={LOGO_URL}
+                  alt="TS Residence"
+                  className="h-14 w-auto"
+                />
               </motion.button>
             </motion.div>
 
-            <div className={`relative flex items-center justify-center transition-[height,padding] duration-500 ${showTopLogo ? "h-12" : "h-16"}`}>
+            <div
+              className={`relative flex items-center justify-center transition-[height,padding] duration-500 ${showTopLogo ? "h-12" : "h-16"}`}
+            >
               <motion.button
                 onClick={() => setPage("home")}
                 initial={false}
@@ -191,24 +185,16 @@ export const Navbar = () => {
                   x: showTopLogo ? 0 : -12,
                 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
-                className="text-ink absolute left-4 flex flex-col items-start gap-0.5 lg:left-6"
+                className="absolute left-4 flex items-center lg:left-6"
                 style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
                 aria-label="TS Residence home"
               >
-                <div className="flex items-baseline gap-0">
-                  <span className="text-ink font-serif text-3xl leading-none font-light tracking-tight">
-                    T
-                  </span>
-                  <span className="text-ink font-serif text-3xl leading-none font-light tracking-tight">
-                    S
-                  </span>
-                </div>
-                <span className="text-ink/55 font-sans text-[7px] font-semibold tracking-[0.4em] uppercase">
-                  Residence
-                </span>
+                <img src={LOGO_URL} alt="TS Residence" className="h-9 w-auto" />
               </motion.button>
 
-              <div className={`flex items-center transition-[gap,padding-left] duration-500 ${showTopLogo ? "gap-8 pl-24" : "gap-10"}`}>
+              <div
+                className={`flex items-center transition-[gap,padding-left] duration-500 ${showTopLogo ? "gap-8 pl-24" : "gap-10"}`}
+              >
                 <div
                   className="relative"
                   onMouseEnter={() => setIsApartmentsOpen(true)}
@@ -241,11 +227,11 @@ export const Navbar = () => {
                       aria-label="Toggle apartments menu"
                       className="flex items-center"
                     >
-                    <span
-                      className={`text-[10px] transition-transform duration-300 ${isApartmentsOpen ? "translate-y-px rotate-180" : ""}`}
-                    >
-                      ▾
-                    </span>
+                      <span
+                        className={`text-[10px] transition-transform duration-300 ${isApartmentsOpen ? "translate-y-px rotate-180" : ""}`}
+                      >
+                        ▾
+                      </span>
                     </button>
                   </div>
 
@@ -256,7 +242,7 @@ export const Navbar = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.22, ease: "easeOut" }}
-                        className="absolute top-full left-1/2 z-80 mt-4 w-[48rem] -translate-x-1/2 border border-[#d9ccb7] bg-[#fbf8f2] p-4 shadow-[0_20px_60px_rgba(28,25,23,0.12)]"
+                        className="absolute top-full left-1/2 z-80 mt-4 w-3xl -translate-x-1/2 border border-[#d9ccb7] bg-[#fbf8f2] p-4 shadow-[0_20px_60px_rgba(28,25,23,0.12)]"
                       >
                         <div className="mb-4 flex items-center justify-between border-b border-[#e8dfd3] pb-3">
                           <p className="font-serif text-[1.55rem] leading-none text-[#2d241a]">
@@ -337,20 +323,14 @@ export const Navbar = () => {
             <div className="flex items-center justify-between px-6 py-5">
               <button
                 onClick={() => setPage("home")}
-                className="flex flex-col items-center gap-0.5"
+                className="flex items-center"
                 aria-label="TS Residence home"
               >
-                <div className="flex items-baseline">
-                  <span className="text-ink font-serif text-3xl font-light">
-                    T
-                  </span>
-                  <span className="text-ink font-serif text-3xl font-light">
-                    S
-                  </span>
-                </div>
-                <span className="text-ink/60 font-sans text-[8px] font-semibold tracking-[0.45em] uppercase">
-                  Residence
-                </span>
+                <img
+                  src={LOGO_URL}
+                  alt="TS Residence"
+                  className="h-10 w-auto"
+                />
               </button>
               <button
                 onClick={() => setIsMenuOpen(false)}
@@ -361,13 +341,25 @@ export const Navbar = () => {
               </button>
             </div>
 
-            <div className="flex flex-1 flex-col items-center justify-center gap-1">
+            <div className="flex flex-1 flex-col items-center justify-center gap-1 overflow-y-auto px-6 py-4">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45 }}
+                onClick={() => {
+                  setPage("apartments");
+                  setIsMenuOpen(false);
+                }}
+                className="text-ink hover:text-gold py-3 font-serif text-3xl font-light transition-colors md:text-4xl"
+              >
+                Apartments
+              </motion.button>
               {allNav.map((item, i) => (
                 <motion.button
                   key={item.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08, duration: 0.5 }}
+                  transition={{ delay: (i + 1) * 0.08, duration: 0.5 }}
                   onClick={() => {
                     handleNavClick(item.value);
                     setIsMenuOpen(false);
@@ -377,9 +369,32 @@ export const Navbar = () => {
                   {item.label}
                 </motion.button>
               ))}
+
+              <div className="mt-4 grid w-full max-w-xs grid-cols-1 gap-2 border-t border-[#e2d7c7] pt-5">
+                {apartmentDisplayList.map((apartment, index) => (
+                  <motion.button
+                    key={apartment.slug}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 + index * 0.06, duration: 0.45 }}
+                    onClick={() => {
+                      router.push(`/apartments/${apartment.slug}`);
+                      setIsMenuOpen(false);
+                    }}
+                    className="border-gold/25 bg-white px-4 py-3 text-left transition-colors hover:bg-[#f7f1e7]"
+                  >
+                    <p className="text-ink font-serif text-xl leading-none">
+                      {apartment.name}
+                    </p>
+                    <p className="text-ink/60 mt-2 text-[11px] tracking-[0.18em] uppercase">
+                      {apartment.sqm} | {apartment.bed}
+                    </p>
+                  </motion.button>
+                ))}
+              </div>
             </div>
 
-            <div className="flex flex-col items-center gap-6 px-6 pb-10">
+            <div className="flex flex-col items-center gap-6 px-6 pb-8">
               <button
                 onClick={() => {
                   setPage("contact");
