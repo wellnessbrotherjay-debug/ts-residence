@@ -29,16 +29,16 @@ export default function Page() {
         description="Premium monthly residences designed with five-star comfort, practical layouts, and service-led convenience in Seminyak."
       />
 
-      <section className="border-gold/30 relative z-10 border-b bg-white">
+      <section className="border-gold/30 relative z-10 border-b bg-white" data-reveal-profile="hero">
         <div className="mx-auto w-full max-w-440 px-5 py-12 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
-          <FadeInView className="mb-12 max-w-260">
+          <div className="mb-12 max-w-260">
             <p className="label-caps text-gold">Apartment Collection</p>
             <h2 className="text-ink mt-4 font-serif text-[1.95rem] leading-[1.04] md:text-[3.2rem]">
               Three apartment options,
               <br />
               one premium long-stay standard.
             </h2>
-          </FadeInView>
+          </div>
 
           <StaggerContainer
             className="space-y-5 md:space-y-8"
@@ -70,10 +70,8 @@ export default function Page() {
                   <div
                     className={`flex items-center px-5 py-7 md:px-9 md:py-12 lg:px-12 lg:py-14 ${index % 2 === 1 ? "lg:order-1" : ""}`}
                   >
-                    <div className="max-w-lg">
-                      <p className="label-caps text-gold-dark">
-                        Apartment Type
-                      </p>
+                    <div className="max-w-lg" data-reveal-profile="cinematic">
+                      <p className="label-caps text-gold-dark">Apartment Type</p>
                       <h3 className="text-ink mt-3 font-serif text-[2.25rem] leading-[0.95] md:mt-4 md:text-[3.6rem]">
                         {apartment.name}
                       </h3>
@@ -100,9 +98,9 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="border-gold/30 bg-cream relative z-10 border-b">
+      <section className="border-gold/30 bg-cream relative z-10 border-b" data-reveal-profile="hero">
         <div className="w-full px-5 py-12 text-center md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
-          <FadeInView className="mx-auto max-w-245">
+          <div className="mx-auto max-w-245">
             <p className="label-caps text-gold">Need Recommendation?</p>
             <h3 className="text-ink mt-4 font-serif text-[1.9rem] leading-[1.05] md:text-[3rem]">
               Let our team suggest the most suitable apartment
@@ -117,7 +115,7 @@ export default function Page() {
                 View Offers
               </Link>
             </div>
-          </FadeInView>
+          </div>
         </div>
       </section>
     </div>

@@ -32,11 +32,8 @@ export const HomeResidents = () => (
 
       <div className="border-gold/20 mt-8 grid grid-cols-1 gap-5 border-t pt-7 lg:mt-10 lg:grid-cols-[12rem_1fr] lg:items-start lg:gap-6 lg:pt-8">
         <div>
-          <p
-            data-reveal-counter="66"
-            className="text-gold font-serif text-[2.7rem] leading-none md:text-[4rem]"
-          >
-            66
+          <p className="text-gold font-serif text-[2.7rem] leading-none md:text-[4rem]">
+            <span data-reveal-counter="66">66</span>
           </p>
           <p className="label-caps text-ink/55 mt-3">Units</p>
         </div>

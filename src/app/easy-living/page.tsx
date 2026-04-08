@@ -367,12 +367,12 @@ export default function Page() {
       <section className="border-gold/30 bg-cream border-b">
         <div className="section-shell px-6 py-20 md:px-12 md:py-24 lg:px-20 lg:py-28 xl:px-28">
           <div>
-            <FadeInView className="max-w-4xl">
+            <FadeInView className="max-w-5xl mx-auto text-center">
               <span className="label-caps text-gold">Easy Living</span>
-              <h2 className="text-ink mt-5 font-serif text-4xl leading-tight tracking-tight md:text-5xl">
+              <h2 className="text-ink mt-5 font-serif text-[2.5rem] leading-[1.08] tracking-tight md:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem]">
                 Breathtaking Beaches at Your Doorstep
               </h2>
-              <p className="text-ink/75 mt-6 max-w-3xl text-lg leading-relaxed">
+              <p className="text-ink/75 mt-6 max-w-3xl mx-auto text-lg leading-relaxed">
                 Live with direct access to Seminyak&apos;s beaches, wellness,
                 dining, retail, nightlife, and the practical infrastructure that
                 makes long stays feel effortless.
