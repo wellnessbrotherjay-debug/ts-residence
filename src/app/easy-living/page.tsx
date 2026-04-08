@@ -337,7 +337,7 @@ export default function Page() {
         <div className="section-shell relative px-6 py-16 md:px-12 md:py-18 lg:px-20 lg:py-22 xl:px-28">
           <FadeInView className="mx-auto max-w-4xl text-center">
             <p className="label-caps text-gold">Why Seminyak</p>
-            <h2 className="text-ink mt-4 font-serif text-[2.2rem] leading-[1.03] md:text-[3rem]">
+            <h2 className="mt-4 font-serif text-[2.2rem] leading-[1.03] font-normal text-black md:text-[3rem]">
               Why Seminyak for long-term stay?
             </h2>
           </FadeInView>
@@ -355,7 +355,7 @@ export default function Page() {
                   <item.Icon className="h-5 w-5" strokeWidth={1.7} />
                 </div>
                 <div className="from-gold/30 via-gold/15 mt-5 h-px w-full bg-linear-to-r to-transparent" />
-                <p className="text-ink mt-5 text-[1rem] leading-8">
+                <p className="mt-5 text-[1rem] leading-8 font-normal text-black">
                   {item.title}
                 </p>
               </StaggerItem>
@@ -369,7 +369,7 @@ export default function Page() {
           <div>
             <FadeInView className="mx-auto max-w-5xl text-center">
               <span className="label-caps text-gold">Easy Living</span>
-              <h2 className="text-ink mt-5 font-serif text-[2.5rem] leading-[1.08] tracking-tight md:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem]">
+              <h2 className="mt-5 font-serif text-[2.5rem] leading-[1.08] font-normal tracking-tight text-black md:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem]">
                 Breathtaking Beaches at Your Doorstep
               </h2>
               <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-black">
@@ -478,7 +478,7 @@ export default function Page() {
         <div className="section-shell px-6 md:px-12 lg:px-20 xl:px-28">
           <FadeInView className="mb-14 max-w-280">
             <span className="label-caps text-gold">Resident Access</span>
-            <h2 className="text-ink mt-4 font-serif text-4xl md:text-5xl lg:text-6xl">
+            <h2 className="mt-4 font-serif text-4xl font-normal text-black md:text-5xl lg:text-6xl">
               The Five-Star Ecosystem
             </h2>
             <p className="mt-8 max-w-2xl text-lg text-black">
@@ -567,7 +567,7 @@ export default function Page() {
         <div className="section-shell px-6 py-20 md:px-12 md:py-24 lg:px-20 lg:py-28 xl:px-28">
           <FadeInView className="mb-16 text-center">
             <span className="label-caps text-gold">Extra Value</span>
-            <h2 className="text-ink mt-4 font-serif text-3xl md:text-4xl lg:text-5xl">
+            <h2 className="mt-4 font-serif text-3xl font-normal text-black md:text-4xl lg:text-5xl">
               Tailored Services for Easy Life
             </h2>
           </FadeInView>
@@ -581,7 +581,7 @@ export default function Page() {
                 key={service.title}
                 className="group border-gold/20 bg-cream border p-8 transition-shadow duration-700 hover:shadow-xl md:p-10"
               >
-                <h3 className="text-ink font-serif text-2xl">
+                <h3 className="font-serif text-2xl font-normal text-black">
                   {service.title}
                 </h3>
                 <div className="bg-gold/40 my-6 h-px w-12 transition-all duration-700 group-hover:w-full" />
