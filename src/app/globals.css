@@ -1,11 +1,11 @@
-/* Only force body text inside .bg-cream > .section-shell to black and normal weight */
-.bg-cream > .section-shell p,
-.bg-cream > .section-shell li,
-.bg-cream > .section-shell span,
-.bg-cream > .section-shell .text-body,
-.bg-cream > .section-shell .text-muted {
-  color: #111 !important;
-  font-weight: 400 !important;
+/* General body text improvements for readability */
+p,
+li,
+span,
+.text-body,
+.text-muted {
+  color: #2b2724; /* Darker stone-800 equivalent */
+  font-weight: 400; /* Ensure normal weight by default */
 }
 
 /* Utility: text-over-image for white text over images */
@@ -31,7 +31,7 @@
   --color-gold: #b8965a;
   --color-gold-light: #d4b97c;
   --color-gold-dark: #8c6d3f;
-  --color-muted: #78716c;
+  --color-muted: #57534e;
   --color-border: rgba(28, 25, 23, 0.08);
   --color-border-light: rgba(28, 25, 23, 0.05);
   --color-dark-bg: #1c1917;
@@ -104,7 +104,7 @@
 
 /* Label style */
 .label-caps {
-  @apply text-muted font-sans text-[12px] font-medium tracking-[0.32em] uppercase;
+  @apply text-ink-light font-sans text-[12px] font-semibold tracking-[0.28em] uppercase;
   white-space: nowrap;
 }
 
@@ -132,7 +132,7 @@
 
 /* Body text */
 .text-body {
-  @apply text-muted font-sans text-[15px] leading-[1.75] font-light;
+  @apply text-ink-light font-sans text-[15.5px] leading-[1.75] font-normal;
   text-wrap: pretty;
 }
 
