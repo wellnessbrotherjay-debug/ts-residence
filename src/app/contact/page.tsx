@@ -60,7 +60,7 @@ export default function Page() {
                 className="group border-gold/25 bg-cream border px-6 py-7 transition-all duration-900 hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(28,25,23,0.1)] md:px-7 md:py-8"
               >
                 <p className="label-caps text-gold-dark">{item.label}</p>
-                <p className="text-ink/85 mt-5 text-[1.02rem] leading-8">
+                <p className="text-ink mt-5 text-[1.02rem] leading-8">
                   {item.value}
                 </p>
                 <div className="border-gold/25 mt-6 border-t pt-5">
