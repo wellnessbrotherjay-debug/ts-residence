@@ -1,13 +1,3 @@
-/* General body text improvements for readability */
-p,
-li,
-span,
-.text-body,
-.text-muted {
-  color: #2b2724; /* Darker stone-800 equivalent */
-  font-weight: 400; /* Ensure normal weight by default */
-}
-
 /* Utility: text-over-image for white text over images */
 .text-over-image,
 .text-over-image * {
@@ -59,7 +49,8 @@ span,
   }
 
   body {
-    @apply bg-cream text-ink font-sans antialiased;
+    @apply bg-cream font-sans antialiased;
+    color: #2b2724; /* Set a default darker color for consistent readability */
   }
 
   h1,
@@ -130,9 +121,10 @@ span,
   }
 }
 
-/* Body text */
+/* Body text readability class */
 .text-body {
-  @apply text-ink-light font-sans text-[15.5px] leading-[1.75] font-normal;
+  color: #2b2724;
+  @apply font-sans text-[15.5px] leading-[1.75] font-normal;
   text-wrap: pretty;
 }
 
