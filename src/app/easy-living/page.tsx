@@ -265,7 +265,7 @@ export default function Page() {
     <div className="bg-cream overflow-x-hidden text-black">
       <section
         ref={heroRef}
-        className="border-gold/30 relative min-h-[48vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
+        className="border-gold/30 text-over-image relative min-h-[48vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
       >
         <motion.img
           src="https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp"
@@ -281,7 +281,7 @@ export default function Page() {
           className="relative flex min-h-[48vh] w-full items-center justify-center px-5 py-14 text-center md:min-h-[78vh] md:px-12 md:py-22 lg:min-h-[92vh] lg:px-20 lg:py-24 xl:px-28"
           style={{ y: heroContentY, opacity: heroContentOpacity }}
         >
-          <div data-reveal-group="0.1" className="w-full max-w-300 text-white">
+          <div data-reveal-group="0.1" className="w-full max-w-300">
             <motion.div
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
