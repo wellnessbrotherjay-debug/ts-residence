@@ -14,11 +14,7 @@
   color: #fff !important;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.38);
 }
-/* Force all text inside .bg-cream to black for maximum readability */
-.bg-cream,
-.bg-cream * {
-  color: #111 !important;
-}
+
 @import "tailwindcss";
 
 @theme {
