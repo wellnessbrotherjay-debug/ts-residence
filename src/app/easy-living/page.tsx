@@ -281,7 +281,7 @@ export default function Page() {
           className="relative flex min-h-[48vh] w-full items-center justify-center px-5 py-14 text-center md:min-h-[78vh] md:px-12 md:py-22 lg:min-h-[92vh] lg:px-20 lg:py-24 xl:px-28"
           style={{ y: heroContentY, opacity: heroContentOpacity }}
         >
-          <div data-reveal-group="0.1" className="w-full max-w-300">
+          <div data-reveal-group="0.1" className="w-full max-w-300 text-white">
             <motion.div
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
@@ -289,7 +289,7 @@ export default function Page() {
               className="via-gold/80 mx-auto h-px w-28 origin-center bg-linear-to-r from-transparent to-transparent"
             />
 
-            <h1 className="mx-auto mt-6 max-w-[11ch] font-serif text-[2.85rem] leading-[0.9] tracking-[-0.03em] sm:text-7xl md:mt-7 md:max-w-[12ch] md:text-[6rem] lg:text-[7rem]">
+            <h1 className="mx-auto mt-6 max-w-[11ch] font-serif text-[2.85rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:mt-7 md:max-w-[12ch] md:text-[6rem] lg:text-[7rem]">
               Live in the Heart
               <br />
               of Seminyak

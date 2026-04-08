@@ -216,7 +216,7 @@ export const HeroSection = ({
                 <HeroTextContent
                   slides={slides}
                   currentSlide={currentSlide}
-                  isDark={true}
+                  isDark={false}
                   isInitialLoad={isInitialLoad}
                 />
               </motion.div>
