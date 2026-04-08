@@ -1,3 +1,12 @@
+/* Absolutely force all body text inside .bg-cream to black and normal weight */
+.bg-cream p,
+.bg-cream li,
+.bg-cream span,
+.bg-cream .text-body,
+.bg-cream .text-muted {
+  color: #111 !important;
+  font-weight: 400 !important;
+}
 /* Force all text inside .bg-cream to black for maximum readability */
 .bg-cream,
 .bg-cream * {
