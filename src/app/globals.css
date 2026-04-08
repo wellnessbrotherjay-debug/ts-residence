@@ -1,3 +1,8 @@
+/* Force all text inside .bg-cream to black for maximum readability */
+.bg-cream,
+.bg-cream * {
+  color: #111 !important;
+}
 @import "tailwindcss";
 
 @theme {
