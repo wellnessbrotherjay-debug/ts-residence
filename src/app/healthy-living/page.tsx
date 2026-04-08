@@ -213,33 +213,6 @@ export default function Page() {
         </motion.div>
       </section>
 
-      <section className="border-gold/30 border-b bg-white">
-        <div className="section-shell px-6 py-16 md:px-12 md:py-18 lg:px-20 lg:py-22 xl:px-28">
-          <StaggerContainer
-            className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-5"
-            staggerDelay={0.16}
-          >
-            {wellnessPillars.map((item, idx) => (
-              <StaggerItem
-                key={item.title}
-                className="group border-gold/25 bg-cream border px-6 py-7 transition-all duration-900 hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(28,25,23,0.1)] md:px-7 md:py-8"
-              >
-                <div className="flex items-center justify-between">
-                  <p className="label-caps text-gold-dark">{item.title}</p>
-                  <span className="text-gold/60 group-hover:text-gold-dark font-serif text-[1.35rem] transition-all duration-700 group-hover:translate-x-1">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <div className="from-gold/30 via-gold/15 mt-4 h-px w-full bg-linear-to-r to-transparent" />
-                <p className="text-ink/80 mt-5 text-[1rem] leading-8">
-                  {item.description}
-                </p>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-      </section>
-
       <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="mx-auto max-w-225 text-center">
@@ -292,6 +265,33 @@ export default function Page() {
             </StaggerItem>
           ))}
         </StaggerContainer>
+      </section>
+
+      <section className="border-gold/30 border-b bg-white">
+        <div className="section-shell px-6 py-16 md:px-12 md:py-18 lg:px-20 lg:py-22 xl:px-28">
+          <StaggerContainer
+            className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-5"
+            staggerDelay={0.16}
+          >
+            {wellnessPillars.map((item, idx) => (
+              <StaggerItem
+                key={item.title}
+                className="group border-gold/25 bg-cream border px-6 py-7 transition-all duration-900 hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(28,25,23,0.1)] md:px-7 md:py-8"
+              >
+                <div className="flex items-center justify-between">
+                  <p className="label-caps text-gold-dark">{item.title}</p>
+                  <span className="text-gold/60 group-hover:text-gold-dark font-serif text-[1.35rem] transition-all duration-700 group-hover:translate-x-1">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div className="from-gold/30 via-gold/15 mt-4 h-px w-full bg-linear-to-r to-transparent" />
+                <p className="text-ink/80 mt-5 text-[1rem] leading-8">
+                  {item.description}
+                </p>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
       </section>
 
       <section className="border-gold/30 border-y bg-white">
