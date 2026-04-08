@@ -262,7 +262,7 @@ export default function Page() {
   }, [galleryIndex]);
 
   return (
-    <div className="bg-cream overflow-x-hidden">
+    <div className="bg-cream overflow-x-hidden text-black">
       <section
         ref={heroRef}
         className="border-gold/30 relative min-h-[48vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
