@@ -367,12 +367,12 @@ export default function Page() {
       <section className="border-gold/30 bg-cream border-b">
         <div className="section-shell px-6 py-20 md:px-12 md:py-24 lg:px-20 lg:py-28 xl:px-28">
           <div>
-            <FadeInView className="max-w-5xl mx-auto text-center">
+            <FadeInView className="mx-auto max-w-5xl text-center">
               <span className="label-caps text-gold">Easy Living</span>
               <h2 className="text-ink mt-5 font-serif text-[2.5rem] leading-[1.08] tracking-tight md:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem]">
                 Breathtaking Beaches at Your Doorstep
               </h2>
-              <p className="text-ink/75 mt-6 max-w-3xl mx-auto text-lg leading-relaxed">
+              <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-black">
                 Live with direct access to Seminyak&apos;s beaches, wellness,
                 dining, retail, nightlife, and the practical infrastructure that
                 makes long stays feel effortless.
@@ -481,7 +481,7 @@ export default function Page() {
             <h2 className="text-ink mt-4 font-serif text-4xl md:text-5xl lg:text-6xl">
               The Five-Star Ecosystem
             </h2>
-            <p className="text-ink/75 mt-8 max-w-2xl text-lg">
+            <p className="mt-8 max-w-2xl text-lg text-black">
               Easy Living at TS Residence means having Seminyak&apos;s most
               refined facilities right in your building. From high-focus work
               zones to deep recovery spaces, your lifestyle is self-contained
@@ -512,7 +512,7 @@ export default function Page() {
                   <h3 className="text-ink mt-3 font-serif text-2xl">
                     {facility.title}
                   </h3>
-                  <p className="text-ink/60 mt-4 text-[0.9rem] leading-6">
+                  <p className="mt-4 text-[0.9rem] leading-6 text-black">
                     {facility.description}
                   </p>
                 </div>
@@ -585,7 +585,7 @@ export default function Page() {
                   {service.title}
                 </h3>
                 <div className="bg-gold/40 my-6 h-px w-12 transition-all duration-700 group-hover:w-full" />
-                <p className="text-ink/70 text-[0.95rem] leading-7">
+                <p className="text-[0.95rem] leading-7 text-black">
                   {service.description}
                 </p>
               </StaggerItem>
@@ -628,7 +628,7 @@ export default function Page() {
           </StaggerContainer>
 
           <FadeInView className="mx-auto mt-14 w-full max-w-280 text-center">
-            <p className="text-ink/80 mx-auto max-w-230 text-[1.05rem] leading-8 md:text-[1.16rem] md:leading-9">
+            <p className="mx-auto max-w-230 text-[1.05rem] leading-8 text-black md:text-[1.16rem] md:leading-9">
               Easy Living means fewer operational worries and more energy for
               what matters: work, wellness, and enjoying Bali with a stable
               monthly base.
