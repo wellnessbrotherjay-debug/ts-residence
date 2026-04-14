@@ -151,7 +151,7 @@ export const homePillars = [
       "Full privileges of a luxury hotel with coworking, dining, salon, and retail in one polished address.",
     href: "/five-star-living",
     image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
     stat: "Hotel-grade privileges",
   },
   {
@@ -160,7 +160,7 @@ export const homePillars = [
       "Daily yoga, reformer Pilates, sauna, cold bath, and IV therapy curated for a restorative routine.",
     href: "/healthy-living",
     image:
-      "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
     stat: "Daily wellness access",
   },
   {
@@ -179,25 +179,25 @@ export const galleryCategories = [
     name: "TS Residence",
     handle: "@tsresidences",
     image:
-      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
   },
   {
     name: "Apartments",
     handle: "@tsresidences",
     image:
-      "https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=1200&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/52b605cf-2c98-48f3-cce2-b317f0dbd800/public",
   },
   {
     name: "Facilities",
     handle: "@tssuitesseminyak",
     image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
   },
   {
     name: "No.1 Wellness Club",
     handle: "@nolwellnessclub",
     image:
-      "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
   },
 ];
 
@@ -213,7 +213,7 @@ export const offers = [
     description:
       "Stay more than 3 months with 20% upfront and the rest paid monthly.",
     image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-community-scaled.webp",
   },
   {
     title: "Resident Dining",
@@ -227,7 +227,7 @@ export const offers = [
     description:
       "15% discount at No.1 Wellness Club for massage, wellness, and F&B.",
     image:
-      "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1600&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
   },
 ];
 
@@ -235,21 +235,21 @@ export const fiveStarFacilities = [
   {
     title: "TS Suites Coworking Space",
     image:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
   },
   {
     title: "TSTORE",
     image:
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp",
   },
   {
     title: "Christophe C Salon",
     image:
-      "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/10/christophe-salon-img-scaled-e1759999189370.webp",
   },
   {
     title: "TS Suites Bar",
     image:
-      "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/09/tsbar-seminyak.webp",
   },
 ];

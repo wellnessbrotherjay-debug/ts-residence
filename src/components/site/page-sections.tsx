@@ -202,7 +202,7 @@ export function FiveStarPageContent() {
     <div className="w-full">
       <section className="relative flex min-h-[85vh] items-center justify-center">
         <img
-          src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80"
+          src="https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp"
           alt="Five Star Living"
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -293,7 +293,7 @@ export function HealthyLivingPageContent() {
         </FadeInView>
         <FadeInView direction="right">
           <img
-            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80"
+            src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public"
             alt="No.1 Wellness Club"
             className="aspect-4/5 h-full w-full object-cover"
           />
@@ -353,7 +353,7 @@ export function EasyLivingPageContent() {
 
         <FadeInView className="mt-24">
           <img
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80"
+            src="https://tsresidence.id/wp-content/uploads/2025/10/couple-walking-around-seminyak-e1761017959269.webp"
             alt="Seminyak Location"
             className="aspect-21/9 h-full w-full object-cover"
           />
@@ -397,7 +397,7 @@ export function ContactPageContent() {
       <FadeInView className="mb-14 grid grid-cols-1 items-start gap-12 bg-white p-8 md:mb-20 md:p-14 lg:mb-24 lg:grid-cols-12 lg:gap-20 lg:p-20">
         <div className="lg:col-span-5">
           <img
-            src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80"
+            src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public"
             alt="TS Residence"
             className="aspect-4/5 h-full min-h-64 w-full object-cover md:min-h-80 lg:min-h-100"
           />

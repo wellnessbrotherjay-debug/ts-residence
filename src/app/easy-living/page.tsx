@@ -99,7 +99,7 @@ const residenceFacilities = [
     description:
       "A professional environment for focus and global connectivity, just levels away.",
     image:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
     label: "Productivity",
   },
   {
@@ -107,7 +107,7 @@ const residenceFacilities = [
     description:
       "Full access to recovery facilities including sauna, ice bath, and premium gym.",
     image:
-      "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
     label: "Recovery",
   },
   {
@@ -115,7 +115,7 @@ const residenceFacilities = [
     description:
       "Elevated relaxation with panoramic Seminyak views and signature service.",
     image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
     label: "Lifestyle",
   },
   {
@@ -123,7 +123,7 @@ const residenceFacilities = [
     description:
       "Curated fashion and essential retail directly within the residence complex.",
     image:
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
+      "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp",
     label: "Convenience",
   },
 ];
