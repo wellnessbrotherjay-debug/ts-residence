@@ -29,18 +29,27 @@ export function ApartmentQuiz() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const router = useRouter();
 
-  const handleSelect = (val: string) => {
+  const handleSelect = async (val: string) => {
     const newAnswers = { ...answers, [steps[step].key]: val };
     setAnswers(newAnswers);
     
     if (step < steps.length - 1) {
       setStep(step + 1);
     } else {
-      // Logic to suggest apartment
+      // 1. Logic to suggest apartment
       let suggest = "solo";
       if (newAnswers.guests === "Family (3+)") suggest = "soho";
       else if (newAnswers.guests === "A couple" || newAnswers.duration === "6+ Months") suggest = "studio";
       
+      // 2. Capture Intent & Tag Lead
+      const { trackEvent } = await import("@/lib/tracking");
+      trackEvent("quiz_complete", {
+        suggested_unit: suggest,
+        quiz_responses: newAnswers,
+        intent_phase: "high_intent"
+      });
+
+      // 3. Redirect
       router.push(`/apartments/${suggest}?quiz=true`);
       setIsOpen(false);
     }

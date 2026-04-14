@@ -113,163 +113,189 @@ export default function AdminPage() {
   if (loading && !summary) return <div className="p-20 text-center">Loading Dashboard...</div>;
 
   return (
-    <div className="pt-32 pb-20 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto text-black">
-      <div className="flex justify-between items-center mb-10">
-        <h1 className="text-4xl font-serif">TS Residence Intelligence</h1>
-        <div className="flex gap-2">
-          <button 
-            onClick={requestNotificationPermission} 
-            className="text-[10px] font-bold bg-gold/10 text-gold-dark px-3 py-1.5 rounded-full hover:bg-gold/20 flex items-center gap-2 border border-gold/20"
-          >
-            <span className="w-1.5 h-1.5 bg-gold rounded-full"></span>
-            ENABLE DESKTOP ALERTS
-          </button>
-          <button onClick={() => fetchDashboard(false)} className="text-[10px] font-mono bg-neutral-100 px-3 py-1.5 rounded-full hover:bg-neutral-200 uppercase tracking-tight">
-            Refresh Live
-          </button>
+    <div className="min-h-screen bg-[#050505] text-white/90">
+      <div className="pt-32 pb-20 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+          <div>
+            <h1 className="text-3xl font-serif tracking-tight mb-2">Analytics & CRM Intelligence</h1>
+            <p className="text-white/40 text-xs uppercase tracking-[0.2em] font-bold">Real-time first-party traffic, behavior, and lead operations</p>
+          </div>
+          <div className="flex gap-3">
+            <button 
+              onClick={requestNotificationPermission} 
+              className="text-[10px] font-black bg-white/5 text-white/60 px-5 py-2.5 rounded-xl hover:bg-white/10 flex items-center gap-2 border border-white/10 transition-all uppercase tracking-widest"
+            >
+              <span className="w-1.5 h-1.5 bg-[#c5a572] rounded-full animate-pulse"></span>
+              Enable Desktop Signals
+            </button>
+            <button onClick={() => fetchDashboard(false)} className="bg-[#c5a572] hover:bg-[#d4b882] text-black px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)]">
+              Refresh Feed
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-        <div className="border border-neutral-200 rounded-xl p-5 bg-white shadow-sm">
-          <p className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Total Page views</p>
-          <p className="text-3xl font-semibold mt-2">{summary?.totals.page_views ?? 0}</p>
+        {/* Intelligence Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-[#111111] border border-white/5 rounded-2xl p-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#c5a572]/5 rounded-full -translate-y-16 translate-x-16"></div>
+            <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-black mb-6">Page Views</p>
+            <div className="text-5xl font-serif text-white">{summary?.totals.page_views ?? 0}</div>
+          </div>
+          <div className="bg-[#111111] border border-white/5 rounded-2xl p-8 shadow-2xl relative overflow-hidden group">
+            <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-black mb-6">High-Intent Clicks</p>
+            <div className="text-5xl font-serif text-white">{summary?.totals.book_clicks ?? 0}</div>
+          </div>
+          <div className="bg-[#111111] border border-white/5 rounded-2xl p-8 shadow-2xl relative overflow-hidden group">
+            <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-black mb-6">Active Leads</p>
+            <div className="text-5xl font-serif text-[#25D366]">{summary?.totals.total_leads ?? 0}</div>
+          </div>
         </div>
-        <div className="border border-neutral-200 rounded-xl p-5 bg-white shadow-sm">
-          <p className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">High Intent Clicks</p>
-          <p className="text-3xl font-semibold mt-2 text-gold-dark">{summary?.totals.book_clicks ?? 0}</p>
-        </div>
-        <div className="border border-neutral-200 rounded-xl p-5 bg-white shadow-sm">
-          <p className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Total Events tracked</p>
-          <p className="text-3xl font-semibold mt-2">{summary?.totals.total_events ?? 0}</p>
-        </div>
-        <div className="border border-neutral-200 rounded-xl p-5 bg-white shadow-sm">
-          <p className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Leads in CRM</p>
-          <p className="text-3xl font-semibold mt-2 text-green-600">{summary?.totals.total_leads ?? 0}</p>
-        </div>
-      </div>
 
-      {/* Analytics Breakdown */}
-      <div className="grid md:grid-cols-3 gap-6 mb-12">
-        <div className="border border-neutral-200 rounded-xl p-6 bg-white shadow-sm">
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4 border-b pb-2">Top Traffic Sources</h3>
-          <ul className="space-y-3 text-xs">
-            {(summary?.bySource || []).map((item) => (
-              <li key={item.source} className="flex justify-between">
-                <span className="font-mono">{item.source}</span>
-                <span className="font-bold">{item.count}</span>
-              </li>
-            ))}
-          </ul>
+        {/* Attribution Breakdown */}
+        <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="bg-[#111111] border border-white/5 rounded-2xl p-6">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 mb-6 flex justify-between">Top Sources</h3>
+            <ul className="space-y-3">
+              {(summary?.bySource || []).map((item) => (
+                <li key={item.source} className="flex justify-between text-xs items-center">
+                  <span className="text-white/60 font-mono">{item.source}</span>
+                  <span className="text-white/20 h-[1px] flex-1 mx-4 bg-white/5"></span>
+                  <span className="text-white/80 font-bold">{item.count}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="bg-[#111111] border border-white/5 rounded-2xl p-6">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 mb-6 flex justify-between">Top Campaigns</h3>
+            <ul className="space-y-3">
+              {(summary?.byCampaign || []).map((item) => (
+                <li key={item.campaign} className="flex justify-between text-xs items-center">
+                  <span className="text-white/60 font-mono italic">{item.campaign}</span>
+                  <span className="text-white/20 h-[1px] flex-1 mx-4 bg-white/5"></span>
+                  <span className="text-white/80 font-bold">{item.count}</span>
+                </li>
+              ))}
+              {summary?.byCampaign.length === 0 && <li className="text-white/20 italic text-[10px] tracking-widest text-center py-4 uppercase">Waiting for traffic...</li>}
+            </ul>
+          </div>
+          <div className="bg-[#111111] border border-white/5 rounded-2xl p-6">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 mb-6 flex justify-between">Top Pages</h3>
+            <ul className="space-y-3">
+              {(summary?.byPage || []).map((item) => (
+                <li key={item.page} className="flex justify-between text-xs items-center">
+                  <span className="text-white/60 font-mono truncate mr-4">{item.page}</span>
+                  <span className="text-white/80 font-bold">{item.count}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="border border-neutral-200 rounded-xl p-6 bg-white shadow-sm">
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4 border-b pb-2">Top Campaigns</h3>
-          <ul className="space-y-3 text-xs">
-            {(summary?.byCampaign || []).map((item) => (
-              <li key={item.campaign} className="flex justify-between">
-                <span className="font-mono">{item.campaign}</span>
-                <span className="font-bold">{item.count}</span>
-              </li>
-            ))}
-            {summary?.byCampaign.length === 0 && <li className="text-neutral-400 italic">No campaign data yet</li>}
-          </ul>
-        </div>
-        <div className="border border-neutral-200 rounded-xl p-6 bg-white shadow-sm">
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4 border-b pb-2">Most Visited Pages</h3>
-          <ul className="space-y-3 text-xs">
-            {(summary?.byPage || []).map((item) => (
-              <li key={item.page} className="flex justify-between">
-                <span className="font-mono truncate mr-4">{item.page}</span>
-                <span className="font-bold">{item.count}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
 
-      {/* Recent Activity Feed */}
-      <div className="mb-12 border border-neutral-200 rounded-xl p-6 bg-neutral-900 text-neutral-300">
-        <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-          Live Activity Stream (Last 20)
-        </h2>
-        <div className="space-y-2 max-h-64 overflow-y-auto pr-2 text-[11px] font-mono">
-          {summary?.recentEvents.map((ev) => (
-            <div key={ev.id} className="flex gap-4 border-b border-white/5 pb-2">
-              <span className="text-neutral-500">{new Date(ev.created_at).toLocaleTimeString()}</span>
-              <span className={`uppercase px-1 rounded ${ev.event_type === 'book_click' ? 'bg-gold/20 text-gold' : 'bg-white/10'}`}>
-                {ev.event_type}
-              </span>
-              <span className="text-neutral-400">{ev.page}</span>
-              {ev.metadata?.link_text && (
-                <span className="text-blue-400 ml-auto">clicked: "{ev.metadata.link_text}"</span>
-              )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-12">
+          {/* Live Activity Feed */}
+          <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 shadow-2xl relative">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-8 border-b border-white/5 pb-4 flex items-center gap-3">
+               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+               Live Activity
+            </h2>
+            <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 text-[11px] font-mono custom-scrollbar">
+              {summary?.recentEvents.map((ev) => (
+                <div key={ev.id} className="flex flex-wrap gap-x-4 gap-y-1 border-b border-white/5 pb-2 hover:bg-white/5 transition-colors">
+                  <span className="text-white/20 shrink-0">[{new Date(ev.created_at).toLocaleTimeString()}]</span>
+                  <span className={`shrink-0 uppercase px-1 rounded text-[9px] font-bold ${ev.event_type === 'book_click' || ev.event_type === 'quiz_complete' ? 'bg-[#c5a572]/20 text-[#c5a572]' : 'bg-white/5 text-white/40'}`}>
+                    {ev.event_type.replace(/_/g, ' ')}
+                  </span>
+                  <span className="text-white/60 truncate max-w-[150px]">{ev.page}</span>
+                  {ev.event_type === 'scroll_depth' && (
+                    <span className="text-white/30 italic">scrolled to {ev.metadata?.depth}%</span>
+                  )}
+                  {ev.metadata?.link_text && (
+                    <span className="text-blue-500/60 ml-auto truncate">| "{ev.metadata.link_text}"</span>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      {/* CRM Leads Table */}
-      <div className="mb-12 border border-neutral-200 rounded-xl p-6 bg-white shadow-lg overflow-auto">
-        <h2 className="text-xl font-bold mb-6 border-b pb-4">Inquiry Pipeline (CRM)</h2>
-        <table className="w-full text-sm min-w-[800px]">
-          <thead>
-            <tr className="text-left text-neutral-500 uppercase text-[10px] tracking-widest border-b border-neutral-100">
-              <th className="py-4">Lead Detail</th>
-              <th className="py-4">Attribution</th>
-              <th className="py-4">Interest</th>
-              <th className="py-4">Status</th>
-              <th className="py-4">Received</th>
-            </tr>
-          </thead>
-          <tbody>
-            {leads.map((lead) => (
-              <tr key={lead.id} className="border-b border-neutral-50 hover:bg-neutral-50 transition-colors">
-                <td className="py-5">
-                  <div className="font-bold text-lg leading-tight">{lead.first_name} {lead.last_name}</div>
-                  <div className="text-neutral-500 text-xs mt-1">{lead.email}</div>
-                  <div className="text-neutral-500 text-xs">{lead.phone || '-'}</div>
-                </td>
-                <td className="py-5">
-                  <div className="flex flex-col gap-1">
-                    <span className="bg-neutral-100 px-2 py-0.5 rounded-full text-[10px] font-bold w-fit uppercase">{lead.source}</span>
-                    <span className="text-xs text-neutral-500">{lead.campaign || 'No Campaign'}</span>
+          {/* CRM Kanban */}
+          <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 shadow-2xl h-full">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mb-8 border-b border-white/5 pb-4">CRM Kanban</h2>
+            <div className="grid grid-cols-2 gap-4">
+              {['new', 'contacted', 'qualified', 'closed'].map((status) => (
+                <div key={status} className="bg-[#111111] p-4 rounded-xl border border-white/5 min-h-[180px]">
+                  <h3 className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex justify-between mb-4 border-b border-white/5 pb-2">
+                    {status} <span>{leads.filter(l => l.status === status).length}</span>
+                  </h3>
+                  <div className="space-y-2 max-h-[100px] overflow-y-auto pr-1 custom-scrollbar">
+                    {leads.filter(l => l.status === status).map((lead) => (
+                      <div key={lead.id} className="p-2.5 bg-black/40 rounded-lg border border-white/5 group relative hover:border-[#c5a572]/30 transition-all">
+                        <div className="text-[10px] font-bold text-white/80">{lead.first_name}</div>
+                        <div className="text-[9px] text-white/40 mt-0.5 truncate">{lead.email}</div>
+                        
+                        <select 
+                          value={lead.status} 
+                          onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
+                          className="absolute inset-0 opacity-0 cursor-pointer"
+                        >
+                          <option value="new">Move to NEW</option>
+                          <option value="contacted">Move to CONTACTED</option>
+                          <option value="qualified">Move to QUALIFIED</option>
+                          <option value="closed">Move to CLOSED</option>
+                        </select>
+                      </div>
+                    ))}
+                    {leads.filter(l => l.status === status).length === 0 && (
+                      <p className="text-[9px] text-white/10 italic text-center mt-6">No leads</p>
+                    )}
                   </div>
-                </td>
-                <td className="py-5">
-                   <div className="text-xs font-bold">{lead.stay_duration} stay</div>
-                   <div className="text-xs text-neutral-500 line-clamp-1 italic">"{lead.message || 'No message'}"</div>
-                </td>
-                <td className="py-5">
-                  <select 
-                    value={lead.status} 
-                    onChange={(e) => updateLeadStatus(lead.id, e.target.value)} 
-                    className={`border border-neutral-200 rounded-lg px-3 py-1.5 font-bold text-xs appearance-none outline-none cursor-pointer
-                      ${lead.status === 'new' ? 'bg-blue-50 text-blue-700' : ''}
-                      ${lead.status === 'contacted' ? 'bg-orange-50 text-orange-700' : ''}
-                      ${lead.status === 'qualified' ? 'bg-purple-50 text-purple-700' : ''}
-                      ${lead.status === 'closed' ? 'bg-green-50 text-green-700' : ''}
-                    `}
-                  >
-                    <option value="new">NEW</option>
-                    <option value="contacted">CONTACTED</option>
-                    <option value="qualified">QUALIFIED</option>
-                    <option value="closed">CLOSED</option>
-                  </select>
-                </td>
-                <td className="py-5 text-neutral-400 text-xs whitespace-nowrap">
-                  {new Date(lead.created_at).toLocaleDateString()}
-                  <br />
-                  {new Date(lead.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </td>
-              </tr>
-            ))}
-            {leads.length === 0 && (
-              <tr><td colSpan={5} className="py-12 text-center text-neutral-400 italic text-lg">No leads in the pipeline yet.</td></tr>
-            )}
-          </tbody>
-        </table>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Leads Table Detail */}
+        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+          <div className="p-8 border-b border-white/5 flex justify-between items-center">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Detailed Lead Logs</h2>
+            <div className="text-[10px] text-white/20">Total Database: {leads.length} Records</div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-[#111111] text-white/30 text-[9px] font-black uppercase tracking-[0.2em]">
+                  <th className="px-8 py-5">Guest Detail</th>
+                  <th className="px-8 py-5">Attribution</th>
+                  <th className="px-8 py-5">Intent Signal</th>
+                  <th className="px-8 py-5">Received</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {leads.map((lead) => (
+                  <tr key={lead.id} className="group hover:bg-white/5 transition-all">
+                    <td className="px-8 py-6">
+                      <div className="font-bold text-white text-base group-hover:text-[#c5a572] transition-colors">{lead.first_name} {lead.last_name}</div>
+                      <div className="text-white/40 text-[10px] mt-1 font-mono">{lead.email}</div>
+                    </td>
+                    <td className="px-8 py-6">
+                      <div className="flex flex-col gap-1.5">
+                        <span className="bg-[#c5a572]/10 text-[#c5a572] px-2 py-0.5 rounded text-[9px] font-bold w-fit uppercase tracking-tighter border border-[#c5a572]/20">{lead.source}</span>
+                        <span className="text-[10px] text-white/30 font-mono italic">{lead.campaign || 'direct'}</span>
+                      </div>
+                    </td>
+                    <td className="px-8 py-6">
+                      <div className="text-[11px] text-white/60 font-medium">{lead.stay_duration || 'General Inquiry'} stay</div>
+                      <div className="text-[10px] text-white/30 mt-1.5 italic line-clamp-1">"{lead.message || 'No specific requests'}"</div>
+                    </td>
+                    <td className="px-8 py-6 text-white/20 text-[10px] font-mono whitespace-nowrap">
+                      {new Date(lead.created_at).toLocaleDateString()} · {new Date(lead.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

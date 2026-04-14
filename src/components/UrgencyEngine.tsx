@@ -15,21 +15,42 @@ const notifications = [
 export function UrgencyEngine() {
   const [index, setIndex] = useState(-1);
   const [show, setShow] = useState(false);
+  const [liveEvents, setLiveEvents] = useState(notifications);
+
+  const fetchLiveEvents = async () => {
+    try {
+      const res = await fetch('/api/dashboard/summary'); // Reusing existing summary endpoint if it has recent events
+      if (res.ok) {
+        const data = await res.json();
+        if (data.recentEvents && data.recentEvents.length > 0) {
+          const mapped = data.recentEvents.map((ev: any) => ({
+             id: ev.id,
+             message: ev.event_type === 'page_view' ? `Viewing ${ev.page.split('/').pop()} unit` : `Interested in ${ev.page.split('/').pop()}`,
+             location: ev.metadata?.location || "Someone",
+             time: "just now"
+          }));
+          setLiveEvents([...mapped, ...notifications].slice(0, 10));
+        }
+      }
+    } catch (e) {}
+  };
 
   const triggerNext = useCallback(() => {
     setShow(false);
     setTimeout(() => {
-      setIndex((prev) => (prev + 1) % notifications.length);
+      setIndex((prev) => (prev + 1) % liveEvents.length);
       setShow(true);
-      // Auto-hide after 6 seconds
       setTimeout(() => setShow(false), 6000);
-    }, 4000); // Wait 4s between notifications
-  }, []);
+    }, 4000);
+  }, [liveEvents]);
 
   useEffect(() => {
-    // Start after 10 seconds of initial landing
+    fetchLiveEvents();
     const startTimeout = setTimeout(triggerNext, 10000);
-    const interval = setInterval(triggerNext, 25000); // Repeat every 25s
+    const interval = setInterval(() => {
+      fetchLiveEvents();
+      triggerNext();
+    }, 25000);
     return () => {
       clearTimeout(startTimeout);
       clearInterval(interval);
@@ -51,14 +72,14 @@ export function UrgencyEngine() {
             </div>
             <div>
               <p className="text-[13px] font-medium text-ink leading-tight">
-                {notifications[index].message}
+                {liveEvents[index]?.message}
               </p>
               <div className="flex items-center gap-3 mt-1.5">
                 <span className="text-[10px] text-neutral-500 flex items-center gap-1">
-                  <MapPin size={10} /> {notifications[index].location}
+                  <MapPin size={10} /> {liveEvents[index]?.location}
                 </span>
                 <span className="text-[10px] text-neutral-400">
-                  {notifications[index].time}
+                  {liveEvents[index]?.time}
                 </span>
               </div>
             </div>

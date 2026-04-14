@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS public.traffic_events (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   session_id TEXT NOT NULL,
+  visitor_id UUID, -- Added for cross-session tracking
   event_type TEXT NOT NULL,
   page TEXT,
   source TEXT NOT NULL DEFAULT 'direct',
@@ -11,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.traffic_events (
   referrer TEXT,
   gclid TEXT,
   fbclid TEXT,
-  meta_click_id TEXT,
+  metadata JSONB DEFAULT '{}'::jsonb, -- Unified metadata store
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -19,11 +20,13 @@ CREATE INDEX IF NOT EXISTS traffic_events_created_at_idx ON public.traffic_event
 CREATE INDEX IF NOT EXISTS traffic_events_event_type_idx ON public.traffic_events (event_type);
 CREATE INDEX IF NOT EXISTS traffic_events_source_idx ON public.traffic_events (source);
 CREATE INDEX IF NOT EXISTS traffic_events_campaign_idx ON public.traffic_events (campaign);
+CREATE INDEX IF NOT EXISTS traffic_events_visitor_id_idx ON public.traffic_events (visitor_id);
+CREATE INDEX IF NOT EXISTS traffic_events_session_id_idx ON public.traffic_events (session_id);
 
 CREATE TABLE IF NOT EXISTS public.leads (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
+  last_name TEXT, -- Made optional
   email TEXT NOT NULL,
   phone TEXT,
   stay_duration TEXT,
@@ -36,6 +39,7 @@ CREATE TABLE IF NOT EXISTS public.leads (
   content TEXT,
   referrer TEXT,
   status TEXT NOT NULL DEFAULT 'new',
+  metadata JSONB DEFAULT '{}'::jsonb, -- Unified metadata store for quiz results, etc.
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

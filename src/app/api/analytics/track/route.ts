@@ -6,6 +6,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const {
       sessionId,
+      visitorId,
       eventType,
       page,
       source,
@@ -16,7 +17,6 @@ export async function POST(req: Request) {
       referrer,
       gclid,
       fbclid,
-      metaClickId,
       metadata
     } = body;
 
@@ -28,6 +28,7 @@ export async function POST(req: Request) {
       .from("traffic_events")
       .insert({
         session_id: sessionId,
+        visitor_id: visitorId || null,
         event_type: eventType,
         page: page || null,
         source: source || "direct",
@@ -38,7 +39,6 @@ export async function POST(req: Request) {
         referrer: referrer || null,
         gclid: gclid || null,
         fbclid: fbclid || null,
-        meta_click_id: metaClickId || null,
         metadata: metadata || {}
       });
 

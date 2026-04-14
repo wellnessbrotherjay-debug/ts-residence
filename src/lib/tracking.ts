@@ -9,7 +9,9 @@ export type TrackingEventName =
   | "form_error"
   | "scroll_depth"
   | "engaged_session"
-  | "consent_update";
+  | "consent_update"
+  | "quiz_complete"
+  | "quiz_abandon";
 
 export interface TrackingParams {
   page_name?: string;
@@ -141,12 +143,19 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
   }
 
   // Supabase first-party analytics tracking
-  try {
     const key = 'ts_session_id';
+    const visitorKey = 'ts_visitor_id';
+    
     let sessionId = localStorage.getItem(key);
     if (!sessionId) {
-      sessionId = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
       localStorage.setItem(key, sessionId);
+    }
+
+    let visitorId = localStorage.getItem(visitorKey);
+    if (!visitorId) {
+      visitorId = crypto.randomUUID();
+      localStorage.setItem(visitorKey, visitorId);
     }
     
     // Non-blocking fire and forget
@@ -155,6 +164,7 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         sessionId,
+        visitorId,
         eventType: eventName,
         page: params?.page_path || window.location.pathname,
         source: latest.utm_source || (document.referrer ? new URL(document.referrer).hostname : "direct"),
@@ -164,9 +174,11 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
         content: latest.utm_content || null,
         gclid: latest.gclid || null,
         fbclid: latest.fbclid || null,
-        metaClickId: null,
         referrer: document.referrer || null,
-        metadata: params || {}
+        metadata: {
+          ...params,
+          device_type: params?.device_type || buildDeviceType()
+        }
       })
     }).catch(() => {});
   } catch (err) {
