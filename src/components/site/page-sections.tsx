@@ -275,9 +275,11 @@ export function HealthyLivingPageContent() {
               long-stay rhythm in Seminyak.
             </p>
             <div>
-              <h2 className="text-ink text-2xl md:text-3xl">
-                No.1 Wellness Club
-              </h2>
+              <a href="https://www.no1wellness.com/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <h2 className="text-ink text-2xl md:text-3xl">
+                  No.1 Wellness Club
+                </h2>
+              </a>
               <p className="text-gold mt-3 text-sm italic">
                 You are our number one. Your well-being is our number one.
               </p>

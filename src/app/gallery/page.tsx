@@ -107,7 +107,7 @@ const officialAccounts = [
   {
     name: "No.1 Wellness Club",
     handle: "@no.1wellnessclub",
-    href: "https://www.instagram.com/no.1wellnessclub",
+    href: "https://www.no1wellness.com/",
     logo: "https://tsresidence.id/wp-content/uploads/2025/09/no-1-wellness-club-logo.webp",
   },
 ];

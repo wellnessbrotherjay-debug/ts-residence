@@ -144,6 +144,7 @@ const seminyakHighlights = [
     title: "No.1 Wellness Club",
     image:
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp",
+    href: "https://www.no1wellness.com/",
   },
   {
     title: "Free Shuttle Service",
