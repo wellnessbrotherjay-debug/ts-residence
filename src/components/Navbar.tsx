@@ -309,7 +309,7 @@ export const Navbar = () => {
                   Book now
                 </button>
               </div>
-            </div>div>
+            </div>
           </div>
         </div>
       </motion.nav>
