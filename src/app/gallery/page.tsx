@@ -23,9 +23,9 @@ const collections: GalleryCollection[] = [
     handle: "@tsresidences",
     description: "Architectural moments and signature spaces in Seminyak.",
     cover:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
     images: [
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
       "https://tsresidence.id/wp-content/uploads/2025/08/ts-residence-img.webp",
       "https://tsresidence.id/wp-content/uploads/2025/09/tssuites-pool-sunset.webp",
       "https://tsresidence.id/wp-content/uploads/2025/09/46cef01afe76ce46f8019d0f518ea165.jpg",
@@ -41,7 +41,7 @@ const collections: GalleryCollection[] = [
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/52b605cf-2c98-48f3-cce2-b317f0dbd800/public",
       "https://tsresidence.id/wp-content/uploads/2025/08/studio-main-image.webp",
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/2fef14ff-25f6-41d7-e15e-b19d9b793100/public",
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
     ],
   },
   {
@@ -80,7 +80,7 @@ const collections: GalleryCollection[] = [
       "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
       "https://tsresidence.id/wp-content/uploads/2025/08/panoramic-view-of-sunset-on-a-beah-near-tsresidence-scaled.webp",
       "https://tsresidence.id/wp-content/uploads/2025/09/46cef01afe76ce46f8019d0f518ea165.jpg",
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
     ],
   },
 ];
