@@ -3,7 +3,7 @@
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { trackEvent, buildDeviceType } from "@/lib/tracking";
+import { trackEvent, buildDeviceType, captureUTMs } from "@/lib/tracking";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
@@ -23,6 +23,10 @@ export function Analytics() {
   useEffect(() => {
     if (!mounted) return;
 
+    if (searchParams) {
+      captureUTMs(searchParams.toString());
+    }
+
     const segments = pathname.split("/").filter(Boolean);
     const pageName = segments.length > 0 ? segments[segments.length - 1] : "home";
 
@@ -34,7 +38,7 @@ export function Analytics() {
     });
   }, [pathname, searchParams, mounted]);
 
-  // Track scroll depth and engaged session
+  // Track scroll depth, engaged session, and global outbound click decoration
   useEffect(() => {
     if (!mounted) return;
 
@@ -73,11 +77,42 @@ export function Analytics() {
       });
     };
 
+    const onClick = async (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a');
+      if (!target || !target.href) return;
+      
+      const isExternal = target.hostname && target.hostname !== window.location.hostname;
+      
+      if (isExternal) {
+        let eventName: "social_click" | "cta_click" = "cta_click";
+        if (target.href.includes("wa.me") || target.href.includes("instagram.com")) {
+          eventName = "social_click";
+        }
+
+        trackEvent(eventName, {
+          page_path: pathname,
+          link_url: target.href,
+          link_text: target.innerText || "",
+          device_type: buildDeviceType(),
+        });
+
+        // Decorate cross-domain booking/contact links with UTMs dynamically
+        if (target.href.includes("wa.me") || target.href.includes("booking") || target.href.includes("townsquare")) {
+          e.preventDefault();
+          const { appendUTMsToUrl } = await import("@/lib/tracking");
+          const decorated = appendUTMsToUrl(target.href);
+          window.open(decorated, target.target === "_blank" ? "_blank" : "_self");
+        }
+      }
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("click", onClick);
 
     return () => {
       clearTimeout(engageTimer);
       window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("click", onClick);
     };
   }, [pathname, mounted]);
 
