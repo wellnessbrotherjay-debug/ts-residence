@@ -22,14 +22,14 @@ export default function Page() {
                 <img
                   src={featured.image}
                   alt={featured.title}
-                  className="h-full min-h-88 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05] md:min-h-112 lg:min-h-136"
+                  className="h-full min-h-72 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05] md:min-h-112 lg:min-h-136"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/84 via-black/24 to-transparent" />
-                <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 lg:bottom-16 lg:left-16">
-                  <p className="text-gold-light mb-4 text-[11px] font-semibold tracking-[0.24em] uppercase">
+                <div className="absolute inset-0 bg-linear-to-t from-black/92 via-black/32 to-transparent" />
+                <div className="absolute bottom-6 left-6 pt-20 md:bottom-12 md:left-12 lg:bottom-16 lg:left-16 md:pt-0">
+                  <p className="text-gold-light mb-4 text-[10px] font-semibold tracking-[0.24em] uppercase md:text-[11px]">
                     Featured Offer 01
                   </p>
-                  <h2 className="text-white font-serif text-[2.8rem] font-bold leading-[1.02] md:text-[3.8rem] lg:text-[4.6rem]">
+                  <h2 className="text-white font-serif text-[2.1rem] font-bold leading-[1.02] md:text-[3.4rem] lg:text-[4.2rem]">
                     {featured.title}
                   </h2>
                 </div>
@@ -38,17 +38,17 @@ export default function Page() {
 
             <FadeInView
               direction="left"
-              className="card-surface flex h-full items-center p-8 md:p-12 lg:p-16"
+              className="card-surface flex h-full items-center px-6 py-10 md:p-12 lg:p-16"
             >
               <div data-no-text-reveal="true" className="max-w-2xl">
                 <StaggerContainer amount={0.2} staggerDelay={0.12}>
                   <StaggerItem>
-                    <p className="text-ink/86 font-serif text-[1.4rem] leading-10 font-light italic md:text-[1.8rem] lg:text-[2.2rem]">
+                    <p className="text-ink/86 font-serif text-[1.125rem] leading-9 font-light italic md:text-[1.6rem] lg:text-[2rem]">
                       {featured.description}
                     </p>
                   </StaggerItem>
                   <StaggerItem>
-                    <div className="bg-gold/30 mt-10 h-px w-20" />
+                    <div className="bg-gold/30 mt-8 h-px w-16 md:mt-10 md:w-20" />
                   </StaggerItem>
                 </StaggerContainer>
               </div>
