@@ -10,8 +10,44 @@ import { UrgencyEngine } from "@/components/UrgencyEngine";
 import { ApartmentQuiz } from "@/components/ApartmentQuiz";
 import "./globals.css";
 
+const IMAGE_RECOVERY_SCRIPT = `
+(() => {
+  if (typeof window === "undefined") return;
+
+  const proxyPath = "/api/image?url=";
+  const fallback = "/ts-logo.svg";
+
+  document.addEventListener(
+    "error",
+    (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLImageElement)) return;
+
+      if (target.dataset.proxyRetry !== "1") {
+        const original = target.currentSrc || target.src || "";
+        if (original.startsWith("http")) {
+          target.dataset.proxyRetry = "1";
+          target.src = proxyPath + encodeURIComponent(original);
+          return;
+        }
+      }
+
+      if (target.dataset.fallbackApplied === "1") return;
+      target.dataset.fallbackApplied = "1";
+      target.src = fallback;
+    },
+    true,
+  );
+})();
+`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  icons: {
+    icon: "/ts-logo.svg",
+    shortcut: "/ts-logo.svg",
+    apple: "/ts-logo.svg",
+  },
   title: {
     default: DEFAULT_SEO.title,
     template: "%s | TS Residence",
@@ -80,7 +116,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-             __html: JSON.stringify({
+            __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ApartmentComplex",
               name: "TS Residence",
@@ -94,36 +130,35 @@ export default function RootLayout({
                 streetAddress: "Jl. Nakula No.18",
                 addressLocality: "Legian, Seminyak",
                 addressRegion: "Bali",
-                addressCountry: "ID"
+                addressCountry: "ID",
               },
               geo: {
                 "@type": "GeoCoordinates",
                 latitude: -8.6974,
-                longitude: 115.1740
+                longitude: 115.174,
               },
-              sameAs: [
-                "https://www.instagram.com/tsresidences/"
-              ],
+              sameAs: ["https://www.instagram.com/tsresidences/"],
               amenityFeature: [
                 {
                   "@type": "LocationFeatureSpecification",
                   name: "Coworking Space",
-                  value: true
+                  value: true,
                 },
                 {
                   "@type": "LocationFeatureSpecification",
                   name: "No.1 Wellness Club",
-                  value: true
+                  value: true,
                 },
                 {
                   "@type": "LocationFeatureSpecification",
                   name: "Rooftop Pool",
-                  value: true
-                }
-              ]
-            })
+                  value: true,
+                },
+              ],
+            }),
           }}
         />
+        <script dangerouslySetInnerHTML={{ __html: IMAGE_RECOVERY_SCRIPT }} />
         <div className="bg-cream text-ink min-h-screen">
           <Navbar />
           <main className="flex-1 pt-18 xl:pt-28">
