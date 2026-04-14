@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { GlobalTextReveal } from "@/components/site/GlobalTextReveal";
 import { Analytics } from "@/components/Analytics";
+import { ConsentBanner } from "@/components/ConsentBanner";
 import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -68,6 +69,54 @@ export default function RootLayout({
     <html lang="en" className="h-full scroll-smooth antialiased">
       <body className="flex min-h-full flex-col">
         <Analytics />
+        <ConsentBanner />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+             __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ApartmentComplex",
+              name: "TS Residence",
+              url: SITE_URL,
+              logo: `${SITE_URL}/logo.png`,
+              image: DEFAULT_SEO.ogImage,
+              description: DEFAULT_SEO.description,
+              telephone: "+6281119028111",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Jl. Nakula No.18",
+                addressLocality: "Legian, Seminyak",
+                addressRegion: "Bali",
+                addressCountry: "ID"
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: -8.6974,
+                longitude: 115.1740
+              },
+              sameAs: [
+                "https://www.instagram.com/tsresidences/"
+              ],
+              amenityFeature: [
+                {
+                  "@type": "LocationFeatureSpecification",
+                  name: "Coworking Space",
+                  value: true
+                },
+                {
+                  "@type": "LocationFeatureSpecification",
+                  name: "No.1 Wellness Club",
+                  value: true
+                },
+                {
+                  "@type": "LocationFeatureSpecification",
+                  name: "Rooftop Pool",
+                  value: true
+                }
+              ]
+            })
+          }}
+        />
         <div className="bg-cream text-ink min-h-screen">
           <Navbar />
           <main className="flex-1 pt-18 xl:pt-28">

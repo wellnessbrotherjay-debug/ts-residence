@@ -1,26 +1,25 @@
-import type { MetadataRoute } from "next";
+import { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
   const routes = [
-    "/",
+    "",
     "/apartments",
     "/apartments/solo",
     "/apartments/studio",
     "/apartments/soho",
     "/offers",
     "/gallery",
-    "/five-star-living",
-    "/healthy-living",
-    "/easy-living",
     "/contact",
-  ];
-
-  return routes.map((route) => ({
+    "/easy-living",
+    "/healthy-living",
+    "/five-star-living",
+  ].map((route) => ({
     url: `${SITE_URL}${route}`,
-    lastModified: now,
-    changeFrequency: route === "/" ? "weekly" : "monthly",
-    priority: route === "/" ? 1 : 0.8,
+    lastModified: new Date().toISOString().split("T")[0],
+    changeFrequency: "weekly" as const,
+    priority: route === "" ? 1 : 0.8,
   }));
+
+  return routes;
 }
