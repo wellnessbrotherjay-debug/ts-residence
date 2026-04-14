@@ -34,11 +34,25 @@ export function ContactForm() {
     setSuccess("");
     setError(null);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      const [res, leadRes] = await Promise.all([
+        fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        }),
+        fetch("/api/leads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...form,
+            page: window.location.pathname,
+            source: localStorage.getItem("utm_latest") ? JSON.parse(localStorage.getItem("utm_latest")!).utm_source || "direct" : "direct",
+            campaign: localStorage.getItem("utm_latest") ? JSON.parse(localStorage.getItem("utm_latest")!).utm_campaign || null : null,
+            referrer: document.referrer || null,
+          }),
+        }).catch(() => null)
+      ]);
+
       if (res.ok) {
         setSuccess("Your inquiry was sent! We'll reply soon.");
         setForm({
@@ -48,6 +62,11 @@ export function ContactForm() {
           phone: "",
           stayDuration: "Monthly",
           message: "",
+        });
+        
+        // Track the lead form submit event so analytics picks it up
+        import("@/lib/tracking").then(({ trackEvent }) => {
+          trackEvent("form_submit", { form_name: "contact_inquiry" });
         });
       } else {
         const data = await res.json();

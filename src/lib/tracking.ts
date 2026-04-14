@@ -139,6 +139,38 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
       ...latest
     });
   }
+
+  // Supabase first-party analytics tracking
+  try {
+    const key = 'ts_session_id';
+    let sessionId = localStorage.getItem(key);
+    if (!sessionId) {
+      sessionId = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      localStorage.setItem(key, sessionId);
+    }
+    
+    // Non-blocking fire and forget
+    fetch('/api/analytics/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        eventType: eventName,
+        page: params?.page_path || window.location.pathname,
+        source: latest.utm_source || (document.referrer ? new URL(document.referrer).hostname : "direct"),
+        medium: latest.utm_medium || null,
+        campaign: latest.utm_campaign || null,
+        term: latest.utm_term || null,
+        content: latest.utm_content || null,
+        gclid: latest.gclid || null,
+        fbclid: latest.fbclid || null,
+        metaClickId: null,
+        referrer: document.referrer || null,
+      })
+    }).catch(() => {});
+  } catch (err) {
+    // ignore
+  }
 }
 
 export function grantConsent(type: "analytics" | "marketing" | "all" | "rejected") {
