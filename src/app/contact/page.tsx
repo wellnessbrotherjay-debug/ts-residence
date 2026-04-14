@@ -87,7 +87,7 @@ export default function Page() {
               className="relative min-h-90 overflow-hidden md:min-h-130"
             >
               <img
-                src="https://tsresidence.id/wp-content/uploads/2025/08/img-need-help.webp"
+                src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/658eddbe-9b08-41bf-2ccc-908e4ea1ff00/public"
                 alt="TS Residence contact concierge"
                 className="h-full w-full object-cover transition-transform duration-1700 ease-out hover:scale-[1.04]"
               />
