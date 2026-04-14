@@ -33,8 +33,9 @@ export default function AdminPage() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [leads, setLeads] = useState<DashboardLead[]>([]);
   const [loading, setLoading] = useState(true);
+  const [lastLeadId, setLastLeadId] = useState<number | null>(null);
 
-  const fetchDashboard = async () => {
+  const fetchDashboard = async (isInitial = false) => {
     try {
       const [summaryRes, leadsRes] = await Promise.all([
         fetch('/api/dashboard/summary'),
@@ -44,20 +45,61 @@ export default function AdminPage() {
         setSummary(await summaryRes.json());
       }
       if (leadsRes.ok) {
-        setLeads(await leadsRes.json());
+        const data = await leadsRes.json();
+        setLeads(data);
+        
+        // Check for NEW leads to trigger alerts
+        if (!isInitial && data.length > 0 && lastLeadId && data[0].id > lastLeadId) {
+          triggerLeadAlert(data[0]);
+        }
+        if (data.length > 0) setLastLeadId(data[0].id);
       }
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      if (isInitial) setLoading(false);
+    }
+  };
+
+  const triggerLeadAlert = (lead: DashboardLead) => {
+    // 1. Audio alert
+    try {
+      const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3");
+      audio.play();
+    } catch (e) {}
+
+    // 2. Browser notification
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification("New Lead: " + lead.first_name, {
+        body: `From ${lead.source} - ${lead.email}`,
+        icon: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/cce3ff72-a0c2-4b10-826e-c47befe5db00/public"
+      });
+    }
+
+    // 3. Tab Alert
+    const originalTitle = document.title;
+    let blink = true;
+    const interval = setInterval(() => {
+      document.title = blink ? "🚨 NEW LEAD!" : "TS Intelligence";
+      blink = !blink;
+    }, 1000);
+    setTimeout(() => {
+      clearInterval(interval);
+      document.title = originalTitle;
+    }, 10000);
+  };
+
+  const requestNotificationPermission = () => {
+    if ("Notification" in window) {
+      Notification.requestPermission();
     }
   };
 
   useEffect(() => {
-    fetchDashboard();
-    const interval = setInterval(fetchDashboard, 30000); // Auto-refresh every 30s
+    fetchDashboard(true);
+    const interval = setInterval(fetchDashboard, 15000); // Faster refresh for CRM
     return () => clearInterval(interval);
-  }, []);
+  }, [lastLeadId]);
 
   const updateLeadStatus = async (id: number, status: string) => {
     const res = await fetch(`/api/leads/${id}/status`, {
@@ -74,9 +116,18 @@ export default function AdminPage() {
     <div className="pt-32 pb-20 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto text-black">
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-4xl font-serif">TS Residence Intelligence</h1>
-        <button onClick={fetchDashboard} className="text-xs font-mono bg-neutral-100 px-3 py-1 rounded hover:bg-neutral-200">
-          REFRESH LIVE
-        </button>
+        <div className="flex gap-2">
+          <button 
+            onClick={requestNotificationPermission} 
+            className="text-[10px] font-bold bg-gold/10 text-gold-dark px-3 py-1.5 rounded-full hover:bg-gold/20 flex items-center gap-2 border border-gold/20"
+          >
+            <span className="w-1.5 h-1.5 bg-gold rounded-full"></span>
+            ENABLE DESKTOP ALERTS
+          </button>
+          <button onClick={() => fetchDashboard(false)} className="text-[10px] font-mono bg-neutral-100 px-3 py-1.5 rounded-full hover:bg-neutral-200 uppercase tracking-tight">
+            Refresh Live
+          </button>
+        </div>
       </div>
 
       {/* Summary Cards */}

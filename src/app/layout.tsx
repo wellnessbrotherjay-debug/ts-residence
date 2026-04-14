@@ -5,6 +5,8 @@ import { GlobalTextReveal } from "@/components/site/GlobalTextReveal";
 import { Analytics } from "@/components/Analytics";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
+import { UrgencyEngine } from "@/components/UrgencyEngine";
+import { ApartmentQuiz } from "@/components/ApartmentQuiz";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -69,6 +71,8 @@ export default function RootLayout({
     <html lang="en" className="h-full scroll-smooth antialiased">
       <body className="flex min-h-full flex-col">
         <Analytics />
+        <UrgencyEngine />
+        <ApartmentQuiz />
         <ConsentBanner />
         <script
           type="application/ld+json"
@@ -128,7 +132,7 @@ export default function RootLayout({
             href="https://wa.me/6281119028111"
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed right-4 bottom-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-[11px] font-semibold tracking-[0.14em] text-[#0d2a1b] uppercase shadow-2xl transition-transform duration-300 hover:scale-110 md:right-8 md:bottom-8 md:h-14 md:w-14 md:text-sm"
+            className="fixed right-6 bottom-24 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-[11px] font-semibold tracking-[0.14em] text-[#0d2a1b] uppercase shadow-2xl transition-transform duration-300 hover:scale-110 md:right-8 md:bottom-28 md:h-14 md:w-14 md:text-sm"
             aria-label="WA chat on WhatsApp"
           >
             <span aria-hidden="true">WA</span>
