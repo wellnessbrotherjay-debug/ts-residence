@@ -155,7 +155,6 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
                         return v;
                      })();
 
-    /*
     fetch('/api/analytics/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -178,7 +177,6 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
         }
       })
     }).catch(() => {});
-    */
 
   } catch (err) {
     console.warn('Tracking error:', err);

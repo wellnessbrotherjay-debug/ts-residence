@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const { status } = await req.json();
     if (!status) {
       return NextResponse.json({ error: "status is required" }, { status: 400 });
@@ -11,7 +12,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     const { error, data } = await supabase
       .from("leads")
       .update({ status })
-      .eq("id", params.id)
+      .eq("id", id)
       .select("id");
 
     if (error) {
