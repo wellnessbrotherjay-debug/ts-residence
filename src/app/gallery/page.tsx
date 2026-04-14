@@ -154,7 +154,7 @@ export default function Page() {
   return (
     <div className="relative isolate overflow-x-hidden">
       <LockedPageHero
-        image="https://tsresidence.id/wp-content/uploads/2025/08/ts-residence-img.webp"
+        image="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public"
         alt="TS Residence Gallery"
         heightClassName="h-[86vh] md:h-[88vh]"
         title={
