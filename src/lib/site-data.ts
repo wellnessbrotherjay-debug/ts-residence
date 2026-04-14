@@ -213,14 +213,14 @@ export const offers = [
     description:
       "Stay more than 3 months with 20% upfront and the rest paid monthly.",
     image:
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80",
   },
   {
     title: "Resident Dining",
     description:
       "15% discount at TS Suites for food, beverage, and selected retail services.",
     image:
-      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4671aadd-470b-4fca-1c95-3d833b2da000/public",
   },
   {
     title: "Wellness Discount",

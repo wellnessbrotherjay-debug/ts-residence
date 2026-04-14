@@ -24,35 +24,31 @@ export default function Page() {
                   alt={featured.title}
                   className="h-full min-h-88 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05] md:min-h-112 lg:min-h-136"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/15 to-transparent" />
-                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8">
-                  <p className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase">
-                    Featured Offer
+                <div className="absolute inset-0 bg-linear-to-t from-black/84 via-black/24 to-transparent" />
+                <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 lg:bottom-16 lg:left-16">
+                  <p className="text-gold-light mb-4 text-[11px] font-semibold tracking-[0.24em] uppercase">
+                    Featured Offer 01
                   </p>
+                  <h2 className="text-white font-serif text-[2.8rem] font-bold leading-[1.02] md:text-[3.8rem] lg:text-[4.6rem]">
+                    {featured.title}
+                  </h2>
                 </div>
               </div>
             </FadeInView>
 
             <FadeInView
               direction="left"
-              className="card-surface flex h-full items-center p-8 md:p-10 lg:p-12"
+              className="card-surface flex h-full items-center p-8 md:p-12 lg:p-16"
             >
-              <div data-no-text-reveal="true" className="max-w-xl">
+              <div data-no-text-reveal="true" className="max-w-2xl">
                 <StaggerContainer amount={0.2} staggerDelay={0.12}>
                   <StaggerItem>
-                    <p className="text-gold-dark text-[11px] font-semibold tracking-[0.24em] uppercase">
-                      Offer 01
-                    </p>
-                  </StaggerItem>
-                  <StaggerItem>
-                    <h2 className="text-ink mt-4 font-serif text-[2.1rem] leading-[1.02] md:text-[2.8rem]">
-                      {featured.title}
-                    </h2>
-                  </StaggerItem>
-                  <StaggerItem>
-                    <p className="text-ink/76 mt-6 text-[1rem] leading-8">
+                    <p className="text-ink/86 font-serif text-[1.4rem] leading-10 font-light italic md:text-[1.8rem] lg:text-[2.2rem]">
                       {featured.description}
                     </p>
+                  </StaggerItem>
+                  <StaggerItem>
+                    <div className="bg-gold/30 mt-10 h-px w-20" />
                   </StaggerItem>
                 </StaggerContainer>
               </div>
