@@ -87,7 +87,7 @@ export const HeroSection = ({
     const measure = () => {
       setViewportH(window.innerHeight);
       setNavbarH(
-        window.innerWidth >= 1024 ? DESKTOP_NAVBAR_H : MOBILE_NAVBAR_H,
+        window.innerWidth >= 1280 ? DESKTOP_NAVBAR_H : MOBILE_NAVBAR_H,
       );
     };
     measure();

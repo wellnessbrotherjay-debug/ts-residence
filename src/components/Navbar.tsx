@@ -124,7 +124,7 @@ export const Navbar = () => {
       >
         <div className="w-full px-4">
           {/* Mobile Header */}
-          <div className="flex h-18 items-center justify-between lg:hidden">
+          <div className="flex h-18 items-center justify-between xl:hidden">
             <div className="w-10" />
             <button
               onClick={() => setPage("home")}
@@ -147,7 +147,7 @@ export const Navbar = () => {
           </div>
 
           {/* Desktop Header */}
-          <div className="hidden lg:block">
+          <div className="hidden xl:block">
             <motion.div
               animate={{
                 opacity: 1,
@@ -175,25 +175,26 @@ export const Navbar = () => {
             </motion.div>
 
             <div
-              className={`relative flex items-center justify-center transition-[height,padding] duration-500 ${showTopLogo ? "h-12" : "h-16"}`}
+              className={`relative flex items-center justify-between transition-[height,padding] duration-500 xl:px-6 ${showTopLogo ? "h-12" : "h-16"}`}
             >
-              <motion.button
-                onClick={() => setPage("home")}
-                initial={false}
-                animate={{
-                  opacity: showTopLogo ? 1 : 0,
-                  x: showTopLogo ? 0 : -12,
-                }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="absolute left-4 flex items-center lg:left-6"
-                style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
-                aria-label="TS Residence home"
-              >
-                <img src={LOGO_URL} alt="TS Residence" className="h-9 w-auto" />
-              </motion.button>
-
+              <div className="flex flex-1 items-center">
+                <motion.button
+                  onClick={() => setPage("home")}
+                  initial={false}
+                  animate={{
+                    opacity: showTopLogo ? 1 : 0,
+                    x: showTopLogo ? 0 : -12,
+                  }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
+                  aria-label="TS Residence home"
+                >
+                  <img src={LOGO_URL} alt="TS Residence" className="h-9 w-auto" />
+                </motion.button>
+              </div>
+ 
               <div
-                className={`flex items-center transition-[gap,padding-left] duration-500 ${showTopLogo ? "gap-8 pl-24" : "gap-10"}`}
+                className={`flex flex-auto items-center justify-center transition-all duration-500 ${showTopLogo ? "gap-6 pt-0" : "gap-8"}`}
               >
                 <div
                   className="relative"
@@ -208,7 +209,7 @@ export const Navbar = () => {
                       onClick={() => setIsApartmentsOpen(false)}
                       className="focus:outline-hidden"
                     >
-                      <span>Apartments</span>
+                      <span className="xl:text-sm">Apartments</span>
                     </Link>
                     <button
                       type="button"
@@ -234,7 +235,7 @@ export const Navbar = () => {
                       </span>
                     </button>
                   </div>
-
+ 
                   <AnimatePresence>
                     {isApartmentsOpen && (
                       <motion.div
@@ -256,7 +257,7 @@ export const Navbar = () => {
                             View all
                           </Link>
                         </div>
-
+ 
                         <div className="space-y-3">
                           {apartmentDisplayList.map((apartment) => (
                             <Link
@@ -288,24 +289,27 @@ export const Navbar = () => {
                     )}
                   </AnimatePresence>
                 </div>
-
+ 
                 {allNav.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => handleNavClick(item.value)}
-                    className={`nav-link text-ink/70 hover:text-ink ${currentPage === item.value ? "text-ink font-medium" : ""}`}
+                    className={`nav-link text-ink/70 hover:text-ink xl:text-sm ${currentPage === item.value ? "text-ink font-medium" : ""}`}
                   >
                     {item.label}
                   </button>
                 ))}
               </div>
-              <button
-                onClick={() => setPage("contact")}
-                className="absolute right-0 bg-[#8b7658] px-10 py-3 font-sans text-[14px] font-semibold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#755f44]"
-              >
-                Book now
-              </button>
-            </div>
+ 
+              <div className="flex flex-1 justify-end">
+                <button
+                  onClick={() => setPage("contact")}
+                  className="bg-[#8b7658] px-6 py-2.5 font-sans text-xs font-semibold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#755f44] xl:px-8 xl:py-3 xl:text-sm"
+                >
+                  Book now
+                </button>
+              </div>
+            </div>div>
           </div>
         </div>
       </motion.nav>

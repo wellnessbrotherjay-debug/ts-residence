@@ -70,7 +70,7 @@ export default function RootLayout({
         <Analytics />
         <div className="bg-cream text-ink min-h-screen">
           <Navbar />
-          <main className="flex-1 pt-18 lg:pt-28">
+          <main className="flex-1 pt-18 xl:pt-28">
             <GlobalTextReveal />
             {children}
           </main>
