@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -70,10 +71,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full scroll-smooth antialiased">
       <body className="flex min-h-full flex-col">
-        <Analytics />
-        <UrgencyEngine />
-        <ApartmentQuiz />
-        <ConsentBanner />
+        <Suspense fallback={null}>
+          <Analytics />
+          <UrgencyEngine />
+          <ApartmentQuiz />
+          <ConsentBanner />
+        </Suspense>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
