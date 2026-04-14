@@ -99,67 +99,62 @@ export function appendUTMsToUrl(url: string): string {
 export function trackEvent(eventName: TrackingEventName, params?: TrackingParams) {
   if (typeof window === "undefined") return;
 
-  const dataLayer = (window as any).dataLayer || [];
-  const { first, latest } = getUTMs();
-  
-  const flatUTMs: Record<string, string> = {};
-  Object.entries(first).forEach(([k, v]) => {
-    if (v) flatUTMs[`first_${k}`] = v;
-  });
-  Object.entries(latest).forEach(([k, v]) => {
-    if (v) flatUTMs[`latest_${k}`] = v;
-    if (v) flatUTMs[k] = v; // Store default dimension too
-  });
-
-  dataLayer.push({
-    event: eventName,
-    ...params,
-    ...flatUTMs,
-  });
-
-  // Meta Standard Event Compatibility map
-  if (typeof (window as any).fbq === "function") {
-    let fbEvent = "trackCustom";
-    let fbEventName = eventName;
-    
-    if (eventName === "page_view") {
-      fbEvent = "track";
-      fbEventName = "PageView";
-    } else if (eventName === "form_submit") {
-      fbEvent = "track";
-      fbEventName = "Lead";
-    } else if (eventName === "cta_click") {
-      fbEvent = "trackCustom";
-      fbEventName = "CTAClick";
-    } else if (eventName === "contact_action") { // Add virtual map for contact
-      fbEvent = "track";
-      fbEventName = "Contact";
-    }
-
-    (window as any).fbq(fbEvent, fbEventName, {
-      ...params,
-      ...latest
-    });
-  }
-
-  // Supabase first-party analytics tracking
   try {
-    const key = 'ts_session_id';
-    const visitorKey = 'ts_visitor_id';
+    const dataLayer = (window as any).dataLayer || [];
+    const { first, latest } = getUTMs();
     
-    let sessionId = localStorage.getItem(key);
-    if (!sessionId) {
-      sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-      localStorage.setItem(key, sessionId);
+    const flatUTMs: Record<string, string> = {};
+    Object.entries(first).forEach(([k, v]) => {
+      if (v) flatUTMs[`first_${k}`] = v;
+    });
+    Object.entries(latest).forEach(([k, v]) => {
+      if (v) flatUTMs[`latest_${k}`] = v;
+      if (v) flatUTMs[k] = v;
+    });
+
+    dataLayer.push({
+      event: eventName,
+      ...params,
+      ...flatUTMs,
+    });
+
+    // Meta Standard Event Compatibility
+    if (typeof (window as any).fbq === "function") {
+      let fbEvent = "trackCustom";
+      let fbEventName = eventName;
+      
+      if (eventName === "page_view") {
+        fbEvent = "track";
+        fbEventName = "PageView";
+      } else if (eventName === "form_submit") {
+        fbEvent = "track";
+        fbEventName = "Lead";
+      } else if (eventName === "cta_click") {
+        fbEvent = "trackCustom";
+        fbEventName = "CTAClick";
+      }
+
+      (window as any).fbq(fbEvent, fbEventName, {
+        ...params,
+        ...latest
+      });
     }
 
-    let visitorId = localStorage.getItem(visitorKey);
-    if (!visitorId) {
-      visitorId = crypto.randomUUID();
-      localStorage.setItem(visitorKey, visitorId);
-    }
-    
-    // Non-blocking fire and forget
+    // Supabase first-party tracking
+    const sessionId = localStorage.getItem('ts_session_id') || 
+                     (() => {
+                        const s = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+                        localStorage.setItem('ts_session_id', s);
+                        return s;
+                     })();
+
+    const visitorId = localStorage.getItem('ts_visitor_id') || 
+                     (() => {
+                        const v = window.crypto?.randomUUID?.() || `vis_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+                        localStorage.setItem('ts_visitor_id', v);
+                        return v;
+                     })();
+
     fetch('/api/analytics/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -182,8 +177,9 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
         }
       })
     }).catch(() => {});
+
   } catch (err) {
-    // ignore
+    console.warn('Tracking error:', err);
   }
 }
 
