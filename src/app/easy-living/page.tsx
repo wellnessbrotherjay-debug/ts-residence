@@ -133,6 +133,7 @@ const seminyakHighlights = [
     title: "TS Suites Hotel",
     image:
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-hotel.webp",
+    href: "https://tssuites.com/",
   },
   {
     title: "Strategic Location",
@@ -403,27 +404,51 @@ export default function Page() {
                 >
                   <FadeInView delay={Math.min(index * 0.04, 0.28)}>
                     <div className="border-gold/20 overflow-hidden border bg-white shadow-[0_20px_60px_rgba(28,25,23,0.08)]">
-                      <div className="relative aspect-4/5 overflow-hidden">
-                        <motion.img
-                          src={item.image}
-                          alt={item.title}
-                          className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
-                          whileHover={{ scale: 1.06 }}
-                          transition={{
-                            duration: 1,
-                            ease: [0.22, 1, 0.36, 1],
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-linear-to-t from-black/62 via-black/8 to-transparent" />
-                        <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-                          <p className="text-gold-light text-[10px] font-semibold tracking-[0.22em] uppercase">
-                            Seminyak Access
-                          </p>
-                          <h3 className="mt-3 font-serif text-[1.9rem] leading-[1.04] text-white">
-                            {item.title}
-                          </h3>
+                      {item.href ? (
+                        <a href={item.href} target="_blank" rel="noopener noreferrer" className="relative aspect-4/5 overflow-hidden block">
+                          <motion.img
+                            src={item.image}
+                            alt={item.title}
+                            className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
+                            whileHover={{ scale: 1.06 }}
+                            transition={{
+                              duration: 1,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-linear-to-t from-black/62 via-black/8 to-transparent" />
+                          <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
+                            <p className="text-gold-light text-[10px] font-semibold tracking-[0.22em] uppercase">
+                              Seminyak Access
+                            </p>
+                            <h3 className="mt-3 font-serif text-[1.9rem] leading-[1.04] text-white">
+                              {item.title}
+                            </h3>
+                          </div>
+                        </a>
+                      ) : (
+                        <div className="relative aspect-4/5 overflow-hidden">
+                          <motion.img
+                            src={item.image}
+                            alt={item.title}
+                            className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
+                            whileHover={{ scale: 1.06 }}
+                            transition={{
+                              duration: 1,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-linear-to-t from-black/62 via-black/8 to-transparent" />
+                          <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
+                            <p className="text-gold-light text-[10px] font-semibold tracking-[0.22em] uppercase">
+                              Seminyak Access
+                            </p>
+                            <h3 className="mt-3 font-serif text-[1.9rem] leading-[1.04] text-white">
+                              {item.title}
+                            </h3>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </FadeInView>
                 </article>
