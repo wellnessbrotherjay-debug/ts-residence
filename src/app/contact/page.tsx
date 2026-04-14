@@ -33,7 +33,7 @@ export default function Page() {
   return (
     <div className="relative isolate overflow-x-hidden">
       <LockedPageHero
-        image="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
+        image="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/99f4c935-885b-4314-5181-a1ad43657700/public"
         alt="Contact TS Residence"
         heightClassName="h-[86vh] md:h-[88vh]"
         title={

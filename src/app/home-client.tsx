@@ -32,7 +32,7 @@ export function HomeClient() {
   };
 
   const heroImage =
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/99f4c935-885b-4314-5181-a1ad43657700/public";
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7aef4db4-582a-4beb-c3f9-5934b61e2200/public";
 
   const apartments = [
     {
