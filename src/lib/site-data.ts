@@ -206,7 +206,7 @@ export const offers = [
     title: "Opening Celebration",
     description: "Stay 3 months, pay 2 months on the SOLO unit only.",
     image:
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/488cfdb2-dc72-4f9f-de35-2e1c1cab9400/public",
   },
   {
     title: "Easy Pay",
