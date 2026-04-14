@@ -121,7 +121,7 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
     // Meta Standard Event Compatibility
     if (typeof (window as any).fbq === "function") {
       let fbEvent = "trackCustom";
-      let fbEventName = eventName;
+      let fbEventName: any = eventName;
       
       if (eventName === "page_view") {
         fbEvent = "track";
