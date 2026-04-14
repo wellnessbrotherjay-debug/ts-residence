@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 export async function POST(req: Request) {
+  if (!isSupabaseConfigured) {
+    return NextResponse.json({ error: "Server database is not configured" }, { status: 500 });
+  }
+
   try {
     const body = await req.json();
     const {

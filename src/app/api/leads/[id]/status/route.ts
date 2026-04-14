@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  if (!isSupabaseConfigured) {
+    return NextResponse.json({ error: "Server database is not configured" }, { status: 500 });
+  }
+
   try {
     const { id } = await params;
     const { status } = await req.json();
