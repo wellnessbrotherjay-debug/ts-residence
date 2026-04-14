@@ -161,7 +161,7 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
           style={{ y: heroContentY, opacity: heroContentOpacity }}
         >
           <FadeInView className="w-full max-w-300">
-            <h1 className="mx-auto max-w-[12ch] font-serif text-[2.8rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:max-w-[14ch] md:text-[5.8rem] lg:text-[6.9rem]">
+            <h1 className="mx-auto max-w-[12ch] font-serif text-[2.6rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-[3.2rem] md:max-w-[14ch] md:text-[5.2rem] lg:text-[6.4rem]">
               {apartment.name}
             </h1>
 
@@ -223,7 +223,7 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
       </section>
 
       <section className="border-gold/30 border-b bg-white">
-        <div className="mx-auto w-full max-w-440 px-5 py-12 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
+        <div className="mx-auto w-full max-w-440 px-4 py-12 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr] lg:gap-10">
             <FadeInView className="border-gold/35 border bg-white p-6 shadow-[0_20px_44px_rgba(25,23,20,0.06)] md:p-10 lg:p-12">
               <p className="label-caps text-gold">Overview</p>
@@ -269,7 +269,7 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
       </section>
 
       <section className="border-gold/30 bg-cream border-b">
-        <div className="w-full px-5 py-12 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
+        <div className="w-full px-4 py-12 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <FadeInView className="mb-7 max-w-245 md:mb-10">
             <p className="label-caps text-gold">Gallery</p>
           </FadeInView>
@@ -406,7 +406,7 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
       </section>
 
       <section className="border-gold/30 border-b bg-[#fbf8f2]">
-        <div className="mx-auto w-full max-w-440 px-5 py-12 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
+        <div className="mx-auto w-full max-w-440 px-4 py-12 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
           <FadeInView className="mb-8 max-w-250 md:mb-10">
             <p className="label-caps text-gold">Resident Access</p>
             <h3 className="text-ink mt-4 font-serif text-[1.9rem] leading-[1.03] md:text-[2.9rem]">

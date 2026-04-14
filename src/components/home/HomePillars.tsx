@@ -73,7 +73,7 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => {
             </p>
           </div>
 
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-b border-[#e7ddd0] pb-4 md:mt-8 md:gap-x-7">
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-b border-[#e7ddd0] pb-5 md:mt-8 md:gap-x-7">
             {PILLARS.map((item, index) => {
               const isActive = index === activePillar;
 
@@ -82,9 +82,9 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => {
                   key={item.title}
                   type="button"
                   onClick={() => setActivePillar(index)}
-                  className={`font-serif text-[1.08rem] leading-none transition-all duration-300 sm:text-[1.18rem] md:text-[1.55rem] ${
+                  className={`font-serif text-[1.15rem] leading-none transition-all duration-300 sm:text-[1.2rem] md:text-[1.55rem] ${
                     isActive
-                      ? "text-ink underline decoration-[#2c2218] underline-offset-[8px]"
+                      ? "text-ink underline decoration-[#2c2218] underline-offset-[10px]"
                       : "text-[#b7aea4] hover:text-[#857768]"
                   }`}
                 >

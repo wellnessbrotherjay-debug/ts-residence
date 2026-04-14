@@ -44,7 +44,7 @@ const HeroTextContent = ({
       </FadeInView>
       <FadeInView delay={isInitialLoad ? 0.24 : 0.06}>
         <h1
-          className={`heading-display text-[3.35rem] leading-[0.92] sm:text-6xl md:text-8xl lg:text-[9rem] xl:text-[11rem] ${
+          className={`heading-display text-[2.8rem] leading-[0.92] sm:text-[3.35rem] md:text-8xl lg:text-[9.2rem] xl:text-[11.5rem] ${
             isDark ? "text-ink" : "text-white"
           }`}
           style={
@@ -52,7 +52,7 @@ const HeroTextContent = ({
               ? {}
               : {
                   textShadow:
-                    "0 4px 60px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.3)",
+                    "0 4px 50px rgba(0,0,0,0.4), 0 2px 12px rgba(0,0,0,0.25)",
                 }
           }
         >

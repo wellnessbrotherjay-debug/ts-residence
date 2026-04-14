@@ -136,7 +136,13 @@
 
 /* Section padding */
 .section-pad {
-  @apply px-6 py-16;
+  @apply px-4 py-12;
+}
+
+@media (min-width: 480px) {
+  .section-pad {
+    @apply px-6 py-16;
+  }
 }
 
 @media (min-width: 768px) {
