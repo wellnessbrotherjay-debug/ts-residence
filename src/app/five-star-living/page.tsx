@@ -76,14 +76,12 @@ export default function Page() {
         heightClassName="h-[90vh] md:h-[92vh] lg:h-[94vh]"
         title={
           <>
-            Five-star service,
+            Make five-star living your
             <br />
-            now redefined for
-            <br />
-            long-stay residence.
+            everyday experience
           </>
         }
-        description="Experience seamless access to curated facilities and hospitality standards designed for comfort, productivity, and elevated living in Seminyak."
+        description="At TS Residence, you don't just live — you live with the full privileges of a five-star hotel, all under one roof. Enjoy the TS Suites hotel access just next door, with exclusive access to facilities designed for residents who expect more."
       />
 
       <section
