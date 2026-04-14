@@ -93,7 +93,7 @@ export default function Page() {
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/10 to-transparent" />
               <div className="absolute right-6 bottom-6 left-6 text-white md:right-8 md:bottom-8 md:left-8">
-                <p className="label-caps text-gold-light">Need Assistance?</p>
+                <p className="label-caps text-white">Need Assistance?</p>
                 <p className="mt-4 font-serif text-[2.1rem] leading-[1.02] md:text-[2.8rem]">
                   Our team responds quickly.
                 </p>
