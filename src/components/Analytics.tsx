@@ -78,32 +78,39 @@ export function Analytics() {
     };
 
     const onClick = async (e: MouseEvent) => {
-      const target = (e.target as HTMLElement).closest('a');
-      if (!target || !target.href) return;
+      const target = (e.target as HTMLElement).closest('a, button');
+      if (!target) return;
       
-      const isExternal = target.hostname && target.hostname !== window.location.hostname;
+      const isLink = target.tagName === 'A';
+      const href = isLink ? (target as HTMLAnchorElement).href : null;
+      const text = (target as HTMLElement).innerText || (target as HTMLElement).getAttribute('aria-label') || 'unlabeled';
       
-      if (isExternal) {
-        let eventName: "social_click" | "cta_click" = "cta_click";
-        if (target.href.includes("wa.me") || target.href.includes("instagram.com")) {
-          eventName = "social_click";
+      let eventType: any = "cta_click";
+      
+      if (isLink && href) {
+        const isExternal = (target as HTMLAnchorElement).hostname && (target as HTMLAnchorElement).hostname !== window.location.hostname;
+        
+        if (href.includes("wa.me") || href.includes("instagram.com")) {
+          eventType = "social_click";
+        } else if (!isExternal) {
+          eventType = "nav_click";
         }
-
-        trackEvent(eventName, {
-          page_path: pathname,
-          link_url: target.href,
-          link_text: target.innerText || "",
-          device_type: buildDeviceType(),
-        });
 
         // Decorate cross-domain booking/contact links with UTMs dynamically
-        if (target.href.includes("wa.me") || target.href.includes("booking") || target.href.includes("townsquare")) {
+        if (href.includes("wa.me") || href.includes("booking") || href.includes("townsquare")) {
           e.preventDefault();
           const { appendUTMsToUrl } = await import("@/lib/tracking");
-          const decorated = appendUTMsToUrl(target.href);
-          window.open(decorated, target.target === "_blank" ? "_blank" : "_self");
+          const decorated = appendUTMsToUrl(href);
+          window.open(decorated, (target as HTMLAnchorElement).target === "_blank" ? "_blank" : "_self");
         }
       }
+
+      trackEvent(eventType, {
+        page_path: pathname,
+        link_url: href || 'interaction',
+        link_text: text,
+        device_type: buildDeviceType(),
+      });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });

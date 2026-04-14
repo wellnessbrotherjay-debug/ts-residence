@@ -166,6 +166,7 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
         fbclid: latest.fbclid || null,
         metaClickId: null,
         referrer: document.referrer || null,
+        metadata: params || {}
       })
     }).catch(() => {});
   } catch (err) {

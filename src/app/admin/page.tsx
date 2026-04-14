@@ -25,12 +25,14 @@ interface DashboardSummary {
   };
   bySource: { source: string; count: number }[];
   byCampaign: { campaign: string; count: number }[];
-  leadBySource: { source: string; count: number }[];
+  byPage: { page: string; count: number }[];
+  recentEvents: { id: number; event_type: string; page: string; created_at: string; metadata: any }[];
 }
 
 export default function AdminPage() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [leads, setLeads] = useState<DashboardLead[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchDashboard = async () => {
     try {
@@ -39,20 +41,22 @@ export default function AdminPage() {
         fetch('/api/leads'),
       ]);
       if (summaryRes.ok) {
-        const data = await summaryRes.json();
-        setSummary(data);
+        setSummary(await summaryRes.json());
       }
       if (leadsRes.ok) {
-        const data = await leadsRes.json();
-        setLeads(data);
+        setLeads(await leadsRes.json());
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchDashboard();
+    const interval = setInterval(fetchDashboard, 30000); // Auto-refresh every 30s
+    return () => clearInterval(interval);
   }, []);
 
   const updateLeadStatus = async (id: number, status: string) => {
@@ -61,93 +65,157 @@ export default function AdminPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });
-    if (res.ok) {
-      fetchDashboard();
-    }
+    if (res.ok) fetchDashboard();
   };
 
+  if (loading && !summary) return <div className="p-20 text-center">Loading Dashboard...</div>;
+
   return (
-    <div className="pt-32 pb-20 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-serif mb-10">TS CRM & Analytics Dashboard</h1>
+    <div className="pt-32 pb-20 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto text-black">
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="text-4xl font-serif">TS Residence Intelligence</h1>
+        <button onClick={fetchDashboard} className="text-xs font-mono bg-neutral-100 px-3 py-1 rounded hover:bg-neutral-200">
+          REFRESH LIVE
+        </button>
+      </div>
 
-      <div className="grid md:grid-cols-4 gap-4 mb-10">
-        <div className="border border-neutral-200 rounded-xl p-4 bg-white">
-          <p className="text-xs uppercase tracking-widest text-neutral-500">Page views</p>
-          <p className="text-2xl font-semibold mt-2">{summary?.totals.page_views ?? 0}</p>
+      {/* Summary Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="border border-neutral-200 rounded-xl p-5 bg-white shadow-sm">
+          <p className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Total Page views</p>
+          <p className="text-3xl font-semibold mt-2">{summary?.totals.page_views ?? 0}</p>
         </div>
-        <div className="border border-neutral-200 rounded-xl p-4 bg-white">
-          <p className="text-xs uppercase tracking-widest text-neutral-500">Book clicks</p>
-          <p className="text-2xl font-semibold mt-2">{summary?.totals.book_clicks ?? 0}</p>
+        <div className="border border-neutral-200 rounded-xl p-5 bg-white shadow-sm">
+          <p className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">High Intent Clicks</p>
+          <p className="text-3xl font-semibold mt-2 text-gold-dark">{summary?.totals.book_clicks ?? 0}</p>
         </div>
-        <div className="border border-neutral-200 rounded-xl p-4 bg-white">
-          <p className="text-xs uppercase tracking-widest text-neutral-500">All events</p>
-          <p className="text-2xl font-semibold mt-2">{summary?.totals.total_events ?? 0}</p>
+        <div className="border border-neutral-200 rounded-xl p-5 bg-white shadow-sm">
+          <p className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Total Events tracked</p>
+          <p className="text-3xl font-semibold mt-2">{summary?.totals.total_events ?? 0}</p>
         </div>
-        <div className="border border-neutral-200 rounded-xl p-4 bg-white">
-          <p className="text-xs uppercase tracking-widest text-neutral-500">Leads captured</p>
-          <p className="text-2xl font-semibold mt-2">{summary?.totals.total_leads ?? 0}</p>
+        <div className="border border-neutral-200 rounded-xl p-5 bg-white shadow-sm">
+          <p className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Leads in CRM</p>
+          <p className="text-3xl font-semibold mt-2 text-green-600">{summary?.totals.total_leads ?? 0}</p>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-12">
-        <div className="border border-neutral-200 rounded-xl p-6 bg-white">
-          <h3 className="text-lg font-semibold mb-4">Traffic by source</h3>
-          <ul className="space-y-2 text-sm">
+      {/* Analytics Breakdown */}
+      <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="border border-neutral-200 rounded-xl p-6 bg-white shadow-sm">
+          <h3 className="text-sm font-bold uppercase tracking-wider mb-4 border-b pb-2">Top Traffic Sources</h3>
+          <ul className="space-y-3 text-xs">
             {(summary?.bySource || []).map((item) => (
-              <li key={item.source} className="flex justify-between border-b border-neutral-100 pb-2">
-                <span>{item.source}</span><span>{item.count}</span>
+              <li key={item.source} className="flex justify-between">
+                <span className="font-mono">{item.source}</span>
+                <span className="font-bold">{item.count}</span>
               </li>
             ))}
           </ul>
         </div>
-        <div className="border border-neutral-200 rounded-xl p-6 bg-white">
-          <h3 className="text-lg font-semibold mb-4">Traffic by campaign</h3>
-          <ul className="space-y-2 text-sm">
+        <div className="border border-neutral-200 rounded-xl p-6 bg-white shadow-sm">
+          <h3 className="text-sm font-bold uppercase tracking-wider mb-4 border-b pb-2">Top Campaigns</h3>
+          <ul className="space-y-3 text-xs">
             {(summary?.byCampaign || []).map((item) => (
-              <li key={item.campaign} className="flex justify-between border-b border-neutral-100 pb-2">
-                <span>{item.campaign}</span><span>{item.count}</span>
+              <li key={item.campaign} className="flex justify-between">
+                <span className="font-mono">{item.campaign}</span>
+                <span className="font-bold">{item.count}</span>
+              </li>
+            ))}
+            {summary?.byCampaign.length === 0 && <li className="text-neutral-400 italic">No campaign data yet</li>}
+          </ul>
+        </div>
+        <div className="border border-neutral-200 rounded-xl p-6 bg-white shadow-sm">
+          <h3 className="text-sm font-bold uppercase tracking-wider mb-4 border-b pb-2">Most Visited Pages</h3>
+          <ul className="space-y-3 text-xs">
+            {(summary?.byPage || []).map((item) => (
+              <li key={item.page} className="flex justify-between">
+                <span className="font-mono truncate mr-4">{item.page}</span>
+                <span className="font-bold">{item.count}</span>
               </li>
             ))}
           </ul>
         </div>
       </div>
 
-      <div className="mb-12 border border-neutral-200 rounded-xl p-6 bg-white overflow-auto">
-        <h2 className="text-xl font-bold mb-4">CRM Leads</h2>
-        <table className="w-full text-sm min-w-[720px]">
+      {/* Recent Activity Feed */}
+      <div className="mb-12 border border-neutral-200 rounded-xl p-6 bg-neutral-900 text-neutral-300">
+        <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          Live Activity Stream (Last 20)
+        </h2>
+        <div className="space-y-2 max-h-64 overflow-y-auto pr-2 text-[11px] font-mono">
+          {summary?.recentEvents.map((ev) => (
+            <div key={ev.id} className="flex gap-4 border-b border-white/5 pb-2">
+              <span className="text-neutral-500">{new Date(ev.created_at).toLocaleTimeString()}</span>
+              <span className={`uppercase px-1 rounded ${ev.event_type === 'book_click' ? 'bg-gold/20 text-gold' : 'bg-white/10'}`}>
+                {ev.event_type}
+              </span>
+              <span className="text-neutral-400">{ev.page}</span>
+              {ev.metadata?.link_text && (
+                <span className="text-blue-400 ml-auto">clicked: "{ev.metadata.link_text}"</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CRM Leads Table */}
+      <div className="mb-12 border border-neutral-200 rounded-xl p-6 bg-white shadow-lg overflow-auto">
+        <h2 className="text-xl font-bold mb-6 border-b pb-4">Inquiry Pipeline (CRM)</h2>
+        <table className="w-full text-sm min-w-[800px]">
           <thead>
-            <tr className="text-left border-b border-neutral-200">
-              <th className="py-2">Name</th>
-              <th className="py-2">Contact</th>
-              <th className="py-2">Source</th>
-              <th className="py-2">Campaign</th>
-              <th className="py-2">Status</th>
-              <th className="py-2">Date</th>
+            <tr className="text-left text-neutral-500 uppercase text-[10px] tracking-widest border-b border-neutral-100">
+              <th className="py-4">Lead Detail</th>
+              <th className="py-4">Attribution</th>
+              <th className="py-4">Interest</th>
+              <th className="py-4">Status</th>
+              <th className="py-4">Received</th>
             </tr>
           </thead>
           <tbody>
             {leads.map((lead) => (
-              <tr key={lead.id} className="border-b border-neutral-100 align-top">
-                <td className="py-3">{lead.first_name} {lead.last_name}</td>
-                <td className="py-3">
-                  <div>{lead.email}</div>
-                  <div className="text-neutral-500">{lead.phone || '-'}</div>
+              <tr key={lead.id} className="border-b border-neutral-50 hover:bg-neutral-50 transition-colors">
+                <td className="py-5">
+                  <div className="font-bold text-lg leading-tight">{lead.first_name} {lead.last_name}</div>
+                  <div className="text-neutral-500 text-xs mt-1">{lead.email}</div>
+                  <div className="text-neutral-500 text-xs">{lead.phone || '-'}</div>
                 </td>
-                <td className="py-3">{lead.source}</td>
-                <td className="py-3">{lead.campaign || '-'}</td>
-                <td className="py-3">
-                  <select value={lead.status} onChange={(e) => updateLeadStatus(lead.id, e.target.value)} className="border border-neutral-200 rounded px-2 py-1 outline-none text-black">
-                    <option value="new">new</option>
-                    <option value="contacted">contacted</option>
-                    <option value="qualified">qualified</option>
-                    <option value="closed">closed</option>
+                <td className="py-5">
+                  <div className="flex flex-col gap-1">
+                    <span className="bg-neutral-100 px-2 py-0.5 rounded-full text-[10px] font-bold w-fit uppercase">{lead.source}</span>
+                    <span className="text-xs text-neutral-500">{lead.campaign || 'No Campaign'}</span>
+                  </div>
+                </td>
+                <td className="py-5">
+                   <div className="text-xs font-bold">{lead.stay_duration} stay</div>
+                   <div className="text-xs text-neutral-500 line-clamp-1 italic">"{lead.message || 'No message'}"</div>
+                </td>
+                <td className="py-5">
+                  <select 
+                    value={lead.status} 
+                    onChange={(e) => updateLeadStatus(lead.id, e.target.value)} 
+                    className={`border border-neutral-200 rounded-lg px-3 py-1.5 font-bold text-xs appearance-none outline-none cursor-pointer
+                      ${lead.status === 'new' ? 'bg-blue-50 text-blue-700' : ''}
+                      ${lead.status === 'contacted' ? 'bg-orange-50 text-orange-700' : ''}
+                      ${lead.status === 'qualified' ? 'bg-purple-50 text-purple-700' : ''}
+                      ${lead.status === 'closed' ? 'bg-green-50 text-green-700' : ''}
+                    `}
+                  >
+                    <option value="new">NEW</option>
+                    <option value="contacted">CONTACTED</option>
+                    <option value="qualified">QUALIFIED</option>
+                    <option value="closed">CLOSED</option>
                   </select>
                 </td>
-                <td className="py-3">{new Date(lead.created_at).toLocaleDateString()}</td>
+                <td className="py-5 text-neutral-400 text-xs whitespace-nowrap">
+                  {new Date(lead.created_at).toLocaleDateString()}
+                  <br />
+                  {new Date(lead.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </td>
               </tr>
             ))}
             {leads.length === 0 && (
-              <tr><td colSpan={6} className="py-4 text-center text-neutral-500">No leads captured yet.</td></tr>
+              <tr><td colSpan={5} className="py-12 text-center text-neutral-400 italic text-lg">No leads in the pipeline yet.</td></tr>
             )}
           </tbody>
         </table>

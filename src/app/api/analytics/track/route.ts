@@ -16,7 +16,8 @@ export async function POST(req: Request) {
       referrer,
       gclid,
       fbclid,
-      metaClickId
+      metaClickId,
+      metadata
     } = body;
 
     if (!sessionId || !eventType) {
@@ -38,6 +39,7 @@ export async function POST(req: Request) {
         gclid: gclid || null,
         fbclid: fbclid || null,
         meta_click_id: metaClickId || null,
+        metadata: metadata || {}
       });
 
     if (error) {
