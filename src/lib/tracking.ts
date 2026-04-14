@@ -143,6 +143,7 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
   }
 
   // Supabase first-party analytics tracking
+  try {
     const key = 'ts_session_id';
     const visitorKey = 'ts_visitor_id';
     
