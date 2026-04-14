@@ -109,6 +109,7 @@ const residenceFacilities = [
     image:
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
     label: "Recovery",
+    href: "https://www.no1wellness.com/",
   },
   {
     title: "Rooftop Pool & Bar",
@@ -519,31 +520,45 @@ export default function Page() {
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
             staggerDelay={0.12}
           >
-            {residenceFacilities.map((facility) => (
-              <StaggerItem
-                key={facility.title}
-                className="group border-gold/25 overflow-hidden border bg-white"
-              >
-                <div className="aspect-16/10 overflow-hidden lg:aspect-square">
-                  <motion.img
-                    src={facility.image}
-                    alt={facility.title}
-                    className="h-full w-full object-cover transition-transform duration-1900 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-7">
-                  <span className="text-gold text-[10px] font-bold tracking-[0.2em] uppercase">
-                    {facility.label}
-                  </span>
-                  <h3 className="text-ink mt-3 font-serif text-2xl">
-                    {facility.title}
-                  </h3>
-                  <p className="mt-4 text-[0.9rem] leading-6 text-black">
-                    {facility.description}
-                  </p>
-                </div>
-              </StaggerItem>
-            ))}
+            {residenceFacilities.map((facility) => {
+              const content = (
+                <>
+                  <div className="aspect-16/10 overflow-hidden lg:aspect-square">
+                    <motion.img
+                      src={facility.image}
+                      alt={facility.title}
+                      className="h-full w-full object-cover transition-transform duration-1900 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-7">
+                    <span className="text-gold text-[10px] font-bold tracking-[0.2em] uppercase">
+                      {facility.label}
+                    </span>
+                    <h3 className="text-ink mt-3 font-serif text-2xl group-hover:text-gold transition-colors">
+                      {facility.title}
+                    </h3>
+                    <p className="mt-4 text-[0.9rem] leading-6 text-black">
+                      {facility.description}
+                    </p>
+                  </div>
+                </>
+              );
+
+              return (
+                <StaggerItem
+                  key={facility.title}
+                  className="group border-gold/25 overflow-hidden border bg-white"
+                >
+                  {facility.href ? (
+                    <a href={facility.href} target="_blank" rel="noopener noreferrer" className="block h-full w-full">
+                      {content}
+                    </a>
+                  ) : (
+                    content
+                  )}
+                </StaggerItem>
+              );
+            })}
           </StaggerContainer>
         </div>
       </section>
