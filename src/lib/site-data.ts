@@ -213,7 +213,7 @@ export const offers = [
     description:
       "Stay more than 3 months with 20% upfront and the rest paid monthly.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-community-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/a90da98d-0e6e-41ef-ea32-9a135bfb4700/public",
   },
   {
     title: "Resident Dining",
