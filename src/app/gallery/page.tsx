@@ -49,9 +49,9 @@ const collections: GalleryCollection[] = [
     handle: "@tssuitesseminyak",
     description: "Curated facilities and service-led lifestyle details.",
     cover:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
     images: [
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
       "https://tsresidence.id/wp-content/uploads/2025/10/christophe-salon-img-scaled-e1759999189370.webp",
       "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp",
       "https://tsresidence.id/wp-content/uploads/2025/09/tsbar-seminyak.webp",

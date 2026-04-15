@@ -151,7 +151,7 @@ export const homePillars = [
       "Full privileges of a luxury hotel with coworking, dining, salon, and retail in one polished address.",
     href: "/five-star-living",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
     stat: "Hotel-grade privileges",
   },
   {
@@ -191,7 +191,7 @@ export const galleryCategories = [
     name: "Facilities",
     handle: "@tssuitesseminyak",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
   },
   {
     name: "No.1 Wellness Club",
@@ -235,7 +235,7 @@ export const fiveStarFacilities = [
   {
     title: "TS Suites Coworking Space",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
   },
   {
     title: "TSTORE",

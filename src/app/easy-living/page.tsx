@@ -99,7 +99,7 @@ const residenceFacilities = [
     description:
       "A professional environment for focus and global connectivity, just levels away.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
     label: "Productivity",
   },
   {

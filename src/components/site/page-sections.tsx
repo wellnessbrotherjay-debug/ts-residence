@@ -202,7 +202,7 @@ export function FiveStarPageContent() {
     <div className="w-full">
       <section className="relative flex min-h-[85vh] items-center justify-center">
         <img
-          src="https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp"
+          src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public"
           alt="Five Star Living"
           className="absolute inset-0 h-full w-full object-cover"
         />
