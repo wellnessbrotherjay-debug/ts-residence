@@ -3,7 +3,15 @@
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { trackEvent, buildDeviceType, captureUTMs } from "@/lib/tracking";
+import {
+  trackEvent,
+  buildDeviceType,
+  captureUTMs,
+  initClickTracking,
+  initScrollTracking,
+  initExitIntentTracking,
+  startTimeOnPageTracking,
+} from "@/lib/tracking";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
@@ -14,12 +22,13 @@ export function Analytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
+  const [scrollInitialized, setScrollInitialized] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Track page views on route change manually for single page transition fidelity
+  // Track page views on route change
   useEffect(() => {
     if (!mounted) return;
 
@@ -38,90 +47,39 @@ export function Analytics() {
     });
   }, [pathname, searchParams, mounted]);
 
-  // Track scroll depth, engaged session, and global outbound click decoration
+  // Initialize enhanced tracking features
   useEffect(() => {
     if (!mounted) return;
 
-    let engagedFired = false;
-    let scrollMilestones = { 25: false, 50: false, 75: false, 90: false };
+    // Initialize click tracking (all buttons, links, icons)
+    initClickTracking({
+      trackAll: true,
+      trackButtons: true,
+      trackLinks: true,
+      trackIcons: true,
+      excludeSelectors: ['[data-tracking="false"]', '[data-no-track]', '.no-track'],
+    });
 
-    // Engage session after 30 seconds
-    const engageTimer = setTimeout(() => {
-      if (!engagedFired) {
-        trackEvent("engaged_session", {
-          page_path: pathname,
-          device_type: buildDeviceType(),
-        });
-        engagedFired = true;
-      }
-    }, 30000);
-
-    const onScroll = () => {
-      const h = document.documentElement;
-      const b = document.body;
-      const st = "scrollTop";
-      const sh = "scrollHeight";
-
-      // @ts-ignore
-      const percent = Math.round(((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100);
-
-      ((Object.keys(scrollMilestones) as unknown) as Array<keyof typeof scrollMilestones>).forEach((milestone) => {
-        if (percent >= Number(milestone) && !scrollMilestones[milestone]) {
-          scrollMilestones[milestone] = true;
-          trackEvent("scroll_depth", {
-            page_path: pathname,
-            depth: milestone,
-            device_type: buildDeviceType(),
-          });
-        }
+    // Initialize scroll tracking with milestones
+    if (!scrollInitialized) {
+      initScrollTracking({
+        thresholds: [25, 50, 75, 90, 100],
+        trackMax: true,
+        debounceMs: 100,
       });
-    };
+      setScrollInitialized(true);
+    }
 
-    const onClick = async (e: MouseEvent) => {
-      const target = (e.target as HTMLElement).closest('a, button');
-      if (!target) return;
-      
-      const isLink = target.tagName === 'A';
-      const href = isLink ? (target as HTMLAnchorElement).href : null;
-      const text = (target as HTMLElement).innerText || (target as HTMLElement).getAttribute('aria-label') || 'unlabeled';
-      
-      let eventType: any = "cta_click";
-      
-      if (isLink && href) {
-        const isExternal = (target as HTMLAnchorElement).hostname && (target as HTMLAnchorElement).hostname !== window.location.hostname;
-        
-        if (href.includes("wa.me") || href.includes("instagram.com")) {
-          eventType = "social_click";
-        } else if (!isExternal) {
-          eventType = "nav_click";
-        }
+    // Start time on page tracking
+    startTimeOnPageTracking();
 
-        // Decorate cross-domain booking/contact links with UTMs dynamically
-        if (href.includes("wa.me") || href.includes("booking") || href.includes("townsquare")) {
-          e.preventDefault();
-          const { appendUTMsToUrl } = await import("@/lib/tracking");
-          const decorated = appendUTMsToUrl(href);
-          window.open(decorated, (target as HTMLAnchorElement).target === "_blank" ? "_blank" : "_self");
-        }
-      }
-
-      trackEvent(eventType, {
-        page_path: pathname,
-        link_url: href || 'interaction',
-        link_text: text,
-        device_type: buildDeviceType(),
-      });
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    document.addEventListener("click", onClick);
+    // Initialize exit intent tracking (optional)
+    const cleanupExitIntent = initExitIntentTracking();
 
     return () => {
-      clearTimeout(engageTimer);
-      window.removeEventListener("scroll", onScroll);
-      document.removeEventListener("click", onClick);
+      if (cleanupExitIntent) cleanupExitIntent();
     };
-  }, [pathname, mounted]);
+  }, [mounted, pathname]);
 
   return (
     <>
@@ -137,6 +95,8 @@ export function Analytics() {
             'wait_for_update': 500
           });
           gtag('set', 'url_passthrough', true);
+
+          // Session will be initialized by tracking library
         `}
       </Script>
 

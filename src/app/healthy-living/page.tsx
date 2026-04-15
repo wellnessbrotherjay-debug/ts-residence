@@ -67,7 +67,7 @@ const wellnessFacilities = [
     description:
       "Targeted IV support to optimize hydration, recovery, and overall physical resilience.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-iv-room.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c86a7510-6069-405d-6053-56fd12197d00/public",
   },
 ];
 
@@ -173,7 +173,7 @@ export default function Page() {
         className="border-gold/30 relative min-h-[48vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
       >
         <motion.img
-          src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-wellness-club-building-gate.webp"
+          src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9197d4b3-c896-41bc-0121-881891a31900/public"
           alt="Healthy Living at TS Residence"
           className="absolute inset-0 h-full w-full object-cover"
           style={{ y: heroImageY, scale: heroImageScale }}

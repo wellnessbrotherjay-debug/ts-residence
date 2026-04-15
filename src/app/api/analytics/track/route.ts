@@ -21,6 +21,9 @@ export async function POST(req: Request) {
       referrer,
       gclid,
       fbclid,
+      country,
+      region,
+      city,
       metadata
     } = body;
 
@@ -43,6 +46,9 @@ export async function POST(req: Request) {
         referrer: referrer || null,
         gclid: gclid || null,
         fbclid: fbclid || null,
+        country: country || null,
+        region: region || null,
+        city: city || null,
         metadata: metadata || {}
       });
 

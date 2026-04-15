@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/wp-content/uploads/:path*",
+        destination: "https://tsresidence.id/wp-content/uploads/:path*",
+      },
+    ];
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
