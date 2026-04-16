@@ -39,6 +39,7 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<DashboardLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastLeadId, setLastLeadId] = useState<number | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string>("all");
 
   const fetchDashboard = async (isInitial = false) => {
     try {
@@ -205,105 +206,147 @@ export default function AdminPage() {
         )}
         {/* Lead Filters */}
         <div className="mb-6 flex gap-2">
-          <button className="rounded bg-[#222] px-4 py-2 font-semibold text-white">
-            All
-          </button>
-          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
-            New ({leads.filter((l) => l.status === "new").length})
-          </button>
-          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
-            Responded ({leads.filter((l) => l.status === "responded").length})
-          </button>
-          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
-            Open Sale ({leads.filter((l) => l.status === "open_sale").length})
-          </button>
-          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
-            Closed Won ({leads.filter((l) => l.status === "closed_won").length})
-          </button>
-          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
-            Not Interested (
-            {leads.filter((l) => l.status === "not_interested").length})
-          </button>
+          {[
+            "all",
+            "new",
+            "responded",
+            "open_sale",
+            "closed_won",
+            "not_interested",
+          ].map((filter) => (
+            <button
+              key={filter}
+              className={`rounded px-4 py-2 font-semibold transition-colors ${
+                filter === selectedFilter
+                  ? "bg-yellow-600 text-black"
+                  : "bg-[#181818] text-white/80"
+              }`}
+              onClick={() => setSelectedFilter(filter)}
+            >
+              {filter === "all"
+                ? "All"
+                : filter
+                    .replace("_", " ")
+                    .replace(/\b\w/g, (l) => l.toUpperCase())}
+              {filter !== "all" &&
+                ` (${leads.filter((l) => l.status === filter).length})`}
+            </button>
+          ))}
         </div>
 
         {/* Lead Cards */}
         <div className="space-y-6">
-          {leads.map((lead) => (
-            <div
-              key={lead.id}
-              className="flex flex-col gap-4 rounded-lg border border-[#222] bg-[#181818] p-6 md:flex-row md:items-center md:justify-between"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#222] text-xl font-bold text-white/80">
-                  {lead.first_name?.[0]?.toUpperCase()}
-                  {lead.last_name?.[0]?.toUpperCase()}
-                </div>
-                <div>
-                  <div className="text-lg font-semibold text-white">
-                    {lead.first_name} {lead.last_name}
-                  </div>
-                  <div className="text-sm text-white/70">{lead.email}</div>
-                  {lead.phone && (
-                    <div className="text-xs text-white/50">{lead.phone}</div>
-                  )}
-                  <div className="mt-1 text-xs text-white/40">
-                    {lead.created_at
-                      ? new Date(lead.created_at).toLocaleString()
-                      : ""}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-2 flex-1 md:mt-0">
-                {lead.message && (
-                  <div className="mb-2 text-white/80 italic">
-                    &quot;{lead.message}&quot;
-                  </div>
-                )}
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded bg-[#222] px-2 py-1 text-xs text-white/80">
-                    {lead.source?.toUpperCase()}
-                  </span>
-                  {lead.campaign && (
-                    <span className="rounded bg-[#333] px-2 py-1 text-xs text-white/60">
-                      {lead.campaign}
-                    </span>
-                  )}
-                  <span className="rounded bg-[#333] px-2 py-1 text-xs text-white/60">
-                    {lead.stay_duration}
-                  </span>
-                </div>
-              </div>
-              <div className="flex min-w-45 flex-col gap-2">
-                <button
-                  className="rounded bg-yellow-600 px-3 py-1 text-xs font-semibold text-black hover:bg-yellow-500"
-                  onClick={() => handleReplyEmail(lead)}
+          {leads
+            .filter((l) =>
+              selectedFilter === "all" ? true : l.status === selectedFilter,
+            )
+            .map((lead) => {
+              const statusColors: Record<string, string> = {
+                new: "bg-yellow-500 text-black",
+                responded: "bg-blue-500 text-white",
+                open_sale: "bg-purple-600 text-white",
+                closed_won: "bg-green-600 text-white",
+                not_interested: "bg-red-600 text-white",
+              };
+              const borderColors: Record<string, string> = {
+                new: "border-yellow-500",
+                responded: "border-blue-500",
+                open_sale: "border-purple-600",
+                closed_won: "border-green-600",
+                not_interested: "border-red-600",
+              };
+              const borderColor = borderColors[lead.status] || "border-[#222]";
+              return (
+                <div
+                  key={lead.id}
+                  className={`flex flex-col gap-4 rounded-lg border-2 bg-[#181818] p-6 md:flex-row md:items-center md:justify-between ${borderColor}`}
                 >
-                  Reply via Email
-                </button>
-                {lead.phone && (
-                  <a
-                    href={`https://wa.me/${lead.phone.replace(/[^\d]/g, "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded bg-green-600 px-3 py-1 text-center text-xs font-semibold text-white hover:bg-green-500"
-                  >
-                    WhatsApp
-                  </a>
-                )}
-                <select
-                  className="mt-1 rounded bg-[#222] px-2 py-1 text-xs text-white/80"
-                  value={lead.status}
-                  onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
-                >
-                  <option value="new">New</option>
-                  <option value="responded">Responded</option>
-                  <option value="open_sale">Open Sale</option>
-                  <option value="closed_won">Closed Won</option>
-                  <option value="not_interested">Not Interested</option>
-                </select>
-              </div>
-            </div>
-          ))}
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`flex h-12 w-12 items-center justify-center rounded-full border-2 bg-[#222] text-xl font-bold text-white/80 ${borderColor}`}
+                    >
+                      {lead.first_name?.[0]?.toUpperCase()}
+                      {lead.last_name?.[0]?.toUpperCase()}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 text-lg font-semibold text-white">
+                        {lead.first_name} {lead.last_name}
+                        <span
+                          className={`ml-2 rounded px-2 py-1 text-xs font-bold ${statusColors[lead.status]}`}
+                        >
+                          {lead.status.replace("_", " ").toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-white/70">
+                        <span>📧 {lead.email}</span>
+                        {lead.phone && <span>📱 {lead.phone}</span>}
+                      </div>
+                      <div className="mt-1 flex items-center gap-2 text-xs text-white/40">
+                        <span>
+                          🕒{" "}
+                          {lead.created_at
+                            ? new Date(lead.created_at).toLocaleString()
+                            : ""}
+                        </span>
+                        {lead.source && (
+                          <span className="rounded bg-[#222] px-2 py-1 text-xs text-white/80">
+                            {lead.source?.toUpperCase()}
+                          </span>
+                        )}
+                        {lead.campaign && (
+                          <span className="rounded bg-[#333] px-2 py-1 text-xs text-white/60">
+                            {lead.campaign}
+                          </span>
+                        )}
+                        {lead.stay_duration && (
+                          <span className="rounded bg-[#333] px-2 py-1 text-xs text-white/60">
+                            {lead.stay_duration}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-2 flex-1 md:mt-0">
+                    {lead.message && (
+                      <div className="mb-2 text-white/80 italic">
+                        &quot;{lead.message}&quot;
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex min-w-45 flex-col gap-2">
+                    <button
+                      className="rounded bg-yellow-600 px-3 py-1 text-xs font-semibold text-black hover:bg-yellow-500"
+                      onClick={() => handleReplyEmail(lead)}
+                    >
+                      Reply via Email
+                    </button>
+                    {lead.phone && (
+                      <a
+                        href={`https://wa.me/${lead.phone.replace(/[^\d]/g, "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded bg-green-600 px-3 py-1 text-center text-xs font-semibold text-white hover:bg-green-500"
+                      >
+                        WhatsApp
+                      </a>
+                    )}
+                    <select
+                      className="mt-1 rounded bg-[#222] px-2 py-1 text-xs text-white/80"
+                      value={lead.status}
+                      onChange={(e) =>
+                        updateLeadStatus(lead.id, e.target.value)
+                      }
+                    >
+                      <option value="new">New</option>
+                      <option value="responded">Responded</option>
+                      <option value="open_sale">Open Sale</option>
+                      <option value="closed_won">Closed Won</option>
+                      <option value="not_interested">Not Interested</option>
+                    </select>
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>
