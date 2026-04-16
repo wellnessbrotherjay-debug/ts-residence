@@ -137,47 +137,72 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white/90">
       <div className="mx-auto max-w-7xl px-6 pt-32 pb-20 md:px-12 lg:px-24">
-        <h1 className="mb-8 text-3xl font-bold">Admin Dashboard</h1>
+        <h1 className="mb-8 text-3xl font-bold">
+          Analytics & CRM Intelligence
+        </h1>
+        <p className="mb-8 text-lg text-white/70">
+          Behavioral tracking, attribution, and conversion funnels
+        </p>
+        {/* Tab Navigation */}
+        <div className="mb-8 flex gap-2">
+          <button className="rounded bg-[#181818] px-4 py-2 font-semibold text-white">
+            Overview
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/70">
+            Behavior
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/70">
+            Clicks
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/70">
+            Funnels
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/70">
+            Traffic
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/70">
+            Applications{" "}
+            <span className="ml-1 rounded-full bg-yellow-500 px-2 py-0.5 text-xs text-black">
+              •
+            </span>
+          </button>
+        </div>
+
+        {/* Summary Cards */}
         {summary && (
-          <div className="mb-8">
-            <h2 className="mb-2 text-xl font-semibold">Summary</h2>
-            <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              <li>Total Events: {summary.totals.total_events}</li>
-              <li>Page Views: {summary.totals.page_views}</li>
-              <li>Book Clicks: {summary.totals.book_clicks}</li>
-              <li>Total Leads: {summary.totals.total_leads}</li>
-            </ul>
+          <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-5">
+            <div className="flex flex-col items-center rounded-lg bg-[#181818] p-6">
+              <span className="text-2xl font-bold">
+                {leads.filter((l) => l.status === "new").length}
+              </span>
+              <span className="mt-2 text-sm text-white/70">NEW</span>
+            </div>
+            <div className="flex flex-col items-center rounded-lg bg-[#181818] p-6">
+              <span className="text-2xl font-bold">
+                {leads.filter((l) => l.status === "responded").length}
+              </span>
+              <span className="mt-2 text-sm text-white/70">RESPONDED</span>
+            </div>
+            <div className="flex flex-col items-center rounded-lg bg-[#181818] p-6">
+              <span className="text-2xl font-bold">
+                {leads.filter((l) => l.status === "open_sale").length}
+              </span>
+              <span className="mt-2 text-sm text-white/70">OPEN SALE</span>
+            </div>
+            <div className="flex flex-col items-center rounded-lg bg-[#181818] p-6">
+              <span className="text-2xl font-bold">
+                {leads.filter((l) => l.status === "closed_won").length}
+              </span>
+              <span className="mt-2 text-sm text-white/70">CLOSED – WON</span>
+            </div>
+            <div className="flex flex-col items-center rounded-lg bg-[#181818] p-6">
+              <span className="text-2xl font-bold">
+                {leads.filter((l) => l.status === "not_interested").length}
+              </span>
+              <span className="mt-2 text-sm text-white/70">NOT INTERESTED</span>
+            </div>
           </div>
         )}
-        <div>
-          <h2 className="mb-2 text-xl font-semibold">Recent Leads</h2>
-          <table className="min-w-full overflow-hidden rounded-lg bg-[#181818]">
-            <thead>
-              <tr>
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Email</th>
-                <th className="px-4 py-2">Source</th>
-                <th className="px-4 py-2">Status</th>
-                <th className="px-4 py-2">Created</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leads.slice(0, 10).map((lead) => (
-                <tr key={lead.id} className="border-t border-[#333]">
-                  <td className="px-4 py-2">
-                    {lead.first_name} {lead.last_name}
-                  </td>
-                  <td className="px-4 py-2">{lead.email}</td>
-                  <td className="px-4 py-2">{lead.source}</td>
-                  <td className="px-4 py-2">{lead.status}</td>
-                  <td className="px-4 py-2">
-                    {new Date(lead.created_at).toLocaleString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
   );
