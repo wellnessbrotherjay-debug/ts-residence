@@ -18,7 +18,7 @@ export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
 
       <FadeInView delay={0.12}>
         <div className="mt-7 text-center md:mt-8">
-          <h2 className="text-ink mx-auto max-w-205 font-serif text-[1.55rem] leading-[1.12] font-normal tracking-[-0.03em] sm:text-[1.72rem] md:text-[2.55rem] lg:text-[3rem] xl:text-[3.35rem]">
+          <h2 className="text-ink mx-auto max-w-205 font-serif text-[1.72rem] leading-[1.12] font-normal tracking-[-0.03em] sm:text-[1.9rem] md:text-[2.55rem] lg:text-[3rem] xl:text-[3.35rem]">
             TS RESIDENCE is a new living concept by TS Suites that combines Five
             Star, Healthy and Easy Living by being in Seminyak&apos;s premier
             location.

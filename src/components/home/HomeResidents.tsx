@@ -21,9 +21,9 @@ export const HomeResidents = () => (
         {AUDIENCES.map((item) => (
           <div
             key={item}
-            className="border-gold/20 bg-cream border px-5 py-5 text-center md:px-6 md:py-7"
+            className="border-gold/20 bg-cream border flex min-h-[122px] items-center justify-center px-5 py-5 text-center md:min-h-[134px] md:px-6 md:py-7"
           >
-            <p className="text-ink font-serif text-[1.3rem] leading-[1.04] md:text-[1.7rem]">
+            <p className="text-ink max-w-[9ch] font-serif text-[1.3rem] leading-[1.04] md:text-[1.7rem]">
               {item}
             </p>
           </div>

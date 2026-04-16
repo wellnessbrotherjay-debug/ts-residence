@@ -26,6 +26,10 @@ export async function POST(req: Request) {
       device_type,
     } = body;
 
+    // Get client IP
+    const { getClientIp } = await import("@/lib/analytics-enrichment");
+    const ip_address = getClientIp(req);
+
     if (!session_id || !element_type) {
       return NextResponse.json({ error: "session_id and element_type are required" }, { status: 400 });
     }
@@ -46,6 +50,7 @@ export async function POST(req: Request) {
         click_y: click_y || null,
         viewport_width: viewport_width || null,
         viewport_height: viewport_height || null,
+        ip_address: ip_address || null,
         metadata: { device_type },
       });
 

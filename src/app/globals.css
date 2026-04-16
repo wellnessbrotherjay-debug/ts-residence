@@ -28,28 +28,13 @@
   --color-dark-surface: #292524;
 }
 
-:root {
-  --reveal-duration-fast: 600ms;
-  --reveal-duration-base: 900ms;
-  --reveal-duration-slow: 1200ms;
-  --reveal-duration-hero: 1400ms;
-  --reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --reveal-ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --stagger-word: 60ms;
-  --stagger-line: 80ms;
-  --stagger-section: 120ms;
-  --blur-start: 6px;
-  --scale-start: 1.08;
-  --parallax-offset: 24px;
-}
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
 
   body {
-    @apply bg-cream font-sans antialiased;
+    background-color: #faf8f5;
+    font-family: BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     color: #2b2724; /* Set a default darker color for consistent readability */
   }
 
@@ -59,12 +44,14 @@
   h4,
   h5,
   h6 {
-    @apply font-serif font-normal;
+    font-family: serif;
+    font-weight: 400;
     text-wrap: balance;
   }
 
   ::selection {
-    @apply bg-gold/20 text-ink;
+    background-color: #b8965a33;
+    color: #1c1917;
   }
 
   a,
@@ -77,114 +64,156 @@
   [role="button"][aria-disabled="true"] {
     cursor: not-allowed;
   }
-}
 
 /* Nav link with animated underline */
 .nav-link {
-  @apply relative font-sans text-[15px] font-semibold tracking-[0.1em] uppercase transition-all duration-300;
+  position: relative;
+  font-family: BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s;
 }
 
 .nav-link::after {
   content: "";
-  @apply absolute bottom-0 left-0 h-px w-0 bg-current transition-all duration-500;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background-color: currentColor;
+  transition: all 0.5s;
 }
 
 .nav-link:hover::after {
-  @apply w-full;
+  width: 100%;
 }
 
 /* Label style */
 .label-caps {
-  @apply text-ink-light font-sans text-[12px] font-semibold tracking-[0.28em] uppercase;
+  color: #44403c;
+  font-family: BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 /* Headings */
 .heading-display {
-  @apply font-serif leading-[1.02] font-light tracking-[-0.02em];
+  font-family: serif;
+  line-height: 1.02;
+  font-weight: 300;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
 .heading-section {
-  @apply font-serif text-4xl leading-[1.02] font-normal tracking-[-0.03em];
+  font-family: serif;
+  font-size: 2.25rem;
+  line-height: 1.02;
+  font-weight: 400;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
 @media (min-width: 768px) {
   .heading-section {
-    @apply text-5xl;
+    font-size: 3rem;
   }
 }
 @media (min-width: 1024px) {
   .heading-section {
-    @apply text-6xl;
+    font-size: 3.75rem;
   }
 }
 
 /* Body text readability class */
 .text-body {
   color: #2b2724;
-  @apply font-sans text-[15.5px] leading-[1.75] font-normal;
+  font-family: BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15.5px;
+  line-height: 1.75;
+  font-weight: 400;
   text-wrap: pretty;
 }
 
 @media (min-width: 768px) {
   .text-body {
-    @apply text-[17px] leading-[1.95];
+    font-size: 17px;
+    line-height: 1.95;
   }
 }
 
 /* Section padding */
 .section-pad {
-  @apply px-4 py-12;
-}
-
-@media (min-width: 480px) {
-  .section-pad {
-    @apply px-6 py-16;
-  }
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 @media (min-width: 768px) {
   .section-pad {
-    @apply px-12 py-20;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 }
 @media (min-width: 1024px) {
   .section-pad {
-    @apply px-20 py-28;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
   }
 }
 @media (min-width: 1280px) {
   .section-pad {
-    @apply px-28;
+    padding-left: 7rem;
+    padding-right: 7rem;
   }
 }
 
 .section-shell {
-  @apply mx-auto w-full max-w-[1400px];
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1400px;
 }
 
 .section-header {
-  @apply mb-10 space-y-4;
+  margin-bottom: 2.5rem;
+  /* space-y-4: add margin-bottom to children if needed */
 }
 
 @media (min-width: 1024px) {
   .section-header {
-    @apply mb-16;
+    margin-bottom: 4rem;
   }
 }
 
 .card-surface {
-  @apply border-gold/20 border bg-white shadow-[0_20px_60px_rgba(28,25,23,0.06)];
+  border: 1px solid #b8965a33;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(28,25,23,0.06);
 }
 
 .image-frame {
-  @apply overflow-hidden bg-stone-200 shadow-[0_24px_70px_rgba(28,25,23,0.12)];
+  overflow: hidden;
+  background: #e7ddd0;
+  box-shadow: 0 24px 70px rgba(28,25,23,0.12);
 }
 
 .soft-divider {
-  @apply via-gold/35 h-px w-full bg-gradient-to-r from-transparent to-transparent;
+  /* Gradient background: fallback to transparent if not supported */
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, transparent, #d4b97c59, transparent);
 }
 
 /* Scrollbar */
@@ -193,28 +222,29 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-cream;
+  background: #faf8f5;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gold/20 rounded-full;
+  background: #b8965a33;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gold/40;
+  background: #d4b97c66;
 }
 
 /* Image zoom container */
 .img-zoom {
-  @apply overflow-hidden;
+  overflow: hidden;
 }
 
 .img-zoom img {
-  @apply transition-transform duration-[1200ms] ease-out;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .img-zoom:hover img {
-  @apply scale-105;
+  transform: scale(1.05);
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {

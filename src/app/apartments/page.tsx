@@ -30,10 +30,10 @@ export default function Page() {
       />
 
       <section className="border-gold/30 relative z-10 border-b bg-white" data-reveal-profile="hero">
-        <div className="mx-auto w-full max-w-440 px-4 py-12 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
-          <div className="mb-10 max-w-260 md:mb-12">
+        <div className="mx-auto w-full max-w-440 px-5 py-12 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
+          <div className="mb-12 max-w-260">
             <p className="label-caps text-gold">Apartment Collection</p>
-            <h2 className="text-ink mt-4 font-serif text-[1.7rem] leading-[1.04] sm:text-[1.95rem] md:text-[3.2rem]">
+            <h2 className="text-ink mt-4 font-serif text-[1.95rem] leading-[1.04] md:text-[3.2rem]">
               Three apartment options,
               <br />
               one premium long-stay standard.

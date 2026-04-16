@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
+import {
+  anonymizeIp,
+  getClientIp,
+  getRequestGeo,
+  parseCookies,
+} from "@/lib/analytics-enrichment";
 
 // POST - Track time on page (sent via sendBeacon on unload)
 export async function POST(req: Request) {
@@ -10,6 +16,9 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { page_path, time_on_page, session_id, visitor_id } = body;
+    const ip = getClientIp(req);
+    const geo = getRequestGeo(req);
+    const cookies = parseCookies(req);
 
     if (!page_path || time_on_page === undefined) {
       return NextResponse.json({ error: "page_path and time_on_page are required" }, { status: 400 });
@@ -24,8 +33,18 @@ export async function POST(req: Request) {
         event_category: "engagement",
         page: page_path,
         time_on_page_seconds: time_on_page,
+        country: geo.country || null,
+        region: geo.region || null,
+        city: geo.city || null,
+        timezone: geo.timezone || null,
         source: "direct",
-        metadata: { sent_via_beacon: true },
+        metadata: {
+          sent_via_beacon: true,
+          ip_address: ip,
+          ip_anonymized: anonymizeIp(ip),
+          geo_ip: geo,
+          cookie_consent: cookies.cookie_consent || null,
+        },
       });
 
     if (error) {

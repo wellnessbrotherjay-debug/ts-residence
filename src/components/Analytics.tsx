@@ -70,8 +70,8 @@ export function Analytics() {
       setScrollInitialized(true);
     }
 
-    // Start time on page tracking
-    startTimeOnPageTracking();
+    // Start / rotate time-on-page tracking for current route
+    startTimeOnPageTracking(pathname);
 
     // Initialize exit intent tracking (optional)
     const cleanupExitIntent = initExitIntentTracking();

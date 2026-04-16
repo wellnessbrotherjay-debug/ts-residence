@@ -33,7 +33,7 @@ export default function Page() {
   return (
     <div className="relative isolate overflow-x-hidden">
       <LockedPageHero
-        image="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/99f4c935-885b-4314-5181-a1ad43657700/public"
+        image="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp"
         alt="Contact TS Residence"
         heightClassName="h-[86vh] md:h-[88vh]"
         title={
@@ -87,13 +87,13 @@ export default function Page() {
               className="relative min-h-90 overflow-hidden md:min-h-130"
             >
               <img
-                src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/658eddbe-9b08-41bf-2ccc-908e4ea1ff00/public"
+                src="https://tsresidence.id/wp-content/uploads/2025/08/img-need-help.webp"
                 alt="TS Residence contact concierge"
                 className="h-full w-full object-cover transition-transform duration-1700 ease-out hover:scale-[1.04]"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/10 to-transparent" />
               <div className="absolute right-6 bottom-6 left-6 text-white md:right-8 md:bottom-8 md:left-8">
-                <p className="label-caps text-white">Need Assistance?</p>
+                <p className="label-caps text-gold-light">Need Assistance?</p>
                 <p className="mt-4 font-serif text-[2.1rem] leading-[1.02] md:text-[2.8rem]">
                   Our team responds quickly.
                 </p>

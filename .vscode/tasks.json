@@ -1,0 +1,59 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Next.js app",
+			"type": "shell",
+			"command": "npx next build",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "TypeScript check",
+			"type": "shell",
+			"command": "npx tsc --noEmit",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build Next.js app",
+			"type": "shell",
+			"command": "npx next build",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build Next.js app",
+			"type": "shell",
+			"command": "npx next build",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build Next.js app",
+			"type": "shell",
+			"command": "npx next build",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build Next.js app",
+			"type": "shell",
+			"command": "npx next build",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		}
+	]
+}

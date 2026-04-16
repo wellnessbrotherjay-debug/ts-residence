@@ -151,7 +151,10 @@ class EventBatcher {
         body: JSON.stringify({ events: eventsToSend }),
         keepalive: true,
       });
-    } catch (e) {
+    } catch (e: any) {
+      reportTrackingFailure("batch_flush", e?.message || "batch request failed", {
+        failed_events_count: eventsToSend.length,
+      });
       // If batch fails, try individual events
       for (const event of eventsToSend) {
         try {
@@ -161,8 +164,11 @@ class EventBatcher {
             body: JSON.stringify(event),
             keepalive: true,
           });
-        } catch (e) {
-          // Silently fail
+        } catch (singleError: any) {
+          reportTrackingFailure("single_event_fallback", singleError?.message || "single event fallback failed", {
+            event_type: event?.eventType,
+            page: event?.page,
+          });
         }
       }
     }
@@ -170,6 +176,36 @@ class EventBatcher {
 }
 
 const batcher = typeof window !== 'undefined' ? new EventBatcher() : null;
+
+function reportTrackingFailure(stage: string, message: string, extra?: Record<string, any>) {
+  if (typeof window === "undefined") return;
+
+  try {
+    const payload = {
+      sessionId: getSessionId() || `unknown_session_${Date.now()}`,
+      visitorId: getVisitorId() || null,
+      eventType: "tracking_error",
+      eventCategory: "system",
+      page: window.location.pathname,
+      source: "first_party_tracker",
+      metadata: {
+        stage,
+        message,
+        user_agent: navigator.userAgent,
+        ...extra,
+      },
+    };
+
+    fetch('/api/analytics/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    // no-op
+  }
+}
 
 // ============================================
 // SESSION MANAGEMENT
@@ -1060,49 +1096,122 @@ export function initScrollTracking(options?: ScrollTrackerOptions) {
 // ============================================
 
 let timeOnPageInterval: ReturnType<typeof setInterval> | null = null;
-let timeOnPageSeconds = 0;
-const TIME_ON_PAGE_INTERVAL = 10; // Track every 10 seconds
+const TIME_ON_PAGE_INTERVAL_MS = 5000;
+let trackedPagePath: string | null = null;
+let visibleSinceMs: number | null = null;
+let accumulatedVisibleMs = 0;
+let engagedTracked = false;
+let minuteMilestonesTracked = new Set<number>();
+let timeListenersBound = false;
 
-export function startTimeOnPageTracking() {
-  if (typeof window === "undefined" || timeOnPageInterval) return;
+function getCurrentVisibleSeconds() {
+  let totalMs = accumulatedVisibleMs;
+  if (visibleSinceMs && document.visibilityState === "visible") {
+    totalMs += Date.now() - visibleSinceMs;
+  }
+  return Math.max(0, Math.floor(totalMs / 1000));
+}
+
+function flushTimeOnPage(reason: string) {
+  if (typeof window === "undefined" || !trackedPagePath) return;
+
+  const seconds = getCurrentVisibleSeconds();
+  if (seconds <= 0) return;
+
+  trackEvent("time_on_page", {
+    page_path: trackedPagePath,
+    time_on_page: seconds,
+    device_type: buildDeviceType(),
+    flush_reason: reason,
+  });
+
+  try {
+    navigator.sendBeacon('/api/analytics/time-on-page', JSON.stringify({
+      page_path: trackedPagePath,
+      time_on_page: seconds,
+      session_id: getSessionId(),
+      visitor_id: getVisitorId(),
+      reason,
+    }));
+  } catch {
+    // no-op
+  }
+}
+
+function bindTimeTrackingListeners() {
+  if (timeListenersBound || typeof window === "undefined") return;
+  timeListenersBound = true;
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      if (visibleSinceMs) {
+        accumulatedVisibleMs += Date.now() - visibleSinceMs;
+        visibleSinceMs = null;
+      }
+      flushTimeOnPage("visibility_hidden");
+    } else if (document.visibilityState === "visible") {
+      visibleSinceMs = Date.now();
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    flushTimeOnPage("beforeunload");
+  });
+
+  window.addEventListener("pagehide", () => {
+    flushTimeOnPage("pagehide");
+  });
+}
+
+export function startTimeOnPageTracking(pagePath = window.location.pathname) {
+  if (typeof window === "undefined") return;
+
+  bindTimeTrackingListeners();
+
+  // Route change in SPA: flush old page timing before switching.
+  if (trackedPagePath && trackedPagePath !== pagePath) {
+    flushTimeOnPage("route_change");
+  }
+
+  if (trackedPagePath !== pagePath) {
+    trackedPagePath = pagePath;
+    accumulatedVisibleMs = 0;
+    visibleSinceMs = document.visibilityState === "visible" ? Date.now() : null;
+    engagedTracked = false;
+    minuteMilestonesTracked = new Set<number>();
+  }
+
+  if (timeOnPageInterval) return;
 
   timeOnPageInterval = setInterval(() => {
-    timeOnPageSeconds += TIME_ON_PAGE_INTERVAL;
+    const seconds = getCurrentVisibleSeconds();
+    if (!trackedPagePath) return;
 
-    // Track time milestones
-    if (timeOnPageSeconds === 30) {
+    if (!engagedTracked && seconds >= 30) {
+      engagedTracked = true;
       trackEvent("engaged_session", {
-        page_path: window.location.pathname,
-        time_on_page: timeOnPageSeconds,
+        page_path: trackedPagePath,
+        time_on_page: seconds,
         device_type: buildDeviceType(),
       });
       markSessionEngaged();
     }
 
-    // Track time on page every minute
-    if (timeOnPageSeconds % 60 === 0) {
+    const minuteMark = Math.floor(seconds / 60);
+    if (minuteMark >= 1 && !minuteMilestonesTracked.has(minuteMark)) {
+      minuteMilestonesTracked.add(minuteMark);
       trackEvent("time_on_page", {
-        page_path: window.location.pathname,
-        time_on_page: timeOnPageSeconds,
+        page_path: trackedPagePath,
+        time_on_page: seconds,
         device_type: buildDeviceType(),
+        milestone_minutes: minuteMark,
       });
     }
-  }, TIME_ON_PAGE_INTERVAL * 1000);
-
-  // Track on unload to capture final time
-  window.addEventListener("beforeunload", () => {
-    if (timeOnPageSeconds > 0) {
-      navigator.sendBeacon('/api/analytics/time-on-page', JSON.stringify({
-        page_path: window.location.pathname,
-        time_on_page: timeOnPageSeconds,
-        session_id: getSessionId(),
-        visitor_id: getVisitorId(),
-      }));
-    }
-  });
+  }, TIME_ON_PAGE_INTERVAL_MS);
 }
 
 export function stopTimeOnPageTracking() {
+  flushTimeOnPage("manual_stop");
   if (timeOnPageInterval) {
     clearInterval(timeOnPageInterval);
     timeOnPageInterval = null;
@@ -1110,7 +1219,7 @@ export function stopTimeOnPageTracking() {
 }
 
 export function getTimeOnPage(): number {
-  return timeOnPageSeconds;
+  return getCurrentVisibleSeconds();
 }
 
 // ============================================
@@ -1214,17 +1323,13 @@ export function initTracking() {
 
   // Handle page visibility changes for session tracking
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") {
-      // Page hidden - pause tracking
-      stopTimeOnPageTracking();
-    } else if (document.visibilityState === "visible") {
+    if (document.visibilityState === "visible") {
       // Page visible - resume tracking
       const session = getSession();
       if (session) {
         session.last_activity = Date.now();
         localStorage.setItem(SESSION_DATA_KEY, JSON.stringify(session));
       }
-      startTimeOnPageTracking();
     }
   });
 

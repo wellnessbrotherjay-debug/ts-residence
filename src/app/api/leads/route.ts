@@ -24,6 +24,10 @@ export async function POST(req: Request) {
       referrer
     } = body;
 
+    // Get client IP
+    const { getClientIp } = await import("@/lib/analytics-enrichment");
+    const ip_address = getClientIp(req);
+
     if (!firstName || !lastName || !email) {
       return NextResponse.json({ error: "firstName, lastName, and email are required" }, { status: 400 });
     }
@@ -44,6 +48,7 @@ export async function POST(req: Request) {
         term: term || null,
         content: content || null,
         referrer: referrer || null,
+        ip_address: ip_address || null,
       })
       .select("id")
       .single();

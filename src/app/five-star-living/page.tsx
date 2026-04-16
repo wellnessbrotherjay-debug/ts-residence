@@ -45,7 +45,7 @@ const facilityCards = [
   {
     title: "TS Suites Coworking Space",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
+      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
   },
   {
     title: "TSTORE",
@@ -76,12 +76,14 @@ export default function Page() {
         heightClassName="h-[90vh] md:h-[92vh] lg:h-[94vh]"
         title={
           <>
-            Make five-star living your
+            Five-star service,
             <br />
-            everyday experience
+            now redefined for
+            <br />
+            long-stay residence.
           </>
         }
-        description="At TS Residence, you don't just live — you live with the full privileges of a five-star hotel, all under one roof. Enjoy the TS Suites hotel access just next door, with exclusive access to facilities designed for residents who expect more."
+        description="Experience seamless access to curated facilities and hospitality standards designed for comfort, productivity, and elevated living in Seminyak."
       />
 
       <section

@@ -2,6 +2,19 @@
 
 import { useState, useEffect } from "react";
 
+interface VisitorProfile {
+  ip_address?: string;
+  country?: string;
+  city?: string;
+  region?: string;
+  sessions?: any[];
+  leads?: any[];
+  funnel?: any[];
+  interest_flag?: string;
+
+export default function AdminPage() {
+  // ...existing code...
+}
 interface DashboardLead {
   id: number;
   first_name: string;
@@ -54,6 +67,7 @@ interface DashboardSummary {
     total_leads: number;
     converted_sessions: number;
     engaged_sessions: number;
+    failed_events: number;
   };
   bySource: { source: string; count: number }[];
   byCampaign: { campaign: string; count: number }[];
@@ -137,13 +151,104 @@ const formatDuration = (seconds: number): string => {
   return `${h}h ${m}m`;
 };
 
-export default function AdminPage() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [leads, setLeads] = useState<DashboardLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastLeadId, setLastLeadId] = useState<number | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [selectedTab, setSelectedTab] = useState<string>("overview");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
+  const [visitorProfile, setVisitorProfile] = useState<VisitorProfile | null>(null);
+  // Helper: Calculate interest flag
+  function getInterestFlag(sessions: any[] = [], leads: any[] = []) {
+    const totalViews = sessions.reduce((acc, s) => acc + (s.pages_visited || 0), 0);
+    const avgTime = sessions.length ? sessions.reduce((acc, s) => acc + (s.total_duration_seconds || 0), 0) / sessions.length : 0;
+    const repeat = sessions.length > 1;
+    if (leads.some(l => l.status === 'closed_won')) return 'Customer';
+    if (repeat && avgTime > 60) return 'Hot';
+    if (avgTime > 30) return 'Interested';
+    if (totalViews > 2) return 'Browsing';
+    return 'Cold';
+  }
+  // Fetch visitor profile by IP/country/city
+  async function openVisitorListByCountry(country: string) {
+    setModalTitle(`Visitors from ${getCountryName(country)}`);
+    setModalContent(<div className="p-8 text-center text-white/60">Loading...</div>);
+    setModalOpen(true);
+    // Fetch sessions by country
+    const res = await fetch(`/api/analytics/sessions?country=${country}`);
+    const data = await res.json();
+    setModalContent(
+      <div className="max-h-[60vh] overflow-y-auto">
+        <table className="w-full text-xs text-left">
+          <thead><tr><th>IP</th><th>City</th><th>Sessions</th><th>Leads</th><th>Interest</th></tr></thead>
+          <tbody>
+            {data.sessions.map((s: any) => (
+              <tr key={s.session_id} className="hover:bg-white/10 cursor-pointer" onClick={() => openVisitorProfile(s.ip_address)}>
+                <td className="text-blue-300 underline">{s.ip_address}</td>
+                <td>{s.city}</td>
+                <td>{s.session_count}</td>
+                <td>{s.lead_count}</td>
+                <td>{getInterestFlag([s], s.leads)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  async function openVisitorProfile(ip: string) {
+    setModalTitle(`Visitor Profile: ${ip}`);
+    setModalContent(<div className="p-8 text-center text-white/60">Loading...</div>);
+    setModalOpen(true);
+    // Fetch sessions, leads, funnel by IP
+    const res = await fetch(`/api/analytics/visitor-profile?ip=${ip}`);
+    const data = await res.json();
+    setVisitorProfile(data);
+    setModalContent(
+      <div className="space-y-4">
+        <div className="flex gap-4 items-center">
+          <span className="font-bold">IP:</span> <span>{data.ip_address}</span>
+          <span className="font-bold">Country:</span> <span>{getCountryName(data.country)} {getCountryFlag(data.country)}</span>
+          <span className="font-bold">City:</span> <span>{data.city}</span>
+          <span className="font-bold">Interest:</span> <span className="px-2 py-1 rounded bg-blue-900/40">{getInterestFlag(data.sessions, data.leads)}</span>
+        </div>
+        <div>
+          <h3 className="font-bold mb-2">Sessions</h3>
+          <ul className="space-y-1">
+            {data.sessions.map((s: any) => (
+              <li key={s.session_id} className="bg-white/5 rounded p-2">
+                <span className="font-mono text-xs">{s.session_id}</span> | {s.start_time} | {s.page_count} pages | {s.total_duration_seconds}s
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 className="font-bold mb-2">Leads</h3>
+          <ul className="space-y-1">
+            {data.leads.map((l: any) => (
+              <li key={l.id} className="bg-white/5 rounded p-2">
+                {l.first_name} {l.last_name} | {l.email} | Status: {l.status}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 className="font-bold mb-2">Funnel Steps</h3>
+          <ul className="space-y-1">
+            {data.funnel.map((f: any, idx: number) => (
+              <li key={idx} className="bg-white/5 rounded p-2">
+                {f.step_number}. {f.step_name} ({f.step_category}) | {f.page}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
 
   const fetchDashboard = async (isInitial = false) => {
     try {
@@ -217,6 +322,17 @@ export default function AdminPage() {
     if (res.ok) fetchDashboard();
   };
 
+  const handleReplyEmail = (lead: DashboardLead) => {
+    const subject = encodeURIComponent("Re: Your TS Residence Enquiry");
+    const body = encodeURIComponent(
+      `Dear ${lead.first_name},\n\nThank you for your enquiry regarding TS Residence. Our team would love to assist you.\n\nPlease feel free to reach out via WhatsApp at +62 811 1902 8111 or simply reply to this email and we will get back to you promptly.\n\nWarm regards,\nTS Residence Team\nwww.tsresidence.id`
+    );
+    window.open(`mailto:${lead.email}?subject=${subject}&body=${body}`, "_blank");
+    if (lead.status === "new") updateLeadStatus(lead.id, "responded");
+  };
+
+  const newLeadsCount = leads.filter(l => l.status === "new").length;
+
   // Filter leads
   const filteredLeads = selectedFilter === "all"
     ? leads
@@ -252,13 +368,18 @@ export default function AdminPage() {
             <button
               key={tab}
               onClick={() => setSelectedTab(tab)}
-              className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
+              className={`relative px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
                 selectedTab === tab
                   ? 'bg-[#c5a572] text-black'
                   : 'bg-white/5 text-white/40 hover:bg-white/10'
               }`}
             >
-              {tab}
+              {tab === 'crm' ? 'Applications' : tab}
+              {tab === 'crm' && newLeadsCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 bg-red-500 rounded-full text-[8px] font-black text-white flex items-center justify-center px-1 animate-pulse">
+                  {newLeadsCount}
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -267,7 +388,7 @@ export default function AdminPage() {
         {selectedTab === 'overview' && (
           <>
             {/* Enhanced Stats Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
               <div className="bg-[#111111] border border-white/5 rounded-2xl p-6 shadow-2xl">
                 <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-black mb-3">Total Events</p>
                 <div className="text-3xl font-serif text-white">{summary?.totals.total_events ?? 0}</div>
@@ -303,6 +424,10 @@ export default function AdminPage() {
               <div className="bg-[#111111] border border-white/5 rounded-2xl p-6 shadow-2xl">
                 <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-black mb-3">Converted</p>
                 <div className="text-2xl font-serif text-green-400">{summary?.totals.converted_sessions ?? 0}</div>
+              </div>
+              <div className="bg-[#111111] border border-white/5 rounded-2xl p-6 shadow-2xl">
+                <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-black mb-3">Tracking Failures</p>
+                <div className="text-2xl font-serif text-red-400">{summary?.totals.failed_events ?? 0}</div>
               </div>
             </div>
 
@@ -507,7 +632,7 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Geographic Distribution */}
+            {/* Geographic Distribution (clickable) */}
             <div className="bg-[#111111] border border-white/5 rounded-2xl p-6">
               <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 mb-6 flex items-center gap-3">
                 <span>🌍</span>
@@ -515,7 +640,7 @@ export default function AdminPage() {
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {summary?.byCountry.map((item, idx) => (
-                  <div key={idx} className="flex items-center justify-between py-2 border-b border-white/5">
+                  <div key={idx} className="flex items-center justify-between py-2 border-b border-white/5 hover:bg-white/10 cursor-pointer" onClick={() => openVisitorListByCountry(item.country)}>
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{getCountryFlag(item.country)}</span>
                       <div>
@@ -523,82 +648,199 @@ export default function AdminPage() {
                         <div className="text-white/30 text-[10px]">{item.country}</div>
                       </div>
                     </div>
-                    <div className="text-white font-bold">{item.count}</div>
+                    <div className="text-white font-bold underline">{item.count}</div>
                   </div>
                 ))}
               </div>
             </div>
+                {/* Modal for visitor lists and profiles */}
+                {modalOpen && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+                    <div className="bg-[#181818] rounded-2xl shadow-2xl max-w-2xl w-full mx-4 p-6 relative">
+                      <button className="absolute top-3 right-3 text-white/40 hover:text-white text-xl" onClick={() => setModalOpen(false)}>&times;</button>
+                      <h2 className="text-lg font-bold mb-4">{modalTitle}</h2>
+                      {modalContent}
+                    </div>
+                  </div>
+                )}
           </>
         )}
 
-        {/* CRM TAB */}
+        {/* APPLICATIONS TAB */}
         {selectedTab === 'crm' && (
           <>
-            <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 shadow-2xl h-full">
-              <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
-                <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">CRM Pipeline</h2>
-                <div className="flex gap-2">
-                  {['all', 'new', 'contacted', 'qualified', 'closed'].map((status) => (
-                    <button
-                      key={status}
-                      onClick={() => setSelectedFilter(status)}
-                      className={`text-[9px] uppercase px-3 py-1 rounded-lg transition-all ${
-                        selectedFilter === status
-                          ? 'bg-[#c5a572] text-black font-bold'
-                          : 'bg-white/5 text-white/40 hover:bg-white/10'
-                      }`}
-                    >
-                      {status}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                {['new', 'contacted', 'qualified', 'closed'].map((status) => {
-                  const statusLeads = filteredLeads.filter(l => l.status === status);
-                  return (
-                    <div key={status} className="bg-[#111111] p-4 rounded-xl border border-white/5 min-h-[180px]">
-                      <h3 className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex justify-between mb-4 border-b border-white/5 pb-2">
-                        {status} <span>{statusLeads.length}</span>
-                      </h3>
-                      <div className="space-y-2 max-h-[100px] overflow-y-auto pr-1">
-                        {statusLeads.map((lead) => {
-                          const cat = categorizeSource(lead.source, lead.medium);
-                          return (
-                            <div key={lead.id} className="p-2.5 bg-black/40 rounded-lg border border-white/5 group relative hover:border-[#c5a572]/30 transition-all">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-lg">{cat.icon}</span>
-                                <div className="text-[10px] font-bold text-white/80">{lead.first_name} {lead.last_name}</div>
-                              </div>
-                              <div className="text-[9px] text-white/40 truncate">{lead.email}</div>
-                              {lead.campaign && (
-                                <div className="text-[8px] text-purple-400/80 mt-1">📢 {lead.campaign}</div>
-                              )}
-                              {lead.country && (
-                                <div className="text-[8px] text-blue-400/80">{getCountryFlag(lead.country)} {lead.country}</div>
-                              )}
+            {/* Pipeline stats */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+              {[
+                { key: 'new', label: 'New', color: '#c5a572', icon: '🔔' },
+                { key: 'responded', label: 'Responded', color: '#60a5fa', icon: '✉️' },
+                { key: 'open_sale', label: 'Open Sale', color: '#a78bfa', icon: '🤝' },
+                { key: 'closed_won', label: 'Closed — Won', color: '#4ade80', icon: '🏆' },
+                { key: 'not_interested', label: 'Not Interested', color: '#6b7280', icon: '✕' },
+              ].map(({ key, label, color, icon }) => {
+                const count = leads.filter(l => l.status === key).length;
+                const total = leads.length || 1;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setSelectedFilter(key)}
+                    className={`bg-[#111111] border rounded-2xl p-5 text-left transition-all hover:border-white/20 ${
+                      selectedFilter === key ? 'border-[#c5a572]/50' : 'border-white/5'
+                    }`}
+                  >
+                    <div className="text-lg mb-2">{icon}</div>
+                    <div className="text-2xl font-bold" style={{ color }}>{count}</div>
+                    <div className="text-[9px] uppercase tracking-[0.12em] text-white/40 mt-1 leading-tight">{label}</div>
+                    {key === 'closed_won' && total > 0 && (
+                      <div className="text-[9px] text-green-400/60 mt-1">{Math.round((count / total) * 100)}% conv.</div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
 
-                              <select
-                                value={lead.status}
-                                onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
-                                className="absolute inset-0 opacity-0 cursor-pointer"
-                              >
-                                <option value="new">Move to NEW</option>
-                                <option value="contacted">Move to CONTACTED</option>
-                                <option value="qualified">Move to QUALIFIED</option>
-                                <option value="closed">Move to CLOSED</option>
-                              </select>
-                            </div>
-                          );
-                        })}
-                        {statusLeads.length === 0 && (
-                          <p className="text-[9px] text-white/10 italic text-center mt-6">No leads</p>
-                        )}
+            {/* Filter row */}
+            <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
+              <div className="flex gap-2 flex-wrap">
+                {['all', 'new', 'responded', 'open_sale', 'closed_won', 'not_interested'].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setSelectedFilter(s)}
+                    className={`text-[9px] uppercase px-3 py-1.5 rounded-lg transition-all tracking-widest font-bold ${
+                      selectedFilter === s ? 'bg-[#c5a572] text-black' : 'bg-white/5 text-white/40 hover:bg-white/10'
+                    }`}
+                  >
+                    {s.replace(/_/g, ' ')}
+                    {s !== 'all' && (
+                      <span className="ml-1.5 opacity-50">({leads.filter(l => l.status === s).length})</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <span className="text-[10px] text-white/20">{filteredLeads.length} application{filteredLeads.length !== 1 ? 's' : ''}</span>
+            </div>
+
+            {/* Application cards */}
+            <div className="space-y-3">
+              {filteredLeads.length === 0 && (
+                <div className="text-center py-20 text-white/20 text-sm">No applications in this stage</div>
+              )}
+              {filteredLeads.map((lead) => {
+                const cat = categorizeSource(lead.source, lead.medium);
+                const statusConfig: Record<string, { label: string; color: string; borderClass: string }> = {
+                  new:            { label: 'New Enquiry',    color: '#c5a572', borderClass: 'border-l-[#c5a572]' },
+                  responded:      { label: 'Responded',      color: '#60a5fa', borderClass: 'border-l-blue-400' },
+                  open_sale:      { label: 'Open Sale',      color: '#a78bfa', borderClass: 'border-l-violet-400' },
+                  closed_won:     { label: 'Closed — Won',   color: '#4ade80', borderClass: 'border-l-green-400' },
+                  not_interested: { label: 'Not Interested', color: '#6b7280', borderClass: 'border-l-gray-500' },
+                };
+                const sc = statusConfig[lead.status] ?? statusConfig['new'];
+                const initials = `${lead.first_name?.[0] ?? ''}${lead.last_name?.[0] ?? ''}`.toUpperCase();
+
+                return (
+                  <div
+                    key={lead.id}
+                    className={`bg-[#111111] border border-white/5 border-l-4 ${sc.borderClass} rounded-2xl p-5 transition-all hover:border-white/10 ${
+                      lead.status === 'new' ? 'shadow-[0_0_24px_rgba(197,165,114,0.07)]' : ''
+                    }`}
+                  >
+                    <div className="flex flex-col md:flex-row md:items-start gap-4">
+
+                      {/* Avatar + core info */}
+                      <div className="flex items-start gap-4 flex-1 min-w-0">
+                        <div
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-[11px] font-black shrink-0 mt-0.5"
+                          style={{ background: sc.color + '22', color: sc.color }}
+                        >
+                          {initials}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-semibold text-white text-sm">{lead.first_name} {lead.last_name}</span>
+                            <span
+                              className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                              style={{ background: sc.color + '20', color: sc.color }}
+                            >
+                              {sc.label}
+                            </span>
+                            {lead.status === 'new' && (
+                              <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 animate-pulse">
+                                ● New
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap gap-x-4 gap-y-0.5 mt-1.5">
+                            <a href={`mailto:${lead.email}`} className="text-xs text-white/50 hover:text-white/80 transition-colors">
+                              {lead.email}
+                            </a>
+                            {lead.phone && (
+                              <a href={`tel:${lead.phone}`} className="text-xs text-white/50 hover:text-white/80 transition-colors">
+                                {lead.phone}
+                              </a>
+                            )}
+                          </div>
+                          {lead.message && (
+                            <p className="text-[11px] text-white/30 mt-2 line-clamp-2 italic">&ldquo;{lead.message}&rdquo;</p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Meta + Actions */}
+                      <div className="flex flex-col gap-3 md:items-end shrink-0 md:min-w-[200px]">
+                        <div className="flex flex-wrap gap-2 md:justify-end">
+                          <span className="text-[9px] bg-white/5 text-white/40 px-2 py-1 rounded-lg uppercase tracking-wider">
+                            {cat.icon} {cat.category}
+                          </span>
+                          {lead.stay_duration && (
+                            <span className="text-[9px] bg-white/5 text-white/40 px-2 py-1 rounded-lg">
+                              🗓 {lead.stay_duration}
+                            </span>
+                          )}
+                          {lead.country && (
+                            <span className="text-[9px] bg-white/5 text-white/40 px-2 py-1 rounded-lg">
+                              {getCountryFlag(lead.country)} {lead.country}
+                            </span>
+                          )}
+                          <span className="text-[9px] text-white/20">
+                            {new Date(lead.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          </span>
+                        </div>
+
+                        {/* Action buttons */}
+                        <div className="flex gap-2 flex-wrap md:justify-end">
+                          <button
+                            onClick={() => handleReplyEmail(lead)}
+                            className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 bg-[#c5a572] hover:bg-[#d4b882] text-black rounded-lg transition-all"
+                          >
+                            ✉ Reply via Email
+                          </button>
+                          <a
+                            href={`https://wa.me/6281119028111?text=${encodeURIComponent(`New lead: ${lead.first_name} ${lead.last_name} (${lead.email}) - ${lead.stay_duration ?? ''}`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] rounded-lg transition-all"
+                          >
+                            💬 WhatsApp
+                          </a>
+                        </div>
+
+                        {/* Status dropdown */}
+                        <select
+                          value={lead.status}
+                          onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
+                          className="text-[9px] font-bold uppercase tracking-wider bg-white/5 border border-white/10 text-white/60 rounded-lg px-3 py-1.5 hover:bg-white/10 transition-all cursor-pointer w-full md:w-auto"
+                        >
+                          <option value="new">🔔 New Enquiry</option>
+                          <option value="responded">✉️ Responded</option>
+                          <option value="open_sale">🤝 Open Sale</option>
+                          <option value="closed_won">🏆 Closed — Won</option>
+                          <option value="not_interested">✕ Not Interested</option>
+                        </select>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
           </>
         )}

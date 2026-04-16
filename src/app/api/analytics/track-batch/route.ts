@@ -1,5 +1,13 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
+import {
+  anonymizeIp,
+  getClientIp,
+  getRequestGeo,
+  inferAudienceHints,
+  parseCookies,
+  parseJsonCookie,
+} from "@/lib/analytics-enrichment";
 
 export async function POST(req: Request) {
   if (!isSupabaseConfigured) {
@@ -9,13 +17,26 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { events } = body;
+    const ip = getClientIp(req);
+    const geo = getRequestGeo(req);
+    const cookies = parseCookies(req);
+    const latestUtmCookie = parseJsonCookie<Record<string, string>>(cookies.utm_latest);
 
     if (!Array.isArray(events) || events.length === 0) {
       return NextResponse.json({ error: "events array is required" }, { status: 400 });
     }
 
     // Prepare events for insertion
-    const eventsToInsert = events.map((event: any) => ({
+    const eventsToInsert = events.map((event: any, index: number) => {
+      const audienceHints = inferAudienceHints({
+        country: geo.country || event.country,
+        language: event.language,
+        deviceType: event.deviceType,
+        page: event.page,
+        source: event.source,
+      });
+
+      return {
       session_id: event.sessionId,
       visitor_id: event.visitorId || null,
       event_type: event.eventType,
@@ -24,13 +45,13 @@ export async function POST(req: Request) {
       page_title: event.pageTitle || null,
       referrer: event.referrer || null,
       referrer_domain: event.referrerDomain || null,
-      source: event.source || "direct",
-      medium: event.medium || null,
-      campaign: event.campaign || null,
-      term: event.term || null,
-      content: event.content || null,
-      gclid: event.gclid || null,
-      fbclid: event.fbclid || null,
+      source: event.source || latestUtmCookie?.utm_source || "direct",
+      medium: event.medium || latestUtmCookie?.utm_medium || null,
+      campaign: event.campaign || latestUtmCookie?.utm_campaign || null,
+      term: event.term || latestUtmCookie?.utm_term || null,
+      content: event.content || latestUtmCookie?.utm_content || null,
+      gclid: event.gclid || latestUtmCookie?.gclid || null,
+      fbclid: event.fbclid || latestUtmCookie?.fbclid || null,
       ttclid: event.ttclid || null,
       msclkid: event.msclkid || null,
       // Click-specific
@@ -54,10 +75,10 @@ export async function POST(req: Request) {
       value: event.value || null,
       currency: event.currency || null,
       // Location
-      country: event.country || null,
-      region: event.region || null,
-      city: event.city || null,
-      timezone: event.timezone || null,
+      country: event.country || geo.country || null,
+      region: event.region || geo.region || null,
+      city: event.city || geo.city || null,
+      timezone: event.timezone || geo.timezone || null,
       // Device
       device_type: event.deviceType || null,
       device_info: event.deviceInfo || null,
@@ -68,8 +89,21 @@ export async function POST(req: Request) {
       // Venue
       venue_id: event.venueId || 'ts_residence',
       // Metadata
-      metadata: event.metadata || {},
-    }));
+      metadata: {
+        ...(event.metadata || {}),
+        request_id: `batch_${Date.now()}_${index}`,
+        ip_address: ip,
+        ip_anonymized: anonymizeIp(ip),
+        geo_ip: geo,
+        cookies_detected: {
+          consent_preference: cookies.consent_preference || null,
+          cookie_consent: cookies.cookie_consent || null,
+          has_utm_latest: !!cookies.utm_latest,
+          has_utm_first: !!cookies.utm_first,
+        },
+        audience_hints: audienceHints,
+      },
+    }});
 
     // Batch insert events
     const { error } = await supabase

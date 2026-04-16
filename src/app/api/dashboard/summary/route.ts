@@ -11,12 +11,14 @@ interface DashboardSummary {
     total_leads: number;
     converted_sessions: number;
     engaged_sessions: number;
+    failed_events: number;
   };
   bySource: { source: string; count: number }[];
   byCampaign: { campaign: string; count: number }[];
   byMedium: { medium: string; count: number }[];
   byPage: { page: string; views: number; unique_visitors: number; avg_time_on_page: number }[];
   byCountry: { country: string; count: number }[];
+  byRegion: { region: string; count: number }[];
   byDevice: { device_type: string; count: number }[];
   topClicks: { element_text: string; link_url: string; count: number }[];
   recentEvents: any[];
@@ -82,7 +84,7 @@ export async function GET(req: Request) {
 
       // Traffic breakdown data
       supabase.from("traffic_events")
-        .select("source,medium,campaign,page,country,device_type,event_type,link_url,element_text")
+        .select("source,medium,campaign,page,country,region,device_type,event_type,link_url,element_text,metadata")
         .gte("created_at", startDate.toISOString())
         .limit(10000),
 
@@ -136,6 +138,9 @@ export async function GET(req: Request) {
     // Calculate engaged and converted sessions
     const engagedSessions = sessionRows.filter(s => s.engaged).length;
     const convertedSessions = sessionRows.filter(s => s.converted).length;
+    const failedEvents = trafficRows.filter((e: any) =>
+      ["tracking_error", "form_error", "api_error", "session_error"].includes(e.event_type)
+    ).length;
 
     // Aggregate Source
     const bySource = Object.entries(
@@ -216,6 +221,19 @@ export async function GET(req: Request) {
       .sort((a, b) => b[1] - a[1])
       .slice(0, 10)
       .map(([country, count]) => ({ country, count }));
+
+    // Aggregate Region
+    const byRegion = Object.entries(
+      trafficRows.reduce<Record<string, number>>((acc, row) => {
+        if (!row.region) return acc;
+        const key = row.region;
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {})
+    )
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([region, count]) => ({ region, count }));
 
     // Aggregate Device
     const byDevice = Object.entries(
@@ -310,6 +328,7 @@ export async function GET(req: Request) {
       total_leads: leadsRes.count || 0,
       converted_sessions: convertedSessions,
       engaged_sessions: engagedSessions,
+      failed_events: failedEvents,
     };
 
     const summary: DashboardSummary = {
@@ -319,6 +338,7 @@ export async function GET(req: Request) {
       byMedium,
       byPage,
       byCountry,
+      byRegion,
       byDevice,
       topClicks,
       recentEvents: allEventsRes.data || [],

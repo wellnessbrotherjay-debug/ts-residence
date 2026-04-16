@@ -47,7 +47,7 @@ const seminyakReasons = [
 const easyMoments = [
   {
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
+      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-full-building-from-front.webp",
     caption: "Your stable monthly base in the heart of Seminyak.",
   },
   {
@@ -99,7 +99,7 @@ const residenceFacilities = [
     description:
       "A professional environment for focus and global connectivity, just levels away.",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
     label: "Productivity",
   },
   {
@@ -107,16 +107,15 @@ const residenceFacilities = [
     description:
       "Full access to recovery facilities including sauna, ice bath, and premium gym.",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
+      "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80",
     label: "Recovery",
-    href: "https://www.no1wellness.com/",
   },
   {
     title: "Rooftop Pool & Bar",
     description:
       "Elevated relaxation with panoramic Seminyak views and signature service.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80",
     label: "Lifestyle",
   },
   {
@@ -124,7 +123,7 @@ const residenceFacilities = [
     description:
       "Curated fashion and essential retail directly within the residence complex.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
     label: "Convenience",
   },
 ];
@@ -134,7 +133,6 @@ const seminyakHighlights = [
     title: "TS Suites Hotel",
     image:
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-hotel.webp",
-    href: "https://tssuites.com/",
   },
   {
     title: "Strategic Location",
@@ -145,7 +143,6 @@ const seminyakHighlights = [
     title: "No.1 Wellness Club",
     image:
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp",
-    href: "https://www.no1wellness.com/",
   },
   {
     title: "Free Shuttle Service",
@@ -406,51 +403,27 @@ export default function Page() {
                 >
                   <FadeInView delay={Math.min(index * 0.04, 0.28)}>
                     <div className="border-gold/20 overflow-hidden border bg-white shadow-[0_20px_60px_rgba(28,25,23,0.08)]">
-                      {item.href ? (
-                        <a href={item.href} target="_blank" rel="noopener noreferrer" className="relative aspect-4/5 overflow-hidden block">
-                          <motion.img
-                            src={item.image}
-                            alt={item.title}
-                            className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
-                            whileHover={{ scale: 1.06 }}
-                            transition={{
-                              duration: 1,
-                              ease: [0.22, 1, 0.36, 1],
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-linear-to-t from-black/62 via-black/8 to-transparent" />
-                          <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-                            <p className="text-gold-light text-[10px] font-semibold tracking-[0.22em] uppercase">
-                              Seminyak Access
-                            </p>
-                            <h3 className="mt-3 font-serif text-[1.9rem] leading-[1.04] text-white">
-                              {item.title}
-                            </h3>
-                          </div>
-                        </a>
-                      ) : (
-                        <div className="relative aspect-4/5 overflow-hidden">
-                          <motion.img
-                            src={item.image}
-                            alt={item.title}
-                            className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
-                            whileHover={{ scale: 1.06 }}
-                            transition={{
-                              duration: 1,
-                              ease: [0.22, 1, 0.36, 1],
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-linear-to-t from-black/62 via-black/8 to-transparent" />
-                          <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-                            <p className="text-gold-light text-[10px] font-semibold tracking-[0.22em] uppercase">
-                              Seminyak Access
-                            </p>
-                            <h3 className="mt-3 font-serif text-[1.9rem] leading-[1.04] text-white">
-                              {item.title}
-                            </h3>
-                          </div>
+                      <div className="relative aspect-4/5 overflow-hidden">
+                        <motion.img
+                          src={item.image}
+                          alt={item.title}
+                          className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
+                          whileHover={{ scale: 1.06 }}
+                          transition={{
+                            duration: 1,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/62 via-black/8 to-transparent" />
+                        <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
+                          <p className="text-gold-light text-[10px] font-semibold tracking-[0.22em] uppercase">
+                            Seminyak Access
+                          </p>
+                          <h3 className="mt-3 font-serif text-[1.9rem] leading-[1.04] text-white">
+                            {item.title}
+                          </h3>
                         </div>
-                      )}
+                      </div>
                     </div>
                   </FadeInView>
                 </article>
@@ -520,45 +493,31 @@ export default function Page() {
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
             staggerDelay={0.12}
           >
-            {residenceFacilities.map((facility) => {
-              const content = (
-                <>
-                  <div className="aspect-16/10 overflow-hidden lg:aspect-square">
-                    <motion.img
-                      src={facility.image}
-                      alt={facility.title}
-                      className="h-full w-full object-cover transition-transform duration-1900 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-7">
-                    <span className="text-gold text-[10px] font-bold tracking-[0.2em] uppercase">
-                      {facility.label}
-                    </span>
-                    <h3 className="text-ink mt-3 font-serif text-2xl group-hover:text-gold transition-colors">
-                      {facility.title}
-                    </h3>
-                    <p className="mt-4 text-[0.9rem] leading-6 text-black">
-                      {facility.description}
-                    </p>
-                  </div>
-                </>
-              );
-
-              return (
-                <StaggerItem
-                  key={facility.title}
-                  className="group border-gold/25 overflow-hidden border bg-white"
-                >
-                  {facility.href ? (
-                    <a href={facility.href} target="_blank" rel="noopener noreferrer" className="block h-full w-full">
-                      {content}
-                    </a>
-                  ) : (
-                    content
-                  )}
-                </StaggerItem>
-              );
-            })}
+            {residenceFacilities.map((facility) => (
+              <StaggerItem
+                key={facility.title}
+                className="group border-gold/25 overflow-hidden border bg-white"
+              >
+                <div className="aspect-16/10 overflow-hidden lg:aspect-square">
+                  <motion.img
+                    src={facility.image}
+                    alt={facility.title}
+                    className="h-full w-full object-cover transition-transform duration-1900 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-7">
+                  <span className="text-gold text-[10px] font-bold tracking-[0.2em] uppercase">
+                    {facility.label}
+                  </span>
+                  <h3 className="text-ink mt-3 font-serif text-2xl">
+                    {facility.title}
+                  </h3>
+                  <p className="mt-4 text-[0.9rem] leading-6 text-black">
+                    {facility.description}
+                  </p>
+                </div>
+              </StaggerItem>
+            ))}
           </StaggerContainer>
         </div>
       </section>
