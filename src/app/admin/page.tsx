@@ -137,7 +137,47 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white/90">
       <div className="mx-auto max-w-7xl px-6 pt-32 pb-20 md:px-12 lg:px-24">
-        {/* ...existing code... */}
+        <h1 className="mb-8 text-3xl font-bold">Admin Dashboard</h1>
+        {summary && (
+          <div className="mb-8">
+            <h2 className="mb-2 text-xl font-semibold">Summary</h2>
+            <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              <li>Total Events: {summary.totals.total_events}</li>
+              <li>Page Views: {summary.totals.page_views}</li>
+              <li>Book Clicks: {summary.totals.book_clicks}</li>
+              <li>Total Leads: {summary.totals.total_leads}</li>
+            </ul>
+          </div>
+        )}
+        <div>
+          <h2 className="mb-2 text-xl font-semibold">Recent Leads</h2>
+          <table className="min-w-full overflow-hidden rounded-lg bg-[#181818]">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Email</th>
+                <th className="px-4 py-2">Source</th>
+                <th className="px-4 py-2">Status</th>
+                <th className="px-4 py-2">Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leads.slice(0, 10).map((lead) => (
+                <tr key={lead.id} className="border-t border-[#333]">
+                  <td className="px-4 py-2">
+                    {lead.first_name} {lead.last_name}
+                  </td>
+                  <td className="px-4 py-2">{lead.email}</td>
+                  <td className="px-4 py-2">{lead.source}</td>
+                  <td className="px-4 py-2">{lead.status}</td>
+                  <td className="px-4 py-2">
+                    {new Date(lead.created_at).toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
