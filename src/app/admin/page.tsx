@@ -226,7 +226,85 @@ export default function AdminPage() {
           </button>
         </div>
 
-        {/* ...existing code for leads table or cards will go here... */}
+        {/* Lead Cards */}
+        <div className="space-y-6">
+          {leads.map((lead) => (
+            <div
+              key={lead.id}
+              className="flex flex-col gap-4 rounded-lg border border-[#222] bg-[#181818] p-6 md:flex-row md:items-center md:justify-between"
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#222] text-xl font-bold text-white/80">
+                  {lead.first_name?.[0]?.toUpperCase()}
+                  {lead.last_name?.[0]?.toUpperCase()}
+                </div>
+                <div>
+                  <div className="text-lg font-semibold text-white">
+                    {lead.first_name} {lead.last_name}
+                  </div>
+                  <div className="text-sm text-white/70">{lead.email}</div>
+                  {lead.phone && (
+                    <div className="text-xs text-white/50">{lead.phone}</div>
+                  )}
+                  <div className="mt-1 text-xs text-white/40">
+                    {lead.created_at
+                      ? new Date(lead.created_at).toLocaleString()
+                      : ""}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-2 flex-1 md:mt-0">
+                {lead.message && (
+                  <div className="mb-2 text-white/80 italic">
+                    &quot;{lead.message}&quot;
+                  </div>
+                )}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded bg-[#222] px-2 py-1 text-xs text-white/80">
+                    {lead.source?.toUpperCase()}
+                  </span>
+                  {lead.campaign && (
+                    <span className="rounded bg-[#333] px-2 py-1 text-xs text-white/60">
+                      {lead.campaign}
+                    </span>
+                  )}
+                  <span className="rounded bg-[#333] px-2 py-1 text-xs text-white/60">
+                    {lead.stay_duration}
+                  </span>
+                </div>
+              </div>
+              <div className="flex min-w-45 flex-col gap-2">
+                <button
+                  className="rounded bg-yellow-600 px-3 py-1 text-xs font-semibold text-black hover:bg-yellow-500"
+                  onClick={() => handleReplyEmail(lead)}
+                >
+                  Reply via Email
+                </button>
+                {lead.phone && (
+                  <a
+                    href={`https://wa.me/${lead.phone.replace(/[^\d]/g, "")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded bg-green-600 px-3 py-1 text-center text-xs font-semibold text-white hover:bg-green-500"
+                  >
+                    WhatsApp
+                  </a>
+                )}
+                <select
+                  className="mt-1 rounded bg-[#222] px-2 py-1 text-xs text-white/80"
+                  value={lead.status}
+                  onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
+                >
+                  <option value="new">New</option>
+                  <option value="responded">Responded</option>
+                  <option value="open_sale">Open Sale</option>
+                  <option value="closed_won">Closed Won</option>
+                  <option value="not_interested">Not Interested</option>
+                </select>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
