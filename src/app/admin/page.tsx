@@ -203,6 +203,30 @@ export default function AdminPage() {
             </div>
           </div>
         )}
+        {/* Lead Filters */}
+        <div className="mb-6 flex gap-2">
+          <button className="rounded bg-[#222] px-4 py-2 font-semibold text-white">
+            All
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
+            New ({leads.filter((l) => l.status === "new").length})
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
+            Responded ({leads.filter((l) => l.status === "responded").length})
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
+            Open Sale ({leads.filter((l) => l.status === "open_sale").length})
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
+            Closed Won ({leads.filter((l) => l.status === "closed_won").length})
+          </button>
+          <button className="rounded bg-[#181818] px-4 py-2 text-white/80">
+            Not Interested (
+            {leads.filter((l) => l.status === "not_interested").length})
+          </button>
+        </div>
+
+        {/* ...existing code for leads table or cards will go here... */}
       </div>
     </div>
   );
