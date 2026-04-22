@@ -40,7 +40,8 @@ function pageToPath(page: Page): string {
   if (page === "solo") return "/apartments/solo";
   if (page === "studio") return "/apartments/studio";
   if (page === "soho") return "/apartments/soho";
-  if (page === "admin") return "/";
+  if (page === "admin") return "/admin";
+  if (page === "applications") return "/applications";
   return "/";
 }
 

@@ -5,6 +5,7 @@ export type Page =
   | "gallery"
   | "contact"
   | "admin"
+  | "applications"
   | "five-star"
   | "healthy"
   | "easy"

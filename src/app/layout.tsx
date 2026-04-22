@@ -9,6 +9,8 @@ import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 import { UrgencyEngine } from "@/components/UrgencyEngine";
 import { ApartmentQuiz } from "@/components/ApartmentQuiz";
 import "./globals.css";
+import dynamic from "next/dynamic";
+const ChatWidget = dynamic(() => import("@/components/ChatWidget"), { ssr: false });
 
 const IMAGE_RECOVERY_SCRIPT = `
 (() => {
@@ -166,6 +168,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <ChatWidget />
           <a
             href="https://wa.me/6281119028111"
             target="_blank"

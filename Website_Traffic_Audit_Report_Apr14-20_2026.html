@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website & Ads Traffic Audit - April 14-20, 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; background: white; }
+        header { border-bottom: 4px solid #2E75B6; padding-bottom: 30px; margin-bottom: 40px; }
+        h1 { font-size: 32px; margin-bottom: 8px; color: #1a1a1a; }
+        .date { font-size: 14px; color: #666; font-weight: 500; }
+        h2 { font-size: 24px; margin-top: 40px; margin-bottom: 20px; color: #1a1a1a; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; }
+        h3 { font-size: 18px; margin-top: 25px; margin-bottom: 15px; color: #2E75B6; }
+
+        .alert { padding: 16px 20px; margin: 20px 0; border-left: 4px solid; font-size: 14px; line-height: 1.6; }
+        .alert-critical { background: #ffebee; border-left-color: #c62828; color: #b71c1c; }
+        .alert-warning { background: #fff3e0; border-left-color: #e65100; color: #bf360c; }
+        .alert-success { background: #e8f5e9; border-left-color: #2e7d32; color: #1b5e20; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+        th { background: #2E75B6; color: white; padding: 12px; text-align: left; font-weight: 600; }
+        td { padding: 12px; border-bottom: 1px solid #e0e0e0; }
+        tr:hover { background: #f9f9f9; }
+
+        .metric-box { display: inline-block; background: #f0f4f8; padding: 20px 25px; margin: 10px 15px 10px 0; border-radius: 4px; min-width: 180px; }
+        .metric-value { font-size: 28px; font-weight: bold; color: #2E75B6; }
+        .metric-label { font-size: 12px; color: #666; text-transform: uppercase; margin-top: 5px; letter-spacing: 0.5px; }
+        .metric-change { font-size: 14px; margin-top: 8px; }
+        .negative { color: #c62828; }
+
+        .finding { background: #fafafa; padding: 16px; margin: 15px 0; border-left: 3px solid #2E75B6; }
+        .finding-title { font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+        .finding-detail { color: #666; font-size: 14px; line-height: 1.6; }
+
+        .section { margin-bottom: 40px; }
+        .recommendation { background: #e3f2fd; padding: 16px 20px; margin: 15px 0; border-left: 3px solid #2E75B6; }
+        .recommendation-title { font-weight: 600; color: #1565c0; margin-bottom: 8px; }
+
+        .action-item { display: flex; align-items: flex-start; margin: 12px 0; padding: 12px; background: #fffde7; border-left: 3px solid #fbc02d; }
+        .action-number { background: #fbc02d; color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; flex-shrink: 0; }
+        .action-text { flex: 1; }
+
+        footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 12px; color: #999; }
+
+        .traffic-source { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f5f5f5; margin: 8px 0; border-radius: 3px; }
+        .source-name { font-weight: 500; flex: 1; }
+        .source-metrics { display: flex; gap: 20px; }
+        .source-metric { text-align: right; min-width: 100px; }
+
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .summary-card { background: #f9f9f9; padding: 20px; border-radius: 4px; border: 1px solid #e0e0e0; }
+        .summary-card h4 { color: #2E75B6; margin-bottom: 12px; }
+        .summary-card p { font-size: 14px; line-height: 1.6; color: #666; }
+
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .status-paused { background: #ffebee; color: #c62828; }
+        .status-active { background: #e8f5e9; color: #2e7d32; }
+        .status-completed { background: #e0f2f1; color: #00695c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Website & Ads Traffic Audit Report</h1>
+            <p class="date">Period: April 14-20, 2026 | Report Date: April 21, 2026</p>
+        </header>
+
+        <div class="alert alert-critical">
+            <strong>⚠️ CRITICAL ISSUES FOUND:</strong> Your Google Ads campaign is PAUSED (both campaign-level and account-level). This is causing a 91.8% drop in CPC traffic. Facebook/Instagram ads also show multiple paused campaigns. Immediate action required.
+        </div>
+
+        <section class="section">
+            <h2>Executive Summary</h2>
+            <p style="margin-bottom: 15px; line-height: 1.8;">
+                This comprehensive audit reveals a significant traffic collapse across your paid advertising channels during the week of April 14-20, 2026. Overall website traffic declined 69.1% (Active users: 1.7K vs previous period), driven primarily by a critical issue with your Google Ads campaign infrastructure.
+            </p>
+
+            <h3>Key Metrics (Last 7 Days)</h3>
+            <div>
+                <div class="metric-box">
+                    <div class="metric-value">1.7K</div>
+                    <div class="metric-label">Active Users</div>
+                    <div class="metric-change negative">↓ 69.1%</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">13K</div>
+                    <div class="metric-label">Events</div>
+                    <div class="metric-change negative">↓ 63.5%</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">3.9K</div>
+                    <div class="metric-label">Page Views</div>
+                    <div class="metric-change negative">↓ 64.9%</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">1.7K</div>
+                    <div class="metric-label">New Users</div>
+                    <div class="metric-change negative">↓ 69.2%</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>1. CRITICAL FINDINGS</h2>
+
+            <div class="alert alert-critical">
+                <strong>🔴 GOOGLE ADS CAMPAIGN PAUSED</strong><br/>
+                Campaign name: "Massage wellness campaign"<br/>
+                Status: PAUSED (both campaign-level AND account-level)<br/>
+                Budget: IDR150,000/day (not being spent due to pause)<br/>
+                Impact: 91.8% drop in Google CPC traffic (from 3,950 to 325 users)
+            </div>
+
+            <h3>Google Ads Status</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campaign</th>
+                        <th>Status</th>
+                        <th>Issue Type</th>
+                        <th>Severity</th>
+                        <th>Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Message wellness campaign</td>
+                        <td><span class="status-badge status-paused">PAUSED</span></td>
+                        <td>Campaign paused</td>
+                        <td><strong>CRITICAL</strong></td>
+                        <td>0 impressions/clicks</td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td><span class="status-badge status-paused">PAUSED</span></td>
+                        <td>Account paused</td>
+                        <td><strong>CRITICAL</strong></td>
+                        <td>All campaigns blocked</td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td><span class="status-badge status-paused">LIMITED</span></td>
+                        <td>Budget limited</td>
+                        <td>HIGH</td>
+                        <td>Reduced reach</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="finding">
+                <div class="finding-title">Metrics (Feb 1 - Apr 7):</div>
+                <div class="finding-detail">
+                    • Clicks: 32K<br/>
+                    • ROAS: 0.04% (extremely poor)<br/>
+                    • Avg CPC: Rp165<br/>
+                    • Total Cost: Rp5.27M (~$330 USD)
+                </div>
+            </div>
+
+            <div class="alert alert-critical">
+                <strong>ACTION REQUIRED NOW:</strong><br/>
+                1. Log into Google Ads immediately<br/>
+                2. Check why account and campaign are paused<br/>
+                3. Verify no billing issues<br/>
+                4. Resume campaign and account<br/>
+                5. Monitor for 24 hours to ensure ads are running
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>2. Traffic Sources Analysis (Last 7 Days)</h2>
+
+            <h3>Traffic Breakdown by Source</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Traffic Source</th>
+                        <th>Active Users</th>
+                        <th>Change</th>
+                        <th>Sessions</th>
+                        <th>Conversion Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #ffebee;">
+                        <td><strong>Google CPC (Paid Search)</strong></td>
+                        <td>325</td>
+                        <td><span class="negative">↓ 91.8%</span></td>
+                        <td>373</td>
+                        <td>CRITICAL - Campaign paused</td>
+                    </tr>
+                    <tr>
+                        <td>Facebook Paid</td>
+                        <td>600</td>
+                        <td><span class="negative">↓ 17.5%</span></td>
+                        <td>761</td>
+                        <td>Slight decline</td>
+                    </tr>
+                    <tr>
+                        <td>Instagram Paid</td>
+                        <td>437</td>
+                        <td><span class="negative">↓ 29.9%</span></td>
+                        <td>473</td>
+                        <td>Moderate decline</td>
+                    </tr>
+                    <tr>
+                        <td>Direct / (none)</td>
+                        <td>211</td>
+                        <td><span class="negative">↓ 22.7%</span></td>
+                        <td>328</td>
+                        <td>Organic/returning users</td>
+                    </tr>
+                    <tr>
+                        <td>Google Organic</td>
+                        <td>111</td>
+                        <td><span class="negative">↓ 35.4%</span></td>
+                        <td>212</td>
+                        <td>SEO declining</td>
+                    </tr>
+                    <tr>
+                        <td>Instagram Social</td>
+                        <td>30</td>
+                        <td><span class="negative">↓ 42.9%</span></td>
+                        <td>35</td>
+                        <td>Minimal</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Geographic Distribution (Top Cities)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Active Users</th>
+                        <th>Change</th>
+                        <th>% of Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jakarta</td>
+                        <td>199</td>
+                        <td><span class="negative">↓ 43.1%</span></td>
+                        <td>11.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Medan</td>
+                        <td>102</td>
+                        <td><span class="negative">↓ 77.3%</span></td>
+                        <td>6.0%</td>
+                    </tr>
+                    <tr>
+                        <td>Surabaya</td>
+                        <td>97</td>
+                        <td><span class="negative">↓ 70.0%</span></td>
+                        <td>5.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Makassar</td>
+                        <td>87</td>
+                        <td><span class="negative">↓ 68.4%</span></td>
+                        <td>5.1%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="finding">
+                <div class="finding-title">Key Insight:</div>
+                <div class="finding-detail">
+                    The decline is uniform across all traffic sources and geography, indicating a systemic issue rather than regional or channel-specific problems. This points to either a tracking issue or a period of reduced marketing activity.
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>3. Facebook & Instagram Ads Status</h2>
+
+            <h3>Active Campaigns (Last 7 Days)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campaign</th>
+                        <th>Created</th>
+                        <th>Status</th>
+                        <th>Views</th>
+                        <th>Results</th>
+                        <th>Spend</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Boosted Instagram post (Feb 19)</td>
+                        <td>Feb 19</td>
+                        <td><span class="status-badge status-paused">PAUSED</span></td>
+                        <td>843.1K</td>
+                        <td>14,085 clicks</td>
+                        <td>IDR9.2M</td>
+                    </tr>
+                    <tr>
+                        <td>Boosted Instagram post (Feb 12)</td>
+                        <td>Feb 12</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>640.4K</td>
+                        <td>13,764 clicks</td>
+                        <td>IDR6.2M</td>
+                    </tr>
+                    <tr>
+                        <td>Boosted Instagram post (Mar 26)</td>
+                        <td>Mar 26</td>
+                        <td><span class="status-badge status-paused">PAUSED</span></td>
+                        <td>1M</td>
+                        <td>6,654 profile visits</td>
+                        <td>IDR4.6M</td>
+                    </tr>
+                    <tr>
+                        <td>Boosted Instagram post (Feb 12)</td>
+                        <td>Feb 12</td>
+                        <td><span class="status-badge status-paused">PAUSED</span></td>
+                        <td>140.7K</td>
+                        <td>4,091 clicks</td>
+                        <td>IDR1.7M</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ NOTE:</strong> Most Facebook/Instagram ads are from February and March. No active ads appear to be running from April 14-20. The "Active" campaign from Feb 12 continues to generate traffic but is not recent.
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>4. Recommendations & Action Plan</h2>
+
+            <h3>IMMEDIATE ACTIONS (Today)</h3>
+
+            <div class="action-item">
+                <div class="action-number">1</div>
+                <div class="action-text">
+                    <strong>Resume Google Ads Campaign</strong><br/>
+                    Log into Google Ads account, check why both account and campaign are paused. Resume both immediately. Verify no billing issues are preventing resumption. Monitor for successful ad delivery within 1-2 hours.
+                </div>
+            </div>
+
+            <div class="action-item">
+                <div class="action-number">2</div>
+                <div class="action-text">
+                    <strong>Verify Google Ads Budget & Billing</strong><br/>
+                    Confirm IDR150,000/day budget is still allocated and active. Check if there were any account holds or payment issues. Restore payment method if needed.
+                </div>
+            </div>
+
+            <div class="action-item">
+                <div class="action-number">3</div>
+                <div class="action-text">
+                    <strong>Audit Facebook/Instagram Ad Schedule</strong><br/>
+                    Review why no new ads are running in April. Determine if budget exhausted or campaigns ended intentionally. Create new campaigns if needed for April performance.
+                </div>
+            </div>
+
+            <h3>SHORT-TERM FIXES (This Week)</h3>
+
+            <div class="recommendation">
+                <div class="recommendation-title">1. Google Ads Optimization</div>
+                <div style="font-size: 14px; line-height: 1.6; color: #666;">
+                    • Check campaign setup for issues (landing page, keywords, bid strategy)<br/>
+                    • ROAS is 0.04% (should be 100%+) - investigate conversion tracking<br/>
+                    • Review ad copy and landing page relevance<br/>
+                    • Consider restructuring campaign with more granular targeting
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <div class="recommendation-title">2. Facebook/Instagram Strategy</div>
+                <div style="font-size: 14px; line-height: 1.6; color: #666;">
+                    • Launch fresh April campaigns with updated creative<br/>
+                    • Test different audience segments (current ads show 600 users from FB, 437 from IG)<br/>
+                    • Consider budget allocation: IG performing better recently<br/>
+                    • Create new landing pages optimized for social traffic
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <div class="recommendation-title">3. Google Organic Search</div>
+                <div style="font-size: 14px; line-height: 1.6; color: #666;">
+                    • Organic traffic down 35.4% - check for SEO issues<br/>
+                    • Verify Google Search Console for indexing problems<br/>
+                    • Review if any website changes impacted SEO<br/>
+                    • Consider content refresh or new pages for keyword opportunities
+                </div>
+            </div>
+
+            <h3>MEDIUM-TERM STRATEGY (Next 2 Weeks)</h3>
+
+            <div class="recommendation">
+                <div class="recommendation-title">1. Campaign Performance Tracking</div>
+                <div style="font-size: 14px; line-height: 1.6; color: #666;">
+                    • Set up daily monitoring dashboard<br/>
+                    • Track ROI/ROAS by channel<br/>
+                    • Monitor cost per acquisition<br/>
+                    • Create weekly performance reports
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <div class="recommendation-title">2. Traffic Recovery Targets</div>
+                <div style="font-size: 14px; line-height: 1.6; color: #666;">
+                    • Goal: Restore to 5,600+ active users (previous week baseline)<br/>
+                    • Target: 70% of traffic from paid channels<br/>
+                    • Expected timeline: 2-3 weeks with proper campaign management<br/>
+                    • Priority: Google Ads (highest ROI potential)
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>5. Summary & Next Steps</h2>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h4>Immediate Risk</h4>
+                    <p>Google Ads account paused, eliminating primary paid channel. No active April campaigns on Facebook/Instagram.</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Data Quality</h4>
+                    <p>GA shows 69% decline; Google Ads ROAS at 0.04% suggests possible conversion tracking issues requiring investigation.</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Recovery Path</h4>
+                    <p>Resume Google Ads + launch new FB/IG campaigns + optimize conversion tracking. Expected recovery in 2-3 weeks.</p>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>✓ POSITIVE SIGN:</strong> Traffic declined uniformly across all channels and geography, suggesting this is a campaign/budget issue rather than a product/messaging problem. Once ads are running again, traffic should recover quickly.
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Report Generated:</strong> April 21, 2026</p>
+            <p><strong>Data Period:</strong> April 14-20, 2026 (last 7 days)</p>
+            <p><strong>Data Sources:</strong> Google Analytics, Google Ads, Meta Business Suite</p>
+            <p><strong>Next Review:</strong> April 28, 2026 (after campaigns resume)</p>
+        </footer>
+    </div>
+</body>
+</html>

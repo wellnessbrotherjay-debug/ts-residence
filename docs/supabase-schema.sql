@@ -1,3 +1,24 @@
+-- Chatbot session and message logging
+CREATE TABLE IF NOT EXISTS public.chat_sessions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  last_active TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  user_agent TEXT,
+  ip_address TEXT
+);
+
+CREATE TABLE IF NOT EXISTS public.chat_messages (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  session_id UUID REFERENCES public.chat_sessions(id) ON DELETE CASCADE,
+  role TEXT NOT NULL, -- 'user' or 'assistant'
+  content TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS chat_messages_session_id_idx ON public.chat_messages (session_id);
+CREATE INDEX IF NOT EXISTS chat_sessions_created_at_idx ON public.chat_sessions (created_at DESC);
+
+-- Traffic and lead tracking
 CREATE TABLE IF NOT EXISTS public.traffic_events (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   session_id TEXT NOT NULL,
@@ -23,6 +44,7 @@ CREATE INDEX IF NOT EXISTS traffic_events_campaign_idx ON public.traffic_events 
 CREATE INDEX IF NOT EXISTS traffic_events_visitor_id_idx ON public.traffic_events (visitor_id);
 CREATE INDEX IF NOT EXISTS traffic_events_session_id_idx ON public.traffic_events (session_id);
 
+-- Lead tracking
 CREATE TABLE IF NOT EXISTS public.leads (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   first_name TEXT NOT NULL,
