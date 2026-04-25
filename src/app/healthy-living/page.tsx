@@ -16,13 +16,14 @@ import {
 } from "@/components/site/animations";
 import { BTN_DARK, BTN_GOLD } from "@/components/site/buttons";
 
+const coverImage = "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/6c248521-f09b-4802-3905-5623cd796e00/public";
+
 const wellnessPillars = [
   {
     title: "Recovery",
     description:
       "Sauna, jacuzzi, and guided cooldown sequences designed to restore your body after long workdays.",
-    image:
-      "https://tsresidence.id/wp-content/uploads/2025/08/people-relaxing-on-jacuzzi-in-tsresidence.webp",
+    image: coverImage,
   },
   {
     title: "Performance",
