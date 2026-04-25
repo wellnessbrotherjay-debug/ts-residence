@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { FadeInView, StaggerContainer, StaggerItem } from "../animations";
+import { BTN_GOLD } from "../site/buttons";
 
 const AUDIENCES = ["Digital Nomads", "Expats", "Creatives", "Young Families"];
 
@@ -52,6 +54,12 @@ export const HomeResidents = () => (
           66 units of modern, spacious premium design apartments built for
           monthly living with hotel-grade access and long-stay comfort.
         </p>
+      </FadeInView>
+
+      <FadeInView delay={0.4} className="mt-8 text-center lg:mt-10">
+        <Link href="/contact" className={BTN_GOLD}>
+          Book Your Stay
+        </Link>
       </FadeInView>
     </div>
   </section>
