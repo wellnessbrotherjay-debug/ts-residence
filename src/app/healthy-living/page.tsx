@@ -174,7 +174,7 @@ export default function Page() {
         className="border-gold/30 relative min-h-[48vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
       >
         <motion.img
-          src="https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-wellness-club-building-gate.webp"
+          src={coverImage}
           alt="Healthy Living at TS Residence"
           className="absolute inset-0 h-full w-full object-cover"
           style={{ y: heroImageY, scale: heroImageScale }}
@@ -217,7 +217,7 @@ export default function Page() {
       <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="mx-auto max-w-225 text-center">
-            <a href="https://www.no1wellness.com/" target="_blank" rel="noopener noreferrer" className="label-caps text-gold hover:text-gold-dark transition-colors inline-block">N°1 Wellness Studio</a>
+            <a href="https://www.no1wellness.com/" target="_blank" rel="noopener noreferrer" className="label-caps text-gold hover:text-gold-dark transition-colors inline-block">No. 1 Wellness Studio</a>
             <h2 className="text-ink mt-5 font-serif text-[2.35rem] leading-[1.02] tracking-[-0.03em] sm:text-5xl md:text-[3.2rem] lg:text-6xl">
               A complete wellness ecosystem,
               <br />
