@@ -83,8 +83,12 @@ export function ContactForm() {
         }
         setError(errorMsg);
       }
-    } catch (err: any) {
-      setError(err?.message || "Failed to send. Try again later.");
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Failed to send. Try again later.");
+      }
     } finally {
       setLoading(false);
     }

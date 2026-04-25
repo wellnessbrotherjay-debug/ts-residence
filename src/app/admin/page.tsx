@@ -68,7 +68,7 @@ export default function AdminPage() {
         }
         if (data.length > 0) setLastLeadId(data[0].id);
       }
-    } catch {
+    } catch (_err: unknown) {
       // error handled silently
     } finally {
       if (isInitial) setLoading(false);
@@ -107,37 +107,10 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    const fetchDashboardEffect = async (isInitial = false) => {
-      try {
-        const [summaryRes, leadsRes] = await Promise.all([
-          fetch("/api/dashboard/summary"),
-          fetch("/api/leads"),
-        ]);
-        if (summaryRes.ok) {
-          setSummary(await summaryRes.json());
-        }
-        if (leadsRes.ok) {
-          const data = await leadsRes.json();
-          setLeads(data);
-          if (
-            !isInitial &&
-            data.length > 0 &&
-            lastLeadId &&
-            data[0].id > lastLeadId
-          ) {
-            triggerLeadAlert(data[0]);
-          }
-          if (data.length > 0) setLastLeadId(data[0].id);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        if (isInitial) setLoading(false);
-      }
-    };
-    fetchDashboardEffect(true);
-    const interval = setInterval(() => fetchDashboardEffect(), 15000);
+    fetchDashboard(true);
+    const interval = setInterval(() => fetchDashboard(), 15000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastLeadId]);
 
   const updateLeadStatus = async (id: number, status: string) => {

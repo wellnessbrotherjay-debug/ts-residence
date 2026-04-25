@@ -72,8 +72,16 @@ const wellnessFacilities = [
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e260b085-759e-4411-923a-d2da61a94d00/public",
     bookLinks: [
       { label: "Book IV Treatment", url: "https://www.no1wellness.com/book/immune-booster" },
+    ],
+  },
+  {
+    title: "Massage Therapy",
+    description:
+      "Signature massage treatments for relaxation, recovery, and stress relief, delivered by No. 1 Wellness professionals.",
+    image:
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/f612e425-ea50-4970-7ba9-cd1396e1aa00/public",
+    bookLinks: [
       { label: "Book Massage", url: "https://www.no1wellness.com/book/signature-massage" },
-      { label: "Book Pilates", url: "https://www.no1wellness.com/book/pilates" },
     ],
   },
 ];

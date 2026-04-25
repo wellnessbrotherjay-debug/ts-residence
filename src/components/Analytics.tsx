@@ -35,7 +35,7 @@ export function Analytics() {
     if (typeof window === "undefined") return;
 
     let engagedFired = false;
-    let scrollMilestones = { 25: false, 50: false, 75: false, 90: false };
+    const scrollMilestones: Record<number, boolean> = { 25: false, 50: false, 75: false, 90: false };
 
     // Engage session after 30 seconds
     const engageTimer = setTimeout(() => {
@@ -56,12 +56,13 @@ export function Analytics() {
 
       const percent: number = Math.round(((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100);
 
-      ((Object.keys(scrollMilestones) as unknown) as Array<keyof typeof scrollMilestones>).forEach((milestone) => {
-        if (percent >= Number(milestone) && !scrollMilestones[milestone]) {
-          scrollMilestones[milestone] = true;
+      (Object.keys(scrollMilestones) as Array<keyof typeof scrollMilestones>).forEach((milestone) => {
+        const milestoneNum = Number(milestone);
+        if (percent >= milestoneNum && !scrollMilestones[milestoneNum]) {
+          scrollMilestones[milestoneNum] = true;
           trackEvent("scroll_depth", {
             page_path: pathname,
-            depth: milestone,
+            depth: milestoneNum,
             device_type: buildDeviceType(),
           });
         }
@@ -71,22 +72,17 @@ export function Analytics() {
     const onClick = async (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('a, button');
       if (!target) return;
-      
       const isLink = target.tagName === 'A';
       const href = isLink ? (target as HTMLAnchorElement).href : null;
       const text = (target as HTMLElement).innerText || (target as HTMLElement).getAttribute('aria-label') || 'unlabeled';
-      
-      let eventType = "cta_click" as 'cta_click' | 'social_click' | 'nav_click';
-      
+      let eventType: 'cta_click' | 'social_click' | 'nav_click' = 'cta_click';
       if (isLink && href) {
         const isExternal = (target as HTMLAnchorElement).hostname && (target as HTMLAnchorElement).hostname !== window.location.hostname;
-        
         if (href.includes("wa.me") || href.includes("instagram.com")) {
           eventType = "social_click";
         } else if (!isExternal) {
           eventType = "nav_click";
         }
-
         // Decorate cross-domain booking/contact links with UTMs dynamically
         if (href.includes("wa.me") || href.includes("booking") || href.includes("townsquare")) {
           e.preventDefault();
@@ -95,7 +91,6 @@ export function Analytics() {
           window.open(decorated, (target as HTMLAnchorElement).target === "_blank" ? "_blank" : "_self");
         }
       }
-
       trackEvent(eventType, {
         page_path: pathname,
         link_url: href || 'interaction',
