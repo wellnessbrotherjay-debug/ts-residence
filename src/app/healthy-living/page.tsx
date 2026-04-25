@@ -55,6 +55,7 @@ const wellnessFacilities = [
       "Specialized reformer programs for posture, flexibility, and full-body conditioning.",
     image:
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
+    bookUrl: "https://www.no1wellness.com/book/pilates",
   },
   {
     title: "Night Sauna",
@@ -68,7 +69,12 @@ const wellnessFacilities = [
     description:
       "Targeted IV support to optimize hydration, recovery, and overall physical resilience.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-iv-room.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e260b085-759e-4411-923a-d2da61a94d00/public",
+    bookLinks: [
+      { label: "Book IV Treatment", url: "https://www.no1wellness.com/book/immune-booster" },
+      { label: "Book Massage", url: "https://www.no1wellness.com/book/signature-massage" },
+      { label: "Book Pilates", url: "https://www.no1wellness.com/book/pilates" },
+    ],
   },
 ];
 
@@ -261,6 +267,33 @@ export default function Page() {
                   <p className="text-ink/80 mt-4 text-[1rem] leading-7">
                     {facility.description}
                   </p>
+                  {facility.bookLinks && (
+                    <div className="mt-5 flex flex-col gap-2">
+                      {facility.bookLinks.map((link) => (
+                        <a
+                          key={link.url}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block rounded bg-gold px-4 py-2 text-sm font-semibold text-black shadow hover:bg-gold-dark transition-colors"
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                  {facility.bookUrl && (
+                    <div className="mt-5">
+                      <a
+                        href={facility.bookUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block rounded bg-gold px-4 py-2 text-sm font-semibold text-black shadow hover:bg-gold-dark transition-colors"
+                      >
+                        Book Pilates
+                      </a>
+                    </div>
+                  )}
                 </div>
               </motion.article>
             </StaggerItem>
