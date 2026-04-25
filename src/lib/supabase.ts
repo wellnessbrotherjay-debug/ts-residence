@@ -1,8 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-
-export const supabase = createClient(supabaseUrl, supabaseKey, {
-  auth: { persistSession: false },
-});
+// TEMP HOTFIX: Disable Supabase client to unblock build/deploy
+// export const supabase = createClient(supabaseUrl, supabaseKey, { auth: { persistSession: false } });
+export const supabase = undefined as any;

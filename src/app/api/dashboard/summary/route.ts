@@ -28,7 +28,7 @@ export async function GET() {
     
     // Aggregate Source
     const bySource = Object.entries(
-      trafficRows.reduce<Record<string, number>>((acc, row) => {
+      trafficRows.reduce((acc, row) => {
         const key = row.source || "direct";
         acc[key] = (acc[key] || 0) + 1;
         return acc;
@@ -40,7 +40,7 @@ export async function GET() {
 
     // Aggregate Campaign
     const byCampaign = Object.entries(
-      trafficRows.reduce<Record<string, number>>((acc, row) => {
+      trafficRows.reduce((acc, row) => {
         if (!row.campaign) return acc;
         acc[row.campaign] = (acc[row.campaign] || 0) + 1;
         return acc;
@@ -52,7 +52,7 @@ export async function GET() {
 
     // Aggregate Pages
     const byPage = Object.entries(
-      trafficRows.reduce<Record<string, number>>((acc, row) => {
+      trafficRows.reduce((acc, row) => {
         const key = row.page || "/";
         acc[key] = (acc[key] || 0) + 1;
         return acc;
