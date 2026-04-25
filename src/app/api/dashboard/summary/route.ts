@@ -25,39 +25,36 @@ export async function GET() {
     }
 
     const trafficRows = trafficRowsRes.data || [];
-    
+
     // Aggregate Source
-    const bySource = Object.entries(
-      trafficRows.reduce((acc, row) => {
-        const key = row.source || "direct";
-        acc[key] = (acc[key] || 0) + 1;
-        return acc;
-      }, {})
-    )
+    const sourceMap: Record<string, number> = {};
+    for (const row of trafficRows) {
+      const key = row.source || "direct";
+      sourceMap[key] = (sourceMap[key] || 0) + 1;
+    }
+    const bySource = Object.entries(sourceMap)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8)
       .map(([source, count]) => ({ source, count }));
 
     // Aggregate Campaign
-    const byCampaign = Object.entries(
-      trafficRows.reduce((acc, row) => {
-        if (!row.campaign) return acc;
-        acc[row.campaign] = (acc[row.campaign] || 0) + 1;
-        return acc;
-      }, {})
-    )
+    const campaignMap: Record<string, number> = {};
+    for (const row of trafficRows) {
+      if (!row.campaign) continue;
+      campaignMap[row.campaign] = (campaignMap[row.campaign] || 0) + 1;
+    }
+    const byCampaign = Object.entries(campaignMap)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8)
       .map(([campaign, count]) => ({ campaign, count }));
 
     // Aggregate Pages
-    const byPage = Object.entries(
-      trafficRows.reduce((acc, row) => {
-        const key = row.page || "/";
-        acc[key] = (acc[key] || 0) + 1;
-        return acc;
-      }, {})
-    )
+    const pageMap: Record<string, number> = {};
+    for (const row of trafficRows) {
+      const key = row.page || "/";
+      pageMap[key] = (pageMap[key] || 0) + 1;
+    }
+    const byPage = Object.entries(pageMap)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8)
       .map(([page, count]) => ({ page, count }));
