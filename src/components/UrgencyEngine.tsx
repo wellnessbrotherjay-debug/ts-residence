@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Bell, MapPin } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const notifications = [
   { id: 1, message: "New inquiry for SOHO Apartment", location: "Perth, AU", time: "2 mins ago" },
@@ -13,9 +14,13 @@ const notifications = [
 ];
 
 export function UrgencyEngine() {
+  const pathname = usePathname();
   const [index, setIndex] = useState(-1);
   const [show, setShow] = useState(false);
   const [liveEvents, setLiveEvents] = useState(notifications);
+
+  // Only show on admin pages
+  const isAdmin = pathname?.startsWith("/admin");
 
   const fetchLiveEvents = async () => {
     try {
@@ -62,6 +67,8 @@ export function UrgencyEngine() {
       clearInterval(interval);
     };
   }, [triggerNext]);
+
+  if (!isAdmin) return null;
 
   return (
     <div className="fixed bottom-6 left-6 z-100 pointer-events-none">

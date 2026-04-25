@@ -1,6 +1,8 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { FadeInView } from "./site/animations";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 
 const HERO_DEMO_VIDEO_SRC =
   "https://www.hive68.com/wp-content/uploads/2019/10/Clip-1.mp4";
@@ -9,26 +11,60 @@ const HERO_VIDEO_SRC = HERO_DEMO_VIDEO_SRC;
 const DESKTOP_NAVBAR_H = 128;
 const MOBILE_NAVBAR_H = 72;
 
+// Hero slides with images and CTAs
+const HERO_SLIDES = [
+  {
+    tag: "Welcome To",
+    title: "TS Residence",
+    subtitle: "Five-star living in the heart of Seminyak",
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7aef4db4-582a-4beb-c3f9-5934b61e2200/public",
+    exploreLink: "/apartments",
+  },
+  {
+    tag: "Experience",
+    title: "Five-Star Living",
+    subtitle: "Hotel privileges, rooftop pool, and premium services",
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/95522767-3643-482c-5a4d-5068cf935600/public",
+    exploreLink: "/five-star-living",
+  },
+  {
+    tag: "Discover",
+    title: "Healthy Living",
+    subtitle: "Wellness, recovery, and mindful living — all under one roof",
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
+    exploreLink: "/healthy-living",
+  },
+  {
+    tag: "Live",
+    title: "Easy Living",
+    subtitle: "Monthly apartments with zero stress, minutes from the beach",
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
+    exploreLink: "/easy-living",
+  },
+];
+
 // --- Shared text content for dual-header technique ---
 const HeroTextContent = ({
-  slides,
-  currentSlide,
+  slide,
   isDark,
   isInitialLoad,
+  onBookClick,
+  onExploreClick,
 }: {
-  slides: { tag: string; title: string; subtitle: string }[];
-  currentSlide: number;
+  slide: { tag: string; title: string; subtitle: string };
   isDark: boolean;
   isInitialLoad: boolean;
+  onBookClick: () => void;
+  onExploreClick: () => void;
 }) => (
   <AnimatePresence mode="wait">
     <motion.div
-      key={currentSlide}
+      key={slide.title}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{
-        duration: isInitialLoad ? 1.1 : 0.35,
+        duration: isInitialLoad ? 1.1 : 0.5,
         ease: isInitialLoad ? [0.22, 1, 0.36, 1] : "easeOut",
       }}
       className="flex flex-col items-center text-center"
@@ -39,10 +75,10 @@ const HeroTextContent = ({
             isDark ? "text-ink" : "text-white"
           }`}
         >
-          {slides[currentSlide].tag}
+          {slide.tag}
         </span>
       </FadeInView>
-      <FadeInView delay={isInitialLoad ? 0.24 : 0.06}>
+      <FadeInView delay={isInitialLoad ? 0.24 : 0.1}>
         <h1
           className={`heading-display text-[2.8rem] leading-[0.92] sm:text-[3.35rem] md:text-8xl lg:text-[9.2rem] xl:text-[11.5rem] ${
             isDark ? "text-ink" : "text-white"
@@ -56,8 +92,35 @@ const HeroTextContent = ({
                 }
           }
         >
-          {slides[currentSlide].title}
+          {slide.title}
         </h1>
+      </FadeInView>
+      <FadeInView delay={isInitialLoad ? 0.32 : 0.18}>
+        <p
+          className={`mt-4 text-sm sm:text-base md:text-lg max-w-2xl ${
+            isDark ? "text-ink/70" : "text-white/80"
+          }`}
+        >
+          {slide.subtitle}
+        </p>
+      </FadeInView>
+
+      {/* CTA Buttons */}
+      <FadeInView delay={isInitialLoad ? 0.4 : 0.25}>
+        <div className="mt-6 flex items-center gap-4 md:mt-8">
+          <button
+            onClick={onBookClick}
+            className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-6 py-3 rounded-full text-[11px] font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:scale-105 shadow-lg"
+          >
+            Book Now
+          </button>
+          <button
+            onClick={onExploreClick}
+            className="inline-flex items-center gap-2 border-2 border-white/40 hover:border-white hover:bg-white hover:text-ink text-white px-6 py-3 rounded-full text-[11px] font-semibold uppercase tracking-[0.2em] transition-all duration-300"
+          >
+            Explore <ChevronRight size={14} />
+          </button>
+        </div>
       </FadeInView>
     </motion.div>
   </AnimatePresence>
@@ -70,6 +133,7 @@ export const HeroSection = ({
   heroImage: string;
   showVideo?: boolean;
 }) => {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -132,23 +196,13 @@ export const HeroSection = ({
   );
   const heroExitOpacity = useTransform(scrollYProgress, [0.78, 1.0], [1, 0]);
 
-  const slides = [
-    {
-      tag: "Welcome To",
-      title: "TS Residence",
-      subtitle: "Five-star living in the heart of Seminyak",
-    },
-    {
-      tag: "Experience",
-      title: "Healthy Living",
-      subtitle: "Wellness, recovery, and mindful living — all under one roof",
-    },
-    {
-      tag: "Discover",
-      title: "Easy Living",
-      subtitle: "Monthly apartments with zero stress, minutes from the beach",
-    },
-  ];
+  const handleBookClick = () => {
+    window.open("https://wa.me/6281119028111", "_blank");
+  };
+
+  const handleExploreClick = () => {
+    router.push(HERO_SLIDES[currentSlide].exploreLink);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setIsInitialLoad(false), 1600);
@@ -171,10 +225,10 @@ export const HeroSection = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 2000);
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 5000); // 5 seconds per slide
     return () => clearInterval(interval);
-  }, [slides.length]);
+  }, []);
 
   return (
     <div
@@ -214,10 +268,11 @@ export const HeroSection = ({
                 className="pointer-events-auto"
               >
                 <HeroTextContent
-                  slides={slides}
-                  currentSlide={currentSlide}
+                  slide={HERO_SLIDES[currentSlide]}
                   isDark={false}
                   isInitialLoad={isInitialLoad}
+                  onBookClick={handleBookClick}
+                  onExploreClick={handleExploreClick}
                 />
               </motion.div>
             </div>
@@ -237,14 +292,21 @@ export const HeroSection = ({
               }}
               className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 overflow-hidden"
             >
-              <img
-                src={heroImage}
-                alt="TS Residence"
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={HERO_SLIDES[currentSlide].image}
+                  src={HERO_SLIDES[currentSlide].image}
+                  alt={HERO_SLIDES[currentSlide].title}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </AnimatePresence>
               {videoSrc && !hasVideoError && (
                 <video
                   key={videoSrc}
@@ -296,18 +358,19 @@ export const HeroSection = ({
                 className="pointer-events-auto"
               >
                 <HeroTextContent
-                  slides={slides}
-                  currentSlide={currentSlide}
+                  slide={HERO_SLIDES[currentSlide]}
                   isDark={false}
                   isInitialLoad={isInitialLoad}
+                  onBookClick={handleBookClick}
+                  onExploreClick={handleExploreClick}
                 />
               </motion.div>
             </motion.div>
           </motion.div>
 
           {/* Slide Indicators */}
-          <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 md:bottom-8 md:gap-3">
-            {slides.map((_, i) => (
+          <div className="absolute bottom-16 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 md:bottom-20 md:gap-3">
+            {HERO_SLIDES.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentSlide(i)}
