@@ -56,7 +56,7 @@ export function Analytics() {
 
       const percent: number = Math.round(((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100);
 
-      (Object.keys(scrollMilestones) as Array<keyof typeof scrollMilestones>).forEach((milestone) => {
+      (Object.keys(scrollMilestones) as string[]).forEach((milestone) => {
         const milestoneNum = Number(milestone);
         if (percent >= milestoneNum && !scrollMilestones[milestoneNum]) {
           scrollMilestones[milestoneNum] = true;
