@@ -6,6 +6,7 @@ type ContactFormState = {
   firstName: string;
   lastName: string;
   email: string;
+  countryCode: string;
   phone: string;
   stayDuration: string;
   message: string;
@@ -16,6 +17,7 @@ export function ContactForm() {
     firstName: "",
     lastName: "",
     email: "",
+    countryCode: "+62",
     phone: "",
     stayDuration: "Monthly",
     message: "",
@@ -90,25 +92,89 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-1 gap-x-8 gap-y-7 md:grid-cols-2">
-      {[
-        { id: "firstName", label: "First Name", type: "text", placeholder: "First Name" },
-        { id: "lastName", label: "Last Name", type: "text", placeholder: "Last Name" },
-        { id: "email", label: "Email", type: "email", placeholder: "Email address" },
-        { id: "phone", label: "Phone (optional)", type: "text", placeholder: "Phone number" },
-      ].map((field) => (
-        <div key={field.id} className="space-y-2">
-          <label htmlFor={field.id} className="label-caps text-ink">{field.label}</label>
-          <input
-            id={field.id}
-            type={field.type}
-            placeholder={field.placeholder}
-            value={form[field.id as keyof typeof form]}
-            onChange={handleChange}
-            required={field.id !== "phone"}
-            className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
-          />
-        </div>
-      ))}
+      <div className="space-y-2">
+        <label htmlFor="firstName" className="label-caps text-ink">First Name</label>
+        <input
+          id="firstName"
+          type="text"
+          placeholder="First Name"
+          value={form.firstName}
+          onChange={handleChange}
+          required
+          className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
+        />
+      </div>
+      <div className="space-y-2">
+        <label htmlFor="lastName" className="label-caps text-ink">Last Name</label>
+        <input
+          id="lastName"
+          type="text"
+          placeholder="Last Name"
+          value={form.lastName}
+          onChange={handleChange}
+          required
+          className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
+        />
+      </div>
+      <div className="space-y-2">
+        <label htmlFor="email" className="label-caps text-ink">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Email address"
+          value={form.email}
+          onChange={handleChange}
+          required
+          className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
+        />
+      </div>
+      <div className="space-y-2">
+        <label htmlFor="countryCode" className="label-caps text-ink">Country Code</label>
+        <input
+          id="countryCode"
+          type="text"
+          placeholder="+62"
+          value={form.countryCode}
+          onChange={handleChange}
+          required
+          list="country-codes"
+          className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
+        />
+        <datalist id="country-codes">
+          <option value="+1">United States/Canada (+1)</option>
+          <option value="+44">United Kingdom (+44)</option>
+          <option value="+61">Australia (+61)</option>
+          <option value="+62">Indonesia (+62)</option>
+          <option value="+65">Singapore (+65)</option>
+          <option value="+81">Japan (+81)</option>
+          <option value="+82">South Korea (+82)</option>
+          <option value="+86">China (+86)</option>
+          <option value="+91">India (+91)</option>
+          <option value="+971">UAE (+971)</option>
+          <option value="+49">Germany (+49)</option>
+          <option value="+33">France (+33)</option>
+          <option value="+34">Spain (+34)</option>
+          <option value="+39">Italy (+39)</option>
+          <option value="+7">Russia (+7)</option>
+          <option value="+66">Thailand (+66)</option>
+          <option value="+63">Philippines (+63)</option>
+          <option value="+60">Malaysia (+60)</option>
+          <option value="+64">New Zealand (+64)</option>
+          <option value="+852">Hong Kong (+852)</option>
+          <option value="+886">Taiwan (+886)</option>
+        </datalist>
+      </div>
+      <div className="space-y-2">
+        <label htmlFor="phone" className="label-caps text-ink">Phone (optional)</label>
+        <input
+          id="phone"
+          type="text"
+          placeholder="Phone number"
+          value={form.phone}
+          onChange={handleChange}
+          className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
+        />
+      </div>
       <div className="space-y-2 md:col-span-2">
         <label htmlFor="stayDuration" className="label-caps text-ink">Stay Duration</label>
         <select
