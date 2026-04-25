@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LockedPageHero } from "@/components/site/LockedPageHero";
+import { useEffect, useRef, useState } from "react";
 import {
   FadeInView,
   StaggerContainer,
@@ -45,24 +45,159 @@ const facilityCards = [
   {
     title: "TS Suites Coworking Space",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/8a2ce61d-0aed-4265-e5f8-6e6381d64a00/public",
   },
   {
     title: "TSTORE",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/32d0884b-8c29-4181-85b4-59306e635500/public",
   },
   {
     title: "Christophe C Salon",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/christophe-salon-img-scaled-e1759999189370.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c19d50e1-3c82-4c24-9488-c1a36bfe6a00/public",
   },
   {
     title: "TS Suites Bar",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/09/tsbar-seminyak.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e4d9a5db-20cd-4439-b3c5-0893221e4e00/public",
   },
 ];
+
+// Hero images that transition on scroll
+const scrollHeroImages = [
+  {
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/95522767-3643-482c-5a4d-5068cf935600/public",
+    alt: "TS Residence Five-Star Living - Main View",
+    title: "Make five-star living your everyday experience",
+    trigger: 0,
+  },
+  {
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9824d539-1cf2-440a-d01f-fb51737b0300/public",
+    alt: "TS Suites Coworking Space",
+    title: "Curated workspaces for productivity",
+    trigger: 0.25,
+  },
+  {
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c7d7a14d-6caa-4eaa-dd61-26a5f852f900/public",
+    alt: "TS Suites Rooftop Pool",
+    title: "Rooftop infinity pool views",
+    trigger: 0.5,
+  },
+  {
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
+    alt: "TS Residence Luxury Living",
+    title: "Elevated monthly living standards",
+    trigger: 0.75,
+  },
+];
+
+function ScrollHero() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const scrollPercent = scrollY / (docHeight - windowHeight);
+
+      // Find which image should be shown based on scroll percent
+      let newIndex = 0;
+      for (let i = scrollHeroImages.length - 1; i >= 0; i--) {
+        if (scrollPercent >= scrollHeroImages[i].trigger) {
+          newIndex = i;
+          break;
+        }
+      }
+
+      if (newIndex !== currentIndex && !isTransitioning) {
+        setIsTransitioning(true);
+        setTimeout(() => {
+          setCurrentIndex(newIndex);
+          setTimeout(() => setIsTransitioning(false), 100);
+        }, 300);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [currentIndex, isTransitioning]);
+
+  const currentImage = scrollHeroImages[currentIndex];
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative h-[90vh] md:h-[92vh] lg:h-[94vh] overflow-hidden"
+    >
+      {/* Background Images with Crossfade */}
+      {scrollHeroImages.map((img, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+            index === currentIndex ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <img
+            src={img.image}
+            alt={img.alt}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+        </div>
+      ))}
+
+      {/* Hero Content */}
+      <div className="absolute inset-0 flex items-center justify-center px-6">
+        <div className="max-w-4xl text-center">
+          <p className="text-gold text-sm font-semibold tracking-[0.3em] uppercase mb-4 animate-fade-in">
+            Welcome to Five-Star Living
+          </p>
+          <h1 className="text-white font-serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 animate-fade-in-up">
+            {currentImage.title}
+          </h1>
+          <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto animate-fade-in-up">
+            At TS Residence, you don't just live — you live with the full
+            privileges of a five-star hotel, all under one roof.
+          </p>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-white/60 text-xs uppercase tracking-widest">
+          Scroll to explore
+        </span>
+        <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2">
+          <div className="w-1 h-3 bg-white/60 rounded-full animate-bounce" />
+        </div>
+      </div>
+
+      {/* Image Indicators */}
+      <div className="absolute bottom-8 right-8 flex gap-2">
+        {scrollHeroImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentIndex
+                ? "bg-gold w-6"
+                : "bg-white/40 hover:bg-white/60"
+            }`}
+            aria-label={`View image ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Page() {
   return (
@@ -70,19 +205,7 @@ export default function Page() {
       data-reveal-profile="cinematic"
       className="relative isolate overflow-x-hidden"
     >
-      <LockedPageHero
-        image="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/95522767-3643-482c-5a4d-5068cf935600/public"
-        alt="TS Residence Five-Star Living"
-        heightClassName="h-[90vh] md:h-[92vh] lg:h-[94vh]"
-        title={
-          <>
-            Make five-star living your
-            <br />
-            everyday experience
-          </>
-        }
-        description="At TS Residence, you don't just live — you live with the full privileges of a five-star hotel, all under one roof. Enjoy the TS Suites hotel access just next door, with exclusive access to facilities designed for residents who expect more."
-      />
+      <ScrollHero />
 
       <section
         data-reveal-profile="cinematic"
@@ -191,8 +314,8 @@ export default function Page() {
             className="group relative min-h-64 overflow-hidden md:min-h-90 lg:min-h-130"
           >
             <img
-              src="https://tsresidence.id/wp-content/uploads/2025/10/TS-Suites-Rooftop-Infinity-Pool.webp"
-              alt="Five-star facilities"
+              src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c7d7a14d-6caa-4eaa-dd61-26a5f852f900/public"
+              alt="Five-star facilities - Rooftop Pool"
               className="h-full w-full object-cover transition-transform duration-1500 ease-out group-hover:scale-[1.04]"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/10 to-transparent" />
