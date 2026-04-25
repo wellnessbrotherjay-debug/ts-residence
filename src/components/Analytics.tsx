@@ -54,7 +54,6 @@ export function Analytics() {
       const st = "scrollTop";
       const sh = "scrollHeight";
 
-      // @ts-expect-error: scroll calculation for analytics
       const percent: number = Math.round(((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100);
 
       ((Object.keys(scrollMilestones) as unknown) as Array<keyof typeof scrollMilestones>).forEach((milestone) => {
