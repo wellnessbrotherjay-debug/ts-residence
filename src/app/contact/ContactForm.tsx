@@ -61,6 +61,7 @@ export function ContactForm() {
           firstName: "",
           lastName: "",
           email: "",
+          countryCode: "+62",
           phone: "",
           stayDuration: "Monthly",
           message: "",
