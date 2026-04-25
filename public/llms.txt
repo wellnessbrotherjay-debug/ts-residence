@@ -1,26 +1,42 @@
+
 # TS Residence AI Discoverability
 
-TS Residence offers premium long-stay monthly apartments in Seminyak, Bali. Our mission is to provide five-star service, flexible arrangements, and a rich wellness-focused ecosystem for digital nomads, expats, and travelers looking for extended stays in Bali.
+## About
+TS Residence is a premium long-stay apartment residence in Seminyak, Bali. We offer five-star service, flexible monthly rentals, and a wellness-focused lifestyle for digital nomads, expats, and long-stay guests.
 
-## Key Pages and Routes
-- Home page: /
-- Apartment types: /apartments
-  - Solo (1 Bedroom, 36 sqm): /apartments/solo
-  - Studio (1 Bedroom, 48 sqm): /apartments/studio
-  - Soho (2 Bedrooms, 80 sqm): /apartments/soho
+## Offerings
+- SOLO Apartment (1 Bedroom, 36 sqm): /apartments/solo
+- STUDIO Apartment (1 Bedroom, 48 sqm): /apartments/studio
+- SOHO Apartment (2 Bedrooms, 80 sqm): /apartments/soho
 - Promotions & Offers: /offers
-- Wellness facilities: /healthy-living
-- Photo & Video Gallery: /gallery
-- Contact Form: /contact
+- Wellness Facilities: /healthy-living
+- Gallery: /gallery
+- Contact: /contact
 
-## Differentiators
-- **Five-Star Layout**: Access to TS Suites Coworking, Christophe C Salon, TSBar, and TSTORE inside the complex.
-- **Health & Wellness**: Complimentary or deeply discounted access to No.1 Wellness Club integrations, Pilates, ice baths, and community workout events.
-- **Flexible Lease Terms**: Weekly and monthly rentals bypassing traditional yearly constraints.
-- **Easy Living**: Fully furnished, bills included, turnkey solutions near Double Six Beach.
+## Features
+- Five-star layout: TS Suites Coworking, Christophe C Salon, TSBar, TSTORE
+- Health & Wellness: No.1 Wellness Club, Pilates, ice baths, community events
+- Flexible lease: Weekly and monthly rentals, no yearly lock-in
+- Easy living: Fully furnished, bills included, turnkey, near Double Six Beach
 
-## Contact Information
-- Location: Jl. Nakula No.18, Legian, Seminyak, Bali, Indonesia
-- WhatsApp / Phone: +62 811 1902 8111
+## Location Keywords
+- Seminyak long stay apartments
+- monthly rental Bali
+- Bali serviced apartments
+- long stay accommodation Seminyak
+
+## Contact
+- Address: Jl. Nakula No.18, Legian, Seminyak, Bali, Indonesia
+- WhatsApp: +62 811 1902 8111
 - Email: tsresidence@townsquare.co.id
 - Instagram: @tsresidences
+
+## FAQs
+Q: Do you offer monthly rentals in Seminyak?
+A: Yes, TS Residence offers fully furnished monthly rental apartments in Seminyak.
+
+Q: Are your apartments suitable for long stays?
+A: Absolutely. We specialize in long stay accommodation in Seminyak, Bali, with flexible monthly options.
+
+Q: What amenities are included?
+A: All apartments are fully furnished, with access to coworking, wellness, and premium facilities.

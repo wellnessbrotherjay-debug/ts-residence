@@ -450,6 +450,162 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
         </div>
       </section>
 
+      <section className="border-gold/30 bg-white border-b">
+        <div className="mx-auto w-full max-w-440 px-4 py-12 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
+          <FadeInView>
+            <p className="label-caps text-gold">Terms & Conditions</p>
+            <h3 className="text-ink mt-4 font-serif text-[1.9rem] leading-[1.03] md:text-[2.9rem]">
+              Rental terms and what&apos;s included.
+            </h3>
+          </FadeInView>
+
+          <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+            <FadeInView delay={0.1}>
+              <h4 className="text-ink mb-4 font-serif text-[1.4rem]">Terms of Payment</h4>
+              <ul className="text-ink/78 space-y-3 text-[0.97rem] leading-7 md:text-[1.02rem]">
+                <li className="flex gap-3">
+                  <span className="text-gold mt-1">•</span>
+                  <span>Rental paid in advance.</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold mt-1">•</span>
+                  <span>
+                    Stay for <strong>MORE THAN 3 MONTHS</strong> and simply make a 20%
+                    upfront payment of the total rental cost.
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold mt-1">•</span>
+                  <span>
+                    The remaining 80% is to be paid in advance each month throughout
+                    the lease period to ensure a fixed rental rate and duration to{" "}
+                    <strong>SAVE YOUR CASHFLOW</strong>.
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold mt-1">•</span>
+                  <span>
+                    Refundable Security Deposit, in amount of 1 (one) month rental
+                    cost, shall be paid before Lease Commencement Date, together with
+                    the first payment of rental cost.
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold mt-1">•</span>
+                  <span>All Costs paid are applicable to tax and service charge.</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold mt-1">•</span>
+                  <span>Monthly rent price is subject to change.</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold mt-1">•</span>
+                  <span>
+                    The resident is solely responsible and liable for any costs
+                    associated with damage to the residence or common areas caused by
+                    the resident, and their guests.
+                  </span>
+                </li>
+              </ul>
+            </FadeInView>
+
+            <div className="space-y-8">
+              <FadeInView delay={0.15}>
+                <h4 className="text-ink mb-4 font-serif text-[1.4rem]">
+                  Included in Rental Cost
+                </h4>
+                <ul className="text-ink/78 space-y-3 text-[0.97rem] leading-7 md:text-[1.02rem]">
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>All units fully furnished.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>
+                      Access to TS Suites facilities: Pool, Gym, Restaurant/Lounge,
+                      and Business Center.
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>
+                      Free use of sauna, cold, and hot bath at N° 1 Wellness Club.
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>
+                      Non-dedicated parking spot for 1 (one) vehicle at TS Suites hotel.
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>
+                      Room Mechanical, Electrical, & Plumbing maintenance periodically.
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>Internet connection.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>Water utility.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>On-site building management.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-gold mt-1">✓</span>
+                    <span>Free TS Social Club membership.</span>
+                  </li>
+                </ul>
+              </FadeInView>
+
+              <div className="border-gold/20 space-y-8 border-t pt-8">
+                <FadeInView delay={0.2}>
+                  <h4 className="text-ink mb-4 font-serif text-[1.3rem]">
+                    Additional Cost
+                    <span className="text-gold-dark ml-2 text-[0.8em] font-normal">
+                      (paid separately)
+                    </span>
+                  </h4>
+                  <ul className="text-ink/78 space-y-2 text-[0.97rem] leading-7 md:text-[1.02rem]">
+                    <li>• Electricity</li>
+                  </ul>
+                </FadeInView>
+
+                <FadeInView delay={0.25}>
+                  <h4 className="text-ink mb-4 font-serif text-[1.3rem]">
+                    Optional / Add-on Services
+                  </h4>
+                  <ul className="text-ink/78 space-y-2 text-[0.97rem] leading-7 md:text-[1.02rem]">
+                    <li>• Laundry</li>
+                    <li>• Housekeeping</li>
+                    <li>• Food & Beverages</li>
+                  </ul>
+                </FadeInView>
+              </div>
+            </div>
+          </div>
+
+          <FadeInView delay={0.3} className="mt-10 border-t border-gold/20 pt-8 md:mt-12">
+            <p className="text-ink/68 text-center text-[0.88rem] leading-6 md:text-[0.94rem]">
+              For questions about these terms or to discuss your specific needs,
+              please{" "}
+              <Link
+                href="/contact"
+                className="text-gold hover:text-gold-dark underline underline-offset-2 transition-colors"
+              >
+                contact us
+              </Link>
+              .
+            </p>
+          </FadeInView>
+        </div>
+      </section>
+
       <AnimatePresence>
         {activeImage >= 0 && (
           <motion.div

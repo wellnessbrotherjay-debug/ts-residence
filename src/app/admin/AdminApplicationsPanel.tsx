@@ -20,33 +20,45 @@ export default function AdminApplicationsPanel() {
   const [error, setError] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
 
-  useEffect(() => {
-    fetchApplications();
-  }, []);
 
-  function fetchApplications() {
+
+  // Refactor: avoid setState directly in effect, use abort controller
+  useEffect(() => {
+    let ignore = false;
     setLoading(true);
+    setError(null);
     fetch("/api/leads")
       .then((res) => res.json())
       .then((data) => {
-        setApplications(data);
-        setLoading(false);
+        if (!ignore) setApplications(data);
       })
-      .catch((err) => {
-        setError("Failed to load applications");
-        setLoading(false);
+      .catch(() => {
+        if (!ignore) setError("Failed to load applications");
+      })
+      .finally(() => {
+        if (!ignore) setLoading(false);
       });
-  }
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   async function updateStatus(id: number, status: string) {
     setUpdatingId(id);
-    await fetch(`/api/leads/${id}/status`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
-    fetchApplications();
-    setUpdatingId(null);
+    try {
+      await fetch(`/api/leads/${id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      const res = await fetch("/api/leads");
+      const data = await res.json();
+      setApplications(data);
+    } catch {
+      setError("Failed to update status");
+    } finally {
+      setUpdatingId(null);
+    }
   }
 
   function handleEmail(app: Application) {

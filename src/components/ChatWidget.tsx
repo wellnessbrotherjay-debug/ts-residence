@@ -4,18 +4,24 @@ import { getOrCreateSessionId } from "@/lib/chat-session";
 
 const SYSTEM_PROMPT = `You are TS Residence’s professional website assistant. You know everything about the apartments, amenities, pricing, location, and wellness benefits as described on the website. Help users navigate, answer questions, and always guide them to the most relevant page or action. Be friendly, concise, and focused on helping the user understand why TS Residence is the best choice for them. If you cannot answer, politely say: 'For more details or personal assistance, please contact our team on WhatsApp at +62 811 1902 8111.'`;
 
+
+export default function ChatWidget() {
+
   const [open, setOpen] = useState(false);
+  const [showGreeting, setShowGreeting] = useState(true);
   const [messages, setMessages] = useState([
     { role: "system", content: SYSTEM_PROMPT },
     { role: "assistant", content: "Hi! 👋 How can I help you with TS Residence today?" },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState<string>("");
+  const [sessionId] = useState<string>(() => getOrCreateSessionId());
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setSessionId(getOrCreateSessionId());
+    // Show greeting for 4 seconds
+    const timer = setTimeout(() => setShowGreeting(false), 4000);
+    return () => clearTimeout(timer);
   }, []);
 
   async function sendMessage(e?: React.FormEvent) {
@@ -56,18 +62,36 @@ const SYSTEM_PROMPT = `You are TS Residence’s professional website assistant. 
 
   return (
     <>
-      <div style={{ position: "fixed", bottom: 32, right: 32, zIndex: 50 }}>
+      <div style={{ position: "fixed", bottom: 32, left: 32, zIndex: 9999 }}>
+        {/* Greeting bubble */}
+        {!open && showGreeting && (
+          <div className="animate-fade-in-up mb-3 flex items-end justify-end">
+            <div className="rounded-2xl bg-white px-4 py-3 shadow-xl border border-gold/30 text-black text-sm font-semibold max-w-xs">
+              <span>👋 Hi there! How may I help you?</span>
+            </div>
+          </div>
+        )}
+        {/* Chatbot icon button */}
         {!open && (
           <button
             aria-label="Open chat"
-            className="rounded-full bg-gold shadow-lg p-0 w-14 h-14 flex items-center justify-center hover:scale-105 transition"
+            className="rounded-full bg-gold shadow-2xl p-0 w-16 h-16 flex items-center justify-center hover:scale-110 transition-all border-4 border-white"
+            style={{ boxShadow: "0 4px 32px 0 rgba(0,0,0,0.18)" }}
             onClick={() => setOpen(true)}
           >
-            <span className="text-3xl">💬</span>
+            {/* Chat bubble SVG icon */}
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="18" fill="#b8965a" />
+              <path d="M11 15.5C11 13.0147 13.0147 11 15.5 11H20.5C22.9853 11 25 13.0147 25 15.5V20.5C25 22.9853 22.9853 25 20.5 25H15.5C13.0147 25 11 22.9853 11 20.5V15.5Z" fill="white"/>
+              <ellipse cx="15.5" cy="18" rx="1.5" ry="1.5" fill="#b8965a"/>
+              <ellipse cx="18" cy="18" rx="1.5" ry="1.5" fill="#b8965a"/>
+              <ellipse cx="20.5" cy="18" rx="1.5" ry="1.5" fill="#b8965a"/>
+            </svg>
           </button>
         )}
+        {/* Chat window */}
         {open && (
-          <div className="w-80 max-w-[90vw] rounded-2xl shadow-2xl border border-gold/30 bg-white flex flex-col overflow-hidden">
+          <div className="w-80 max-w-[90vw] rounded-2xl shadow-2xl border border-gold/30 bg-white flex flex-col overflow-hidden animate-fade-in-up">
             <div className="flex items-center justify-between bg-gold/10 px-4 py-2 border-b border-gold/20">
               <span className="font-bold text-gold">TS Residence Chat</span>
               <button onClick={() => setOpen(false)} className="text-xl font-bold text-gold/80 hover:text-gold">×</button>

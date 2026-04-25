@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import AdminApplicationsPanel from "./AdminApplicationsPanel";
-import Link from "next/link";
 import dynamic from "next/dynamic";
 const ChatHistoryPanel = dynamic(() => import("./ChatHistoryPanel"), { ssr: false });
 
@@ -69,8 +68,8 @@ export default function AdminPage() {
         }
         if (data.length > 0) setLastLeadId(data[0].id);
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // error handled silently
     } finally {
       if (isInitial) setLoading(false);
     }
@@ -82,7 +81,7 @@ export default function AdminPage() {
         "https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3",
       );
       audio.play();
-    } catch (e) {}
+    } catch {}
     if ("Notification" in window && Notification.permission === "granted") {
       new Notification("New Lead: " + lead.first_name, {
         body: `From ${lead.source} - ${lead.email}`,
@@ -108,8 +107,36 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    fetchDashboard(true);
-    const interval = setInterval(fetchDashboard, 15000);
+    const fetchDashboardEffect = async (isInitial = false) => {
+      try {
+        const [summaryRes, leadsRes] = await Promise.all([
+          fetch("/api/dashboard/summary"),
+          fetch("/api/leads"),
+        ]);
+        if (summaryRes.ok) {
+          setSummary(await summaryRes.json());
+        }
+        if (leadsRes.ok) {
+          const data = await leadsRes.json();
+          setLeads(data);
+          if (
+            !isInitial &&
+            data.length > 0 &&
+            lastLeadId &&
+            data[0].id > lastLeadId
+          ) {
+            triggerLeadAlert(data[0]);
+          }
+          if (data.length > 0) setLastLeadId(data[0].id);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        if (isInitial) setLoading(false);
+      }
+    };
+    fetchDashboardEffect(true);
+    const interval = setInterval(() => fetchDashboardEffect(), 15000);
     return () => clearInterval(interval);
   }, [lastLeadId]);
 
@@ -163,7 +190,63 @@ export default function AdminPage() {
           >Chatbot History</button>
         </div>
         {activeTab === "overview" && (
-          <>{summary && (
+          <div>
+            {summary ? (
+              <>
+                <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+                  <div className="rounded-lg bg-[#222] p-6">
+                    <p className="text-gold text-sm font-semibold uppercase">Page Views</p>
+                    <p className="mt-2 text-3xl font-bold">{summary.totals.page_views.toLocaleString()}</p>
+                  </div>
+                  <div className="rounded-lg bg-[#222] p-6">
+                    <p className="text-gold text-sm font-semibold uppercase">Book Clicks</p>
+                    <p className="mt-2 text-3xl font-bold">{summary.totals.book_clicks.toLocaleString()}</p>
+                  </div>
+                  <div className="rounded-lg bg-[#222] p-6">
+                    <p className="text-gold text-sm font-semibold uppercase">Total Events</p>
+                    <p className="mt-2 text-3xl font-bold">{summary.totals.total_events.toLocaleString()}</p>
+                  </div>
+                  <div className="rounded-lg bg-[#222] p-6">
+                    <p className="text-gold text-sm font-semibold uppercase">Conversion Rate</p>
+                    <p className="mt-2 text-3xl font-bold">
+                      {summary.totals.page_views > 0
+                        ? `${((summary.totals.book_clicks / summary.totals.page_views) * 100).toFixed(1)}%`
+                        : "0%"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="rounded-lg bg-[#222] p-6">
+                    <h3 className="text-gold mb-4 text-lg font-semibold">Top Pages</h3>
+                    <div className="space-y-2">
+                      {summary.byPage.slice(0, 5).map((item) => (
+                        <div key={item.page} className="flex items-center justify-between border-b border-white/10 pb-2">
+                          <span className="text-white/80">{item.page}</span>
+                          <span className="font-bold">{item.count.toLocaleString()}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-[#222] p-6">
+                    <h3 className="text-gold mb-4 text-lg font-semibold">Traffic Sources</h3>
+                    <div className="space-y-2">
+                      {summary.bySource.slice(0, 5).map((item) => (
+                        <div key={item.source} className="flex items-center justify-between border-b border-white/10 pb-2">
+                          <span className="text-white/80">{item.source || "Direct"}</span>
+                          <span className="font-bold">{item.count.toLocaleString()}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : null}
+
+            <div className="mb-6">
+              <h3 className="text-gold mb-4 text-lg font-semibold">Leads Overview</h3>
+            </div>
+
             <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-6">
               <button
                 onClick={() => setSelectedFilter("all")}
@@ -232,7 +315,7 @@ export default function AdminPage() {
                 <span className="mt-2 text-sm text-white/70">PASS</span>
               </button>
             </div>
-          )}</>
+          </div>
         )}
         {activeTab === "applications" && <AdminApplicationsPanel />}
         {activeTab === "chat" && <ChatHistoryPanel />}

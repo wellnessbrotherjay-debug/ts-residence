@@ -8,6 +8,21 @@ const nextConfig: NextConfig = {
         destination: "/ts-logo.svg",
         permanent: false,
       },
+      {
+        source: "/solo-apartment",
+        destination: "/apartments/solo",
+        permanent: true,
+      },
+      {
+        source: "/studio-apartment",
+        destination: "/apartments/studio",
+        permanent: true,
+      },
+      {
+        source: "/soho-apartment",
+        destination: "/apartments/soho",
+        permanent: true,
+      },
     ];
   },
   images: {

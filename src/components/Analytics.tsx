@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { trackEvent, buildDeviceType, captureUTMs } from "@/lib/tracking";
 
@@ -13,34 +13,26 @@ const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
 export function Analytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Track page views on route change manually for single page transition fidelity
   useEffect(() => {
-    if (!mounted) return;
-
+    if (typeof window === "undefined") return;
     if (searchParams) {
       captureUTMs(searchParams.toString());
     }
-
     const segments = pathname.split("/").filter(Boolean);
     const pageName = segments.length > 0 ? segments[segments.length - 1] : "home";
-
     trackEvent("page_view", {
       page_name: pageName,
       page_path: pathname,
       device_type: buildDeviceType(),
       search: searchParams?.toString() || "",
     });
-  }, [pathname, searchParams, mounted]);
+  }, [pathname, searchParams]);
 
   // Track scroll depth, engaged session, and global outbound click decoration
   useEffect(() => {
-    if (!mounted) return;
+    if (typeof window === "undefined") return;
 
     let engagedFired = false;
     let scrollMilestones = { 25: false, 50: false, 75: false, 90: false };
@@ -62,8 +54,8 @@ export function Analytics() {
       const st = "scrollTop";
       const sh = "scrollHeight";
 
-      // @ts-ignore
-      const percent = Math.round(((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100);
+      // @ts-expect-error: scroll calculation for analytics
+      const percent: number = Math.round(((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100);
 
       ((Object.keys(scrollMilestones) as unknown) as Array<keyof typeof scrollMilestones>).forEach((milestone) => {
         if (percent >= Number(milestone) && !scrollMilestones[milestone]) {
@@ -85,7 +77,7 @@ export function Analytics() {
       const href = isLink ? (target as HTMLAnchorElement).href : null;
       const text = (target as HTMLElement).innerText || (target as HTMLElement).getAttribute('aria-label') || 'unlabeled';
       
-      let eventType: any = "cta_click";
+      let eventType = "cta_click" as 'cta_click' | 'social_click' | 'nav_click';
       
       if (isLink && href) {
         const isExternal = (target as HTMLAnchorElement).hostname && (target as HTMLAnchorElement).hostname !== window.location.hostname;
@@ -121,10 +113,12 @@ export function Analytics() {
       window.removeEventListener("scroll", onScroll);
       document.removeEventListener("click", onClick);
     };
-  }, [pathname, mounted]);
+  }, [pathname]);
 
   return (
     <>
+      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
+      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
       <Script id="consent-init" strategy="beforeInteractive">
         {`
           window.dataLayer = window.dataLayer || [];

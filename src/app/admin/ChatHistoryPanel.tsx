@@ -22,32 +22,32 @@ export default function ChatHistoryPanel() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
 
+
   useEffect(() => {
+    const fetchSessions = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("chat_sessions")
+        .select("id, created_at, last_active, user_agent")
+        .order("last_active", { ascending: false })
+        .limit(50);
+      if (!error && data) setSessions(data);
+      setLoading(false);
+    };
     fetchSessions();
   }, []);
 
-  async function fetchSessions() {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("chat_sessions")
-      .select("id, created_at, last_active, user_agent")
-      .order("last_active", { ascending: false })
-      .limit(50);
-    if (!error && data) setSessions(data);
-    setLoading(false);
-  }
-
-  async function fetchMessages(session_id: string) {
+  const fetchMessages = async (session_id: string) => {
     setSelected(session_id);
     setLoading(true);
     const { data, error } = await supabase
       .from("chat_messages")
-      .select("id, role, content, created_at")
+      .select("id, session_id, role, content, created_at")
       .eq("session_id", session_id)
       .order("created_at", { ascending: true });
     if (!error && data) setMessages(data);
     setLoading(false);
-  }
+  };
 
   return (
     <div className="bg-[#181818] rounded-xl p-8 border border-gold/10 text-white">

@@ -1,4 +1,4 @@
-export const SITE_URL = "https://tsresidence.id";
+export const SITE_URL = "https://www.tsresidence.id";
 
 export const DEFAULT_SEO = {
   siteName: "TS Residence",

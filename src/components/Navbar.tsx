@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Instagram, Send, Phone, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { BTN_SOLID } from "../constants";
 import type { Page } from "../types";
@@ -419,7 +419,9 @@ export const Navbar = () => {
                   <Instagram size={20} />
                 </a>
                 <a
-                  href="#"
+                  href="https://t.me/tsresidence"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-muted hover:text-gold transition-colors"
                 >
                   <Send size={20} />

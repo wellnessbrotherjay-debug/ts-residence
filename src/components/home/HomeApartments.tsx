@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { BTN_GOLD } from "../../constants";
-import { StaggerContainer, StaggerItem } from "../animations";
+import { FadeInView, StaggerContainer, StaggerItem } from "../animations";
 import type { Page } from "../../types";
 
 interface Apartment {
@@ -58,20 +58,22 @@ export const HomeApartments = ({
             tabIndex={0}
             className="group w-full cursor-pointer text-left"
           >
-            <div className="relative aspect-6/7 overflow-hidden sm:aspect-4/5">
-              <img
-                src={apt.img}
-                alt={apt.name}
-                className="h-full w-full object-cover transition-transform duration-1600 ease-out group-hover:scale-[1.05]"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute right-0 bottom-0 left-0 p-5 text-white md:p-8">
-                <span className="text-[12px] tracking-[0.24em] text-white/72 uppercase">
-                  {apt.sqm} sqm &middot; {apt.bed}
-                </span>
+            <FadeInView direction="up">
+              <div className="relative aspect-6/7 overflow-hidden sm:aspect-4/5">
+                <img
+                  src={apt.img}
+                  alt={apt.name}
+                  className="h-full w-full object-cover transition-transform duration-1600 ease-out group-hover:scale-[1.05]"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
+                <div className="absolute right-0 bottom-0 left-0 p-5 text-white md:p-8">
+                  <span className="text-[12px] tracking-[0.24em] text-white/72 uppercase">
+                    {apt.sqm} sqm &middot; {apt.bed}
+                  </span>
+                </div>
               </div>
-            </div>
+            </FadeInView>
 
             <div className="border-gold/20 border-x border-b px-5 py-6 md:px-8 md:py-9">
               <div className="flex items-start justify-between gap-4">

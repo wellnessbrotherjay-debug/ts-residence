@@ -26,7 +26,6 @@ function pageToPath(page: Page): string {
   if (page === "solo") return "/apartments/solo";
   if (page === "studio") return "/apartments/studio";
   if (page === "soho") return "/apartments/soho";
-  if (page === "admin") return "/";
   return "/";
 }
 
@@ -48,6 +47,7 @@ const quickLinks = [
   { label: "Home", page: "home" as Page },
   { label: "Apartments", page: "apartments" as Page },
   { label: "Contact", page: "contact" as Page },
+  { label: "FAQ", page: "faq" as Page },
 ];
 
 const socialLinks = [
@@ -58,7 +58,7 @@ const socialLinks = [
   },
   {
     label: "Telegram",
-    href: "https://t.me/6281119028111",
+    href: "https://t.me/tsresidence",
     icon: Send,
   },
   {
@@ -215,13 +215,6 @@ export const Footer = () => {
               <span className="text-white/32">Privacy Policy</span>
               <span className="text-white/32">Terms</span>
             </div>
-
-            <Link
-              href={pageToPath("admin")}
-              className="self-start text-[10px] tracking-[0.16em] text-white/35 uppercase transition-colors duration-300 hover:text-white/68 md:self-auto"
-            >
-              Admin
-            </Link>
           </div>
         </div>
       </div>

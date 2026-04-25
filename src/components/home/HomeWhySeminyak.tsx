@@ -1,5 +1,5 @@
 import { BTN_SOLID } from "../../constants";
-import { FadeInView } from "../animations";
+import { FadeInView, StaggerContainer, StaggerItem } from "../animations";
 import type { Page } from "../../types";
 
 const EXTERIOR_IMAGES = [
@@ -92,9 +92,9 @@ export const HomeWhySeminyak = ({
         <FadeInView direction="right" delay={0.42}>
           <div className="border-gold/20 mt-7 border-t pt-5 md:mt-10 md:pt-8 lg:mt-12">
             <p className="label-caps text-gold mb-4">Arrival Perspective</p>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <StaggerContainer className="grid grid-cols-1 gap-3 sm:grid-cols-3" staggerDelay={0.1}>
               {EXTERIOR_IMAGES.slice(1).map((image, index) => (
-                <div
+                <StaggerItem
                   key={image}
                   className="border-gold/18 overflow-hidden border bg-white"
                 >
@@ -104,9 +104,9 @@ export const HomeWhySeminyak = ({
                     className="aspect-4/3 h-full w-full object-cover"
                     referrerPolicy="no-referrer"
                   />
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </FadeInView>
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { User, Bell, MapPin } from "lucide-react";
+import { Bell, MapPin } from "lucide-react";
 
 const notifications = [
   { id: 1, message: "New inquiry for SOHO Apartment", location: "Perth, AU", time: "2 mins ago" },
@@ -19,20 +19,22 @@ export function UrgencyEngine() {
 
   const fetchLiveEvents = async () => {
     try {
-      const res = await fetch('/api/dashboard/summary'); // Reusing existing summary endpoint if it has recent events
+      const res = await fetch('/api/dashboard/summary');
       if (res.ok) {
         const data = await res.json();
         if (data.recentEvents && data.recentEvents.length > 0) {
-          const mapped = data.recentEvents.map((ev: any) => ({
-             id: ev.id,
-             message: ev.event_type === 'page_view' ? `Viewing ${ev.page.split('/').pop()} unit` : `Interested in ${ev.page.split('/').pop()}`,
-             location: ev.metadata?.location || "Someone",
-             time: "just now"
+          const mapped = data.recentEvents.map((ev: { id: number; event_type: string; page: string; metadata?: { location?: string } }) => ({
+            id: ev.id,
+            message: ev.event_type === 'page_view' ? `Viewing ${ev.page.split('/').pop()} unit` : `Interested in ${ev.page.split('/').pop()}`,
+            location: ev.metadata && typeof ev.metadata === 'object' && 'location' in ev.metadata ? (ev.metadata as { location?: string }).location || "Someone" : "Someone",
+            time: "just now"
           }));
           setLiveEvents([...mapped, ...notifications].slice(0, 10));
         }
       }
-    } catch (e) {}
+    } catch {
+      // ignore
+    }
   };
 
   const triggerNext = useCallback(() => {
@@ -42,15 +44,19 @@ export function UrgencyEngine() {
       setShow(true);
       setTimeout(() => setShow(false), 6000);
     }, 4000);
+    // No setState directly in effect
   }, [liveEvents]);
 
   useEffect(() => {
-    fetchLiveEvents();
+    const fetchAndTrigger = () => {
+      setTimeout(() => {
+        fetchLiveEvents();
+        triggerNext();
+      }, 0);
+    };
+    fetchAndTrigger();
     const startTimeout = setTimeout(triggerNext, 10000);
-    const interval = setInterval(() => {
-      fetchLiveEvents();
-      triggerNext();
-    }, 25000);
+    const interval = setInterval(fetchAndTrigger, 25000);
     return () => {
       clearTimeout(startTimeout);
       clearInterval(interval);

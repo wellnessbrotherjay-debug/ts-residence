@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/easy-living",
     "/healthy-living",
     "/five-star-living",
+    "/faq",
   ].map((route) => ({
     url: `${SITE_URL}${route}`,
     lastModified: new Date().toISOString().split("T")[0],

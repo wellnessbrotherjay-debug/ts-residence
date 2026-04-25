@@ -10,11 +10,11 @@ export function ConsentBanner() {
     // Check if consent has already been answered
     const stored = localStorage.getItem("cookie_consent");
     if (!stored) {
-      setShow(true);
+      setTimeout(() => setShow(true), 0);
     } else {
       // Re-grant if previously granted
       if (stored === "all" || stored === "analytics" || stored === "marketing") {
-        grantConsent(stored as any);
+        grantConsent(stored as "all" | "analytics" | "marketing");
       }
     }
   }, []);
