@@ -1,407 +1,251 @@
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
-import { FadeInView } from "./site/animations";
+"use client";
+
 import { useState, useEffect, useRef } from "react";
+import { motion } from "motion/react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ChevronRight } from "lucide-react";
+import Image from "next/image";
 
-const HERO_DEMO_VIDEO_SRC =
-  "https://www.hive68.com/wp-content/uploads/2019/10/Clip-1.mp4";
-const HERO_VIDEO_SRC = HERO_DEMO_VIDEO_SRC;
 
-const DESKTOP_NAVBAR_H = 128;
-const MOBILE_NAVBAR_H = 72;
-
-// Hero slides with images and CTAs
 const HERO_SLIDES = [
   {
-    tag: "Welcome To",
-    title: "TS Residence",
-    subtitle: "Five-star living in the heart of Seminyak",
-    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7aef4db4-582a-4beb-c3f9-5934b61e2200/public",
+    title: "TS RESIDENCE",
+    subtitle: "A new living concept by TS Suites",
+    description: "Monthly rentals in Seminyak, Bali with hotel-grade access and long-stay comfort",
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e21d0685-e347-4234-84bf-5e5c84170a00/public",
     exploreLink: "/apartments",
+    whatsappMessage: "I'm interested in an apartment at TS Residence",
   },
   {
-    tag: "Experience",
-    title: "Five-Star Living",
-    subtitle: "Hotel privileges, rooftop pool, and premium services",
-    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/95522767-3643-482c-5a4d-5068cf935600/public",
+    title: "Five-star living",
+    subtitle: "Enjoy full access to TS Suites Hotel — rooftop infinity pool, 24/7 gym, leisure club, salon, and designer retail — all just steps from your door.",
+    description: "Pool, gym, salon, restaurant — everything included in your stay",
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/3f554a00-be28-469b-2514-1a37ae5ff000/public",
     exploreLink: "/five-star-living",
+    whatsappMessage: "I'm interested in the Five-star living experience at TS Residence",
   },
   {
-    tag: "Discover",
-    title: "Healthy Living",
-    subtitle: "Wellness, recovery, and mindful living — all under one roof",
-    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
+    title: "Healthy living",
+    subtitle: "From daily yoga and reformer Pilates to sauna, cold bath, and IV therapy — everything is designed to help you feel your best, every day.",
+    description: "Yoga, Pilates, sauna, wellness programs for daily well-being",
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12154d04-cda4-4f32-0e93-216f2d4d6a00/public",
     exploreLink: "/healthy-living",
+    whatsappMessage: "I'm interested in the Healthy living program at TS Residence",
   },
   {
-    tag: "Live",
-    title: "Easy Living",
-    subtitle: "Monthly apartments with zero stress, minutes from the beach",
-    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
+    title: "Easy living",
+    subtitle: "Located in central Seminyak with direct access to Sunset Road, flexible monthly leases, 24/7 security, and everything you need within minutes.",
+    description: "Central Seminyak location with flexible monthly leases",
+    image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/8a973f26-d47d-48b1-a369-95c0c042ba00/public",
     exploreLink: "/easy-living",
+    whatsappMessage: "I'm interested in the Easy living option at TS Residence",
   },
 ];
 
-// --- Shared text content for dual-header technique ---
-const HeroTextContent = ({
-  slide,
-  isDark,
-  isInitialLoad,
-  onBookClick,
-  onExploreClick,
-}: {
-  slide: { tag: string; title: string; subtitle: string };
-  isDark: boolean;
-  isInitialLoad: boolean;
-  onBookClick: () => void;
-  onExploreClick: () => void;
-}) => (
-  <AnimatePresence mode="wait">
-    <motion.div
-      key={slide.title}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{
-        duration: isInitialLoad ? 1.1 : 0.5,
-        ease: isInitialLoad ? [0.22, 1, 0.36, 1] : "easeOut",
-      }}
-      className="flex flex-col items-center text-center"
-    >
-      <FadeInView delay={isInitialLoad ? 0.16 : 0.02}>
-        <span
-          className={`font-sans text-[10px] font-semibold tracking-[0.28em] uppercase sm:text-[12px] md:text-[18px] ${
-            isDark ? "text-ink" : "text-white"
-          }`}
-        >
-          {slide.tag}
-        </span>
-      </FadeInView>
-      <FadeInView delay={isInitialLoad ? 0.24 : 0.1}>
-        <h1
-          className={`heading-display text-[2.8rem] leading-[0.92] sm:text-[3.35rem] md:text-8xl lg:text-[9.2rem] xl:text-[11.5rem] ${
-            isDark ? "text-ink" : "text-white"
-          }`}
-          style={
-            isDark
-              ? {}
-              : {
-                  textShadow:
-                    "0 4px 50px rgba(0,0,0,0.4), 0 2px 12px rgba(0,0,0,0.25)",
-                }
-          }
-        >
-          {slide.title}
-        </h1>
-      </FadeInView>
-      <FadeInView delay={isInitialLoad ? 0.32 : 0.18}>
-        <p
-          className={`mt-4 text-sm sm:text-base md:text-lg max-w-2xl ${
-            isDark ? "text-ink/70" : "text-white/80"
-          }`}
-        >
-          {slide.subtitle}
-        </p>
-      </FadeInView>
-
-      {/* CTA Buttons */}
-      <FadeInView delay={isInitialLoad ? 0.4 : 0.25}>
-        <div className="mt-6 flex items-center gap-4 md:mt-8">
-          <button
-            onClick={onBookClick}
-            className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-6 py-3 rounded-full text-[11px] font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:scale-105 shadow-lg"
-          >
-            Book Now
-          </button>
-          <button
-            onClick={onExploreClick}
-            className="inline-flex items-center gap-2 border-2 border-white/40 hover:border-white hover:bg-white hover:text-ink text-white px-6 py-3 rounded-full text-[11px] font-semibold uppercase tracking-[0.2em] transition-all duration-300"
-          >
-            Explore <ChevronRight size={14} />
-          </button>
-        </div>
-      </FadeInView>
-    </motion.div>
-  </AnimatePresence>
-);
-
-export const HeroSection = ({
-  heroImage,
-  showVideo = true,
-}: {
-  heroImage: string;
-  showVideo?: boolean;
-}) => {
+export const HeroSection = () => {
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [isVideoReady, setIsVideoReady] = useState(false);
-  const [hasVideoError, setHasVideoError] = useState(false);
-  const [videoSrc, setVideoSrc] = useState(showVideo ? HERO_VIDEO_SRC : "");
-  const heroRef = useRef<HTMLDivElement>(null);
-  const textMeasureRef = useRef<HTMLDivElement>(null);
-
-  // viewportH drives all pixel-based layout values.
-  const [viewportH, setViewportH] = useState(900);
-  const [navbarH, setNavbarH] = useState(MOBILE_NAVBAR_H);
-  const textRestOffset = navbarH >= DESKTOP_NAVBAR_H ? 220 : 185;
+  const [viewportH, setViewportH] = useState(600);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const measure = () => {
-      setViewportH(window.innerHeight);
-      setNavbarH(
-        window.innerWidth >= 1280 ? DESKTOP_NAVBAR_H : MOBILE_NAVBAR_H,
-      );
-    };
+    const measure = () => setViewportH(Math.min(window.innerHeight * 0.55, 500));
     measure();
-    // Re-measure after fonts have settled
-    const t = setTimeout(measure, 200);
     window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  // Preload ALL hero images for instant display
+  useEffect(() => {
+    // Preload via link tags for priority
+    HERO_SLIDES.forEach((slide) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = slide.image;
+      link.fetchPriority = "high";
+      link.crossOrigin = "anonymous";
+      document.head.appendChild(link);
+    });
+
     return () => {
-      clearTimeout(t);
-      window.removeEventListener("resize", measure);
+      const links = document.head.querySelectorAll('link[rel="preload"][as="image"]');
+      links.forEach(link => link.remove());
     };
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
+  // Auto-play effect
+  useEffect(() => {
+    if (isPaused) return;
 
-  // Keep the media full-bleed from the first frame. The previous staged reveal
-  // made the hero feel like it was expanding open on load.
-  const imageTop = "0px";
-  const whiteTextAbsTop = "0px";
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 4000);
 
-  // Other scroll-driven animations
-  const textY = useTransform(
-    scrollYProgress,
-    [0, 0.3, 0.6],
-    [textRestOffset, textRestOffset - 18, textRestOffset - 84],
-  );
-  const textOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.45],
-    [1, 0.85, 0],
-  );
-  const textScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.93]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const imageWidth = "100%";
-  const imageBorderRadius = "0px";
-  const overlayOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.08, 0.22, 0.48],
-    [0.1, 0.28, 0.55, 0.75],
-  );
-  const heroExitOpacity = useTransform(scrollYProgress, [0.78, 1.0], [1, 0]);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    if (isRightSwipe) setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  };
+
+  const goToPrev = () => {
+    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  };
+
+  const goToNext = () => {
+    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+  };
 
   const handleBookClick = () => {
-    window.open("https://wa.me/6281119028111", "_blank");
+    const message = encodeURIComponent(HERO_SLIDES[currentSlide].whatsappMessage);
+    window.open(`https://wa.me/6281119028111?text=${message}`, "_blank");
   };
 
   const handleExploreClick = () => {
     router.push(HERO_SLIDES[currentSlide].exploreLink);
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsInitialLoad(false), 1600);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (!showVideo) {
-      queueMicrotask(() => {
-        setVideoSrc("");
-        setIsVideoReady(false);
-        setHasVideoError(false);
-      });
-      return;
-    }
-    queueMicrotask(() => {
-      setVideoSrc(HERO_VIDEO_SRC);
-    });
-  }, [showVideo]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 5000); // 5 seconds per slide
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div
-      ref={heroRef}
-      data-no-global-reveal="true"
-      className="relative"
-      style={{
-        position: "relative",
-        height: `${Math.round(viewportH * (navbarH >= DESKTOP_NAVBAR_H ? 1.7 : 1.12))}px`,
-      }}
+      ref={containerRef}
+      id="hero-carousel"
+      className="relative w-full overflow-x-hidden bg-neutral-900"
+      style={{ height: `${Math.round(viewportH)}px` }}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Sticky container — one viewport tall in pixels */}
-      <div
-        className="sticky top-0 w-full overflow-hidden"
-        style={{ height: `${viewportH}px` }}
+      {/* Carousel Images - Horizontal Slide */}
+      <motion.div
+        className="absolute inset-0 flex"
+        animate={{ x: `-${currentSlide * 100}%` }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        <motion.div
-          style={{ opacity: heroExitOpacity }}
-          className="absolute inset-0"
-        >
-          {/* LAYER 1: Cream background + Dark text */}
-          <div className="bg-cream absolute inset-0 z-10">
-            <div
-              className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center"
-              style={{ paddingTop: `${navbarH}px` }}
-            >
-              {/* Motion is applied directly to the text content div, not a full-screen wrapper.
-                  This ensures scale/y transforms originate from the text block itself —
-                  the same origin used by the white text copy in Layer 2. */}
-              <motion.div
-                ref={textMeasureRef}
-                style={{
-                  y: textY,
-                  opacity: textOpacity,
-                  scale: textScale,
-                }}
-                className="pointer-events-auto"
-              >
-                <HeroTextContent
-                  slide={HERO_SLIDES[currentSlide]}
-                  isDark={false}
-                  isInitialLoad={isInitialLoad}
-                  onBookClick={handleBookClick}
-                  onExploreClick={handleExploreClick}
-                />
-              </motion.div>
-            </div>
-          </div>
-
-          {/* LAYER 2: Image + White text (clips to image bounds) */}
-          <motion.div
-            style={{ top: imageTop }}
-            className="absolute right-0 bottom-0 left-0 z-20 overflow-hidden"
+        {HERO_SLIDES.map((slide, slideIndex) => (
+          <div
+            key={slide.image}
+            className="min-w-full h-full relative bg-neutral-800"
           >
-            {/* Image frame — fills layer2 height, starts narrow, expands to full bleed */}
-            <motion.div
-              style={{
-                scale: imageScale,
-                width: imageWidth,
-                borderRadius: imageBorderRadius,
-              }}
-              className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 overflow-hidden"
-            >
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={HERO_SLIDES[currentSlide].image}
-                  src={HERO_SLIDES[currentSlide].image}
-                  alt={HERO_SLIDES[currentSlide].title}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1 }}
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </AnimatePresence>
-              {videoSrc && !hasVideoError && (
-                <video
-                  key={videoSrc}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster={heroImage}
-                  onCanPlay={() => setIsVideoReady(true)}
-                  onError={() => {
-                    if (videoSrc !== HERO_DEMO_VIDEO_SRC) {
-                      setIsVideoReady(false);
-                      setVideoSrc(HERO_DEMO_VIDEO_SRC);
-                      return;
-                    }
-                    setHasVideoError(true);
-                  }}
-                  className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-                    isVideoReady ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <source src={videoSrc} type="video/mp4" />
-                </video>
-              )}
-              <motion.div
-                style={{ opacity: overlayOpacity }}
-                className="absolute inset-0 bg-black/70"
-              />
-            </motion.div>
-
-            {/* White text — outer div pinned at viewport y=0 (top = -currentImageTop),
-                layer2's overflow:hidden clips it to the image area.
-                Motion (y/opacity/scale) lives on the inner content div — identical
-                to the dark text content div — so both share the same transform origin. */}
-            <motion.div
-              className="pointer-events-none absolute right-0 left-0 flex flex-col items-center justify-center"
-              style={{
-                top: whiteTextAbsTop,
-                paddingTop: `${navbarH}px`,
-              }}
-            >
-              <motion.div
-                style={{
-                  y: textY,
-                  opacity: textOpacity,
-                  scale: textScale,
-                }}
-                className="pointer-events-auto"
-              >
-                <HeroTextContent
-                  slide={HERO_SLIDES[currentSlide]}
-                  isDark={false}
-                  isInitialLoad={isInitialLoad}
-                  onBookClick={handleBookClick}
-                  onExploreClick={handleExploreClick}
-                />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          {/* Slide Indicators */}
-          <div className="absolute bottom-16 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 md:bottom-20 md:gap-3">
-            {HERO_SLIDES.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentSlide(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`rounded-full transition-all duration-700 ${
-                  i === currentSlide
-                    ? "bg-gold h-3.5 w-7 md:h-6 md:w-10"
-                    : "h-3.5 w-3.5 bg-white/30 hover:bg-white/50 md:h-6 md:w-6"
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Scroll Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2, duration: 1 }}
-            style={{ opacity: textOpacity }}
-            className="absolute right-8 bottom-8 z-30 hidden flex-col items-center gap-2 md:flex"
-          >
-            <span className="font-sans text-[10px] tracking-[0.3em] text-white/40 uppercase [writing-mode:vertical-lr]">
-              Scroll
-            </span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="h-8 w-px bg-linear-to-b from-white/40 to-transparent"
+            <Image
+              src={slide.image}
+              alt={slide.title}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              priority={slideIndex === 0}
+              quality={75}
+              loading={slideIndex === 0 ? "eager" : "lazy"}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
             />
-          </motion.div>
-        </motion.div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
+          </div>
+        ))}
+      </motion.div>
+
+      {/* Navigation Arrows */}
+      <button
+        onClick={goToPrev}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-all hover:bg-white/20 hover:border-white/50 md:left-8 md:h-14 md:w-14"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft size={24} />
+      </button>
+      <button
+        onClick={goToNext}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-all hover:bg-white/20 hover:border-white/50 md:right-8 md:h-14 md:w-14"
+        aria-label="Next slide"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      {/* Animated Content */}
+      <div className="absolute inset-0 flex items-center justify-center px-3 sm:px-4">
+        <div className="max-w-4xl text-center w-full px-2">
+          <motion.h1
+            key={`title-${currentSlide}`}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight"
+          >
+            {HERO_SLIDES[currentSlide].title}
+          </motion.h1>
+
+          <motion.p
+            key={`subtitle-${currentSlide}`}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            className="mt-1 md:mt-2 text-[10px] sm:text-xs md:text-sm lg:text-base font-medium text-white max-w-3xl mx-auto px-2 line-clamp-2"
+          >
+            {HERO_SLIDES[currentSlide].subtitle}
+          </motion.p>
+        </div>
+      </div>
+
+      {/* Static Buttons - Not Animated */}
+      <div className="absolute bottom-4 sm:bottom-5 left-0 right-0 flex flex-col items-center px-3 sm:px-4 z-20 gap-1 sm:gap-1.5">
+        {/* Hero Navigation - Marketing Campaign */}
+        <div className="hero-top-nav flex flex-wrap sm:flex-row items-center justify-center gap-2 sm:gap-4 px-1 w-full">
+          {[
+            { text: "APARTMENTS", link: "/apartments" },
+            { text: "FIVE-STAR LIVING", link: "/five-star-living" },
+            { text: "HEALTHY LIVING", link: "/healthy-living" },
+            { text: "EASY LIVING", link: "/easy-living" },
+          ].map((item, index) => (
+            <div key={item.text} className="flex items-center gap-2 sm:gap-4">
+              <a
+                href={item.link}
+                className="text-white/80 hover:text-white text-[10px] sm:text-[11px] tracking-[0.1em] uppercase transition-colors duration-300 whitespace-nowrap overflow-visible font-bold"
+                style={{ textShadow: "0 2px 6px rgba(0,0,0,0.6)" }}
+              >
+                {item.text}
+              </a>
+              {index < 3 && (
+                <span className="hidden sm:inline text-white/40 text-[10px]">|</span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-1.5">
+          <button
+            onClick={handleBookClick}
+            className="inline-flex items-center gap-1 bg-white hover:bg-gray-100 text-gray-900 px-2 sm:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider transition-all duration-300 shadow-lg"
+          >
+            Book
+          </button>
+          <button
+            onClick={handleExploreClick}
+            className="inline-flex items-center gap-1 border-2 border-white/60 hover:border-white hover:bg-white/10 text-white px-2 sm:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider transition-all duration-300 whitespace-nowrap"
+          >
+            Explore More
+          </button>
+        </div>
       </div>
     </div>
   );

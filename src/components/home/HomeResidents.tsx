@@ -7,56 +7,59 @@ const AUDIENCES = ["Digital Nomads", "Expats", "Creatives", "Young Families"];
 export const HomeResidents = () => (
   <section
     data-reveal-profile="hero"
-    className="border-gold/25 border-b bg-white px-5 py-12 md:px-12 md:py-18 lg:px-20 lg:py-22 xl:px-28"
+    className="border-gold/25 border-b bg-white px-5 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28"
   >
-    <div className="mx-auto max-w-180 max-w-240">
+    <div className="mx-auto max-w-700 text-center">
       <FadeInView>
         <p className="label-caps text-gold">Resident Profile</p>
       </FadeInView>
 
       <FadeInView delay={0.1}>
-        <h2 className="text-ink mt-4 font-serif text-[1.95rem] leading-[1.04] md:text-[3rem] lg:text-[3.4rem]">
-          TS Residence is for people like you.
+        <h2 className="text-ink mt-6 font-serif text-[2.25rem] leading-[1.05] md:text-[3.2rem] lg:text-[3.6rem]">
+          TS Residence is for Easy Living.
         </h2>
       </FadeInView>
 
       <FadeInView delay={0.18}>
-        <p className="text-body text-ink-light mt-5 max-w-[64ch] text-[0.97rem] leading-7 md:mt-6 md:text-base md:leading-8">
+        <p className="text-body text-ink-light mt-6 mx-auto max-w-[64ch] text-[0.9rem] leading-[1.68] md:mt-8 md:text-[1rem] md:leading-[1.8] text-center">
           Built for long-stay residents who want privacy, structure, and better
           daily living in Seminyak.
         </p>
       </FadeInView>
 
-      <StaggerContainer
-        className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:mt-10 lg:grid-cols-4 lg:gap-4"
-        staggerDelay={0.1}
-      >
-        {AUDIENCES.map((item) => (
-          <StaggerItem
-            key={item}
-            className="border-gold/20 bg-cream border px-5 py-5 text-center md:px-6 md:py-7"
-          >
-            <p className="text-ink font-serif text-[1.3rem] leading-[1.04] md:text-[1.7rem]">
-              {item}
-            </p>
-          </StaggerItem>
-        ))}
-      </StaggerContainer>
+      <FadeInView delay={0.2}>
+        <div className="mt-8 flex flex-wrap justify-center gap-2 lg:gap-4">
+          {AUDIENCES.map((item) => (
+            <StaggerItem key={item}>
+              <div className="border-gold/20 bg-cream border px-4 py-2.5 text-center sm:px-5 sm:py-3">
+                <p className="text-ink font-serif text-[0.95rem] leading-[1.04] sm:text-[1.1rem]">
+                  {item}
+                </p>
+              </div>
+            </StaggerItem>
+          ))}
+        </div>
+      </FadeInView>
+    </div>
 
-      <FadeInView delay={0.3} className="border-gold/20 mt-8 grid grid-cols-1 gap-5 border-t pt-7 lg:mt-10 lg:grid-cols-[12rem_1fr] lg:items-start lg:gap-6 lg:pt-8">
-        <div>
-          <p className="text-gold font-serif text-[2.7rem] leading-none md:text-[4rem]">
+    <div className="mx-auto max-w-1200 mt-16 lg:mt-20">
+      <FadeInView delay={0.3}>
+        <div className="text-center">
+          <p className="text-gold font-serif text-[120px] leading-none md:text-[140px] lg:text-[150px]">
             <span data-reveal-counter="66">66</span>
           </p>
-          <p className="label-caps text-ink/55 mt-3">Units</p>
+          <p className="label-caps text-ink/65 mt-6 text-[1rem] md:text-[1.1rem]">Units</p>
         </div>
-        <p className="text-ink/82 max-w-[56ch] text-[0.98rem] leading-7 md:text-[1.14rem] md:leading-9">
-          66 units of modern, spacious premium design apartments built for
-          monthly living with hotel-grade access and long-stay comfort.
+      </FadeInView>
+
+      <FadeInView delay={0.4} className="mt-12 lg:mt-16 text-center">
+        <p className="text-ink/85 text-lg leading-[1.6] max-w-[600px] mx-auto">
+          Modern, spacious premium design apartments built for
+          EASY LIVING with hotel-grade access and long-stay comfort.
         </p>
       </FadeInView>
 
-      <FadeInView delay={0.4} className="mt-8 text-center lg:mt-10">
+      <FadeInView delay={0.5} className="mt-12 lg:mt-16 text-center">
         <Link href="/contact" className={BTN_GOLD}>
           Book Your Stay
         </Link>
