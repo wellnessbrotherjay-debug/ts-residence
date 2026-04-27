@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { OffersHero } from "@/components/offers/OffersHero";
 import {
   FadeInView,
@@ -5,6 +6,7 @@ import {
   StaggerItem,
 } from "@/components/site/animations";
 import { offers } from "@/lib/site-data";
+import Link from "next/link";
 
 export default function Page() {
   const featured = offers[0];
@@ -19,10 +21,15 @@ export default function Page() {
           <div className="group grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-12">
             <FadeInView direction="right" className="overflow-hidden">
               <div className="relative h-full overflow-hidden">
-                <img
+                <Image
                   src={featured.image}
                   alt={featured.title}
-                  className="h-full min-h-72 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05] md:min-h-112 lg:min-h-136"
+                  fill
+                  className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05]"
+                  quality={75}
+                  priority={true}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/92 via-black/32 to-transparent" />
                 <div className="absolute bottom-6 left-6 pt-20 md:bottom-12 md:left-12 lg:bottom-16 lg:left-16 md:pt-0">
@@ -38,7 +45,7 @@ export default function Page() {
 
             <FadeInView
               direction="left"
-              className="card-surface flex h-full items-center px-6 py-10 md:p-12 lg:p-16"
+              className="card-surface flex h-full flex-col justify-between px-6 py-10 md:p-12 lg:p-16"
             >
               <div data-no-text-reveal="true" className="max-w-2xl">
                 <StaggerContainer amount={0.2} staggerDelay={0.12}>
@@ -49,6 +56,14 @@ export default function Page() {
                   </StaggerItem>
                   <StaggerItem>
                     <div className="bg-gold/30 mt-8 h-px w-16 md:mt-10 md:w-20" />
+                  </StaggerItem>
+                  <StaggerItem>
+                    <Link
+                      href={featured.link || "/apartments"}
+                      className="border-gold bg-gold hover:bg-gold-dark mt-6 inline-flex min-h-12 items-center justify-center border px-6 py-3 text-[11px] font-semibold tracking-[0.18em] text-white uppercase transition-all duration-400"
+                    >
+                      Explore This Offer
+                    </Link>
                   </StaggerItem>
                 </StaggerContainer>
               </div>
@@ -77,26 +92,33 @@ export default function Page() {
                 key={offer.title}
                 className="card-surface group overflow-hidden"
               >
-                <article className="h-full">
-                  <div className="overflow-hidden">
-                    <img
-                      src={offer.image}
-                      alt={offer.title}
-                      className="h-72 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06] md:h-80"
-                    />
-                  </div>
-                  <div className="flex min-h-72 flex-col p-7 md:p-8">
-                    <p className="text-gold-dark text-[11px] font-semibold tracking-[0.24em] uppercase">
-                      Offer {String(idx + 2).padStart(2, "0")}
-                    </p>
-                    <h3 className="text-ink mt-4 font-serif text-[2rem] leading-[1.02]">
-                      {offer.title}
-                    </h3>
-                    <p className="text-ink/76 mt-5 text-[1rem] leading-8">
-                      {offer.description}
-                    </p>
-                  </div>
-                </article>
+                <Link href={offer.link || "/apartments"} className="h-full block">
+                  <article className="h-full">
+                    <div className="overflow-hidden">
+                      <Image
+                        src={offer.image}
+                        alt={offer.title}
+                        fill
+                        className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
+                        quality={75}
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                      />
+                    </div>
+                    <div className="flex min-h-72 flex-col p-7 md:p-8">
+                      <p className="text-gold-dark text-[11px] font-semibold tracking-[0.24em] uppercase">
+                        {String(idx + 1).padStart(2, "0")}
+                      </p>
+                      <h3 className="text-ink mt-4 font-serif text-[2rem] leading-[1.02]">
+                        {offer.title}
+                      </h3>
+                      <p className="text-ink/76 mt-5 text-[1rem] leading-8">
+                        {offer.description}
+                      </p>
+                    </div>
+                  </article>
+                </Link>
               </StaggerItem>
             ))}
           </StaggerContainer>

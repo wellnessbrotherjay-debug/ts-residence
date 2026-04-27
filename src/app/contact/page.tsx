@@ -131,6 +131,8 @@ export default function Page() {
                 className="h-90 w-full md:h-105 lg:h-115"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                allow="*"
               />
             </FadeInView>
 

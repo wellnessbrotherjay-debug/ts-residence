@@ -5,7 +5,7 @@ import type { Page } from "../../types";
 export const HomeHeadline = ({ setPage }: { setPage: (p: Page) => void }) => (
   <section
     data-reveal-profile="hero"
-    className="bg-white px-5 py-10 md:px-12 md:py-16 lg:px-20 lg:py-18 xl:px-28"
+    className="bg-white px-5 pt-4 pb-10 md:px-12 md:pt-8 md:pb-16 lg:px-20 lg:pt-10 lg:pb-18 xl:px-28"
   >
     <div className="mx-auto max-w-220">
       <FadeInView>

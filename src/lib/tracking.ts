@@ -11,7 +11,10 @@ export type TrackingEventName =
   | "engaged_session"
   | "consent_update"
   | "quiz_complete"
-  | "quiz_abandon";
+  | "quiz_abandon"
+  | "performance_metric"
+  | "image_load_time"
+  | "performance_alert";
 
 export interface TrackingParams {
   page_name?: string;
@@ -117,6 +120,15 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
       ...params,
       ...flatUTMs,
     });
+
+    // GA4 direct event tracking
+    if (typeof (window as any).gtag === "function") {
+      (window as any).gtag('event', eventName, {
+        ...params,
+        ...flatUTMs,
+        send_to: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+      });
+    }
 
     // Meta Standard Event Compatibility
     if (typeof (window as any).fbq === "function") {

@@ -18,6 +18,7 @@ function pathnameToPage(pathname: string): Page {
   if (pathname === "/offers") return "offers";
   if (pathname === "/gallery") return "gallery";
   if (pathname === "/contact") return "contact";
+  if (pathname === "/faq") return "faq";
   if (pathname === "/five-star" || pathname === "/five-star-living")
     return "five-star";
   if (pathname === "/healthy-living") return "healthy";
@@ -34,6 +35,7 @@ function pageToPath(page: Page): string {
   if (page === "offers") return "/offers";
   if (page === "gallery") return "/gallery";
   if (page === "contact") return "/contact";
+  if (page === "faq") return "/faq";
   if (page === "five-star") return "/five-star-living";
   if (page === "healthy") return "/healthy-living";
   if (page === "easy") return "/easy-living";
@@ -95,7 +97,6 @@ export const Navbar = () => {
   }, [isMenuOpen]);
 
   const allNav: { label: string; value: Page }[] = [
-    { label: "Offers", value: "offers" },
     { label: "Five-star living", value: "five-star" },
     { label: "Healthy living", value: "healthy" },
     { label: "Easy living", value: "easy" },
@@ -120,12 +121,12 @@ export const Navbar = () => {
         className={`border-gold/35 fixed top-0 left-0 z-60 w-full border-b transition-all duration-700 ${
           isScrolled
             ? "bg-white/72 shadow-[0_6px_28px_rgba(0,0,0,0.06)] backdrop-blur-2xl"
-            : "bg-cream"
+            : "bg-white"
         }`}
       >
         <div className="w-full px-4">
           {/* Mobile Header */}
-          <div className="flex h-18 items-center justify-between xl:hidden">
+          <div className="flex h-12.5 items-center justify-between xl:hidden">
             <div className="w-10" />
             <button
               onClick={() => setPage("home")}
@@ -135,11 +136,11 @@ export const Navbar = () => {
               <img
                 src={LOGO_URL}
                 alt="TS Residence"
-                className="h-10 w-auto transition-opacity duration-500 group-hover:opacity-85"
+                className="h-9 w-auto transition-opacity duration-500 group-hover:opacity-85"
               />
             </button>
             <button
-              className="text-ink p-2 transition-colors"
+              className="text-ink -mr-2 p-2 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
@@ -195,7 +196,7 @@ export const Navbar = () => {
               </div>
  
               <div
-                className={`flex flex-auto items-center justify-center transition-all duration-500 ${showTopLogo ? "gap-6 pt-0" : "gap-8"}`}
+                className={`flex flex-auto items-center justify-center transition-all duration-500 ${showTopLogo ? "gap-5 pt-0" : "gap-7"}`}
               >
                 <div
                   className="relative"
@@ -208,9 +209,9 @@ export const Navbar = () => {
                     <Link
                       href="/apartments"
                       onClick={() => setIsApartmentsOpen(false)}
-                      className="focus:outline-hidden"
+                      className="focus:outline-hidden whitespace-nowrap"
                     >
-                      <span className="xl:text-sm">Apartments</span>
+                      <span className="text-xs lg:text-sm">Apartments</span>
                     </Link>
                     <button
                       type="button"
@@ -295,7 +296,7 @@ export const Navbar = () => {
                   <button
                     key={item.label}
                     onClick={() => handleNavClick(item.value)}
-                    className={`nav-link text-ink/70 hover:text-ink xl:text-sm ${currentPage === item.value ? "text-ink font-medium" : ""}`}
+                    className={`nav-link text-ink/70 hover:text-ink text-xs lg:text-sm whitespace-nowrap ${currentPage === item.value ? "text-ink font-medium" : ""}`}
                   >
                     {item.label}
                   </button>

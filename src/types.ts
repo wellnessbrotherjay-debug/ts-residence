@@ -4,6 +4,7 @@ export type Page =
   | "offers"
   | "gallery"
   | "contact"
+  | "faq"
   | "admin"
   | "applications"
   | "five-star"

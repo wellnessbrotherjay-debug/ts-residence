@@ -33,7 +33,6 @@ const stayLinks = [
   { label: "SOLO Apartment", page: "solo" as Page },
   { label: "STUDIO Apartment", page: "studio" as Page },
   { label: "SOHO Apartment", page: "soho" as Page },
-  { label: "Special Offers", page: "offers" as Page },
 ];
 
 const experienceLinks = [
@@ -46,8 +45,8 @@ const experienceLinks = [
 const quickLinks = [
   { label: "Home", page: "home" as Page },
   { label: "Apartments", page: "apartments" as Page },
+  { label: "Offers", page: "offers" as Page },
   { label: "Contact", page: "contact" as Page },
-  { label: "FAQ", page: "faq" as Page },
 ];
 
 const socialLinks = [
@@ -202,7 +201,7 @@ export const Footer = () => {
 
           <div className="flex flex-col gap-5 pt-6 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-wrap gap-x-5 gap-y-3 text-[10px] tracking-[0.16em] text-white/48 uppercase sm:gap-x-6">
-              <span>&copy; {new Date().getFullYear()} TS Residence</span>
+              <span suppressHydrationWarning>&copy; {new Date().getFullYear()} TS Residence</span>
               {quickLinks.map((item) => (
                 <Link
                   key={item.label}

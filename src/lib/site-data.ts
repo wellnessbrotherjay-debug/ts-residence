@@ -203,31 +203,32 @@ export const galleryCategories = [
 
 export const offers = [
   {
-    title: "Opening Celebration",
-    description: "Stay 3 months, pay 2 months on the SOLO unit only.",
+    title: "TS RESIDENCE",
+    description: "Monthly rentals in Seminyak, Bali with hotel-grade access and long-stay comfort. Choose from SOLO, STUDIO, or SOHO apartments designed for your lifestyle.",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/488cfdb2-dc72-4f9f-de35-2e1c1cab9400/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e21d0685-e347-4234-84bf-5e5c84170a00/public",
+    link: "/apartments" as const,
   },
   {
-    title: "Easy Pay",
-    description:
-      "Stay more than 3 months with 20% upfront and the rest paid monthly.",
+    title: "Five-Star Living",
+    description: "Enjoy full access to TS Suites Hotel — rooftop infinity pool, 24/7 gym, leisure club, salon, and designer retail — all just steps from your door.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-community-scaled.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/3f554a00-be28-469b-2514-1a37ae5ff000/public",
+    link: "/five-star-living" as const,
   },
   {
-    title: "Resident Dining",
-    description:
-      "15% discount at TS Suites for food, beverage, and selected retail services.",
+    title: "Healthy Living",
+    description: "From daily yoga and reformer Pilates to sauna, cold bath, and IV therapy — everything is designed to help you feel your best, every day.",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4671aadd-470b-4fca-1c95-3d833b2da000/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12154d04-cda4-4f32-0e93-216f2d4d6a00/public",
+    link: "/healthy-living" as const,
   },
   {
-    title: "Wellness Discount",
-    description:
-      "15% discount at No.1 Wellness Club for massage, wellness, and F&B.",
+    title: "Easy Living",
+    description: "Located in central Seminyak with direct access to Sunset Road, flexible monthly leases, 24/7 security, and everything you need within minutes.",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/8a973f26-d47d-48b1-a369-95c0c042ba00/public",
+    link: "/easy-living" as const,
   },
 ];
 

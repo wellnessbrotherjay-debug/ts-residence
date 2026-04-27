@@ -4,42 +4,13 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { GlobalTextReveal } from "@/components/site/GlobalTextReveal";
 import { Analytics } from "@/components/Analytics";
+import { PerformanceMonitor } from "@/components/PerformanceMonitor";
+import { ServiceWorkerRegistration } from "@/components/ServiceWorkerRegistration";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 import { UrgencyEngine } from "@/components/UrgencyEngine";
 import { ApartmentQuiz } from "@/components/ApartmentQuiz";
 import "./globals.css";
-
-const IMAGE_RECOVERY_SCRIPT = `
-(() => {
-  if (typeof window === "undefined") return;
-
-  const proxyPath = "/api/image?url=";
-  const fallback = "/ts-logo.svg";
-
-  document.addEventListener(
-    "error",
-    (event) => {
-      const target = event.target;
-      if (!(target instanceof HTMLImageElement)) return;
-
-      if (target.dataset.proxyRetry !== "1") {
-        const original = target.currentSrc || target.src || "";
-        if (original.startsWith("http")) {
-          target.dataset.proxyRetry = "1";
-          target.src = proxyPath + encodeURIComponent(original);
-          return;
-        }
-      }
-
-      if (target.dataset.fallbackApplied === "1") return;
-      target.dataset.fallbackApplied = "1";
-      target.src = fallback;
-    },
-    true,
-  );
-})();
-`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -99,8 +70,6 @@ export const metadata: Metadata = {
   },
 };
 
-import Head from "next/head";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -108,12 +77,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full scroll-smooth antialiased">
-      <Head>
-        <link rel="preload" href="/fonts/YourFont.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-      </Head>
       <body className="flex min-h-full flex-col">
         <Suspense fallback={null}>
           <Analytics />
+          <PerformanceMonitor />
+          <ServiceWorkerRegistration />
           <UrgencyEngine />
           <ApartmentQuiz />
           <ConsentBanner />
@@ -163,10 +131,9 @@ export default function RootLayout({
             }),
           }}
         />
-        <script dangerouslySetInnerHTML={{ __html: IMAGE_RECOVERY_SCRIPT }} />
         <div className="bg-cream text-ink min-h-screen">
           <Navbar />
-          <main className="flex-1 pt-18 xl:pt-28">
+          <main className="flex-1 pt-12.5 xl:pt-28">
             <GlobalTextReveal />
             {children}
           </main>

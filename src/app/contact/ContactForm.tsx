@@ -10,6 +10,7 @@ type ContactFormState = {
   phone: string;
   stayDuration: string;
   message: string;
+  _honeypot?: string;
 };
 
 export function ContactForm() {
@@ -48,6 +49,9 @@ export function ContactForm() {
           body: JSON.stringify({
             ...form,
             page: window.location.pathname,
+            pageUrl: window.location.href,
+            deviceType: typeof window !== "undefined" ? (window.innerWidth < 768 ? "mobile" : window.innerWidth < 1024 ? "tablet" : "desktop") : "unknown",
+            landingPage: localStorage.getItem("landing_page") || window.location.href,
             source: localStorage.getItem("utm_latest") ? JSON.parse(localStorage.getItem("utm_latest")!).utm_source || "direct" : "direct",
             campaign: localStorage.getItem("utm_latest") ? JSON.parse(localStorage.getItem("utm_latest")!).utm_campaign || null : null,
             referrer: document.referrer || null,
@@ -202,6 +206,16 @@ export function ContactForm() {
           value={form.message}
           onChange={handleChange}
           className="border-gold/25 placeholder:text-ink/35 focus:border-gold w-full resize-none border-b bg-transparent py-3 text-sm transition-colors outline-none"
+        />
+      </div>
+      <div className="hidden" aria-hidden="true">
+        <input
+          id="_honeypot"
+          type="text"
+          value={form._honeypot || ""}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
         />
       </div>
       <div className="pt-3 md:col-span-2">

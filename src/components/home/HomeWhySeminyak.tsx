@@ -1,3 +1,5 @@
+"use client";
+
 import { BTN_SOLID } from "../../constants";
 import { FadeInView, StaggerContainer, StaggerItem } from "../animations";
 import type { Page } from "../../types";
@@ -39,21 +41,21 @@ export const HomeWhySeminyak = ({
       </div>
     </FadeInView>
 
-    <div className="flex items-center px-5 py-10 md:px-12 md:py-16 lg:px-16 lg:py-24 xl:px-20">
-      <div className="max-w-136">
+    <div className="flex items-center px-4 py-8 md:px-10 md:py-12 lg:px-14 lg:py-16 xl:px-18">
+      <div className="w-full">
         <FadeInView direction="right">
           <span className="label-caps text-gold">Why Seminyak</span>
-          <h2 className="heading-section text-ink mt-5">
+          <h2 className="heading-section text-ink mt-4">
             Live where every day feels extraordinary
           </h2>
-          <p className="text-body text-ink-light mt-5 text-[0.98rem] leading-7 md:mt-7 md:text-base md:leading-8">
+          <p className="text-body text-ink-light mt-4 text-[0.95rem] leading-6 md:mt-5 md:text-base md:leading-7">
             TS Residence places you in a neighborhood that feels both indulgent
             and practical, with the best of Bali always within easy reach.
           </p>
         </FadeInView>
 
         <FadeInView direction="right" delay={0.2}>
-          <div className="border-gold/20 mt-7 space-y-3.5 border-t pt-5 md:mt-10 md:space-y-6 md:pt-8 lg:mt-12">
+          <div className="border-gold/20 mt-6 space-y-2.5 border-t pt-4 md:mt-8 md:space-y-3 md:pt-5 lg:mt-10">
             {[
               "Strategically located for shopping, dining, and entertainment",
               "Safe, expat-friendly, and easy to navigate",
@@ -61,9 +63,9 @@ export const HomeWhySeminyak = ({
               "Well-developed access to hospital, wellness, and retail",
               "A practical base for long stays in Bali",
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-4">
-                <div className="bg-gold mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full" />
-                <p className="text-body text-ink-light text-[0.95rem] leading-6.5 md:text-base md:leading-8">
+              <div key={i} className="flex items-start gap-3">
+                <div className="bg-gold/20 mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full" />
+                <p className="text-ink-light text-xs leading-5 sm:text-sm">
                   {item}
                 </p>
               </div>
@@ -72,16 +74,19 @@ export const HomeWhySeminyak = ({
         </FadeInView>
 
         <FadeInView direction="right" delay={0.35}>
-          <div className="border-gold/20 mt-7 grid grid-cols-2 gap-x-4 gap-y-5 border-t pt-5 md:mt-10 md:gap-x-8 md:gap-y-8 md:pt-8 lg:mt-12">
+          <div className="mt-6 grid grid-cols-2 gap-3 md:mt-8 md:gap-4 lg:mt-10">
             {[
               ["Seminyak Beach", "5 min"],
               ["Hospital", "10 min"],
               ["Airport", "20 min"],
               ["Access", "Easy"],
             ].map(([label, value]) => (
-              <div key={label}>
-                <p className="label-caps text-ink/55">{label}</p>
-                <p className="text-ink mt-2 font-serif text-[1.6rem] leading-none md:mt-3 md:text-[2.4rem]">
+              <div
+                key={label}
+                className="border-gold/25 bg-white border p-4 text-center shadow-sm transition-all hover:shadow-md hover:border-gold/40"
+              >
+                <p className="label-caps text-ink/55 text-[9px] uppercase tracking-wider">{label}</p>
+                <p className="text-gold-dark mt-2 font-serif text-xl leading-none md:text-2xl">
                   {value}
                 </p>
               </div>
@@ -90,13 +95,13 @@ export const HomeWhySeminyak = ({
         </FadeInView>
 
         <FadeInView direction="right" delay={0.42}>
-          <div className="border-gold/20 mt-7 border-t pt-5 md:mt-10 md:pt-8 lg:mt-12">
-            <p className="label-caps text-gold mb-4">Arrival Perspective</p>
+          <div className="mt-6 md:mt-8 lg:mt-10">
+            <p className="label-caps text-gold mb-3 text-center">Arrival Perspective</p>
             <StaggerContainer className="grid grid-cols-1 gap-3 sm:grid-cols-3" staggerDelay={0.1}>
               {EXTERIOR_IMAGES.slice(1).map((image, index) => (
                 <StaggerItem
                   key={image}
-                  className="border-gold/18 overflow-hidden border bg-white"
+                  className="border-gold/30 overflow-hidden rounded-lg border bg-white shadow-md transition-shadow hover:shadow-lg"
                 >
                   <img
                     src={image}
@@ -113,7 +118,7 @@ export const HomeWhySeminyak = ({
         <FadeInView direction="right" delay={0.45}>
           <button
             onClick={() => setPage("contact")}
-            className={`${BTN_SOLID} mt-8 md:mt-10 lg:mt-12`}
+            className={`${BTN_SOLID} mt-6 md:mt-8 lg:mt-10`}
           >
             Book Apartment
           </button>

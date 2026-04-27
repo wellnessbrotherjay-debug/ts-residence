@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState, useTransition } from "react";
 import { LockedPageHero } from "@/components/site/LockedPageHero";
@@ -194,10 +195,12 @@ export default function Page() {
                   className="flex h-full cursor-pointer items-center gap-4 p-6"
                 >
                   <div className="border-gold/30 flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border bg-white">
-                    <img
+                    <Image
                       src={account.logo}
                       alt={account.name}
-                      className="h-11 w-11 object-contain"
+                      fill
+                      className="object-contain"
+                      quality={85}
                     />
                   </div>
                   <div>
@@ -238,11 +241,14 @@ export default function Page() {
                   }}
                   className="block h-full w-full cursor-pointer appearance-none border-0 bg-transparent p-0 text-left"
                 >
-                  <div className="overflow-hidden">
-                    <img
+                  <div className="overflow-hidden relative aspect-video">
+                    <Image
                       src={collection.cover}
                       alt={collection.name}
-                      className="h-65 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05] md:h-75"
+                      fill
+                      className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05]"
+                      quality={75}
+                      loading="lazy"
                     />
                   </div>
                   <div className="p-6 md:p-7">
@@ -324,10 +330,13 @@ export default function Page() {
                     }}
                     className="relative block h-full w-full cursor-pointer appearance-none border-0 bg-transparent p-0"
                   >
-                    <img
+                    <Image
                       src={item.src}
                       alt={item.collection}
-                      className="aspect-video w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.07]"
+                      fill
+                      className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.07]"
+                      quality={75}
+                      loading="lazy"
                     />
                     <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </button>
@@ -394,10 +403,13 @@ export default function Page() {
               className="relative w-full max-w-330"
               onClick={(event) => event.stopPropagation()}
             >
-              <img
+              <Image
                 src={collections[activeCollection].images[activeImage]}
                 alt={collections[activeCollection].name}
-                className="max-h-[82vh] w-full object-contain"
+                fill
+                className="max-h-[82vh] object-contain"
+                quality={85}
+                priority={true}
               />
               <figcaption className="mt-4 text-center text-[12px] tracking-[0.18em] text-white/80 uppercase">
                 {collections[activeCollection].name} | {activeImage + 1} /{" "}

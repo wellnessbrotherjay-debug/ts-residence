@@ -101,6 +101,14 @@ export default function FAQPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
+      {/* Back to Home Link */}
+      <Link
+        href="/"
+        className="mb-8 inline-flex items-center gap-2 text-sm text-gold hover:text-gold-dark transition-colors"
+      >
+        <span>←</span>
+        <span>Back to Home</span>
+      </Link>
       <h1 className="font-serif text-3xl md:text-4xl font-semibold text-gold-dark mb-10 text-center tracking-tight">
         Frequently Asked Questions
       </h1>

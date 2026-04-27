@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
+import { beginImageLoadMeasure, endImageLoadMeasure } from "@/lib/performance";
 
 
 const HERO_SLIDES = [
@@ -42,38 +43,52 @@ const HERO_SLIDES = [
   },
 ];
 
+const LOOPED_HERO_SLIDES = [
+  HERO_SLIDES[HERO_SLIDES.length - 1],
+  ...HERO_SLIDES,
+  HERO_SLIDES[0],
+];
+
+const HERO_AUTOPLAY_DELAY_MS = 4000;
+
+const HERO_IMAGE_BLUR =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=";
+
+const normalizeSlideIndex = (trackIndex: number) => {
+  if (trackIndex === 0) return HERO_SLIDES.length - 1;
+  if (trackIndex === HERO_SLIDES.length + 1) return 0;
+  return trackIndex - 1;
+};
+
 export const HeroSection = () => {
   const router = useRouter();
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [trackIndex, setTrackIndex] = useState(1);
   const [viewportH, setViewportH] = useState(600);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isTrackTransitionEnabled, setIsTrackTransitionEnabled] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const autoplayIntervalRef = useRef<number | null>(null);
+  const hasMeasuredInitialHeroRef = useRef(false);
+  const currentSlide = normalizeSlideIndex(trackIndex);
 
   useEffect(() => {
-    const measure = () => setViewportH(Math.min(window.innerHeight * 0.55, 500));
+    const measure = () => {
+      const isMobile = window.innerWidth < 768;
+      const visualHeight = window.visualViewport?.height ?? window.innerHeight;
+      setViewportH(
+        isMobile
+          ? Math.max(240, visualHeight - 50)
+          : Math.min(window.innerHeight * 0.72, 720),
+      );
+    };
     measure();
     window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
-  // Preload ALL hero images for instant display
-  useEffect(() => {
-    // Preload via link tags for priority
-    HERO_SLIDES.forEach((slide) => {
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "image";
-      link.href = slide.image;
-      link.fetchPriority = "high";
-      link.crossOrigin = "anonymous";
-      document.head.appendChild(link);
-    });
-
+    window.visualViewport?.addEventListener("resize", measure);
     return () => {
-      const links = document.head.querySelectorAll('link[rel="preload"][as="image"]');
-      links.forEach(link => link.remove());
+      window.removeEventListener("resize", measure);
+      window.visualViewport?.removeEventListener("resize", measure);
     };
   }, []);
 
@@ -81,11 +96,28 @@ export const HeroSection = () => {
   useEffect(() => {
     if (isPaused) return;
 
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4000);
+    const advanceSlide = () => {
+      setIsTrackTransitionEnabled(true);
+      setTrackIndex((prev) => prev + 1);
+    };
 
-    return () => clearInterval(interval);
+    const initialTimeout = window.setTimeout(() => {
+      advanceSlide();
+
+      autoplayIntervalRef.current = window.setInterval(
+        advanceSlide,
+        HERO_AUTOPLAY_DELAY_MS,
+      );
+    }, HERO_AUTOPLAY_DELAY_MS);
+
+    return () => {
+      window.clearTimeout(initialTimeout);
+
+      if (autoplayIntervalRef.current !== null) {
+        window.clearInterval(autoplayIntervalRef.current);
+        autoplayIntervalRef.current = null;
+      }
+    };
   }, [isPaused]);
 
   const minSwipeDistance = 50;
@@ -105,17 +137,41 @@ export const HeroSection = () => {
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
 
-    if (isLeftSwipe) setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    if (isRightSwipe) setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+    if (isLeftSwipe) {
+      setIsTrackTransitionEnabled(true);
+      setTrackIndex((prev) => prev + 1);
+    }
+
+    if (isRightSwipe) {
+      setIsTrackTransitionEnabled(true);
+      setTrackIndex((prev) => prev - 1);
+    }
   };
 
-  const goToPrev = () => {
-    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  const handleTrackAnimationComplete = () => {
+    if (trackIndex === HERO_SLIDES.length + 1) {
+      setIsTrackTransitionEnabled(false);
+      setTrackIndex(1);
+      return;
+    }
+
+    if (trackIndex === 0) {
+      setIsTrackTransitionEnabled(false);
+      setTrackIndex(HERO_SLIDES.length);
+    }
   };
 
-  const goToNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-  };
+  useEffect(() => {
+    if (isTrackTransitionEnabled) return;
+
+    const resetTransition = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        setIsTrackTransitionEnabled(true);
+      });
+    });
+
+    return () => window.cancelAnimationFrame(resetTransition);
+  }, [isTrackTransitionEnabled]);
 
   const handleBookClick = () => {
     const message = encodeURIComponent(HERO_SLIDES[currentSlide].whatsappMessage);
@@ -125,6 +181,10 @@ export const HeroSection = () => {
   const handleExploreClick = () => {
     router.push(HERO_SLIDES[currentSlide].exploreLink);
   };
+
+  useEffect(() => {
+    beginImageLoadMeasure("hero-initial", HERO_SLIDES[0].image);
+  }, []);
 
   return (
     <div
@@ -141,12 +201,17 @@ export const HeroSection = () => {
       {/* Carousel Images - Horizontal Slide */}
       <motion.div
         className="absolute inset-0 flex"
-        animate={{ x: `-${currentSlide * 100}%` }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        animate={{ x: `-${trackIndex * 100}%` }}
+        transition={
+          isTrackTransitionEnabled
+            ? { type: "spring", stiffness: 300, damping: 30 }
+            : { duration: 0 }
+        }
+        onAnimationComplete={handleTrackAnimationComplete}
       >
-        {HERO_SLIDES.map((slide, slideIndex) => (
+        {LOOPED_HERO_SLIDES.map((slide, slideIndex) => (
           <div
-            key={slide.image}
+            key={`${slide.image}-${slideIndex}`}
             className="min-w-full h-full relative bg-neutral-800"
           >
             <Image
@@ -154,94 +219,95 @@ export const HeroSection = () => {
               alt={slide.title}
               fill
               sizes="100vw"
-              className="object-cover"
-              priority={slideIndex === 0}
-              quality={75}
-              loading={slideIndex === 0 ? "eager" : "lazy"}
+              className="object-contain md:object-cover"
+              priority={slideIndex === 1}
+              fetchPriority={slideIndex === 1 ? "high" : undefined}
+              quality={60}
+              loading={slideIndex === 1 ? "eager" : "lazy"}
+              decoding="async"
               placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+              blurDataURL={HERO_IMAGE_BLUR}
+              onLoad={() => {
+                if (slideIndex !== 1 || hasMeasuredInitialHeroRef.current) return;
+                hasMeasuredInitialHeroRef.current = true;
+                endImageLoadMeasure("hero-initial", {
+                  component: "hero",
+                  image_role: "hero",
+                  image_src: slide.image,
+                });
+              }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
+            <div className="absolute inset-0 bg-linear-to-b from-black/10 via-black/8 to-black/62" />
+            <div className="absolute inset-0 bg-linear-to-r from-black/22 via-transparent to-black/20" />
           </div>
         ))}
       </motion.div>
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={goToPrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-all hover:bg-white/20 hover:border-white/50 md:left-8 md:h-14 md:w-14"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={goToNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 text-white transition-all hover:bg-white/20 hover:border-white/50 md:right-8 md:h-14 md:w-14"
-        aria-label="Next slide"
-      >
-        <ChevronRight size={24} />
-      </button>
-
       {/* Animated Content */}
-      <div className="absolute inset-0 flex items-center justify-center px-3 sm:px-4">
+      <div className="absolute inset-x-0 top-[42%] z-10 flex -translate-y-1/2 items-center justify-center px-4 sm:top-[40%] sm:px-6 md:top-[45%]">
         <div className="max-w-4xl text-center w-full px-2">
           <motion.h1
             key={`title-${currentSlide}`}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight"
+            className="font-serif text-[clamp(2.2rem,12vw,2.85rem)] font-bold leading-[0.92] text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.48)] sm:text-[3.25rem] md:text-[4rem] lg:text-[4.8rem]"
           >
             {HERO_SLIDES[currentSlide].title}
           </motion.h1>
 
           <motion.p
             key={`subtitle-${currentSlide}`}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="mt-1 md:mt-2 text-[10px] sm:text-xs md:text-sm lg:text-base font-medium text-white max-w-3xl mx-auto px-2 line-clamp-2"
+            className="mx-auto mt-3 max-w-3xl px-2 text-[0.88rem] font-medium leading-tight text-white/95 line-clamp-2 drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)] sm:text-[1.05rem] md:mt-4 md:text-lg lg:text-xl"
           >
             {HERO_SLIDES[currentSlide].subtitle}
           </motion.p>
         </div>
       </div>
 
+      <div className="absolute inset-x-0 bottom-0 z-10 h-[48%] bg-linear-to-t from-black/86 via-black/42 to-transparent sm:h-[42%]" />
+
       {/* Static Buttons - Not Animated */}
-      <div className="absolute bottom-4 sm:bottom-5 left-0 right-0 flex flex-col items-center px-3 sm:px-4 z-20 gap-1 sm:gap-1.5">
+      <div className="absolute right-0 bottom-4 left-0 z-20 flex flex-col items-center gap-3 px-3 sm:bottom-8 sm:gap-5 sm:px-4">
         {/* Hero Navigation - Marketing Campaign */}
-        <div className="hero-top-nav flex flex-wrap sm:flex-row items-center justify-center gap-2 sm:gap-4 px-1 w-full">
-          {[
-            { text: "APARTMENTS", link: "/apartments" },
-            { text: "FIVE-STAR LIVING", link: "/five-star-living" },
-            { text: "HEALTHY LIVING", link: "/healthy-living" },
-            { text: "EASY LIVING", link: "/easy-living" },
-          ].map((item, index) => (
-            <div key={item.text} className="flex items-center gap-2 sm:gap-4">
-              <a
-                href={item.link}
-                className="text-white/80 hover:text-white text-[10px] sm:text-[11px] tracking-[0.1em] uppercase transition-colors duration-300 whitespace-nowrap overflow-visible font-bold"
-                style={{ textShadow: "0 2px 6px rgba(0,0,0,0.6)" }}
+        <div className="hero-top-nav w-full px-0.5">
+          <div className="mx-auto flex w-full max-w-md flex-nowrap items-center justify-center gap-4 overflow-hidden sm:gap-7">
+            {[
+              { text: "APARTMENTS", link: "/apartments" },
+              { text: "FIVE-STAR LIVING", link: "/five-star-living" },
+              { text: "HEALTHY LIVING", link: "/healthy-living" },
+              { text: "EASY LIVING", link: "/easy-living" },
+            ].map((item) => (
+              <button
+                key={item.text}
+                type="button"
+                onClick={() => router.push(item.link)}
+                className="flex shrink-0 items-center justify-center px-0 py-1 text-center"
               >
-                {item.text}
-              </a>
-              {index < 3 && (
-                <span className="hidden sm:inline text-white/40 text-[10px]">|</span>
-              )}
-            </div>
-          ))}
+                <span
+                  className="block whitespace-nowrap text-center text-[0.47rem] leading-none font-semibold tracking-widest text-white uppercase transition-colors duration-300 hover:text-white sm:text-[0.68rem] sm:tracking-[0.14em]"
+                  style={{ textShadow: "0 2px 6px rgba(0,0,0,0.6)" }}
+                >
+                  {item.text}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-1.5">
+        <div className="flex flex-row items-center gap-2.5 sm:gap-3">
           <button
             onClick={handleBookClick}
-            className="inline-flex items-center gap-1 bg-white hover:bg-gray-100 text-gray-900 px-2 sm:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider transition-all duration-300 shadow-lg"
+            className="inline-flex h-7 min-w-22.5 items-center justify-center rounded-full bg-white px-5 text-[0.58rem] font-bold tracking-[0.12em] text-gray-900 uppercase shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition-all duration-300 hover:bg-gray-100 sm:h-9 sm:min-w-29.5 sm:text-[0.7rem]"
           >
             Book
           </button>
           <button
             onClick={handleExploreClick}
-            className="inline-flex items-center gap-1 border-2 border-white/60 hover:border-white hover:bg-white/10 text-white px-2 sm:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider transition-all duration-300 whitespace-nowrap"
+            className="inline-flex h-7 min-w-26 items-center justify-center whitespace-nowrap rounded-full border border-white/70 px-5 text-[0.58rem] font-bold tracking-[0.12em] text-white uppercase shadow-[0_8px_24px_rgba(0,0,0,0.22)] transition-all duration-300 hover:border-white hover:bg-white/10 sm:h-9 sm:min-w-34.5 sm:text-[0.7rem]"
           >
             Explore More
           </button>

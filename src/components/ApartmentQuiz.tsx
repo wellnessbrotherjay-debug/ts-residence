@@ -58,7 +58,11 @@ export function ApartmentQuiz() {
   return (
     <>
       <button 
-        onClick={() => setIsOpen(true)}
+        onClick={async () => {
+          setIsOpen(true);
+          const { trackEvent } = await import("@/lib/tracking");
+          trackEvent("form_start", { form_name: "apartment_quiz" });
+        }}
         className="fixed bottom-6 right-6 z-100 bg-[#8b7658] text-white px-6 py-4 rounded-full shadow-2xl font-bold text-xs tracking-[0.2em] uppercase hover:scale-105 transition-transform flex items-center gap-3 border-4 border-white"
       >
         Find your apartment <ArrowRight size={16} />
@@ -82,7 +86,13 @@ export function ApartmentQuiz() {
               className="relative bg-white w-full max-w-xl rounded-2xl shadow-[0_32px_80px_rgba(0,0,0,0.3)] overflow-hidden"
             >
               <button 
-                onClick={() => setIsOpen(false)}
+                onClick={async () => {
+                  if (step < steps.length) {
+                    const { trackEvent } = await import("@/lib/tracking");
+                    trackEvent("quiz_abandon", { last_step: step + 1 });
+                  }
+                  setIsOpen(false);
+                }}
                 className="absolute top-6 right-6 text-neutral-400 hover:text-black transition-colors"
                 aria-label="Close"
               >
