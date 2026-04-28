@@ -235,7 +235,7 @@ export const HeroSection = ({
                 width: imageWidth,
                 borderRadius: imageBorderRadius,
               }}
-              className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 overflow-hidden"
+              className="absolute inset-0 overflow-hidden"
             >
               <img
                 src={heroImage}
