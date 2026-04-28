@@ -183,7 +183,7 @@ export const HeroSection = ({
       className="relative"
       style={{
         position: "relative",
-        height: `${Math.round(viewportH * (navbarH >= DESKTOP_NAVBAR_H ? 1.7 : 1.12))}px`,
+        height: `${viewportH}px`,
       }}
     >
       {/* Sticky container — one viewport tall in pixels */}
