@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { BTN_GOLD } from "../../constants";
 import { FadeInView, StaggerContainer, StaggerItem } from "../animations";
+import RotatingAlbum from "../RotatingAlbum";
 import type { Page } from "../../types";
 import { apartmentDetailMap, type ApartmentKey } from "@/lib/apartments-content";
 import { beginImageLoadMeasure, endImageLoadMeasure } from "@/lib/performance";
@@ -53,6 +54,7 @@ function ApartmentCard({
   // Isolated state for each card instance
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [shouldLoadImage, setShouldLoadImage] = useState(index < 2);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Use refs for values that don't need to trigger re-renders (React best practice)
   const cardRef = useRef<HTMLDivElement>(null);
@@ -90,6 +92,7 @@ function ApartmentCard({
   useEffect(() => {
     const checkMobile = () => {
       isMobileRef.current = window.innerWidth < 1024;
+      setIsMobile(window.innerWidth < 1024);
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -203,36 +206,45 @@ function ApartmentCard({
               className="relative aspect-4/3 overflow-hidden w-full cursor-pointer text-left"
               aria-label={`View ${apt.name} apartment details`}
             >
-              {/* Image Album - Isolated per card */}
-              <div className="relative h-full w-full">
-                {shouldLoadImage && images.length > 0 ? (
-                  <Image
-                    src={images[currentImageIndex]}
-                    alt={`${apt.name} - Image ${currentImageIndex + 1} of ${images.length}`}
-                    fill
-                    className="object-cover transition-opacity duration-500"
-                    sizes={CARD_IMAGE_SIZES}
-                    loading="lazy"
-                    quality={60}
-                    decoding="async"
-                    placeholder="blur"
-                    blurDataURL={CARD_BLUR_DATA_URL}
-                    onLoad={() => {
-                      const measureId = activeMeasureIdRef.current;
-                      if (!measureId) return;
-                      endImageLoadMeasure(measureId, {
-                        component: "home_apartment_card",
-                        apartment: apt.name,
-                        image_index: currentImageIndex,
-                        image_src: images[currentImageIndex],
-                      });
-                    }}
-                  />
-                ) : (
-                  <div className="h-full w-full bg-[linear-gradient(180deg,rgba(250,247,242,0.92),rgba(226,219,205,0.7))]" />
-                )}
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
-              </div>
+              {/* Use RotatingAlbum on mobile, regular gallery on desktop */}
+              {isMobile ? (
+                <RotatingAlbum
+                  images={images}
+                  title={apt.name}
+                  autoRotate={true}
+                  rotateInterval={3000}
+                />
+              ) : (
+                <div className="relative h-full w-full">
+                  {shouldLoadImage && images.length > 0 ? (
+                    <Image
+                      src={images[currentImageIndex]}
+                      alt={`${apt.name} - Image ${currentImageIndex + 1} of ${images.length}`}
+                      fill
+                      className="object-cover transition-opacity duration-500"
+                      sizes={CARD_IMAGE_SIZES}
+                      loading="lazy"
+                      quality={60}
+                      decoding="async"
+                      placeholder="blur"
+                      blurDataURL={CARD_BLUR_DATA_URL}
+                      onLoad={() => {
+                        const measureId = activeMeasureIdRef.current;
+                        if (!measureId) return;
+                        endImageLoadMeasure(measureId, {
+                          component: "home_apartment_card",
+                          apartment: apt.name,
+                          image_index: currentImageIndex,
+                          image_src: images[currentImageIndex],
+                        });
+                      }}
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-[linear-gradient(180deg,rgba(250,247,242,0.92),rgba(226,219,205,0.7))]" />
+                  )}
+                  <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
+                </div>
+              )}
 
               {/* Title & Size Overlay - Centered */}
               <div className="absolute right-0 bottom-0 left-0 px-4 pb-3 pt-4 text-white">
@@ -290,9 +302,11 @@ export const HomeApartments = ({
   >
     {/* Compact Header */}
     <div className="mb-5 flex flex-col gap-3 md:mb-6 md:flex-row md:items-center md:justify-between">
-      <div className="max-w-2xl">
-        <span className="label-caps text-gold text-[10px]">Suites &amp; Apartments</span>
-        <h2 className="heading-section text-ink mt-2 text-2xl md:text-3xl">
+      <div className="section-heading-wrapper max-w-2xl relative z-2 overflow-visible pb-[clamp(24px,6vw,64px)] mt-6 md:mt-10">
+        <span className="label-caps text-gold text-[10px] relative z-3 block max-w-full overflow-visible whitespace-normal word-break-normal line-height-[1.05] pb-[0.12em]" style={{position:'relative',zIndex:3,display:'block',maxWidth:'100%',overflow:'visible',whiteSpace:'normal',wordBreak:'normal',lineHeight:'1.05',paddingBottom:'0.12em'}}>
+          Suites &amp; Apartments
+        </span>
+        <h2 className="heading-section text-ink mt-2 text-2xl md:text-3xl relative z-3 block max-w-full overflow-visible whitespace-normal word-break-normal line-height-[1.05] pb-[0.12em]" style={{position:'relative',zIndex:3,display:'block',maxWidth:'100%',overflow:'visible',whiteSpace:'normal',wordBreak:'normal',lineHeight:'1.05',paddingBottom:'0.12em',fontSize:'clamp(48px,14vw,92px)'}}>
           Find Your Perfect Space
         </h2>
       </div>

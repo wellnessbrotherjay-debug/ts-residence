@@ -153,19 +153,26 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
     }
 
     // Supabase first-party tracking
-    const sessionId = localStorage.getItem('ts_session_id') || 
-                     (() => {
-                        const s = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-                        localStorage.setItem('ts_session_id', s);
-                        return s;
-                     })();
+    // Only generate IDs on client side to prevent hydration mismatches
+    let sessionId = localStorage.getItem('ts_session_id');
+    let visitorId = localStorage.getItem('ts_visitor_id');
 
-    const visitorId = localStorage.getItem('ts_visitor_id') || 
-                     (() => {
-                        const v = window.crypto?.randomUUID?.() || `vis_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-                        localStorage.setItem('ts_visitor_id', v);
-                        return v;
-                     })();
+    // Initialize IDs only on client side
+    if (typeof window !== 'undefined') {
+      if (!sessionId) {
+        sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+        localStorage.setItem('ts_session_id', sessionId);
+      }
+
+      if (!visitorId) {
+        visitorId = window.crypto?.randomUUID?.() || `vis_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+        localStorage.setItem('ts_visitor_id', visitorId);
+      }
+    } else {
+      // Fallback for server rendering
+      sessionId = 'server-generated';
+      visitorId = 'server-generated';
+    }
 
     fetch('/api/analytics/track', {
       method: 'POST',

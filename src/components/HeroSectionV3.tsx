@@ -70,9 +70,7 @@ export const HeroSectionV3 = ({
   const [videoSrc, setVideoSrc] = useState(HERO_VIDEO_SRC);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const [viewportH, setViewportH] = useState(
-    typeof window !== "undefined" ? window.innerHeight : 900,
-  );
+  const [viewportH, setViewportH] = useState(900); // Default value, will be updated on client
 
   useEffect(() => {
     const measure = () => setViewportH(window.innerHeight);

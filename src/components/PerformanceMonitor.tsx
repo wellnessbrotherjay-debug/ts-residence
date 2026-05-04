@@ -5,6 +5,11 @@ import { usePathname } from "next/navigation";
 
 import { reportPerformanceMetric } from "@/lib/performance";
 
+interface LayoutShift {
+  value: number;
+  hadRecentInput: boolean;
+}
+
 export function PerformanceMonitor() {
   const pathname = usePathname();
 
@@ -33,7 +38,7 @@ export function PerformanceMonitor() {
 
     const clsObserver = new PerformanceObserver((entryList) => {
       entryList.getEntries().forEach((entry) => {
-        const layoutShift = entry as LayoutShift;
+        const layoutShift = entry as unknown as LayoutShift;
         if (layoutShift.hadRecentInput) return;
         clsValue += layoutShift.value;
       });

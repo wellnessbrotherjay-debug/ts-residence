@@ -80,7 +80,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Could not save lead" }, { status: 500 });
     }
 
-    // 4. Trigger Automations (Resend)
+    // 4. Trigger Automations (Resend & Jarvis)
     try {
       const leadName = `${firstName} ${lastName}`;
       
@@ -126,10 +126,36 @@ export async function POST(req: Request) {
           <p><a href="https://www.tsresidence.id/admin" style="display: inline-block; padding: 10px 20px; background-color: #8b7658; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px;">View in CRM Dashboard</a></p>
         `,
       });
-    } catch (emailError) {
-      console.error("Email automation failed", emailError);
-      // We don't fail the lead creation if email fails, but we log it
+
+      // C. Log to Jarvis Command Center
+      if (process.env.JARVIS_API_URL && process.env.JARVIS_API_KEY) {
+        await fetch(process.env.JARVIS_API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.JARVIS_API_KEY}`
+          },
+          body: JSON.stringify({
+            actor_type: 'human',
+            actor_name: leadName,
+            system: 'TS Residence',
+            action: 'Lead Captured',
+            summary: `New lead captured from ${source}: ${firstName} ${lastName} (${email})`,
+            status: 'success',
+            metadata: {
+              source,
+              campaign,
+              page,
+              stayDuration
+            }
+          })
+        }).catch(err => console.error("Jarvis activity logging failed", err));
+      }
+    } catch (automationError) {
+      console.error("Automation failed", automationError);
+      // We don't fail the lead creation if automations fail, but we log it
     }
+
 
     return NextResponse.json({ success: true, id: data?.id });
   } catch (err) {

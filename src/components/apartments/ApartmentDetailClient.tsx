@@ -60,6 +60,13 @@ const GALLERY_TITLES: Partial<Record<ApartmentKey, string[]>> = {
     "SOLO Dining Room",
     "SOLO Bathroom",
   ],
+  soho: [
+    "SOHO Living Area",
+    "SOHO Dining Area",
+    "SOHO Kitchen",
+    "SOHO Bedroom",
+    "SOHO Bathroom",
+  ],
 };
 
 export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
@@ -241,12 +248,6 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
                   className="border-gold bg-gold hover:bg-gold-dark inline-flex min-h-12 items-center justify-center border px-7 py-3.5 text-[11px] font-semibold tracking-[0.18em] text-white uppercase transition-all duration-400 md:min-h-13.5 md:px-9 md:py-4 md:text-[12px] md:tracking-[0.22em]"
                 >
                   Book Apartment
-                </Link>
-                <Link
-                  href="/offers"
-                  className="border-ink/35 bg-ink hover:bg-ink/90 inline-flex min-h-12 items-center justify-center border px-7 py-3.5 text-[11px] font-semibold tracking-[0.18em] text-white uppercase transition-all duration-400 md:min-h-13.5 md:px-9 md:py-4 md:text-[12px] md:tracking-[0.22em]"
-                >
-                  View Offers
                 </Link>
               </div>
             </FadeInView>

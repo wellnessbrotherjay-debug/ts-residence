@@ -42,7 +42,8 @@ const collections: GalleryCollection[] = [
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/52b605cf-2c98-48f3-cce2-b317f0dbd800/public",
       "https://tsresidence.id/wp-content/uploads/2025/08/studio-main-image.webp",
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/2fef14ff-25f6-41d7-e15e-b19d9b793100/public",
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
+      "https://tsresidence.id/wp-content/uploads/2025/09/ts-residence-bedroom.webp",
+      "https://tsresidence.id/wp-content/uploads/2025/08/living-room-modern-design.webp",
     ],
   },
   {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { HomeClient } from "@/app/home-client";
+import HomeClient from "@/app/home-client";
 import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {

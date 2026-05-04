@@ -153,6 +153,7 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => {
                 quality={60}
                 loading="eager"
                 fetchPriority="high"
+                priority
               />
               <div className="absolute inset-0 bg-linear-to-t from-[#18120d]/86 via-[#18120d]/24 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-3.5">
@@ -258,6 +259,8 @@ export const HomePillars = ({ setPage }: { setPage: (p: Page) => void }) => {
                           className="object-cover"
                           quality={60}
                           loading="lazy"
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                         />
                         {/* Text Label Overlay */}
                         <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />

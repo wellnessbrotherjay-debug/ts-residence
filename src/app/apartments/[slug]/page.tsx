@@ -13,9 +13,9 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const apartment = apartmentDetailMap[slug as ApartmentKey];
 
   if (!apartment) {
@@ -44,12 +44,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({
+export default function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
   if (!apartmentDetailMap[slug as ApartmentKey]) notFound();
   return <ApartmentDetailClient slug={slug as ApartmentKey} />;
 }

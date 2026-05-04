@@ -6,22 +6,16 @@ import { FadeInView } from "../animations";
 
 const GALLERY_IMAGES = [
   {
-    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/22f5b499-b941-4dca-11e3-239e22612200/public",
+    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12154d04-cda4-4f32-0e93-216f2d4d6a00/public",
   },
   {
-    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/363a5628-6c76-41fd-bac1-16127cdd1500/public",
+    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/3f554a00-be28-469b-2514-1a37ae5ff000/public",
   },
   {
-    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7b396216-4fa1-457b-b6bf-16588fa18400/public",
+    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e21d0685-e347-4234-84bf-5e5c84170a00/public",
   },
   {
-    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d58a5695-63e7-4c36-7bf0-15b728034c00/public",
-  },
-  {
-    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
-  },
-  {
-    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d44e04fa-07c2-4c4a-e25f-7082f2534e00/public",
+    url: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/084df96a-3e8a-4b25-75da-99e5781f9300/public",
   },
 ];
 

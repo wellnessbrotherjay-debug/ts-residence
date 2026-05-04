@@ -60,6 +60,12 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isApartmentsOpen, setIsApartmentsOpen] = useState(false);
   const [showTopLogo, setShowTopLogo] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Ensure component only renders on client side
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -110,6 +116,25 @@ export const Navbar = () => {
     currentPage === "solo" ||
     currentPage === "studio" ||
     currentPage === "soho";
+
+  // Prevent hydration mismatch by only rendering on client
+  if (!isMounted) {
+    return (
+      <nav className="border-gold/35 fixed top-0 left-0 z-60 w-full border-b bg-white">
+        <div className="w-full px-4">
+          {/* Placeholder for server rendering */}
+          <div className="flex h-16 items-center justify-between">
+            <div className="h-6 w-32 bg-gray-200 rounded" />
+            <div className="hidden xl:flex h-6 gap-8">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-4 w-16 bg-gray-200 rounded" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <>

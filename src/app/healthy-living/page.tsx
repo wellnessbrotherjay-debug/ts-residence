@@ -231,16 +231,15 @@ export default function Page() {
       <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="mx-auto max-w-225 text-center">
-            <a href="https://www.no1wellness.com/" target="_blank" rel="noopener noreferrer" className="label-caps text-gold hover:text-gold-dark transition-colors inline-block">No. 1 Wellness Studio</a>
-            <h2 className="text-ink mt-5 font-serif text-[2.35rem] leading-[1.02] tracking-[-0.03em] sm:text-5xl md:text-[3.2rem] lg:text-6xl">
-              A complete wellness ecosystem,
-              <br />
-              integrated with residence life.
-            </h2>
-            <p className="text-ink/80 mx-auto mt-7 max-w-190 text-[1.03rem] leading-8 md:text-[1.1rem]">
-              Designed for consistent health routines, from guided movement and
-              body recovery to nutrition and social wellness moments.
-            </p>
+            <img
+              src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public"
+              alt="No. 1 Wellness Studio Logo"
+              className="mx-auto mb-4"
+              style={{ height: "108px", width: "auto", display: "block" }}
+              draggable={false}
+            />
+            <div className="font-serif text-gold-dark text-xl font-semibold mb-2 tracking-wide uppercase">No. 1 Wellness Studio</div>
+            <div className="text-ink/80 text-lg max-w-2xl mx-auto">A complete wellness ecosystem, integrated with residence life.</div>
           </FadeInView>
         </div>
       </section>
@@ -260,48 +259,51 @@ export default function Page() {
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="h-52 overflow-hidden md:h-65 lg:h-80">
+                <div className="h-52 overflow-hidden md:h-65 lg:h-80 relative">
                   <motion.img
                     src={facility.image}
                     alt={facility.title}
                     className="h-full w-full object-cover transition-transform duration-1900 ease-out group-hover:scale-[1.06]"
                   />
+                  <img
+                    src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public"
+                    alt="No. 1 Wellness Logo"
+                    className="absolute top-2 left-2 h-8 w-auto bg-white/80 rounded shadow p-1"
+                    draggable={false}
+                  />
                 </div>
-                <div className="flex min-h-48 flex-col p-6 md:min-h-56 md:p-7 lg:min-h-70">
-                  <p className="label-caps text-gold-dark">Wellness Facility</p>
-                  <h3 className="text-ink mt-3 font-serif text-[2rem] leading-[1.04]">
-                    {facility.title}
-                  </h3>
-                  <p className="text-ink/80 mt-4 text-[1rem] leading-7">
-                    {facility.description}
-                  </p>
-                  {facility.bookLinks && (
-                    <div className="mt-5 flex flex-col gap-2">
-                      {facility.bookLinks.map((link) => (
-                        <a
-                          key={link.url}
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block rounded bg-gold px-4 py-2 text-sm font-semibold text-black shadow hover:bg-gold-dark transition-colors"
-                        >
-                          {link.label}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                  {facility.bookUrl && (
-                    <div className="mt-5">
+                <div className="flex min-h-48 flex-col items-center justify-center p-6 md:min-h-56 md:p-7 lg:min-h-70">
+                  <img
+                    src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public"
+                    alt="No. 1 Wellness Logo"
+                    className="mb-3 h-10 w-auto mx-auto"
+                    draggable={false}
+                  />
+                  <div className="text-center">
+                    <div className="font-serif text-gold-dark text-lg font-semibold mb-1">{facility.title}</div>
+                    <div className="text-ink/80 text-base leading-6 mb-3">{facility.description}</div>
+                    {facility.bookUrl && (
                       <a
                         href={facility.bookUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block rounded bg-gold px-4 py-2 text-sm font-semibold text-black shadow hover:bg-gold-dark transition-colors"
+                        className="inline-block rounded bg-gold px-4 py-2 text-white font-semibold shadow hover:bg-gold-dark transition-colors duration-200 mb-1"
                       >
-                        Book Pilates
+                        Book Now
                       </a>
-                    </div>
-                  )}
+                    )}
+                    {facility.bookLinks && Array.isArray(facility.bookLinks) && facility.bookLinks.map((link, idx) => (
+                      <a
+                        key={link.url}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block rounded bg-gold px-4 py-2 text-white font-semibold shadow hover:bg-gold-dark transition-colors duration-200 mb-1 mx-1"
+                      >
+                        {link.label || "Book Now"}
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </motion.article>
             </StaggerItem>
@@ -419,6 +421,12 @@ export default function Page() {
                     className="aspect-video w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.07]"
                     whileHover={{ scale: 1.07 }}
                     transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                    onError={e => {
+                      const fallback = "/ts-fallback.jpg";
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
+                    }}
                   />
                   <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   <div className="pointer-events-none absolute right-3 bottom-3 left-3 flex items-center justify-between text-white/90 opacity-0 transition-opacity duration-500 group-hover:opacity-100">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Check, ArrowRight } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const steps = [
@@ -57,15 +57,15 @@ export function ApartmentQuiz() {
 
   return (
     <>
-      <button 
+      <button
         onClick={async () => {
           setIsOpen(true);
           const { trackEvent } = await import("@/lib/tracking");
           trackEvent("form_start", { form_name: "apartment_quiz" });
         }}
-        className="fixed bottom-6 right-6 z-100 bg-[#8b7658] text-white px-6 py-4 rounded-full shadow-2xl font-bold text-xs tracking-[0.2em] uppercase hover:scale-105 transition-transform flex items-center gap-3 border-4 border-white"
+        className="fixed bottom-6 left-6 z-100 bg-[#8b7658] text-white px-3.5 py-2.5 rounded-full shadow-2xl font-bold text-[11px] tracking-[0.18em] uppercase hover:scale-105 transition-transform flex items-center gap-2 border-2 border-white min-w-[160px]"
       >
-        Find your apartment <ArrowRight size={16} />
+        Find your apartment <ArrowRight size={14} />
       </button>
 
       <AnimatePresence>

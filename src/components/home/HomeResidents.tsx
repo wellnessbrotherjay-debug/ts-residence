@@ -7,19 +7,19 @@ const AUDIENCES = ["Digital Nomads", "Expats", "Creatives", "Young Families"];
 export const HomeResidents = () => (
   <section
     data-reveal-profile="hero"
-    className="border-gold/25 border-b bg-white px-5 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28"
+    className="border-gold/25 border-b bg-white px-5 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28 pt-10 md:pt-14 flex flex-col min-h-screen"
   >
-    <div className="mx-auto max-w-700 text-center">
+    <div className="flex-1 mx-auto max-w-700 text-center">
       <FadeInView delay={0.1}>
-        <h2 className="text-ink font-serif text-[2.25rem] leading-[1.05] md:text-[3.2rem] lg:text-[3.6rem]">
+        <h2 className="text-ink font-serif text-[2.25rem] leading-[1.05] md:text-[3.2rem] lg:text-[3.6rem] mt-6 md:mt-8">
           TS Residence is for Easy Living.
         </h2>
       </FadeInView>
 
       <FadeInView delay={0.18}>
         <p className="text-body text-ink-light mt-6 mx-auto max-w-[64ch] text-[0.9rem] leading-[1.68] md:mt-8 md:text-[1rem] md:leading-[1.8] text-center">
-          Built for long-stay residents who want privacy, structure, and better
-          daily living in Seminyak.
+          Built for long-stay residents who want privacy, structure, and a better
+          quality of daily living in Seminyak.
         </p>
       </FadeInView>
 
@@ -38,7 +38,7 @@ export const HomeResidents = () => (
       </FadeInView>
     </div>
 
-    <div className="mx-auto max-w-1200 mt-16 lg:mt-20">
+    <div className="mx-auto max-w-1200">
       <FadeInView delay={0.3}>
         <div className="flex items-end justify-center gap-3 text-center md:gap-4">
           <p className="text-gold font-serif text-[120px] leading-none md:text-[140px] lg:text-[150px]">
@@ -52,16 +52,20 @@ export const HomeResidents = () => (
 
       <FadeInView delay={0.4} className="mt-6 lg:mt-8 text-center">
         <p className="text-ink/85 mx-auto max-w-150 text-lg leading-[1.6]">
-          Modern, spacious premium design apartments built for
-          EASY LIVING with hotel-grade access and long-stay comfort.
+          Modern, spacious premium design apartments built for easy living
+          with hotel-grade access and long-stay comfort.
         </p>
       </FadeInView>
 
-      <FadeInView delay={0.5} className="mt-10 lg:mt-12 text-center">
-        <Link href="/contact" className={BTN_GOLD}>
-          Book Your Stay
-        </Link>
-      </FadeInView>
+      {/* Book button moved to bottom */}
     </div>
+  {/* Book button at the bottom */}
+  <div className="w-full flex flex-col items-center mt-auto pb-10">
+    <FadeInView delay={0.5} className="text-center">
+      <Link href="/contact" className={BTN_GOLD}>
+        Book Your Stay
+      </Link>
+    </FadeInView>
+  </div>
   </section>
 );

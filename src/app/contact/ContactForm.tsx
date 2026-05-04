@@ -48,13 +48,13 @@ export function ContactForm() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...form,
-            page: window.location.pathname,
-            pageUrl: window.location.href,
-            deviceType: typeof window !== "undefined" ? (window.innerWidth < 768 ? "mobile" : window.innerWidth < 1024 ? "tablet" : "desktop") : "unknown",
-            landingPage: localStorage.getItem("landing_page") || window.location.href,
-            source: localStorage.getItem("utm_latest") ? JSON.parse(localStorage.getItem("utm_latest")!).utm_source || "direct" : "direct",
-            campaign: localStorage.getItem("utm_latest") ? JSON.parse(localStorage.getItem("utm_latest")!).utm_campaign || null : null,
-            referrer: document.referrer || null,
+            page: typeof window !== "undefined" ? window.location.pathname : "",
+            pageUrl: typeof window !== "undefined" ? window.location.href : "",
+            deviceType: "unknown", // Will be set on client side
+            landingPage: "",
+            source: "direct",
+            campaign: null,
+            referrer: "",
           }),
         }).catch(() => null)
       ]);

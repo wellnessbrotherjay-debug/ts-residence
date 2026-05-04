@@ -1,7 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import NextImage from "next/image";
 import {
   FadeInView,
   StaggerContainer,
@@ -50,17 +52,17 @@ const facilityCards = [
   {
     title: "TSTORE",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/32d0884b-8c29-4181-85b4-59306e635500/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d58a5695-63e7-4c36-7bf0-15b728034c00/public",
   },
   {
     title: "Christophe C Salon",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c19d50e1-3c82-4c24-9488-c1a36bfe6a00/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
   },
   {
     title: "TS Suites Bar",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e4d9a5db-20cd-4439-b3c5-0893221e4e00/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/363a5628-6c76-41fd-bac1-16127cdd1500/public",
   },
 ];
 
@@ -145,10 +147,15 @@ function ScrollHero() {
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
         >
-          <img
+          <NextImage
             src={img.image}
             alt={img.alt}
+            fill
+            sizes="100vw"
             className="h-full w-full object-cover"
+            style={{ objectFit: "cover" }}
+            priority={index === 0}
+            draggable={false}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
         </div>
@@ -157,7 +164,7 @@ function ScrollHero() {
       {/* Hero Content */}
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="max-w-4xl text-center">
-          <p className="text-gold text-sm font-semibold tracking-[0.3em] uppercase mb-4 animate-fade-in">
+          <p className="text-white text-sm font-semibold tracking-[0.3em] uppercase mb-4 animate-fade-in" style={{ color: '#fff' }}>
             Welcome to Five-Star Living
           </p>
           <h1 className="text-white font-serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 animate-fade-in-up">
@@ -282,11 +289,16 @@ export default function Page() {
               className="group border-gold/25 h-full overflow-hidden border bg-white"
             >
               <article className="h-full">
-                <div className="h-52 overflow-hidden md:h-65 lg:h-80">
-                  <img
+                <div className="h-52 overflow-hidden md:h-65 lg:h-80 relative">
+                  <NextImage
                     src={facility.image}
                     alt={facility.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 25vw"
                     className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.045]"
+                    style={{ objectFit: "cover" }}
+                    priority={false}
+                    draggable={false}
                   />
                 </div>
                 <div className="flex min-h-48 flex-col p-6 md:min-h-56 md:p-7 lg:min-h-70">

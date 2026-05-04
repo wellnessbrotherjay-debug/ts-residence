@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { HeroSection } from "@/components/HeroSection";
+import { apartmentDetailMap } from "@/lib/apartments-content";
+import HeroSection from "@/components/HeroSection";
 import { HomeHeadline } from "@/components/home/HomeHeadline";
 import { HomePillars } from "@/components/home/HomePillars";
 import { HomeResidents } from "@/components/home/HomeResidents";
@@ -28,7 +29,7 @@ function pageToPath(page: Page): string {
   return "/";
 }
 
-export function HomeClient() {
+function HomeClient() {
   const router = useRouter();
   const [isQaExpanded, setIsQaExpanded] = useState(false);
 
@@ -36,38 +37,26 @@ export function HomeClient() {
     router.push(pageToPath(page));
   };
 
-  const apartments = [
-    {
-      name: "SOLO",
-      sqm: "36",
-      bed: "1 Bedroom",
-      desc: "Compact luxury for solo explorers",
-      img: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/52b605cf-2c98-48f3-cce2-b317f0dbd800/public",
-      page: "solo" as Page,
-    },
-    {
-      name: "STUDIO",
-      sqm: "48",
-      bed: "1 Bedroom",
-      desc: "Spacious elegance for couples",
-      img: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/f5609092-040f-47f7-b9f7-d3fd8c13be00/public",
-      page: "studio" as Page,
-    },
-    {
-      name: "SOHO",
-      sqm: "80",
-      bed: "2 Bedrooms",
-      desc: "Ultimate space for families",
-      img: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/2fef14ff-25f6-41d7-e15e-b19d9b793100/public",
-      page: "soho" as Page,
-    },
-  ];
+  // Generate apartments array from apartmentDetailMap for robust mapping and gallery support
+  const apartments = Object.entries(apartmentDetailMap).map(
+    ([key, value]) => ({
+      name: value.name,
+      sqm: value.sqm.replace(" sqm", ""),
+      bed: value.bed,
+      desc: value.short,
+      img: value.hero,
+      page: key as Page,
+    })
+  );
+
+
 
   return (
-    <div className="w-full">
+    <>
       <HeroSection />
       <HomeHeadline setPage={setPage} />
       <HomePillars setPage={setPage} />
+      <HomeResidents />
       <HomeApartments setPage={setPage} apartments={apartments} />
       <HomeWhySeminyak setPage={setPage} />
 
@@ -92,8 +81,8 @@ export function HomeClient() {
           />
         </button>
       </section>
-
-      <HomeResidents />
-    </div>
+    </>
   );
 }
+
+export default HomeClient;

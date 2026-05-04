@@ -138,7 +138,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <div className="fixed right-6 bottom-24 z-40 flex flex-col gap-3 md:right-8 md:bottom-28 md:gap-4">
+          <div className="fixed right-6 bottom-6 z-40 flex flex-col gap-3 md:right-8 md:bottom-8 md:gap-4">
             <a
               href="https://t.me/tsresidence"
               target="_blank"

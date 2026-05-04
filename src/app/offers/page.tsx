@@ -26,19 +26,21 @@ export default function Page() {
                   alt={featured.title}
                   fill
                   className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05]"
-                  quality={75}
-                  priority={true}
+                  quality={80}
+                  priority
                   placeholder="blur"
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/92 via-black/32 to-transparent" />
-                <div className="absolute bottom-6 left-6 pt-20 md:bottom-12 md:left-12 lg:bottom-16 lg:left-16 md:pt-0">
-                  <p className="text-gold-light mb-4 text-[10px] font-semibold tracking-[0.24em] uppercase md:text-[11px]">
-                    Featured Offer 01
-                  </p>
-                  <h2 className="text-white font-serif text-[2.1rem] font-bold leading-[1.02] md:text-[3.4rem] lg:text-[4.2rem]">
-                    {featured.title}
-                  </h2>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20" />
+                <div className="absolute bottom-6 left-6 right-6 pt-20 md:bottom-12 md:left-12 lg:bottom-16 lg:left-16 md:pt-0">
+                  <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4 md:p-6">
+                    <p className="text-gold-light mb-3 text-[10px] font-semibold tracking-[0.24em] uppercase md:text-[11px]">
+                      Featured Offer 01
+                    </p>
+                    <h2 className="text-white font-serif text-[2.1rem] font-bold leading-[1.02] md:text-[3.4rem] lg:text-[4.2rem]">
+                      {featured.title}
+                    </h2>
+                  </div>
                 </div>
               </div>
             </FadeInView>
@@ -100,16 +102,18 @@ export default function Page() {
                         alt={offer.title}
                         fill
                         className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
-                        quality={75}
+                        quality={70}
                         loading="lazy"
                         placeholder="blur"
                         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                       />
                     </div>
                     <div className="flex min-h-72 flex-col p-7 md:p-8">
-                      <p className="text-gold-dark text-[11px] font-semibold tracking-[0.24em] uppercase">
-                        {String(idx + 1).padStart(2, "0")}
-                      </p>
+                      <div className="bg-cream/90 backdrop-blur-sm rounded-lg p-3 md:p-4 mb-4">
+                        <p className="text-gold-dark text-[11px] font-semibold tracking-[0.24em] uppercase">
+                          {String(idx + 1).padStart(2, "0")}
+                        </p>
+                      </div>
                       <h3 className="text-ink mt-4 font-serif text-[2rem] leading-[1.02]">
                         {offer.title}
                       </h3>
