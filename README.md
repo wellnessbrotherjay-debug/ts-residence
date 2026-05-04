@@ -1,5 +1,7 @@
 # TS Residence Website
 
+Trigger redeploy: May 4, 2026
+
 ## Purpose
 Premium long-stay apartment website for TS Residence in Seminyak, Bali. This Next.js application serves as the primary acquisition channel for capturing leads, facilitating contact inquiries, and showcasing apartment options for long-term stays.
 
