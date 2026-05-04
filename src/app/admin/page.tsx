@@ -46,10 +46,12 @@ export default function AdminPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [activeTab, setActiveTab] = useState<string>("overview");
 
-  // Simple password protection
+  // SSR-safe password protection
   const [pw, setPw] = useState("");
   const [authed, setAuthed] = useState(false);
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
+    setMounted(true);
     if (typeof window !== "undefined") {
       const saved = window.localStorage.getItem("ts_admin_pw");
       if (saved === "1234") setAuthed(true);
@@ -64,6 +66,9 @@ export default function AdminPage() {
       alert("Incorrect password");
     }
   };
+  if (!mounted) {
+    return null;
+  }
   if (!authed) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f5f1eb" }}>
