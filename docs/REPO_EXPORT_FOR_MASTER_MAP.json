@@ -1,0 +1,274 @@
+{
+  "project_name": "TS Residence Website",
+  "repo_url": "https://github.com/[repository-url]",
+  "repo_role": "Website / acquisition layer",
+  "status": "Development - basic functionality implemented, needs booking and user systems",
+  "framework": "Next.js 16.2.1",
+  "language": "TypeScript",
+  "package_manager": "npm",
+  "hosting": "Vercel",
+  "database": "Supabase (PostgreSQL)",
+  "orm": "Supabase client-side queries",
+  "auth": "None implemented",
+  "main_routes": [
+    "/",
+    "/apartments",
+    "/contact",
+    "/gallery",
+    "/offers",
+    "/faq",
+    "/five-star-living",
+    "/easy-living",
+    "/healthy-living",
+    "/admin"
+  ],
+  "api_routes": [
+    {
+      "path": "/api/leads",
+      "methods": ["GET", "POST"],
+      "purpose": "Lead capture with deduplication"
+    },
+    {
+      "path": "/api/contact",
+      "methods": ["POST"],
+      "purpose": "Contact form submission"
+    },
+    {
+      "path": "/api/chat",
+      "methods": ["POST"],
+      "purpose": "Chatbot responses"
+    },
+    {
+      "path": "/api/chat/log",
+      "methods": ["POST"],
+      "purpose": "Chat message logging"
+    },
+    {
+      "path": "/api/analytics/track",
+      "methods": ["POST"],
+      "purpose": "Analytics event tracking"
+    },
+    {
+      "path": "/api/dashboard/summary",
+      "methods": ["GET"],
+      "purpose": "Dashboard summary metrics"
+    },
+    {
+      "path": "/api/image",
+      "methods": ["GET"],
+      "purpose": "Image proxy with fallback"
+    }
+  ],
+  "database_tables": [
+    {
+      "name": "chat_sessions",
+      "purpose": "Chat widget session tracking",
+      "fields": ["id", "created_at", "last_active", "user_agent", "ip_address"]
+    },
+    {
+      "name": "chat_messages",
+      "purpose": "Chat message history",
+      "fields": ["id", "session_id", "role", "content", "created_at"]
+    },
+    {
+      "name": "traffic_events",
+      "purpose": "Analytics and user behavior tracking",
+      "fields": ["id", "session_id", "visitor_id", "event_type", "page", "source", "medium", "campaign", "term", "content", "referrer", "gclid", "fbclid", "metadata", "created_at"]
+    },
+    {
+      "name": "leads",
+      "purpose": "Lead capture and CRM data",
+      "fields": ["id", "first_name", "last_name", "email", "phone", "stay_duration", "message", "page", "source", "medium", "campaign", "term", "content", "referrer", "status", "metadata", "created_at"]
+    }
+  ],
+  "events": [
+    {
+      "name": "page_view",
+      "trigger": "Page load",
+      "parameters": ["page_name", "page_path", "device_type", "search_params"]
+    },
+    {
+      "name": "cta_click",
+      "trigger": "Button/link click",
+      "parameters": ["page_path", "link_url", "link_text", "device_type"]
+    },
+    {
+      "name": "social_click",
+      "trigger": "Social media link click",
+      "parameters": ["page_path", "link_url", "link_text", "device_type"]
+    },
+    {
+      "name": "nav_click",
+      "trigger": "Navigation link click",
+      "parameters": ["page_path", "link_url", "link_text", "device_type"]
+    },
+    {
+      "name": "form_submit",
+      "trigger": "Form submission",
+      "parameters": ["page_path", "form_data", "device_type"]
+    },
+    {
+      "name": "scroll_depth",
+      "trigger": "User scrolls to milestone",
+      "parameters": ["page_path", "depth", "device_type"]
+    },
+    {
+      "name": "engaged_session",
+      "trigger": "30 seconds on page",
+      "parameters": ["page_path", "device_type"]
+    }
+  ],
+  "webhooks": [],
+  "external_services": [
+    {
+      "name": "Resend",
+      "purpose": "Email notifications",
+      "status": "Active"
+    },
+    {
+      "name": "Google Analytics 4",
+      "purpose": "Web analytics",
+      "status": "Active"
+    },
+    {
+      "name": "Google Tag Manager",
+      "purpose": "Tag management",
+      "status": "Active"
+    },
+    {
+      "name": "Meta Pixel",
+      "purpose": "Facebook tracking",
+      "status": "Active"
+    },
+    {
+      "name": "Microsoft Clarity",
+      "purpose": "Session recordings",
+      "status": "Optional"
+    },
+    {
+      "name": "OpenAI",
+      "purpose": "Chatbot responses",
+      "status": "Active"
+    },
+    {
+      "name": "Supabase",
+      "purpose": "Database and storage",
+      "status": "Active"
+    },
+    {
+      "name": "Jarvis Command Center",
+      "purpose": "Activity logging",
+      "status": "Optional"
+    }
+  ],
+  "sends_data_to": [
+    {
+      "system": "Resend",
+      "data": "Email notifications",
+      "method": "SMTP API"
+    },
+    {
+      "system": "Google Analytics 4",
+      "data": "Page views, events, conversions",
+      "method": "Measurement Protocol"
+    },
+    {
+      "system": "Google Tag Manager",
+      "data": "All tracking events",
+      "method": "GTM DataLayer"
+    },
+    {
+      "system": "Meta Pixel",
+      "data": "Page views, form submissions",
+      "method": "Facebook Pixel"
+    },
+    {
+      "system": "Supabase",
+      "data": "Leads, traffic events, chat messages",
+      "method": "Direct database writes"
+    },
+    {
+      "system": "Jarvis Command Center",
+      "data": "Activity logs",
+      "method": "REST API (optional)"
+    }
+  ],
+  "receives_data_from": [
+    {
+      "system": "Supabase",
+      "data": "Leads, traffic events, chat data",
+      "method": "Database queries"
+    },
+    {
+      "system": "OpenAI",
+      "data": "Chatbot responses",
+      "method": "OpenAI API"
+    },
+    {
+      "system": "External Images",
+      "data": "Images via proxy",
+      "method": "Image proxy endpoint"
+    }
+  ],
+  "shared_ids_present": [
+    "lead_id",
+    "campaign_id"
+  ],
+  "shared_ids_missing": [
+    "venue_id",
+    "department_id",
+    "contact_id",
+    "booking_id",
+    "voucher_id",
+    "app_user_id"
+  ],
+  "critical_risks": [
+    "No API authentication - all endpoints public",
+    "Service role key exposed in environment",
+    "No rate limiting on API endpoints",
+    "Missing webhook verification",
+    "No booking system integration",
+    "No user authentication system",
+    "No central contact management",
+    "Insufficient input validation",
+    "Missing CSRF protection",
+    "No data encryption for PII"
+  ],
+  "next_tasks": [
+    {
+      "task": "Implement API authentication",
+      "priority": "Critical",
+      "reason": "Protect sensitive lead data"
+    },
+    {
+      "task": "Create booking system integration",
+      "priority": "High",
+      "reason": "Enable booking functionality"
+    },
+    {
+      "task": "Implement user authentication",
+      "priority": "High",
+      "reason": "Allow user profiles and accounts"
+    },
+    {
+      "task": "Add WhatsApp/Telegram webhooks",
+      "priority": "High",
+      "reason": "Enable messaging automation"
+    },
+    {
+      "task": "Implement rate limiting",
+      "priority": "Critical",
+      "reason": "Prevent API abuse"
+    }
+  ],
+  "ecosystem_connections": {
+    "ts_residence": "Primary project - website and lead capture",
+    "no1_wellness": "Not connected - needs integration",
+    "schedule_system": "Not connected - needs integration",
+    "voucher_system": "Not connected - needs integration",
+    "chatbot": "Partially connected - basic chatbot only",
+    "guest_app": "Not connected - user system missing",
+    "owner_command_center": "Partially connected - Jarvis logging optional",
+    "pos_vhp_bridge": "Not connected - needs integration"
+  }
+}
