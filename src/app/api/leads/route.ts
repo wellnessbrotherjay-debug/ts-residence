@@ -39,12 +39,17 @@ export async function POST(req: Request) {
     }
 
     // 2. Deduplication (Check for same email in last 24h)
-    const { data: existingLeads } = await supabase
+    const { data: existingLeads, error: dedupeError } = await supabase
       .from("leads")
       .select("id")
       .eq("email", email)
       .gt("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
       .limit(1);
+
+    if (dedupeError) {
+      console.error("lead dedupe error", dedupeError);
+      return NextResponse.json({ error: "Could not check for duplicates", details: dedupeError }, { status: 500 });
+    }
 
     if (existingLeads && existingLeads.length > 0) {
       return NextResponse.json({ success: true, message: "Duplicate lead within 24h" });
@@ -77,7 +82,7 @@ export async function POST(req: Request) {
 
     if (error) {
       console.error("lead insert error", error);
-      return NextResponse.json({ error: "Could not save lead" }, { status: 500 });
+      return NextResponse.json({ error: "Could not save lead", details: error }, { status: 500 });
     }
 
     // 4. Trigger Automations (Resend & Jarvis)
@@ -173,11 +178,12 @@ export async function GET() {
 
     if (error) {
       console.error("fetch leads error", error);
-      return NextResponse.json({ error: "Could not fetch leads" }, { status: 500 });
+      return NextResponse.json({ error: "Could not fetch leads", details: error }, { status: 500 });
     }
 
     return NextResponse.json(data || []);
   } catch (err) {
-    return NextResponse.json({ error: "Invalid get request" }, { status: 400 });
+    console.error("leads GET catch error", err);
+    return NextResponse.json({ error: "Invalid get request", details: String(err) }, { status: 400 });
   }
 }
