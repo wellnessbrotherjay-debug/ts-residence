@@ -46,6 +46,43 @@ export default function AdminPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [activeTab, setActiveTab] = useState<string>("overview");
 
+  // Simple password protection
+  const [pw, setPw] = useState("");
+  const [authed, setAuthed] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = window.localStorage.getItem("ts_admin_pw");
+      if (saved === "1234") setAuthed(true);
+    }
+  }, []);
+  const handlePw = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pw === "1234") {
+      setAuthed(true);
+      window.localStorage.setItem("ts_admin_pw", "1234");
+    } else {
+      alert("Incorrect password");
+    }
+  };
+  if (!authed) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f5f1eb" }}>
+        <form onSubmit={handlePw} style={{ background: "white", padding: 32, borderRadius: 12, boxShadow: "0 2px 16px #0001", display: "flex", flexDirection: "column", gap: 16, minWidth: 320 }}>
+          <h2 style={{ margin: 0, fontWeight: 700, fontSize: 24 }}>Admin Login</h2>
+          <input
+            type="password"
+            value={pw}
+            onChange={e => setPw(e.target.value)}
+            placeholder="Enter password"
+            style={{ padding: 12, fontSize: 18, borderRadius: 6, border: "1px solid #ccc" }}
+            autoFocus
+          />
+          <button type="submit" style={{ padding: 12, fontSize: 18, borderRadius: 6, background: "#8b7658", color: "white", border: "none", fontWeight: 600 }}>Login</button>
+        </form>
+      </div>
+    );
+  }
+
   const fetchDashboard = async (isInitial = false) => {
     try {
       const [summaryRes, leadsRes] = await Promise.all([

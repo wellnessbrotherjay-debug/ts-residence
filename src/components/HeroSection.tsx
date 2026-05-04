@@ -63,6 +63,8 @@ export default function HeroSection() {
           sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 100vw"
           className={`home-hero__image ${transitioning ? 'transitioning' : ''}`}
           quality={100}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
         />
       </div>
       <div className="home-hero__overlay" />
