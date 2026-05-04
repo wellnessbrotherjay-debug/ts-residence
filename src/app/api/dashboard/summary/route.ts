@@ -19,9 +19,33 @@ export async function GET() {
       supabase.from("traffic_events").select("id,event_type,page,created_at,metadata").order("created_at", { ascending: false }).limit(20)
     ]);
 
-    if (trafficRowsRes.error || allEventsRes.error) {
-      console.error("dashboard summary query error", trafficRowsRes.error || allEventsRes.error);
-      return NextResponse.json({ error: "Could not load dashboard summary" }, { status: 500 });
+    // Log all Supabase errors for debugging
+    if (totalEventsRes.error) console.error("totalEventsRes error", totalEventsRes.error);
+    if (pageViewsRes.error) console.error("pageViewsRes error", pageViewsRes.error);
+    if (bookClicksRes.error) console.error("bookClicksRes error", bookClicksRes.error);
+    if (totalLeadsRes.error) console.error("totalLeadsRes error", totalLeadsRes.error);
+    if (trafficRowsRes.error) console.error("trafficRowsRes error", trafficRowsRes.error);
+    if (allEventsRes.error) console.error("allEventsRes error", allEventsRes.error);
+
+    if (
+      totalEventsRes.error ||
+      pageViewsRes.error ||
+      bookClicksRes.error ||
+      totalLeadsRes.error ||
+      trafficRowsRes.error ||
+      allEventsRes.error
+    ) {
+      return NextResponse.json({
+        error: "Supabase query error",
+        details: {
+          totalEventsRes: totalEventsRes.error,
+          pageViewsRes: pageViewsRes.error,
+          bookClicksRes: bookClicksRes.error,
+          totalLeadsRes: totalLeadsRes.error,
+          trafficRowsRes: trafficRowsRes.error,
+          allEventsRes: allEventsRes.error
+        }
+      }, { status: 500 });
     }
 
     const trafficRows = trafficRowsRes.data || [];
@@ -74,6 +98,7 @@ export async function GET() {
       recentEvents: allEventsRes.data || []
     });
   } catch (err) {
-    return NextResponse.json({ error: "Invalid get request" }, { status: 400 });
+    console.error("dashboard summary catch error", err);
+    return NextResponse.json({ error: "Invalid get request", details: String(err) }, { status: 400 });
   }
 }
