@@ -88,7 +88,37 @@ export async function POST(req: Request) {
     // 4. Trigger Automations (Resend & Jarvis)
     try {
       const leadName = `${firstName} ${lastName}`;
-      
+
+      // --- Country code extraction ---
+      // Simple regex to extract country code from +<code>...
+      let countryCode = "";
+      let countryName = "";
+      if (phone && phone.startsWith("+")) {
+        const match = phone.match(/^(\+\d{1,4})/);
+        if (match) {
+          countryCode = match[1];
+        }
+      }
+      // Minimal country code map (expand as needed)
+      const codeMap: Record<string, string> = {
+        "+62": "Indonesia",
+        "+1": "USA/Canada",
+        "+65": "Singapore",
+        "+60": "Malaysia",
+        "+63": "Philippines",
+        "+81": "Japan",
+        "+82": "South Korea",
+        "+44": "UK",
+        "+91": "India",
+        "+61": "Australia",
+        "+66": "Thailand",
+        "+84": "Vietnam",
+        "+86": "China",
+      };
+      if (countryCode && codeMap[countryCode]) {
+        countryName = codeMap[countryCode];
+      }
+
       // A. Auto-reply to User
       await resend.emails.send({
         from: "TS Residence <reservations@tsresidence.id>",
@@ -120,7 +150,9 @@ export async function POST(req: Request) {
           <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
             <tr><td><strong>Name</strong></td><td>${leadName}</td></tr>
             <tr><td><strong>Email</strong></td><td>${email}</td></tr>
-            <tr><td><strong>Phone</strong></td><td>${phone || "N/A"}</td></tr>
+            <tr><td><strong>Phone</strong></td><td>
+              ${phone ? `${phone} ${countryCode ? `<span style='color:#888'>(WhatsApp country: ${countryCode}${countryName ? ' - ' + countryName : ''})</span>` : ''}` : "N/A"}
+            </td></tr>
             <tr><td><strong>Stay Duration</strong></td><td>${stayDuration || "N/A"}</td></tr>
             <tr><td><strong>Message</strong></td><td>${message || "N/A"}</td></tr>
             <tr><td><strong>Source</strong></td><td>${source} / ${medium || "organic"}</td></tr>
