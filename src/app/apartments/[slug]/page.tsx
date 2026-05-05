@@ -1,55 +1,26 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ApartmentDetailClient } from "@/components/apartments/ApartmentDetailClient";
-import {
-  apartmentDetailMap,
-  type ApartmentKey,
-} from "@/lib/apartments-content";
+import { apartmentDetailMap } from "@/lib/apartments-content";
+
+type ApartmentSlug = keyof typeof apartmentDetailMap;
 
 export function generateStaticParams() {
-  return [{ slug: "solo" }, { slug: "studio" }, { slug: "soho" }];
+  return Object.keys(apartmentDetailMap).map((slug) => ({
+    slug,
+  }));
 }
 
-export async function generateMetadata({
+export default async function ApartmentDetailPage({
   params,
 }: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const { slug } = params;
-  const apartment = apartmentDetailMap[slug as ApartmentKey];
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const apartmentSlug = slug as ApartmentSlug;
 
-  if (!apartment) {
-    return {
-      title: "Apartment Not Found",
-      robots: { index: false, follow: false },
-    };
+  if (!apartmentDetailMap[apartmentSlug]) {
+    notFound();
   }
 
-  return {
-    title: `${apartment.name} Apartment`,
-    description: apartment.description,
-    alternates: {
-      canonical: `/apartments/${slug}`,
-    },
-    openGraph: {
-      title: `${apartment.name} Apartment | TS Residence`,
-      description: apartment.short,
-      images: [
-        {
-          url: apartment.hero,
-          alt: `${apartment.name} apartment`,
-        },
-      ],
-    },
-  };
-}
-
-export default function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const { slug } = params;
-  if (!apartmentDetailMap[slug as ApartmentKey]) notFound();
-  return <ApartmentDetailClient slug={slug as ApartmentKey} />;
+  return <ApartmentDetailClient slug={apartmentSlug} />;
 }
