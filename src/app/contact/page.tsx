@@ -25,7 +25,7 @@ const contactCards = [
     label: "Address",
     value:
       "Jl. Nakula No.18, Legian, Seminyak, Kec. Kuta, Kabupaten Badung, Bali 80361",
-    href: "https://maps.google.com/?q=TS+Residence+Seminyak",
+    href: "https://www.google.com/maps/place/TS+Residence/@-8.697248,115.1704925,17z/data=!3m1!4b1!4m6!3m5!1s0x2dd2399bec0bbbc5:0x47a0ebc4ff4fab5!8m2!3d-8.697248!4d115.1704925!16s%2Fg%2F11px8qwbk3?entry=ttu",
   },
 ];
 
@@ -127,7 +127,7 @@ export default function Page() {
             <FadeInView className="border-gold/25 overflow-hidden border">
               <iframe
                 title="TS Residence Location"
-                src="https://maps.google.com/maps?q=TS%20Residence%20Seminyak&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=TS%20Residence%20Seminyak%20Bali&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 className="h-90 w-full md:h-105 lg:h-115"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

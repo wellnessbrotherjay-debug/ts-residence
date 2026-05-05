@@ -136,7 +136,7 @@ export const Footer = () => {
 
               <div className="space-y-4 text-[0.92rem] leading-7 text-white/74 sm:text-[0.95rem]">
                 <a
-                  href="https://maps.google.com/?q=Jl.+Nakula+No.18,+Legian,+Seminyak,+Kec.+Kuta,+Kabupaten+Badung,+Bali+80361"
+                  href="https://www.google.com/maps/place/TS+Residence/@-8.697248,115.1704925,17z/data=!3m1!4b1!4m6!3m5!1s0x2dd2399bec0bbbc5:0x47a0ebc4ff4fab5!8m2!3d-8.697248!4d115.1704925!16s%2Fg%2F11px8qwbk3?entry=ttu"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-start gap-3 transition-colors duration-300 hover:text-white"
