@@ -2,10 +2,10 @@ import { NextResponse, NextRequest } from "next/server";
 import { supabase } from "@/lib/supabase";
 
 // PATCH /api/leads/[id]/status
-export async function PATCH(request: NextRequest, context: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { status } = await request.json();
-    const { id } = context.params;
+    const { id } = await context.params;
     if (!id || !status) {
       return NextResponse.json({ error: "Missing id or status" }, { status: 400 });
     }
