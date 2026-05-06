@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import AdminApplicationsPanel from "./AdminApplicationsPanel";
 import dynamic from "next/dynamic";
 const ChatHistoryPanel = dynamic(() => import("./ChatHistoryPanel"), { ssr: false });
+const MarketingDashboard = dynamic(() => import("./MarketingDashboard"), { ssr: false });
 
 interface DashboardLead {
   id: number;
@@ -66,27 +67,6 @@ export default function AdminPage() {
       alert("Incorrect password");
     }
   };
-  if (!mounted) {
-    return null;
-  }
-  if (!authed) {
-    return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f5f1eb" }}>
-        <form onSubmit={handlePw} style={{ background: "white", padding: 32, borderRadius: 12, boxShadow: "0 2px 16px #0001", display: "flex", flexDirection: "column", gap: 16, minWidth: 320 }}>
-          <h2 style={{ margin: 0, fontWeight: 700, fontSize: 24 }}>Admin Login</h2>
-          <input
-            type="password"
-            value={pw}
-            onChange={e => setPw(e.target.value)}
-            placeholder="Enter password"
-            style={{ padding: 12, fontSize: 18, borderRadius: 6, border: "1px solid #ccc" }}
-            autoFocus
-          />
-          <button type="submit" style={{ padding: 12, fontSize: 18, borderRadius: 6, background: "#8b7658", color: "white", border: "none", fontWeight: 600 }}>Login</button>
-        </form>
-      </div>
-    );
-  }
 
   const fetchDashboard = async (isInitial = false) => {
     try {
@@ -149,11 +129,15 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
+    if (!mounted || !authed) {
+      return;
+    }
+
     fetchDashboard(true);
     const interval = setInterval(() => fetchDashboard(), 15000);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastLeadId]);
+  }, [authed, mounted, lastLeadId]);
 
   const updateLeadStatus = async (id: number, status: string) => {
     const res = await fetch(`/api/leads/${id}/status`, {
@@ -181,6 +165,29 @@ export default function AdminPage() {
       ? leads
       : leads.filter((l) => l.status === selectedFilter);
 
+  if (!mounted) {
+    return null;
+  }
+
+  if (!authed) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f5f1eb" }}>
+        <form onSubmit={handlePw} style={{ background: "white", padding: 32, borderRadius: 12, boxShadow: "0 2px 16px #0001", display: "flex", flexDirection: "column", gap: 16, minWidth: 320 }}>
+          <h2 style={{ margin: 0, fontWeight: 700, fontSize: 24 }}>Admin Login</h2>
+          <input
+            type="password"
+            value={pw}
+            onChange={e => setPw(e.target.value)}
+            placeholder="Enter password"
+            style={{ padding: 12, fontSize: 18, borderRadius: 6, border: "1px solid #ccc" }}
+            autoFocus
+          />
+          <button type="submit" style={{ padding: 12, fontSize: 18, borderRadius: 6, background: "#8b7658", color: "white", border: "none", fontWeight: 600 }}>Login</button>
+        </form>
+      </div>
+    );
+  }
+
   if (loading && !summary) {
     return (
       <div className="p-20 text-center text-white">Loading Dashboard...</div>
@@ -199,6 +206,10 @@ export default function AdminPage() {
             className={`px-4 py-2 rounded font-bold ${activeTab === "applications" ? "bg-gold text-black" : "bg-[#222] text-gold"}`}
             onClick={() => setActiveTab("applications")}
           >Applications</button>
+          <button
+            className={`px-4 py-2 rounded font-bold ${activeTab === "marketing" ? "bg-gold text-black" : "bg-[#222] text-gold"}`}
+            onClick={() => setActiveTab("marketing")}
+          >Marketing</button>
           <button
             className={`px-4 py-2 rounded font-bold ${activeTab === "chat" ? "bg-gold text-black" : "bg-[#222] text-gold"}`}
             onClick={() => setActiveTab("chat")}
@@ -333,6 +344,7 @@ export default function AdminPage() {
           </div>
         )}
         {activeTab === "applications" && <AdminApplicationsPanel />}
+        {activeTab === "marketing" && <MarketingDashboard />}
         {activeTab === "chat" && <ChatHistoryPanel />}
       </div>
     </div>
