@@ -1,30 +1,14 @@
 "use client";
 
-import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState, useTransition } from "react";
-import { LockedPageHero } from "@/components/site/LockedPageHero";
-import {
-  FadeInView,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/site/animations";
+import { AnimatePresence, motion } from "motion/react";
 
-type GalleryCollection = {
-  name: string;
-  handle: string;
-  description: string;
-  cover: string;
-  images: string[];
-};
-
-const collections: GalleryCollection[] = [
+const collections = [
   {
     name: "TS Residence",
     handle: "@tsresidences",
     description: "Architectural moments and signature spaces in Seminyak.",
-    cover:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
+    cover: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
     images: [
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
       "https://tsresidence.id/wp-content/uploads/2025/08/ts-residence-img.webp",
@@ -36,8 +20,7 @@ const collections: GalleryCollection[] = [
     name: "Apartments",
     handle: "@tsresidences",
     description: "SOLO, STUDIO, and SOHO apartment perspectives.",
-    cover:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c7d7a14d-6caa-4eaa-dd61-26a5f852f900/public",
+    cover: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c7d7a14d-6caa-4eaa-dd61-26a5f852f900/public",
     images: [
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/52b605cf-2c98-48f3-cce2-b317f0dbd800/public",
       "https://tsresidence.id/wp-content/uploads/2025/08/studio-main-image.webp",
@@ -50,8 +33,7 @@ const collections: GalleryCollection[] = [
     name: "Five-Star Living",
     handle: "@tssuitesseminyak",
     description: "Curated facilities and service-led lifestyle details.",
-    cover:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+    cover: "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
     images: [
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
       "https://tsresidence.id/wp-content/uploads/2025/10/christophe-salon-img-scaled-e1759999189370.webp",
@@ -63,8 +45,7 @@ const collections: GalleryCollection[] = [
     name: "Healthy Living",
     handle: "@nolwellnessclub",
     description: "Wellness routines, classes, and restorative facilities.",
-    cover:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp",
+    cover: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp",
     images: [
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp",
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-community-scaled.webp",
@@ -76,8 +57,7 @@ const collections: GalleryCollection[] = [
     name: "Easy Living",
     handle: "@tsresidences",
     description: "Everyday ease, location access, and monthly-stay rhythm.",
-    cover:
-      "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+    cover: "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
     images: [
       "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
       "https://tsresidence.id/wp-content/uploads/2025/08/panoramic-view-of-sunset-on-a-beah-near-tsresidence-scaled.webp",
@@ -155,37 +135,42 @@ export default function Page() {
 
   return (
     <div className="relative isolate overflow-x-hidden">
-      <LockedPageHero
-        image="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public"
-        alt="TS Residence Gallery"
-        heightClassName="h-[86vh] md:h-[88vh]"
-        title={
-          <>
-            Moments that define
-            <br />
-            life at TS Residence.
-          </>
-        }
-        description="Explore apartment ambiance, five-star facilities, wellness culture, and everyday long-stay experiences in Seminyak."
-      />
+      {/* Hero Section */}
+      <div className="h-[86vh] md:h-[88vh] relative overflow-hidden border-y border-gold/30">
+        <div className="absolute inset-0">
+          <img
+            src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public"
+            alt="TS Residence Gallery"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/42" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/34 via-black/20 to-black/52" />
+        </div>
+        <div className="relative z-10 h-full flex items-center justify-center text-white">
+          <div className="text-center max-w-300">
+            <h1 className="font-serif text-[2.75rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-7xl md:max-w-[14ch] md:text-[5.7rem] lg:text-[6.8rem]">
+              Moments that define<br />life at TS Residence.
+            </h1>
+            <p className="mx-auto mt-6 max-w-125 text-[0.97rem] leading-7 text-white/92 [text-shadow:0_2px_18px_rgba(0,0,0,0.38)] md:mt-9 md:max-w-190 md:text-[1.16rem] md:leading-9">
+              Explore apartment ambiance, five-star facilities, wellness culture, and everyday long-stay experiences in Seminyak.
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <section className="border-gold/30 relative z-10 border-b bg-white">
+      {/* Official Channels */}
+      <section className="border-b border-gold/30 bg-white relative z-10">
         <div className="mx-auto w-full max-w-440 px-6 py-16 md:px-10 md:py-18 lg:px-12 lg:py-22 xl:px-14">
-          <FadeInView className="mb-14 max-w-255">
+          <div className="mb-14 max-w-255">
             <p className="label-caps text-gold">Official Channels</p>
             <h2 className="text-ink mt-4 font-serif text-[2.3rem] leading-[1.03] md:text-[3.2rem]">
-              Explore visual stories from
-              <br />
-              each TS ecosystem.
+              Explore visual stories from<br />each TS ecosystem.
             </h2>
-          </FadeInView>
+          </div>
 
-          <StaggerContainer
-            className="mb-16 grid grid-cols-1 gap-5 md:grid-cols-2 lg:gap-6 xl:grid-cols-4"
-            staggerDelay={0.12}
-          >
+          <div className="mb-16 grid grid-cols-1 gap-5 md:grid-cols-2 lg:gap-6 xl:grid-cols-4">
             {officialAccounts.map((account) => (
-              <StaggerItem
+              <div
                 key={account.name}
                 className="border-gold/25 bg-cream border transition-all duration-700 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(28,25,23,0.08)]"
               >
@@ -196,12 +181,11 @@ export default function Page() {
                   className="flex h-full cursor-pointer items-center gap-4 p-6"
                 >
                   <div className="border-gold/30 flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border bg-white">
-                    <Image
+                    <img
                       src={account.logo}
                       alt={account.name}
-                      fill
-                      className="object-contain"
-                      quality={85}
+                      className="h-full w-full object-contain"
+                      loading="eager"
                     />
                   </div>
                   <div>
@@ -213,25 +197,21 @@ export default function Page() {
                     </p>
                   </div>
                 </a>
-              </StaggerItem>
+              </div>
             ))}
-          </StaggerContainer>
+          </div>
 
-          <FadeInView className="mb-12 max-w-270">
+          {/* Collections */}
+          <div className="mb-12 max-w-270">
             <p className="label-caps text-gold">Collections</p>
             <h2 className="text-ink mt-4 font-serif text-[2.3rem] leading-[1.03] md:text-[3.2rem]">
-              Curated visual sets from
-              <br />
-              each lifestyle experience.
+              Curated visual sets from<br />each lifestyle experience.
             </h2>
-          </FadeInView>
+          </div>
 
-          <StaggerContainer
-            className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3"
-            staggerDelay={0.12}
-          >
+          <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3">
             {collections.map((collection, collectionIndex) => (
-              <StaggerItem
+              <div
                 key={collection.name}
                 className="group border-gold/25 bg-cream overflow-hidden border"
               >
@@ -243,14 +223,12 @@ export default function Page() {
                   className="block h-full w-full cursor-pointer appearance-none border-0 bg-transparent p-0 text-left"
                 >
                   <div className="overflow-hidden relative aspect-video">
-                    <Image
-                      src={collection.cover}
-                      alt={collection.name}
-                      fill
-                      className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05]"
-                      quality={75}
-                      loading="lazy"
-                    />
+                    <img
+                    src={collection.cover}
+                    alt={collection.name}
+                    className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05]"
+                    loading="lazy"
+                  />
                   </div>
                   <div className="p-6 md:p-7">
                     <div className="flex items-center justify-between">
@@ -269,15 +247,16 @@ export default function Page() {
                     </p>
                   </div>
                 </button>
-              </StaggerItem>
+              </div>
             ))}
-          </StaggerContainer>
+          </div>
         </div>
       </section>
 
-      <section className="border-gold/30 bg-cream relative z-10 border-b">
+      {/* All Moments */}
+      <section className="border-b border-gold/30 bg-cream relative z-10">
         <div className="w-full px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-20 xl:px-14">
-          <FadeInView className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="label-caps text-gold">All Moments</p>
               <h3 className="text-ink mt-3 font-serif text-[2rem] leading-[1.03] md:text-[2.7rem]">
@@ -301,18 +280,15 @@ export default function Page() {
                 </button>
               ))}
             </div>
-          </FadeInView>
+          </div>
 
           <div
             aria-live="polite"
             className={`transition-opacity duration-500 ${isPending ? "opacity-60" : "opacity-100"}`}
           >
-            <StaggerContainer
-              className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5"
-              staggerDelay={0.06}
-            >
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
               {filteredImages.map((item, index) => (
-                <StaggerItem
+                <div
                   key={`${item.src}-${index}`}
                   className="group border-gold/25 overflow-hidden border bg-white"
                 >
@@ -331,23 +307,22 @@ export default function Page() {
                     }}
                     className="relative block h-full w-full cursor-pointer appearance-none border-0 bg-transparent p-0"
                   >
-                    <Image
-                      src={item.src}
-                      alt={item.collection}
-                      fill
-                      className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.07]"
-                      quality={75}
-                      loading="lazy"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <img
+                    src={item.src}
+                    alt={item.collection}
+                    className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.07]"
+                    loading="lazy"
+                  />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </button>
-                </StaggerItem>
+                </div>
               ))}
-            </StaggerContainer>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Gallery Modal */}
       <AnimatePresence>
         {activeCollection >= 0 && activeImage >= 0 && (
           <motion.div
@@ -404,13 +379,11 @@ export default function Page() {
               className="relative w-full max-w-330"
               onClick={(event) => event.stopPropagation()}
             >
-              <Image
+              <img
                 src={collections[activeCollection].images[activeImage]}
                 alt={collections[activeCollection].name}
-                fill
-                className="max-h-[82vh] object-contain"
-                quality={85}
-                priority={true}
+                className="max-h-[82vh] w-full object-contain"
+                loading="eager"
               />
               <figcaption className="mt-4 text-center text-[12px] tracking-[0.18em] text-white/80 uppercase">
                 {collections[activeCollection].name} | {activeImage + 1} /{" "}

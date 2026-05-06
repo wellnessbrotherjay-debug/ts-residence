@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { OffersHero } from "@/components/offers/OffersHero";
 import {
   FadeInView,
@@ -21,15 +20,10 @@ export default function Page() {
           <div className="group grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-12">
             <FadeInView direction="right" className="overflow-hidden">
               <div className="relative h-full overflow-hidden">
-                <Image
+                <img
                   src={featured.image}
                   alt={featured.title}
-                  fill
-                  className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05]"
-                  quality={80}
-                  priority
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                  className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.05]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20" />
                 <div className="absolute bottom-6 left-6 right-6 pt-20 md:bottom-12 md:left-12 lg:bottom-16 lg:left-16 md:pt-0">
@@ -97,15 +91,10 @@ export default function Page() {
                 <Link href={offer.link || "/apartments"} className="h-full block">
                   <article className="h-full">
                     <div className="overflow-hidden">
-                      <Image
+                      <img
                         src={offer.image}
                         alt={offer.title}
-                        fill
-                        className="object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
-                        quality={70}
-                        loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                        className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
                       />
                     </div>
                     <div className="flex min-h-72 flex-col p-7 md:p-8">

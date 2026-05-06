@@ -24,6 +24,46 @@ import {
 } from "@/components/site/animations";
 import { BTN_DARK, BTN_GOLD } from "@/components/site/buttons";
 
+const SVG_FALLBACK = "/globe.svg";
+
+const EASY_IMAGE_REPLACEMENTS: Record<string, string> = {
+  "https://tsresidence.id/wp-content/uploads/2025/08/panoramic-view-of-sunset-on-a-beah-near-tsresidence-scaled.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
+  "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d44e04fa-07c2-4c4a-e25f-7082f2534e00/public",
+  "https://tsresidence.id/wp-content/uploads/2025/09/46cef01afe76ce46f8019d0f518ea165.jpg":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
+  "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/363a5628-6c76-41fd-bac1-16127cdd1500/public",
+  "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
+  "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-hotel.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/8a2ce61d-0aed-4265-e5f8-6e6381d64a00/public",
+  "https://tsresidence.id/wp-content/uploads/2025/10/couple-walking-around-seminyak-e1761017959269.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
+  "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12a96763-9bfb-47d8-8199-4702767d5d00/public",
+  "https://tsresidence.id/wp-content/uploads/2025/08/a-surfer-walking-under-the-sunset-near-ts-residence.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
+  "https://tsresidence.id/wp-content/uploads/2025/10/ts-store-img.webp":
+    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
+  "https://tsresidence.id/wp-content/uploads/2025/08/bali-island-outline.svg": SVG_FALLBACK,
+};
+
+function resolveEasyImage(src: string) {
+  const replacement = EASY_IMAGE_REPLACEMENTS[src];
+
+  if (replacement) {
+    return replacement;
+  }
+
+  if (src.includes("tsresidence.id/wp-content")) {
+    return src.endsWith(".svg") ? SVG_FALLBACK : src;
+  }
+
+  return src;
+}
+
 const seminyakReasons = [
   {
     title: "Strategically located with fast access to everything",
@@ -46,23 +86,21 @@ const seminyakReasons = [
 
 const easyMoments = [
   {
-    image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
-    caption: "Your stable monthly base in the heart of Seminyak.",
-  },
-  {
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/08/panoramic-view-of-sunset-on-a-beah-near-tsresidence-scaled.webp",
+    ),
     caption: "Morning commute: Just 5 minutes to Seminyak Beach.",
   },
   {
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+    ),
     caption: "Daily access to rooftop recovery and wellness.",
   },
   {
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/09/46cef01afe76ce46f8019d0f518ea165.jpg",
+    ),
     caption: "Refined interiors designed for real-life productivity.",
   },
 ];
@@ -98,8 +136,9 @@ const residenceFacilities = [
     title: "TS Suites Coworking",
     description:
       "A professional environment for focus and global connectivity, just levels away.",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+    ),
     label: "Productivity",
   },
   {
@@ -115,16 +154,18 @@ const residenceFacilities = [
     title: "Rooftop Pool & Bar",
     description:
       "Elevated relaxation with panoramic Seminyak views and signature service.",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+    ),
     label: "Lifestyle",
   },
   {
     title: "TSTORE & Retail",
     description:
       "Curated fashion and essential retail directly within the residence complex.",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp",
+    ),
     label: "Convenience",
   },
 ];
@@ -132,80 +173,95 @@ const residenceFacilities = [
 const seminyakHighlights = [
   {
     title: "TS Suites Hotel",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-hotel.webp",
+    ),
     href: "https://tssuites.com/",
   },
   {
     title: "Strategic Location",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/couple-walking-around-seminyak-e1761017959269.webp",
+    ),
   },
   {
     title: "No.1 Wellness Club",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp",
+    ),
     href: "https://www.no1wellness.com/",
   },
   {
     title: "Free Shuttle Service",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/shuttle-bus-service-by-ts-suites-scaled.webp",
+    ),
   },
   {
     title: "Seminyak Beach",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/08/a-surfer-walking-under-the-sunset-near-ts-residence.webp",
+    ),
   },
   {
     title: "Double Six Beach",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/08/lots-of-umbrellas-on-the-beach-during-sunset.webp",
+    ),
   },
   {
     title: "TSTORE",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/ts-store-img.webp",
+    ),
   },
   {
     title: "Restaurant",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/09/mama-san-restaurant-near-ts-residence.jpg",
+    ),
   },
   {
     title: "Nightlife",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/09/kudeta-night-club-near-ts-residence.jpg",
+    ),
   },
   {
     title: "Entertainment",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/09/woobar-near-ts-residence.jpg",
+    ),
   },
   {
     title: "Beach Club",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/09/potato-head-beach-club-near-ts-residence.jpg",
+    ),
   },
   {
     title: "10 min to Hospital",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/siloam-hospital-denpasar-ts-suites-e1761018247329.webp",
+    ),
   },
   {
     title: "20 min to Ngurah Rai Airport",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/ngurah-rai-airport-bali-ts-residence.webp",
+    ),
   },
   {
     title: "Shopping Center, Dining & Entertainment",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/Beachwalk-shopping-center-kuta.webp",
+    ),
   },
   {
     title: "Easy Accessibility",
-    image:
+    image: resolveEasyImage(
       "https://tsresidence.id/wp-content/uploads/2025/10/Bali-mandara-highway.webp",
+    ),
   },
 ];
 
@@ -271,7 +327,9 @@ export default function Page() {
         className="border-gold/30 text-over-image relative min-h-[48vh] overflow-hidden border-y md:min-h-[78vh] lg:min-h-[92vh]"
       >
         <motion.img
-          src="https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp"
+          src={resolveEasyImage(
+            "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+          )}
           alt="Live in the heart of Seminyak"
           className="absolute inset-0 h-full w-full object-cover"
           style={{ y: heroImageY, scale: heroImageScale }}
@@ -331,7 +389,9 @@ export default function Page() {
       <section className="border-gold/30 relative overflow-hidden border-b bg-white">
         <div className="pointer-events-none absolute top-10 -right-88 hidden opacity-[0.07] lg:block">
           <img
-            src="https://tsresidence.id/wp-content/uploads/2025/08/bali-island-outline.svg"
+            src={resolveEasyImage(
+              "https://tsresidence.id/wp-content/uploads/2025/08/bali-island-outline.svg",
+            )}
             alt=""
             className="w-216 max-w-none"
           />
@@ -417,6 +477,12 @@ export default function Page() {
                               duration: 1,
                               ease: [0.22, 1, 0.36, 1],
                             }}
+                            onError={e => {
+                              const fallback = "/ts-fallback.jpg";
+                              if (e.currentTarget.src !== fallback) {
+                                e.currentTarget.src = fallback;
+                              }
+                            }}
                           />
                           <div className="absolute inset-0 bg-linear-to-t from-black/62 via-black/8 to-transparent" />
                           <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
@@ -438,6 +504,12 @@ export default function Page() {
                             transition={{
                               duration: 1,
                               ease: [0.22, 1, 0.36, 1],
+                            }}
+                            onError={e => {
+                              const fallback = "/ts-fallback.jpg";
+                              if (e.currentTarget.src !== fallback) {
+                                e.currentTarget.src = fallback;
+                              }
                             }}
                           />
                           <div className="absolute inset-0 bg-linear-to-t from-black/62 via-black/8 to-transparent" />
@@ -528,6 +600,12 @@ export default function Page() {
                       src={facility.image}
                       alt={facility.title}
                       className="h-full w-full object-cover transition-transform duration-1900 group-hover:scale-105"
+                      onError={e => {
+                        const fallback = "/ts-fallback.jpg";
+                        if (e.currentTarget.src !== fallback) {
+                          e.currentTarget.src = fallback;
+                        }
+                      }}
                     />
                   </div>
                   <div className="p-7">
@@ -643,7 +721,7 @@ export default function Page() {
           >
             {easyMoments.map((moment, index) => (
               <StaggerItem
-                key={moment.image}
+                key={index}
                 className="group border-gold/25 overflow-hidden border bg-white"
               >
                 <button
@@ -657,6 +735,12 @@ export default function Page() {
                     className="aspect-4/3 w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.06]"
                     whileHover={{ scale: 1.06 }}
                     transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                    onError={e => {
+                      const fallback = "/ts-fallback.jpg";
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
+                    }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                     <span className="border border-white/40 bg-black/20 px-4 py-2 text-[10px] tracking-[0.2em] text-white uppercase backdrop-blur-sm">
@@ -728,7 +812,7 @@ export default function Page() {
             </button>
 
             <figure
-              key={easyMoments[galleryIndex].image}
+              key={`${galleryIndex}`}
               className="relative w-full max-w-330"
               onClick={(event) => event.stopPropagation()}
             >

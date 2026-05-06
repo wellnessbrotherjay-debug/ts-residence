@@ -30,14 +30,14 @@ const wellnessPillars = [
     description:
       "Pilates, movement sessions, and expert-led classes to strengthen mobility and daily stamina.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-reformer-pilater.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
   },
   {
     title: "Nutrition",
     description:
       "Juice and wellness nutrition options to support healthier routines and sustained energy levels.",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-juice-nutrition-cafe.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/f612e425-ea50-4970-7ba9-cd1396e1aa00/public",
   },
 ];
 
@@ -88,51 +88,51 @@ const wellnessFacilities = [
 
 const communityMoments = [
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-community-scaled.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/6c248521-f09b-4802-3905-5623cd796e00/public",
     alt: "TS Residence wellness community gathering",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-pilates-class-scaled.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d3acb1e6-97d9-49f0-da61-b4ad90f74300/public",
     alt: "Pilates class at TS Residence",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12a96763-9bfb-47d8-8199-4702767d5d00/public",
     alt: "Yoga class by the pool",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-pool-exercise-scaled.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public",
     alt: "Pool exercise session",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-pool-party.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/13c17e41-4ce4-4d5f-b7a8-22b22d8cc600/public",
     alt: "Pool social event",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-business-networking-scaled-e1759735087307.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7b91f79d-d4da-4872-4dea-b407d4e9d500/public",
     alt: "Business networking event",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tssuites-special-events-scaled.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e260b085-759e-4411-923a-d2da61a94d00/public",
     alt: "Special event at TS Suites",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tstore-fashion-show-scaled.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/f612e425-ea50-4970-7ba9-cd1396e1aa00/public",
     alt: "Fashion show community event",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/08/social-and-wellness-event-ts-residence.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/22f5b499-b941-4dca-11e3-239e22612200/public",
     alt: "Social and wellness activity",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/08/an-instructure-leading-the-exercise-in-ts-residence.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/363a5628-6c76-41fd-bac1-16127cdd1500/public",
     alt: "Instructor leading exercise session",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/08/a-half-body-shot-of-a-woman-doing-meditaition-in-ts-residence.webp",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7b396216-4fa1-457b-b6bf-16588fa18400/public",
     alt: "Meditation practice session",
   },
   {
-    src: "https://tsresidence.id/wp-content/uploads/2025/09/46cef01afe76ce46f8019d0f518ea165.jpg",
+    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/c4706bf4-10a7-4895-5be3-6c35b0eb3100/public",
     alt: "Community wellness moment",
   },
 ];
@@ -234,8 +234,7 @@ export default function Page() {
             <img
               src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public"
               alt="No. 1 Wellness Studio Logo"
-              className="mx-auto mb-4"
-              style={{ height: "108px", width: "auto", display: "block" }}
+              className="mx-auto mb-4 w-54 h-27"
               draggable={false}
             />
             <div className="font-serif text-gold-dark text-xl font-semibold mb-2 tracking-wide uppercase">No. 1 Wellness Studio</div>
@@ -260,11 +259,14 @@ export default function Page() {
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               >
                 <div className="h-52 overflow-hidden md:h-65 lg:h-80 relative">
-                  <motion.img
-                    src={facility.image}
-                    alt={facility.title}
-                    className="h-full w-full object-cover transition-transform duration-1900 ease-out group-hover:scale-[1.06]"
-                  />
+                  <motion.div className="relative h-full w-full">
+                    <img
+                      src={facility.image}
+                      alt={facility.title}
+                      className="h-full w-full object-cover transition-transform duration-1900 ease-out group-hover:scale-[1.06]"
+                      draggable={false}
+                    />
+                  </motion.div>
                   <img
                     src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public"
                     alt="No. 1 Wellness Logo"

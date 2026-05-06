@@ -3,7 +3,6 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import NextImage from "next/image";
 import {
   FadeInView,
   StaggerContainer,
@@ -147,14 +146,10 @@ function ScrollHero() {
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
         >
-          <NextImage
+          <img
             src={img.image}
             alt={img.alt}
-            fill
-            sizes="100vw"
             className="h-full w-full object-cover"
-            style={{ objectFit: "cover" }}
-            priority={index === 0}
             draggable={false}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
@@ -290,14 +285,10 @@ export default function Page() {
             >
               <article className="h-full">
                 <div className="h-52 overflow-hidden md:h-65 lg:h-80 relative">
-                  <NextImage
+                  <img
                     src={facility.image}
                     alt={facility.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 25vw"
                     className="h-full w-full object-cover transition-transform duration-1700 ease-out group-hover:scale-[1.045]"
-                    style={{ objectFit: "cover" }}
-                    priority={false}
                     draggable={false}
                   />
                 </div>

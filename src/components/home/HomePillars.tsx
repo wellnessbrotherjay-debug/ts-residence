@@ -20,7 +20,7 @@ const GALLERIES: Record<number, GalleryItem[]> = {
     { image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/58f6c170-0414-45be-8f99-e5c795222a00/public", label: "Restaurant" },
   ],
   1: [ // Healthy Living
-    { image: "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp", label: "Yoga Studio" },
+    { image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12a96763-9bfb-47d8-8199-4702767d5d00/public", label: "Yoga Studio" },
     { image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/22f5b499-b941-4dca-11e3-239e22612200/public", label: "Reformer Pilates" },
     { image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/363a5628-6c76-41fd-bac1-16127cdd1500/public", label: "Wellness Facilities" },
     { image: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/7b396216-4fa1-457b-b6bf-16588fa18400/public", label: "Cold & Hot Bath" },
