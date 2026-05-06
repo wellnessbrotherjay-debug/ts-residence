@@ -1,5 +1,6 @@
 
 
+import Link from "next/link";
 import Image from "next/image";
 import "./home-hero.css";
 
@@ -74,14 +75,14 @@ export default function HeroSection() {
       </div>
       <div className="home-hero__bottom">
         <div className="home-hero__tabs">
-          <a href="/apartments">APARTMENTS</a>
-          <a href="/five-star-living">FIVE-STAR LIVING</a>
-          <a href="/healthy-living">HEALTHY LIVING</a>
-          <a href="/easy-living">EASY LIVING</a>
+          <Link href="/apartments">APARTMENTS</Link>
+          <Link href="/five-star-living">FIVE-STAR LIVING</Link>
+          <Link href="/healthy-living">HEALTHY LIVING</Link>
+          <Link href="/easy-living">EASY LIVING</Link>
         </div>
         <div className="home-hero__actions">
-          <a href="/book" className="home-hero__btn home-hero__btn--primary">BOOK</a>
-          <a href="/apartments" className="home-hero__btn home-hero__btn--ghost">EXPLORE MORE</a>
+          <Link href="/contact" className="home-hero__btn home-hero__btn--primary">BOOK</Link>
+          <Link href="/apartments" className="home-hero__btn home-hero__btn--ghost">EXPLORE MORE</Link>
         </div>
       </div>
     </section>

@@ -132,7 +132,6 @@ export default function Page() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                allow="*"
               />
             </FadeInView>
 

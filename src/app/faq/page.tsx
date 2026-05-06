@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions | TS Residence",
+  title: "Frequently Asked Questions",
   description: "Answers to common questions about TS Residence long-stay apartments in Seminyak, Bali.",
   alternates: { canonical: "/faq" },
 };

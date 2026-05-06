@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
   async redirects() {
     return [
@@ -26,22 +28,27 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    formats: ["image/webp", "image/avif"],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1280, 1366, 1536, 1600, 1920, 2048, 2560, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 512, 640, 750, 828, 1080],
-    minimumCacheTTL: 31536000,
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: false,
-    qualities: [75, 85, 95],
+    formats: ['image/webp', 'image/avif'],
     remotePatterns: [
-      { protocol: "https", hostname: "tsresidence.id" },
-      { protocol: "https", hostname: "*.tsresidence.id" },
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "picsum.photos" },
-      { protocol: "https", hostname: "imagedelivery.net" },
-      { protocol: "https", hostname: "*.imagedelivery.net" },
-      { protocol: "https", hostname: "www.hive68.com" },
+      {
+        protocol: 'https',
+        hostname: 'imagedelivery.net',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'tsresidence.id',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.tsresidence.id',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   headers: async () => {
@@ -59,15 +66,19 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
+      ...(isProduction
+        ? [
+            {
+              source: '/_next/static/:path*',
+              headers: [
+                {
+                  key: 'Cache-Control',
+                  value: 'public, max-age=31536000, immutable',
+                },
+              ],
+            },
+          ]
+        : []),
       {
         source: '/sw.js',
         headers: [
