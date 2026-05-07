@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BTN_SOLID } from "@/components/site/buttons";
+import { buildDeviceType, getAttributionSnapshot, trackEvent } from "@/lib/tracking";
 
 type ContactFormState = {
   firstName: string;
@@ -14,6 +15,7 @@ type ContactFormState = {
 };
 
 export function ContactForm() {
+  const hasTrackedStartRef = useRef(false);
   const [form, setForm] = useState<ContactFormState>({
     firstName: "",
     lastName: "",
@@ -28,6 +30,14 @@ export function ContactForm() {
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    if (!hasTrackedStartRef.current) {
+      hasTrackedStartRef.current = true;
+      trackEvent("form_start", {
+        form_name: "contact_inquiry",
+        page_path: typeof window !== "undefined" ? window.location.pathname : "/contact",
+      });
+    }
+
     setForm({ ...form, [e.target.id]: e.target.value });
   };
 
@@ -37,6 +47,30 @@ export function ContactForm() {
     setSuccess("");
     setError(null);
     try {
+      const attribution = getAttributionSnapshot();
+      const leadPayload = {
+        ...form,
+        page: attribution.currentPage || "",
+        pageUrl: attribution.pageUrl || "",
+        deviceType: buildDeviceType(),
+        landingPage: attribution.landingPage || attribution.currentPage || "",
+        source:
+          attribution.latest.utm_source ||
+          (attribution.referrer ? new URL(attribution.referrer).hostname : "direct"),
+        medium: attribution.latest.utm_medium || null,
+        campaign: attribution.latest.utm_campaign || null,
+        term: attribution.latest.utm_term || null,
+        content: attribution.latest.utm_content || null,
+        referrer: attribution.referrer || "",
+        gclid: attribution.latest.gclid || null,
+        fbclid: attribution.latest.fbclid || null,
+        ttclid: attribution.latest.ttclid || null,
+        sessionId: attribution.sessionId,
+        visitorId: attribution.visitorId,
+        firstTouch: attribution.first,
+        latestTouch: attribution.latest,
+      };
+
       const [res, leadRes] = await Promise.all([
         fetch("/api/contact", {
           method: "POST",
@@ -46,21 +80,19 @@ export function ContactForm() {
         fetch("/api/leads", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...form,
-            page: typeof window !== "undefined" ? window.location.pathname : "",
-            pageUrl: typeof window !== "undefined" ? window.location.href : "",
-            deviceType: "unknown", // Will be set on client side
-            landingPage: "",
-            source: "direct",
-            campaign: null,
-            referrer: "",
-          }),
+          body: JSON.stringify(leadPayload),
         }).catch(() => null)
       ]);
 
-      if (res.ok) {
-        setSuccess("Your inquiry was sent! We'll reply soon.");
+      const contactOk = res.ok;
+      const leadOk = Boolean(leadRes?.ok);
+
+      if (contactOk || leadOk) {
+        setSuccess(
+          contactOk
+            ? "Your inquiry was sent! We'll reply soon."
+            : "Your inquiry was received. Our confirmation email may be delayed.",
+        );
         setForm({
           firstName: "",
           lastName: "",
@@ -71,21 +103,38 @@ export function ContactForm() {
           message: "",
         });
         
-        // Track the lead form submit event so analytics picks it up
-        import("@/lib/tracking").then(({ trackEvent }) => {
-          trackEvent("form_submit", { form_name: "contact_inquiry" });
+        trackEvent("form_submit", {
+          form_name: "contact_inquiry",
+          page_path: attribution.currentPage || "/contact",
+          lead_destination: "contact_form",
+          lead_source: leadPayload.source,
+          lead_campaign: leadPayload.campaign || undefined,
         });
-      } else {
-        const data = await res.json();
-        // Normalize error: handle string or object
-        let errorMsg: string;
-        if (typeof data.error === "string") {
-          errorMsg = data.error;
-        } else if (data.error && typeof data.error === "object" && "message" in data.error) {
-          errorMsg = String(data.error.message ?? "Something went wrong");
-        } else {
-          errorMsg = "Failed to send. Try again later.";
+
+        if (leadOk) {
+          trackEvent("lead_created", {
+            form_name: "contact_inquiry",
+            page_path: attribution.currentPage || "/contact",
+            lead_destination: "contact_form",
+            lead_source: leadPayload.source,
+            lead_medium: leadPayload.medium || undefined,
+            lead_campaign: leadPayload.campaign || undefined,
+            landing_page: leadPayload.landingPage || undefined,
+          });
         }
+      } else {
+        const data = await res.json().catch(() => null);
+        const leadData = await leadRes?.json().catch(() => null);
+        let errorMsg = "Failed to send. Try again later.";
+
+        if (typeof data?.error === "string") {
+          errorMsg = data.error;
+        } else if (data?.error && typeof data.error === "object" && "message" in data.error) {
+          errorMsg = String(data.error.message ?? errorMsg);
+        } else if (typeof leadData?.error === "string") {
+          errorMsg = leadData.error;
+        }
+
         setError(errorMsg);
       }
     } catch (err) {

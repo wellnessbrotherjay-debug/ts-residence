@@ -1,8 +1,41 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import {
+  checkRateLimit,
+  getClientIp,
+  tooManyRequestsResponse,
+} from '@/lib/api-security';
+
+const chatPayloadSchema = z.object({
+  messages: z
+    .array(
+      z.object({
+        role: z.enum(['system', 'user', 'assistant']),
+        content: z.string().trim().min(1).max(4000),
+      }),
+    )
+    .min(1)
+    .max(24),
+});
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const clientIp = getClientIp(req);
+    const rateLimit = checkRateLimit(`chat:${clientIp}`, 20, 10 * 60 * 1000);
+    if (!rateLimit.allowed) {
+      return tooManyRequestsResponse(rateLimit.retryAfterMs);
+    }
+
+    const payload = await req.json();
+    const parsed = chatPayloadSchema.safeParse(payload);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Invalid request payload', details: parsed.error.flatten() },
+        { status: 400 },
+      );
+    }
+
+    const { messages } = parsed.data;
     // messages: [{role: 'system'|'user'|'assistant', content: string}]
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {

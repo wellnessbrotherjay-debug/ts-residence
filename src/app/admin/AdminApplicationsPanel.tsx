@@ -12,6 +12,12 @@ interface Application {
   message?: string;
   status: string;
   created_at: string;
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  session_id?: string;
+  visitor_id?: string;
+  page_url?: string;
 }
 
 export default function AdminApplicationsPanel() {
@@ -25,6 +31,7 @@ export default function AdminApplicationsPanel() {
   // Refactor: avoid setState directly in effect, use abort controller
   useEffect(() => {
     let ignore = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setError(null);
     fetch("/api/leads")
@@ -92,6 +99,7 @@ export default function AdminApplicationsPanel() {
                 <th className="px-6 py-4">Email</th>
                 <th className="px-6 py-4">Phone</th>
                 <th className="px-6 py-4">Stay Duration</th>
+                <th className="px-6 py-4">Source</th>
                 <th className="px-6 py-4">Status</th>
                 <th className="px-6 py-4">Submitted</th>
                 <th className="px-6 py-4">Message</th>
@@ -118,6 +126,14 @@ export default function AdminApplicationsPanel() {
                   <td className="px-6 py-4">{app.email}</td>
                   <td className="px-6 py-4">{app.phone || "-"}</td>
                   <td className="px-6 py-4">{app.stay_duration || "-"}</td>
+                  <td className="px-6 py-4">
+                    <div className="text-xs">
+                      <span className="font-bold text-gold">{app.source || "direct"}</span>
+                      {app.medium && <span className="text-white/50"> / {app.medium}</span>}
+                      {app.campaign && <div className="text-white/40 truncate max-w-[120px]" title={app.campaign}>{app.campaign}</div>}
+                      {app.visitor_id && <div className="text-white/25 font-mono" title={app.visitor_id}>v:{app.visitor_id.slice(0,8)}</div>}
+                    </div>
+                  </td>
                   <td className="px-6 py-4 uppercase text-xs font-bold">
                     <select
                       value={app.status}

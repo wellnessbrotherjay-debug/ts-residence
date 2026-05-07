@@ -60,6 +60,7 @@ export default function Page() {
                       src={apartment.image}
                       alt={apartment.name}
                       className="h-54 w-full object-cover transition-transform duration-1800 ease-out group-hover:scale-[1.06] md:h-80 lg:h-130"
+                      draggable={false}
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
                     <div className="absolute right-5 bottom-5 border border-white/35 bg-black/28 px-3 py-2 text-[10px] tracking-[0.2em] text-white/90 uppercase backdrop-blur-sm md:right-7 md:bottom-7">

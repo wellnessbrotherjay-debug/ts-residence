@@ -1,12 +1,66 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { z } from "zod";
+import {
+  checkRateLimit,
+  getClientIp,
+  tooManyRequestsResponse,
+} from "@/lib/api-security";
 
-const resend = new Resend(process.env.RESEND_API_KEY || "re_WE2B2WLY_D1NVPHgjUSD48hDPsyn8WE4w");
+const resendApiKey = process.env.RESEND_API_KEY;
+
+const contactSchema = z.object({
+  firstName: z.string().trim().min(1).max(120),
+  lastName: z.string().trim().min(1).max(120),
+  email: z.string().trim().email().max(254),
+  countryCode: z.string().trim().max(16).optional(),
+  phone: z.string().trim().max(32).optional(),
+  stayDuration: z.string().trim().max(120).optional(),
+  message: z.string().trim().max(4000).optional(),
+});
+
+function normalizeEmailError(error: unknown) {
+  if (!error) {
+    return null;
+  }
+
+  if (typeof error === "string") {
+    return error;
+  }
+
+  if (typeof error === "object" && error && "message" in error) {
+    return String((error as { message?: unknown }).message || "Email send failed");
+  }
+
+  return "Email send failed";
+}
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
-    const { firstName, lastName, email, countryCode, phone, stayDuration, message } = data;
+    const clientIp = getClientIp(req);
+    const rateLimit = checkRateLimit(`contact:${clientIp}`, 10, 10 * 60 * 1000);
+    if (!rateLimit.allowed) {
+      return tooManyRequestsResponse(rateLimit.retryAfterMs);
+    }
+
+    if (!resendApiKey) {
+      return NextResponse.json(
+        { error: "Email service is not configured" },
+        { status: 503 },
+      );
+    }
+
+    const payload = await req.json();
+    const parsed = contactSchema.safeParse(payload);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid request payload", details: parsed.error.flatten() },
+        { status: 400 },
+      );
+    }
+
+    const { firstName, lastName, email, countryCode, phone, stayDuration, message } = parsed.data;
+    const resend = new Resend(resendApiKey);
 
 
     // Branded admin notification
@@ -51,30 +105,45 @@ export async function POST(req: Request) {
       </body>
     `;
 
-    // Send admin notification
-    const adminResult = await resend.emails.send({
-      from: "TS Residence <noreply@tsresidence.id>",
-      to: ["tsresidence@townsquare.co.id", "wellnessbrotherjay@gmail.com"],
-      subject: "New Apartment Application from Website",
-      html: adminHtml,
-      replyTo: "tsresidence@townsquare.co.id",
-    });
+    const [adminResult, clientResult] = await Promise.allSettled([
+      resend.emails.send({
+        from: "TS Residence <noreply@tsresidence.id>",
+        to: ["tsresidence@townsquare.co.id", "wellnessbrotherjay@gmail.com"],
+        subject: "New Apartment Application from Website",
+        html: adminHtml,
+        replyTo: "tsresidence@townsquare.co.id",
+      }),
+      resend.emails.send({
+        from: "TS Residence <noreply@tsresidence.id>",
+        to: [email],
+        subject: "Thank you for your application to TS Residence",
+        html: clientHtml,
+      }),
+    ]);
 
-    // Send client confirmation
-    const clientResult = await resend.emails.send({
-      from: "TS Residence <noreply@tsresidence.id>",
-      to: [email],
-      subject: "Thank you for your application to TS Residence",
-      html: clientHtml,
-    });
+    const adminError =
+      adminResult.status === "fulfilled"
+        ? normalizeEmailError(adminResult.value.error)
+        : normalizeEmailError(adminResult.reason);
+    const clientError =
+      clientResult.status === "fulfilled"
+        ? normalizeEmailError(clientResult.value.error)
+        : normalizeEmailError(clientResult.reason);
 
-    if (adminResult.error) {
-      return NextResponse.json({ error: adminResult.error }, { status: 500 });
+    if (adminError && clientError) {
+      return NextResponse.json(
+        {
+          error: "Unable to send confirmation emails right now.",
+          emailWarnings: [adminError, clientError],
+        },
+        { status: 503 },
+      );
     }
-    if (clientResult.error) {
-      return NextResponse.json({ error: clientResult.error }, { status: 500 });
-    }
-    return NextResponse.json({ success: true });
+
+    return NextResponse.json({
+      success: true,
+      emailWarnings: [adminError, clientError].filter(Boolean),
+    });
   } catch (err) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }

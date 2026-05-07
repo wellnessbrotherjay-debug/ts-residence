@@ -64,6 +64,7 @@ export const Navbar = () => {
 
   // Ensure component only renders on client side
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 

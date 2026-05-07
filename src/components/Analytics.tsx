@@ -2,19 +2,24 @@
 
 import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { trackEvent, buildDeviceType, captureUTMs } from "@/lib/tracking";
+import {
+  trackEvent,
+  buildDeviceType,
+  captureUTMs,
+  shouldEnableTracking,
+} from "@/lib/tracking";
 
 declare global {
   interface Window {
-    dataLayer: any[];
+    dataLayer: unknown[];
   }
 }
 
 // Move env access to top-level for static replacement
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
-const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
+const GTM_ID = (process.env.NEXT_PUBLIC_GTM_ID || process.env.next_PUBLIC_GTM_ID)?.trim();
+const GA_ID = (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.next_PUBLIC_GA_MEASUREMENT_ID)?.trim();
+const PIXEL_ID = (process.env.NEXT_PUBLIC_META_PIXEL_ID || process.env.next_PUBLIC_META_PIXEL_ID)?.trim();
+const CLARITY_ID = (process.env.NEXT_PUBLIC_CLARITY_ID || process.env.next_PUBLIC_CLARITY_ID)?.trim();
 
 function appendInlineScript(id: string, content: string) {
   if (document.getElementById(id)) return;
@@ -41,6 +46,7 @@ export function Analytics() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (!shouldEnableTracking(pathname)) return;
 
     window.dataLayer = window.dataLayer || [];
 
@@ -93,13 +99,17 @@ export function Analytics() {
   // Track page views on route change manually for single page transition fidelity
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (!shouldEnableTracking(pathname)) return;
     if (searchParams) {
       captureUTMs(searchParams.toString());
     }
     
-    // Store landing page for attribution
-    if (typeof window !== "undefined" && !localStorage.getItem("landing_page")) {
-      localStorage.setItem("landing_page", window.location.href);
+    // Store the first landing page consistently for attribution.
+    if (typeof window !== "undefined" && !localStorage.getItem("ts_landing_page")) {
+      localStorage.setItem(
+        "ts_landing_page",
+        window.location.pathname + window.location.search,
+      );
     }
     const segments = pathname.split("/").filter(Boolean);
     const pageName = segments.length > 0 ? segments[segments.length - 1] : "home";
@@ -114,6 +124,7 @@ export function Analytics() {
   // Track scroll depth, engaged session, and global outbound click decoration
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (!shouldEnableTracking(pathname)) return;
 
     let engagedFired = false;
     const scrollMilestones: Record<number, boolean> = { 25: false, 50: false, 75: false, 90: false };
@@ -156,7 +167,7 @@ export function Analytics() {
       const isLink = target.tagName === 'A';
       const href = isLink ? (target as HTMLAnchorElement).href : null;
       const text = (target as HTMLElement).innerText || (target as HTMLElement).getAttribute('aria-label') || 'unlabeled';
-      let eventType: 'cta_click' | 'social_click' | 'nav_click' = 'cta_click';
+      let eventType: 'cta_click' | 'booking_intent' | 'social_click' | 'nav_click' = 'cta_click';
       if (isLink && href) {
         const isExternal = (target as HTMLAnchorElement).hostname && (target as HTMLAnchorElement).hostname !== window.location.hostname;
         if (href.includes("wa.me") || href.includes("instagram.com")) {
@@ -164,6 +175,16 @@ export function Analytics() {
         } else if (!isExternal) {
           eventType = "nav_click";
         }
+
+        if (
+          href.includes("wa.me") ||
+          href.includes("booking") ||
+          href.includes("townsquare") ||
+          /book apartment|contact concierge|send inquiry/i.test(text)
+        ) {
+          eventType = "booking_intent";
+        }
+
         // Decorate cross-domain booking/contact links with UTMs dynamically
         if (href.includes("wa.me") || href.includes("booking") || href.includes("townsquare")) {
           e.preventDefault();
@@ -176,6 +197,7 @@ export function Analytics() {
         page_path: pathname,
         link_url: href || 'interaction',
         link_text: text,
+        intent_type: eventType === "booking_intent" ? "booking_or_inquiry" : undefined,
         device_type: buildDeviceType(),
       });
     };

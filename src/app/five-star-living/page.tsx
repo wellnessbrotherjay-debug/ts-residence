@@ -166,7 +166,7 @@ function ScrollHero() {
             {currentImage.title}
           </h1>
           <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto animate-fade-in-up">
-            At TS Residence, you don't just live — you live with the full
+            At TS Residence, you don&apos;t just live — you live with the full
             privileges of a five-star hotel, all under one roof.
           </p>
         </div>

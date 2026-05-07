@@ -1,12 +1,77 @@
 import { NextResponse } from "next/server";
+import { requireAdminRequest } from "@/lib/admin-auth";
 import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { Resend } from "resend";
+import { z } from "zod";
+import {
+  checkRateLimit,
+  getClientIp,
+  tooManyRequestsResponse,
+} from "@/lib/api-security";
+import { getRequestContext, isLikelyBot } from "@/lib/request-context";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const utmTouchSchema = z.object({
+  utm_source: z.string().trim().max(120).optional(),
+  utm_medium: z.string().trim().max(120).optional(),
+  utm_campaign: z.string().trim().max(255).optional(),
+  utm_content: z.string().trim().max(255).optional(),
+  utm_term: z.string().trim().max(255).optional(),
+  gclid: z.string().trim().max(255).optional(),
+  fbclid: z.string().trim().max(255).optional(),
+  ttclid: z.string().trim().max(255).optional(),
+}).optional();
+
+const leadsSchema = z.object({
+  firstName: z.string().trim().min(1).max(120),
+  lastName: z.string().trim().min(1).max(120),
+  email: z.string().trim().email().max(254),
+  phone: z.string().trim().max(32).optional(),
+  stayDuration: z.string().trim().max(120).optional(),
+  message: z.string().trim().max(4000).optional(),
+  page: z.string().trim().max(255).optional(),
+  source: z.string().trim().max(120).optional(),
+  medium: z.string().trim().max(120).optional(),
+  campaign: z.string().trim().max(255).optional(),
+  term: z.string().trim().max(255).optional(),
+  content: z.string().trim().max(255).optional(),
+  referrer: z.string().trim().max(2048).optional(),
+  gclid: z.string().trim().max(255).optional(),
+  fbclid: z.string().trim().max(255).optional(),
+  ttclid: z.string().trim().max(255).optional(),
+  sessionId: z.string().trim().max(255).optional(),
+  visitorId: z.string().trim().max(255).optional(),
+  deviceType: z.string().trim().max(32).optional(),
+  landingPage: z.string().trim().max(2048).optional(),
+  pageUrl: z.string().trim().max(2048).optional(),
+  firstTouch: utmTouchSchema,
+  latestTouch: utmTouchSchema,
+  ctaClicked: z.string().trim().max(255).optional(),
+  leadPage: z.string().trim().max(2048).optional(),
+  _honeypot: z.string().optional(),
+});
+
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const context = getRequestContext(req);
+    const clientIp = getClientIp(req);
+    const rateLimit = checkRateLimit(`leads:${clientIp}`, 8, 10 * 60 * 1000);
+    if (!rateLimit.allowed) {
+      return tooManyRequestsResponse(rateLimit.retryAfterMs);
+    }
+
+    const payload = await req.json();
+    const parsed = leadsSchema.safeParse(payload);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid request payload", details: parsed.error.flatten() },
+        { status: 400 },
+      );
+    }
+
+    const body = parsed.data;
     const {
       firstName,
       lastName,
@@ -21,11 +86,18 @@ export async function POST(req: Request) {
       term,
       content,
       referrer,
-      // New fields
+      gclid,
+      fbclid,
+      ttclid,
+      sessionId,
+      visitorId,
       deviceType,
       landingPage,
       pageUrl,
-      // Honeypot
+      firstTouch,
+      latestTouch,
+      ctaClicked,
+      leadPage,
       _honeypot
     } = body;
 
@@ -36,6 +108,10 @@ export async function POST(req: Request) {
 
     if (!firstName || !lastName || !email) {
       return NextResponse.json({ error: "firstName, lastName, and email are required" }, { status: 400 });
+    }
+
+    if (isLikelyBot(context.userAgent) || context.deviceType === "bot") {
+      return NextResponse.json({ success: true, message: "Bot traffic ignored" });
     }
 
     // 2. Deduplication (Check for same email in last 24h)
@@ -55,6 +131,81 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true, message: "Duplicate lead within 24h" });
     }
 
+    // 2b. Basic risk scoring from recent same-IP submissions
+    let recentIpLeadCount = 0;
+    if (context.ip) {
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+      const { data: recentLeads } = await supabase
+        .from("leads")
+        .select("metadata")
+        .gt("created_at", oneHourAgo)
+        .limit(500);
+
+      recentIpLeadCount = (recentLeads || []).filter((row) => {
+        const metadata = row.metadata as Record<string, unknown> | null;
+        return metadata?.request_ip === context.ip;
+      }).length;
+    }
+
+    const riskReasons: string[] = [];
+    if (recentIpLeadCount >= 3) riskReasons.push("high_ip_velocity");
+    if (phone && /^\+?0+$/.test(phone.replace(/\s+/g, ""))) riskReasons.push("invalid_phone_pattern");
+    const riskScore = riskReasons.length;
+
+    const trustedReferrer = req.headers.get("referer") || referrer || null;
+
+    // Lock attribution fields at ingest to prevent frontend spoofing of historical touch state
+    const safeUrl = (() => {
+      try {
+        return pageUrl ? new URL(pageUrl, "https://www.tsresidence.id") : null;
+      } catch {
+        return null;
+      }
+    })();
+
+    const sourceFromUrl = safeUrl?.searchParams.get("utm_source") || undefined;
+    const mediumFromUrl = safeUrl?.searchParams.get("utm_medium") || undefined;
+    const campaignFromUrl = safeUrl?.searchParams.get("utm_campaign") || undefined;
+    const termFromUrl = safeUrl?.searchParams.get("utm_term") || undefined;
+    const contentFromUrl = safeUrl?.searchParams.get("utm_content") || undefined;
+
+    // Attribution priority: URL params > latestTouch localStorage > body fields > direct
+    const finalSource = sourceFromUrl || latestTouch?.utm_source || source || "direct";
+    const finalMedium = mediumFromUrl || latestTouch?.utm_medium || medium || null;
+    const finalCampaign = campaignFromUrl || latestTouch?.utm_campaign || campaign || null;
+    const finalTerm = termFromUrl || latestTouch?.utm_term || term || null;
+    const finalContent = contentFromUrl || latestTouch?.utm_content || content || null;
+    const finalGclid = (safeUrl?.searchParams.get("gclid")) || latestTouch?.gclid || gclid || null;
+    const finalFbclid = (safeUrl?.searchParams.get("fbclid")) || latestTouch?.fbclid || fbclid || null;
+    const finalTtclid = (safeUrl?.searchParams.get("ttclid")) || latestTouch?.ttclid || ttclid || null;
+
+    const firstSource = firstTouch?.utm_source || finalSource;
+    const firstMedium = firstTouch?.utm_medium || finalMedium;
+    const firstCampaign = firstTouch?.utm_campaign || finalCampaign;
+    const firstTerm = firstTouch?.utm_term || finalTerm;
+    const firstContent = firstTouch?.utm_content || finalContent;
+
+    const trustedAttribution = {
+      source: finalSource,
+      medium: finalMedium,
+      campaign: finalCampaign,
+      term: finalTerm,
+      content: finalContent,
+      gclid: finalGclid,
+      fbclid: finalFbclid,
+      ttclid: finalTtclid,
+      first_source: firstSource,
+      first_medium: firstMedium,
+      first_campaign: firstCampaign,
+      first_term: firstTerm,
+      first_content: firstContent,
+      captured_at: new Date().toISOString(),
+      attribution_locked: true,
+    };
+
+    const trustedDeviceType =
+      context.deviceType !== "unknown" ? context.deviceType : deviceType || null;
+
     // 3. Insert Lead
     const { data, error } = await supabase
       .from("leads")
@@ -66,16 +217,57 @@ export async function POST(req: Request) {
         stay_duration: stayDuration || null,
         message: message || null,
         page: page || null,
-        source: source || "direct",
-        medium: medium || null,
-        campaign: campaign || null,
-        term: term || null,
-        content: content || null,
-        referrer: referrer || null,
-        // Attempting to insert new fields (if columns exist)
-        device_type: deviceType || null,
+        // Attribution — top-level columns
+        source: finalSource,
+        medium: finalMedium,
+        campaign: finalCampaign,
+        term: finalTerm,
+        content: finalContent,
+        referrer: trustedReferrer,
+        // New attribution columns (added by SQL Fix Pack 1)
+        session_id: sessionId || null,
+        visitor_id: visitorId || null,
+        first_source: firstSource,
+        first_medium: firstMedium,
+        first_campaign: firstCampaign,
+        first_content: firstContent,
+        first_term: firstTerm,
+        latest_source: finalSource,
+        latest_medium: finalMedium,
+        latest_campaign: finalCampaign,
+        latest_content: finalContent,
+        latest_term: finalTerm,
+        attribution: trustedAttribution,
+        cta_clicked: ctaClicked || null,
+        lead_page: leadPage || pageUrl || null,
+        // Device/page
+        device_type: trustedDeviceType,
         landing_page: landingPage || null,
         page_url: pageUrl || null,
+        metadata: {
+          device_type: trustedDeviceType,
+          landing_page: landingPage || null,
+          page_url: pageUrl || null,
+          session_id: sessionId || null,
+          visitor_id: visitorId || null,
+          gclid: finalGclid,
+          fbclid: finalFbclid,
+          ttclid: finalTtclid,
+          first_touch: { source: firstSource, medium: firstMedium, campaign: firstCampaign, term: firstTerm, content: firstContent },
+          latest_touch: trustedAttribution,
+          cta_clicked: ctaClicked || null,
+          risk_score: riskScore,
+          risk_reasons: riskReasons,
+          recent_ip_lead_count_1h: recentIpLeadCount,
+          request_ip: context.ip,
+          request_user_agent: context.userAgent,
+          request_device_type: context.deviceType,
+          request_country: context.country,
+          request_region: context.region,
+          request_city: context.city,
+          request_latitude: context.latitude,
+          request_longitude: context.longitude,
+        },
       })
       .select("id")
       .single();
@@ -157,8 +349,10 @@ export async function POST(req: Request) {
             <tr><td><strong>Message</strong></td><td>${message || "N/A"}</td></tr>
             <tr><td><strong>Source</strong></td><td>${source} / ${medium || "organic"}</td></tr>
             <tr><td><strong>Campaign</strong></td><td>${campaign || "N/A"}</td></tr>
+            <tr><td><strong>Landing Page</strong></td><td>${landingPage || "N/A"}</td></tr>
             <tr><td><strong>Page</strong></td><td>${page || "N/A"}</td></tr>
             <tr><td><strong>Device</strong></td><td>${deviceType || "N/A"}</td></tr>
+            <tr><td><strong>Click IDs</strong></td><td>${gclid || fbclid || ttclid || "N/A"}</td></tr>
           </table>
           <p><a href="https://www.tsresidence.id/admin" style="display: inline-block; padding: 10px 20px; background-color: #8b7658; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px;">View in CRM Dashboard</a></p>
         `,
@@ -183,7 +377,13 @@ export async function POST(req: Request) {
               source,
               campaign,
               page,
-              stayDuration
+              stayDuration,
+              landingPage,
+              gclid,
+              fbclid,
+              ttclid,
+              sessionId,
+              visitorId,
             }
           })
         }).catch(err => console.error("Jarvis activity logging failed", err));
@@ -202,7 +402,9 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
-    const { data, error } = await supabase
+    await requireAdminRequest();
+
+    const { data, error } = await supabaseAdmin
       .from("leads")
       .select("*")
       .order("created_at", { ascending: false })
@@ -215,6 +417,10 @@ export async function GET() {
 
     return NextResponse.json(data || []);
   } catch (err) {
+    if (err instanceof Error && err.message === "UNAUTHORIZED_ADMIN_REQUEST") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     console.error("leads GET catch error", err);
     return NextResponse.json({ error: "Invalid get request", details: String(err) }, { status: 400 });
   }

@@ -1,6 +1,8 @@
 export type TrackingEventName =
   | "page_view"
   | "cta_click"
+  | "booking_intent"
+  | "lead_created"
   | "social_click"
   | "nav_click"
   | "gallery_interaction"
@@ -23,7 +25,7 @@ export interface TrackingParams {
   section?: string;
   component?: string;
   device_type?: "desktop" | "mobile" | "tablet" | "unknown";
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface UTMParams {
@@ -37,8 +39,62 @@ export interface UTMParams {
   ttclid?: string;
 }
 
+export interface AttributionSnapshot {
+  first: UTMParams;
+  latest: UTMParams;
+  sessionId: string | null;
+  visitorId: string | null;
+  landingPage: string | null;
+  currentPage: string | null;
+  pageUrl: string | null;
+  referrer: string | null;
+}
+
+declare global {
+  interface Window {
+    dataLayer: unknown[];
+    gtag?: (...args: unknown[]) => void;
+    fbq?: (cmd: string, event: string, params?: Record<string, unknown>) => void;
+  }
+}
+
+const LIVE_ANALYTICS_HOSTS = new Set([
+  "tsresidence.id",
+  "www.tsresidence.id",
+]);
+
+const GA_MEASUREMENT_ID = (
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
+  process.env.next_PUBLIC_GA_MEASUREMENT_ID
+)?.trim();
+
+export function shouldEnableTracking(pathname?: string): boolean {
+  if (typeof window === "undefined") return false;
+
+  const currentPath = pathname || window.location.pathname;
+  const hostname = window.location.hostname;
+
+  if (!LIVE_ANALYTICS_HOSTS.has(hostname)) {
+    return false;
+  }
+
+  if (currentPath === "/admin" || currentPath.startsWith("/admin/")) {
+    return false;
+  }
+
+  return true;
+}
+
 export function captureUTMs(search: string) {
-  if (typeof window === "undefined" || !search) return;
+  if (typeof window === "undefined" || !search || !shouldEnableTracking()) return;
+
+  if (!localStorage.getItem("ts_landing_page")) {
+    localStorage.setItem(
+      "ts_landing_page",
+      window.location.pathname + window.location.search,
+    );
+  }
+
   const urlParams = new URLSearchParams(search);
   
   const currentUTMs: UTMParams = {};
@@ -80,6 +136,61 @@ export function getUTMs(): { first: UTMParams; latest: UTMParams } {
   }
 }
 
+export function ensureTrackingIds(): {
+  sessionId: string | null;
+  visitorId: string | null;
+} {
+  if (typeof window === "undefined") {
+    return { sessionId: null, visitorId: null };
+  }
+
+  let sessionId = localStorage.getItem("ts_session_id");
+  let visitorId = localStorage.getItem("ts_visitor_id");
+
+  if (!sessionId) {
+    sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+    localStorage.setItem("ts_session_id", sessionId);
+  }
+
+  if (!visitorId) {
+    visitorId =
+      window.crypto?.randomUUID?.() ||
+      `vis_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+    localStorage.setItem("ts_visitor_id", visitorId);
+  }
+
+  return { sessionId, visitorId };
+}
+
+export function getAttributionSnapshot(): AttributionSnapshot {
+  if (typeof window === "undefined") {
+    return {
+      first: {},
+      latest: {},
+      sessionId: null,
+      visitorId: null,
+      landingPage: null,
+      currentPage: null,
+      pageUrl: null,
+      referrer: null,
+    };
+  }
+
+  const { first, latest } = getUTMs();
+  const { sessionId, visitorId } = ensureTrackingIds();
+
+  return {
+    first,
+    latest,
+    sessionId,
+    visitorId,
+    landingPage: localStorage.getItem("ts_landing_page"),
+    currentPage: window.location.pathname,
+    pageUrl: window.location.href,
+    referrer: document.referrer || null,
+  };
+}
+
 export function appendUTMsToUrl(url: string): string {
   if (typeof window === "undefined" || !url) return url;
   
@@ -101,9 +212,10 @@ export function appendUTMsToUrl(url: string): string {
 
 export function trackEvent(eventName: TrackingEventName, params?: TrackingParams) {
   if (typeof window === "undefined") return;
+  if (!shouldEnableTracking(params?.page_path)) return;
 
   try {
-    const dataLayer = (window as any).dataLayer || [];
+    const dataLayer = window.dataLayer || [];
     const { first, latest } = getUTMs();
     
     const flatUTMs: Record<string, string> = {};
@@ -122,57 +234,42 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
     });
 
     // GA4 direct event tracking
-    if (typeof (window as any).gtag === "function") {
-      (window as any).gtag('event', eventName, {
+    if (typeof window.gtag === "function") {
+      window.gtag('event', eventName, {
         ...params,
         ...flatUTMs,
-        send_to: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+        send_to: GA_MEASUREMENT_ID,
       });
     }
 
     // Meta Standard Event Compatibility
-    if (typeof (window as any).fbq === "function") {
+    if (typeof window.fbq === "function") {
       let fbEvent = "trackCustom";
-      let fbEventName: any = eventName;
+      let fbEventName: string = eventName;
       
       if (eventName === "page_view") {
         fbEvent = "track";
         fbEventName = "PageView";
-      } else if (eventName === "form_submit") {
+      } else if (eventName === "form_submit" || eventName === "lead_created") {
         fbEvent = "track";
         fbEventName = "Lead";
+      } else if (eventName === "booking_intent") {
+        fbEvent = "track";
+        fbEventName = "InitiateCheckout";
       } else if (eventName === "cta_click") {
         fbEvent = "trackCustom";
         fbEventName = "CTAClick";
       }
 
-      (window as any).fbq(fbEvent, fbEventName, {
-        ...params,
+      window.fbq(fbEvent, fbEventName, {
+        ...params as Record<string, unknown>,
         ...latest
       });
     }
 
     // Supabase first-party tracking
     // Only generate IDs on client side to prevent hydration mismatches
-    let sessionId = localStorage.getItem('ts_session_id');
-    let visitorId = localStorage.getItem('ts_visitor_id');
-
-    // Initialize IDs only on client side
-    if (typeof window !== 'undefined') {
-      if (!sessionId) {
-        sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-        localStorage.setItem('ts_session_id', sessionId);
-      }
-
-      if (!visitorId) {
-        visitorId = window.crypto?.randomUUID?.() || `vis_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-        localStorage.setItem('ts_visitor_id', visitorId);
-      }
-    } else {
-      // Fallback for server rendering
-      sessionId = 'server-generated';
-      visitorId = 'server-generated';
-    }
+    const { sessionId, visitorId } = ensureTrackingIds();
 
     fetch('/api/analytics/track', {
       method: 'POST',
@@ -204,16 +301,14 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
 
 export function grantConsent(type: "analytics" | "marketing" | "all" | "rejected") {
   if (typeof window === "undefined") return;
-  const dataLayer = (window as any).dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  const dataLayer = window.dataLayer || [];
+  function gtag(...args: unknown[]){dataLayer.push(args);}
 
   if (type === "all" || type === "analytics") {
-    // @ts-ignore
     gtag('consent', 'update', {
       'analytics_storage': 'granted'
     });
   } else if (type === "rejected") {
-    // @ts-ignore
     gtag('consent', 'update', {
       'analytics_storage': 'denied',
       'ad_storage': 'denied',
@@ -223,7 +318,6 @@ export function grantConsent(type: "analytics" | "marketing" | "all" | "rejected
   }
   
   if (type === "all" || type === "marketing") {
-    // @ts-ignore
     gtag('consent', 'update', {
       'ad_storage': 'granted',
       'ad_user_data': 'granted',

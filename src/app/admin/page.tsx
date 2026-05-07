@@ -5,6 +5,9 @@ import AdminApplicationsPanel from "./AdminApplicationsPanel";
 import dynamic from "next/dynamic";
 const ChatHistoryPanel = dynamic(() => import("./ChatHistoryPanel"), { ssr: false });
 const MarketingDashboard = dynamic(() => import("./MarketingDashboard"), { ssr: false });
+const UtmBuilder = dynamic(() => import("./UtmBuilder"), { ssr: false });
+const ReportPanel = dynamic(() => import("./ReportPanel"), { ssr: false });
+const TrafficIntelligencePanel = dynamic(() => import("./TrafficIntelligencePanel"), { ssr: false });
 
 interface DashboardLead {
   id: number;
@@ -26,6 +29,10 @@ interface DashboardSummary {
     page_views: number;
     book_clicks: number;
     total_leads: number;
+    closed_won_leads: number;
+    cta_click_rate: number;
+    lead_to_sale_rate: number;
+    visit_to_sale_rate: number;
   };
   bySource: { source: string; count: number }[];
   byCampaign: { campaign: string; count: number }[];
@@ -39,43 +46,93 @@ interface DashboardSummary {
   }[];
 }
 
+interface ContextSummaryRow {
+  key: string;
+  events: number;
+  leads: number;
+  won: number;
+  visitToSaleRate: number;
+  leadToSaleRate: number;
+}
+
+interface ContextSummary {
+  periodDays: number;
+  generatedAt: string;
+  totals: {
+    pageViews: number;
+    leads: number;
+    closedWon: number;
+  };
+  byCountry: ContextSummaryRow[];
+  byDevice: ContextSummaryRow[];
+}
+
 export default function AdminPage() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
+  const [contextSummary, setContextSummary] = useState<ContextSummary | null>(null);
   const [leads, setLeads] = useState<DashboardLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastLeadId, setLastLeadId] = useState<number | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [activeTab, setActiveTab] = useState<string>("overview");
+  const [hideUnknownOverview, setHideUnknownOverview] = useState<boolean>(false);
 
-  // SSR-safe password protection
   const [pw, setPw] = useState("");
   const [authed, setAuthed] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    if (typeof window !== "undefined") {
-      const saved = window.localStorage.getItem("ts_admin_pw");
-      if (saved === "1234") setAuthed(true);
-    }
+
+    fetch("/api/admin/session", { credentials: "same-origin" })
+      .then(async (response) => {
+        if (!response.ok) {
+          return { authenticated: false };
+        }
+
+        return (await response.json()) as { authenticated: boolean };
+      })
+      .then((payload) => {
+        setAuthed(Boolean(payload.authenticated));
+      })
+      .finally(() => {
+        setMounted(true);
+      });
   }, []);
-  const handlePw = (e: React.FormEvent) => {
+
+  const handlePw = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (pw === "1234") {
+    setAuthError(null);
+
+    const response = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ password: pw }),
+    });
+
+    if (response.ok) {
       setAuthed(true);
-      window.localStorage.setItem("ts_admin_pw", "1234");
     } else {
-      alert("Incorrect password");
+      const payload = await response.json().catch(() => null);
+      setAuthError(payload?.error || "Incorrect password");
     }
   };
 
   const fetchDashboard = async (isInitial = false) => {
     try {
-      const [summaryRes, leadsRes] = await Promise.all([
+      const [summaryRes, leadsRes, contextSummaryRes] = await Promise.all([
         fetch("/api/dashboard/summary"),
         fetch("/api/leads"),
+        fetch("/api/admin/traffic/context-summary?days=28"),
       ]);
       if (summaryRes.ok) {
         setSummary(await summaryRes.json());
+      }
+      if (contextSummaryRes.ok) {
+        setContextSummary(await contextSummaryRes.json());
       }
       if (leadsRes.ok) {
         const data = await leadsRes.json();
@@ -133,6 +190,7 @@ export default function AdminPage() {
       return;
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchDashboard(true);
     const interval = setInterval(() => fetchDashboard(), 15000);
     return () => clearInterval(interval);
@@ -165,6 +223,18 @@ export default function AdminPage() {
       ? leads
       : leads.filter((l) => l.status === selectedFilter);
 
+  const overviewCountryRows = contextSummary
+    ? hideUnknownOverview
+      ? contextSummary.byCountry.filter((item) => item.key.toLowerCase() !== "unknown")
+      : contextSummary.byCountry
+    : [];
+
+  const overviewDeviceRows = contextSummary
+    ? hideUnknownOverview
+      ? contextSummary.byDevice.filter((item) => item.key.toLowerCase() !== "unknown")
+      : contextSummary.byDevice
+    : [];
+
   if (!mounted) {
     return null;
   }
@@ -182,6 +252,7 @@ export default function AdminPage() {
             style={{ padding: 12, fontSize: 18, borderRadius: 6, border: "1px solid #ccc" }}
             autoFocus
           />
+          {authError ? <p style={{ margin: 0, color: "#b91c1c", fontSize: 14 }}>{authError}</p> : null}
           <button type="submit" style={{ padding: 12, fontSize: 18, borderRadius: 6, background: "#8b7658", color: "white", border: "none", fontWeight: 600 }}>Login</button>
         </form>
       </div>
@@ -214,12 +285,24 @@ export default function AdminPage() {
             className={`px-4 py-2 rounded font-bold ${activeTab === "chat" ? "bg-gold text-black" : "bg-[#222] text-gold"}`}
             onClick={() => setActiveTab("chat")}
           >Chatbot History</button>
+          <button
+            className={`px-4 py-2 rounded font-bold ${activeTab === "utm" ? "bg-gold text-black" : "bg-[#222] text-gold"}`}
+            onClick={() => setActiveTab("utm")}
+          >UTM Builder</button>
+          <button
+            className={`px-4 py-2 rounded font-bold ${activeTab === "reports" ? "bg-gold text-black" : "bg-[#222] text-gold"}`}
+            onClick={() => setActiveTab("reports")}
+          >Reports</button>
+          <button
+            className={`px-4 py-2 rounded font-bold ${activeTab === "traffic" ? "bg-gold text-black" : "bg-[#222] text-gold"}`}
+            onClick={() => setActiveTab("traffic")}
+          >Traffic Intel</button>
         </div>
         {activeTab === "overview" && (
           <div>
             {summary ? (
               <>
-                <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+                <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
                   <div className="rounded-lg bg-[#222] p-6">
                     <p className="text-gold text-sm font-semibold uppercase">Page Views</p>
                     <p className="mt-2 text-3xl font-bold">{summary.totals.page_views.toLocaleString()}</p>
@@ -229,18 +312,26 @@ export default function AdminPage() {
                     <p className="mt-2 text-3xl font-bold">{summary.totals.book_clicks.toLocaleString()}</p>
                   </div>
                   <div className="rounded-lg bg-[#222] p-6">
-                    <p className="text-gold text-sm font-semibold uppercase">Total Events</p>
-                    <p className="mt-2 text-3xl font-bold">{summary.totals.total_events.toLocaleString()}</p>
+                    <p className="text-gold text-sm font-semibold uppercase">CTA Click Rate</p>
+                    <p className="mt-2 text-3xl font-bold">{summary.totals.cta_click_rate.toFixed(1)}%</p>
                   </div>
                   <div className="rounded-lg bg-[#222] p-6">
-                    <p className="text-gold text-sm font-semibold uppercase">Conversion Rate</p>
-                    <p className="mt-2 text-3xl font-bold">
-                      {summary.totals.page_views > 0
-                        ? `${((summary.totals.book_clicks / summary.totals.page_views) * 100).toFixed(1)}%`
-                        : "0%"}
-                    </p>
+                    <p className="text-gold text-sm font-semibold uppercase">Closed Won</p>
+                    <p className="mt-2 text-3xl font-bold">{summary.totals.closed_won_leads.toLocaleString()}</p>
+                  </div>
+                  <div className="rounded-lg bg-[#222] p-6">
+                    <p className="text-gold text-sm font-semibold uppercase">Visit to Sale Rate</p>
+                    <p className="mt-2 text-3xl font-bold">{summary.totals.visit_to_sale_rate.toFixed(2)}%</p>
+                  </div>
+                  <div className="rounded-lg bg-[#222] p-6">
+                    <p className="text-gold text-sm font-semibold uppercase">Lead to Sale Rate</p>
+                    <p className="mt-2 text-3xl font-bold">{summary.totals.lead_to_sale_rate.toFixed(1)}%</p>
                   </div>
                 </div>
+
+                <p className="mb-10 text-xs text-white/55">
+                  CTA Click Rate = Book Clicks / Page Views. Visit to Sale Rate = Closed Won / Page Views. Lead to Sale Rate = Closed Won / Total Leads.
+                </p>
 
                 <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div className="rounded-lg bg-[#222] p-6">
@@ -266,6 +357,60 @@ export default function AdminPage() {
                     </div>
                   </div>
                 </div>
+
+                {contextSummary ? (
+                  <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div className="rounded-lg bg-[#222] p-6">
+                      <div className="mb-4 flex items-start justify-between gap-3">
+                        <div>
+                          <h3 className="text-gold mb-1 text-lg font-semibold">Top Countries (Last 28 Days)</h3>
+                          <p className="text-xs text-white/50">From server-verified request geo headers.</p>
+                        </div>
+                        <label className="flex items-center gap-2 rounded border border-white/10 px-3 py-2 text-xs text-white/75">
+                          <input
+                            type="checkbox"
+                            checked={hideUnknownOverview}
+                            onChange={(e) => setHideUnknownOverview(e.target.checked)}
+                          />
+                          Hide Unknown
+                        </label>
+                      </div>
+                      <div className="space-y-2">
+                        {overviewCountryRows.slice(0, 6).map((item) => (
+                          <div key={item.key} className="border-b border-white/10 pb-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-white/90">{item.key}</span>
+                              <span className="font-bold text-white">{item.events.toLocaleString()} views</span>
+                            </div>
+                            <div className="mt-1 flex items-center justify-between text-xs text-white/60">
+                              <span>Leads: {item.leads.toLocaleString()} · Won: {item.won.toLocaleString()}</span>
+                              <span>Visit→Sale: {item.visitToSaleRate.toFixed(2)}%</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="rounded-lg bg-[#222] p-6">
+                      <h3 className="text-gold mb-1 text-lg font-semibold">Device Breakdown (Last 28 Days)</h3>
+                      <p className="mb-4 text-xs text-white/50">Server-derived device type from user-agent.</p>
+                      <div className="space-y-2">
+                        {overviewDeviceRows.slice(0, 6).map((item) => (
+                          <div key={item.key} className="border-b border-white/10 pb-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-white/90 capitalize">{item.key}</span>
+                              <span className="font-bold text-white">{item.events.toLocaleString()} views</span>
+                            </div>
+                            <div className="mt-1 flex items-center justify-between text-xs text-white/60">
+                              <span>Leads: {item.leads.toLocaleString()} · Won: {item.won.toLocaleString()}</span>
+                              <span>Lead→Sale: {item.leadToSaleRate.toFixed(1)}%</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
               </>
             ) : null}
 
@@ -346,6 +491,9 @@ export default function AdminPage() {
         {activeTab === "applications" && <AdminApplicationsPanel />}
         {activeTab === "marketing" && <MarketingDashboard />}
         {activeTab === "chat" && <ChatHistoryPanel />}
+        {activeTab === "utm" && <UtmBuilder />}
+        {activeTab === "reports" && <ReportPanel />}
+        {activeTab === "traffic" && <TrafficIntelligencePanel />}
       </div>
     </div>
   );

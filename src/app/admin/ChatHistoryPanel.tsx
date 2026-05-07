@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
 
 interface ChatSession {
   id: string;
@@ -26,12 +25,13 @@ export default function ChatHistoryPanel() {
   useEffect(() => {
     const fetchSessions = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("chat_sessions")
-        .select("id, created_at, last_active, user_agent")
-        .order("last_active", { ascending: false })
-        .limit(50);
-      if (!error && data) setSessions(data);
+      const response = await fetch("/api/admin/chat/sessions", {
+        credentials: "same-origin",
+      });
+      if (response.ok) {
+        const data = (await response.json()) as ChatSession[];
+        setSessions(data);
+      }
       setLoading(false);
     };
     fetchSessions();
@@ -40,12 +40,13 @@ export default function ChatHistoryPanel() {
   const fetchMessages = async (session_id: string) => {
     setSelected(session_id);
     setLoading(true);
-    const { data, error } = await supabase
-      .from("chat_messages")
-      .select("id, session_id, role, content, created_at")
-      .eq("session_id", session_id)
-      .order("created_at", { ascending: true });
-    if (!error && data) setMessages(data);
+    const response = await fetch(`/api/admin/chat/messages/${session_id}`, {
+      credentials: "same-origin",
+    });
+    if (response.ok) {
+      const data = (await response.json()) as ChatMessage[];
+      setMessages(data);
+    }
     setLoading(false);
   };
 
