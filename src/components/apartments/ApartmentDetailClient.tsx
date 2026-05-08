@@ -61,10 +61,13 @@ const GALLERY_TITLES: Partial<Record<ApartmentKey, string[]>> = {
     "SOLO Bathroom",
   ],
   soho: [
-    "SOHO Living Area",
+    "SOHO Living Room",
     "SOHO Dining Area",
-    "SOHO Kitchen",
-    "SOHO Bedroom",
+    "SOHO Dining Room",
+    "SOHO Bedroom 1",
+    "SOHO Bedroom 2",
+    "SOHO Bathroom",
+    "SOHO Bathroom",
     "SOHO Bathroom",
   ],
 };
@@ -74,6 +77,7 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
   const apartment = apartmentDetailMap[slug];
   const [activeImage, setActiveImage] = useState<number>(-1);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [reduceHeroMotion, setReduceHeroMotion] = useState(false);
   const heroRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroRef,
@@ -130,6 +134,25 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
   };
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const viewportIsMobile = window.matchMedia("(max-width: 900px)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    type ConnectionInfo = { saveData?: boolean; effectiveType?: string };
+    const connection = (navigator as Navigator & { connection?: ConnectionInfo })
+      .connection;
+    const constrainedNetwork =
+      Boolean(connection?.saveData) ||
+      ["slow-2g", "2g", "3g"].includes(connection?.effectiveType || "");
+
+    setReduceHeroMotion(
+      viewportIsMobile || prefersReducedMotion || constrainedNetwork,
+    );
+  }, []);
+
+  useEffect(() => {
     if (activeImage < 0) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setActiveImage(-1);
@@ -157,7 +180,10 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
           src={apartment.hero}
           alt={`${apartment.name} Apartment`}
           className="absolute inset-0 h-full w-full object-cover"
-          style={{ y: heroImageY, scale: heroImageScale }}
+          style={reduceHeroMotion ? undefined : { y: heroImageY, scale: heroImageScale }}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/34 to-black/66" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(255,255,255,0.08),transparent_42%),radial-gradient(circle_at_82%_80%,rgba(196,160,96,0.2),transparent_52%)]" />
@@ -165,7 +191,7 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
 
         <motion.div
           className="relative flex min-h-[48vh] w-full items-center justify-center px-5 py-14 text-center md:min-h-[72vh] md:px-12 md:py-22 lg:min-h-[86vh] lg:px-20 lg:py-24 xl:px-28"
-          style={{ y: heroContentY, opacity: heroContentOpacity }}
+          style={reduceHeroMotion ? undefined : { y: heroContentY, opacity: heroContentOpacity }}
         >
           <FadeInView className="w-full max-w-300">
             <h1 className="mx-auto max-w-[12ch] font-serif text-[2.6rem] leading-[0.9] tracking-[-0.03em] text-white sm:text-[3.2rem] md:max-w-[14ch] md:text-[5.2rem] lg:text-[6.4rem]">

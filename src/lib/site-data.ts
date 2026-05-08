@@ -110,13 +110,16 @@ export const apartments = [
     description:
       "With 80 sqm of thoughtfully designed space, SOHO redefines long-term apartment living for those who value comfort and functionality. A dedicated living area, private sleeping spaces, and a full kitchen make this the perfect sanctuary for families or remote professionals building a life in Bali.",
     image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/2fef14ff-25f6-41d7-e15e-b19d9b793100/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/609c8f94-40e6-4d3d-af8d-75bfffc00300/public",
     gallery: [
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/2fef14ff-25f6-41d7-e15e-b19d9b793100/public",
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/f5605e7d-4781-4bc9-3fbc-e8b3ab8d0d00/public",
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/577f5a79-0e8f-45c5-0c69-f679c2c1b500/public",
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/653c6727-cb20-4b13-1b43-a09c1f3fb700/public",
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/aa2b7f20-35db-43ed-9ee3-37e46fe3dd00/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/609c8f94-40e6-4d3d-af8d-75bfffc00300/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4bbc015d-bc06-49e5-cb31-149bfa150b00/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/8744101f-0047-4b20-c026-36c63c202500/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/f8737307-2c4e-4517-d5ab-b50a67a27b00/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/ed99efc5-7873-4cda-5861-7d8e0b162000/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/592516e3-4bb2-4aae-8929-503bc8892900/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d45e2479-4b49-4b1d-3e91-863e8ba46700/public",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/9e0d508b-1983-45fa-cebf-3b99768ba800/public",
     ],
     features: [
       "Fully furnished & ready to live in",
