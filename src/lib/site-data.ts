@@ -206,32 +206,36 @@ export const galleryCategories = [
 
 export const offers = [
   {
-    title: "TS RESIDENCE",
-    description: "Monthly rentals in Seminyak, Bali with hotel-grade access and long-stay comfort. Choose from SOLO, STUDIO, or SOHO apartments designed for your lifestyle.",
+    title: "SPECIAL OFFER OPENING CELEBRATION",
+    description:
+      "STAY 3 MONTHS, PAY 2 MONTHS on SOHO apartment category.",
     image:
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e21d0685-e347-4234-84bf-5e5c84170a00/public",
     link: "/apartments" as const,
   },
   {
-    title: "Five-Star Living",
-    description: "Enjoy full access to TS Suites Hotel — rooftop infinity pool, 24/7 gym, leisure club, salon, and designer retail — all just steps from your door.",
+    title: "SPECIAL OFFER EASY PAY",
+    description:
+      "Stay for MORE THAN 3 MONTHS and simply make a 20% upfront payment of the total rental cost. The remaining 80% is to be paid in advance each month throughout the lease period to ensure a fixed rental rate and duration to SAVE YOUR CASHFLOW.",
     image:
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/3f554a00-be28-469b-2514-1a37ae5ff000/public",
+    link: "/apartments" as const,
+  },
+  {
+    title: "SPECIAL OFFER FOR RESIDENTS",
+    description:
+      "Get 15% discount in TS Suites for F&B and Retail Services and Shop.",
+    image:
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12154d04-cda4-4f32-0e93-216f2d4d6a00/public",
     link: "/five-star-living" as const,
   },
   {
-    title: "Healthy Living",
-    description: "From daily yoga and reformer Pilates to sauna, cold bath, and IV therapy — everything is designed to help you feel your best, every day.",
-    image:
-      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12154d04-cda4-4f32-0e93-216f2d4d6a00/public",
-    link: "/healthy-living" as const,
-  },
-  {
-    title: "Easy Living",
-    description: "Located in central Seminyak with direct access to Sunset Road, flexible monthly leases, 24/7 security, and everything you need within minutes.",
+    title: "SPECIAL OFFER FOR RESIDENTS",
+    description:
+      "Get 15% Discount in No.1 Wellness Club on Massage, Wellness, and F&B.",
     image:
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/8a973f26-d47d-48b1-a369-95c0c042ba00/public",
-    link: "/easy-living" as const,
+    link: "/healthy-living" as const,
   },
 ];
 

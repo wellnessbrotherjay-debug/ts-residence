@@ -38,8 +38,33 @@ const HERO_CONTENT = [
 export default function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
+  const [allowAutoRotate, setAllowAutoRotate] = useState(true);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const viewportIsMobile = window.matchMedia("(max-width: 768px)").matches;
+    type ConnectionInfo = { saveData?: boolean; effectiveType?: string };
+    const connection = (navigator as Navigator & { connection?: ConnectionInfo })
+      .connection;
+    const isConstrainedNetwork =
+      Boolean(connection?.saveData) ||
+      ["slow-2g", "2g", "3g"].includes(connection?.effectiveType || "");
+
+    // Keep hero static on mobile to avoid repeated large-image decoding.
+    if (viewportIsMobile) {
+      setAllowAutoRotate(false);
+      return;
+    }
+
+    if (isConstrainedNetwork) {
+      setAllowAutoRotate(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!allowAutoRotate) return;
+
     const interval = setInterval(() => {
       setTransitioning(true);
       setTimeout(() => {
@@ -48,7 +73,7 @@ export default function HeroSection() {
       }, 800); // Half of transition duration
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [allowAutoRotate]);
 
   // Map images to content (if more images than content, fallback to first)
   const content = HERO_CONTENT[currentIndex] || HERO_CONTENT[0];
@@ -63,7 +88,7 @@ export default function HeroSection() {
           priority
           sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 100vw"
           className={`home-hero__image ${transitioning ? 'transitioning' : ''}`}
-          quality={100}
+          quality={68}
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
         />

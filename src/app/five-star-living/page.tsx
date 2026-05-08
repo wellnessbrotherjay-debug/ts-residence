@@ -136,7 +136,7 @@ function ScrollHero() {
   return (
     <div
       ref={containerRef}
-      className="relative h-[90vh] md:h-[92vh] lg:h-[94vh] overflow-hidden"
+      className="relative h-[68vh] md:h-[74vh] lg:h-[78vh] overflow-hidden"
     >
       {/* Background Images with Crossfade */}
       {scrollHeroImages.map((img, index) => (
@@ -152,7 +152,7 @@ function ScrollHero() {
             className="h-full w-full object-cover"
             draggable={false}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/31 via-black/50 to-black/98" />
         </div>
       ))}
 
@@ -165,9 +165,11 @@ function ScrollHero() {
           <h1 className="text-white font-serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 animate-fade-in-up">
             {currentImage.title}
           </h1>
-          <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto animate-fade-in-up">
+          <p className="text-white/90 text-base leading-8 md:text-[1.32rem] md:leading-10 max-w-4xl mx-auto animate-fade-in-up">
             At TS Residence, you don&apos;t just live — you live with the full
-            privileges of a five-star hotel, all under one roof.
+            privileges of a five-star hotel, all under one roof. Enjoy the TS
+            Suites hotel access just next door, with exclusive access to
+            facilities designed for residents who expect more.
           </p>
         </div>
       </div>

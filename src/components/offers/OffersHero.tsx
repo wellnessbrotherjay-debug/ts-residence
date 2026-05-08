@@ -1,34 +1,24 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
-import { useRef } from "react";
+import Image from "next/image";
 
 const OFFER_IMAGE =
-  "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/a9e7a6fc-d05e-4f9f-68a5-db22e0b59800/public";
+  "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e21d0685-e347-4234-84bf-5e5c84170a00/public";
 
-export function OffersHero() {
-  const heroRef = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const contentY = useSpring(useTransform(scrollYProgress, [0, 1], [0, -58]), {
-    stiffness: 96,
-    damping: 26,
-    mass: 0.42,
-  });
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.82], [1, 0.72]);
-
+export function OffersHero({ ctaHref }: { ctaHref: string }) {
   return (
     <section
-      ref={heroRef}
       className="border-gold/30 relative h-[88vh] overflow-hidden border-y md:h-[90vh]"
     >
       <div className="absolute inset-0 overflow-hidden">
-        <div className="fixed inset-x-0 top-0 h-screen">
-          <img
+        <div className="absolute inset-0 md:fixed md:inset-x-0 md:top-0 md:h-screen">
+          <Image
             src={OFFER_IMAGE}
             alt="TS Residence offers"
+            fill
+            priority
+            sizes="100vw"
+            quality={72}
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/44" />
@@ -36,32 +26,27 @@ export function OffersHero() {
         </div>
       </div>
 
-      <div className="relative h-full" />
-
-      <motion.div
-        className="absolute inset-0 z-10 flex items-center justify-center px-5 text-center md:px-12 lg:px-20 xl:px-28"
-        style={{ y: contentY, opacity: contentOpacity }}
-      >
-        <div className="w-full max-w-4xl text-white">
-          <div data-reveal-group="0.1">
-            <motion.div
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ duration: 0.9, delay: 0.14, ease: "easeOut" }}
-              className="via-gold/70 mx-auto h-px w-24 origin-center bg-linear-to-r from-transparent to-transparent"
-            />
-
-            <div className="mt-6 space-y-2 md:space-y-3">
-              <span className="block font-serif text-[0.95rem] leading-[1.16] font-light tracking-[-0.02em] whitespace-nowrap text-white sm:text-[1.1rem] md:text-[1.7rem] lg:text-[2.2rem]">
-                Built inside TS Suites, with wellness,
-              </span>
-              <span className="block font-serif text-[0.95rem] leading-[1.16] font-light tracking-[-0.02em] whitespace-nowrap text-white sm:text-[1.1rem] md:text-[1.7rem] lg:text-[2.2rem]">
-                community, and flexible ways to stay.
-              </span>
-            </div>
-          </div>
+      <div className="relative z-10 flex h-full items-end px-6 pb-10 md:px-12 md:pb-14 lg:px-20 lg:pb-20 xl:px-28">
+        <div className="max-w-5xl rounded-lg bg-black/45 p-6 text-white backdrop-blur-sm md:p-10 lg:p-12">
+          <p className="text-gold-light text-[11px] font-semibold tracking-[0.24em] uppercase md:text-[12px]">
+            Hero Offer
+          </p>
+          <h1 className="mt-4 font-serif text-4xl leading-[0.98] font-bold md:text-6xl lg:text-7xl xl:text-8xl">
+            SPECIAL OFFER OPENING CELEBRATION
+          </h1>
+          <p className="mt-5 text-base leading-7 text-white/90 md:text-xl md:leading-9 lg:text-2xl lg:leading-10">
+            Stay 3 months, pay 2 months on SOHO apartment category.
+          </p>
+          <a
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-gold bg-gold hover:bg-gold-dark mt-7 inline-flex min-h-12 items-center justify-center border px-6 py-3 text-[11px] font-semibold tracking-[0.18em] text-white uppercase transition-all duration-400"
+          >
+            Explore This Offer
+          </a>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
