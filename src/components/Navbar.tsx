@@ -206,19 +206,7 @@ export const Navbar = () => {
               className={`relative flex items-center justify-between transition-[height,padding] duration-500 xl:px-6 ${showTopLogo ? "h-12" : "h-16"}`}
             >
               <div className="flex flex-1 items-center">
-                <motion.button
-                  onClick={() => setPage("home")}
-                  initial={false}
-                  animate={{
-                    opacity: showTopLogo ? 1 : 0,
-                    x: showTopLogo ? 0 : -12,
-                  }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  style={{ pointerEvents: showTopLogo ? "auto" : "none" }}
-                  aria-label="TS Residence home"
-                >
-                  <img src={LOGO_URL} alt="TS Residence" className="h-9 w-auto" />
-                </motion.button>
+                {/* Logo removed */}
               </div>
  
               <div
