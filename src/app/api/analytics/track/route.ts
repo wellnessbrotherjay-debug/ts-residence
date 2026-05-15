@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { z } from "zod";
 import {
   checkRateLimit,
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
 
     const trustedReferrer = req.headers.get("referer") || referrer || null;
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from("traffic_events")
       .insert({
         session_id: sessionId,
@@ -109,12 +109,22 @@ export async function POST(req: Request) {
       });
 
     if (error) {
-      console.error("analytics insert error", error);
+      console.error("[analytics/track] Supabase insert failed", {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        eventType,
+        page,
+        source,
+        sessionId: sessionId?.slice(0, 20),
+      });
       return NextResponse.json({ error: "Could not persist analytics event" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (err) {
+    console.error("[analytics/track] Unexpected error", err);
     return NextResponse.json({ error: "Invalid request payload" }, { status: 400 });
   }
 }

@@ -77,7 +77,22 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
   const apartment = apartmentDetailMap[slug];
   const [activeImage, setActiveImage] = useState<number>(-1);
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const [reduceHeroMotion, setReduceHeroMotion] = useState(false);
+  
+  // Compute initial reduceHeroMotion state based on viewport/motion preference
+  const [reduceHeroMotion, setReduceHeroMotion] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const viewportIsMobile = window.matchMedia("(max-width: 900px)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    type ConnectionInfo = { saveData?: boolean; effectiveType?: string };
+    const connection = (navigator as Navigator & { connection?: ConnectionInfo })
+      .connection;
+    const constrainedNetwork =
+      Boolean(connection?.saveData) ||
+      ["slow-2g", "2g", "3g"].includes(connection?.effectiveType || "");
+    return viewportIsMobile || prefersReducedMotion || constrainedNetwork;
+  });
   const heroRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroRef,
@@ -132,25 +147,6 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
   const goToNextImage = () => {
     setCarouselIndex((prev) => (prev + 1) % apartment.gallery.length);
   };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const viewportIsMobile = window.matchMedia("(max-width: 900px)").matches;
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    type ConnectionInfo = { saveData?: boolean; effectiveType?: string };
-    const connection = (navigator as Navigator & { connection?: ConnectionInfo })
-      .connection;
-    const constrainedNetwork =
-      Boolean(connection?.saveData) ||
-      ["slow-2g", "2g", "3g"].includes(connection?.effectiveType || "");
-
-    setReduceHeroMotion(
-      viewportIsMobile || prefersReducedMotion || constrainedNetwork,
-    );
-  }, []);
 
   useEffect(() => {
     if (activeImage < 0) return;
@@ -269,12 +265,13 @@ export function ApartmentDetailClient({ slug }: { slug: ApartmentKey }) {
                 {apartment.description}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-10 md:gap-5">
-                <Link
-                  href="/contact"
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent("booking-modal-open", { detail: { apartment: slug } }))}
                   className="border-gold bg-gold hover:bg-gold-dark inline-flex min-h-12 items-center justify-center border px-7 py-3.5 text-[11px] font-semibold tracking-[0.18em] text-white uppercase transition-all duration-400 md:min-h-13.5 md:px-9 md:py-4 md:text-[12px] md:tracking-[0.22em]"
                 >
                   Book Apartment
-                </Link>
+                </button>
               </div>
             </FadeInView>
 

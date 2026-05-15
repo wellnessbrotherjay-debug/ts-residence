@@ -37,24 +37,36 @@ function ga4StartDate(period: ReportPeriod) {
 }
 
 function supabaseSince(period: ReportPeriod) {
+  // Bali time is UTC+8
+  const baliUtcOffset = 8 * 60 * 60 * 1000;
   const now = new Date();
+  const baliNow = new Date(now.getTime() + baliUtcOffset);
+  
   if (period === "daily") {
-    const d = new Date(now);
-    d.setDate(d.getDate() - 1);
-    return d.toISOString();
+    // TODAY in Bali time (start of day = midnight Bali time)
+    // Get ms elapsed since midnight in Bali timezone
+    const msSinceMidnightBali = (baliNow.getHours() * 3600 + baliNow.getMinutes() * 60 + baliNow.getSeconds()) * 1000 + baliNow.getMilliseconds();
+    // Subtract elapsed time to get midnight Bali time
+    const midnightBaliTime = new Date(baliNow.getTime() - msSinceMidnightBali);
+    // Convert back to UTC
+    const sinceUTC = new Date(midnightBaliTime.getTime() - baliUtcOffset);
+    return sinceUTC.toISOString();
   }
   if (period === "weekly") {
-    const d = new Date(now);
-    d.setDate(d.getDate() - 7);
-    return d.toISOString();
+    // 7 days ago (in UTC, close enough for weekly)
+    const sinceDate = new Date(now);
+    sinceDate.setDate(sinceDate.getDate() - 7);
+    return sinceDate.toISOString();
   }
   if (period === "mtd") {
-    return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+    // Start of month (UTC)
+    const sinceDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    return sinceDate.toISOString();
   }
   // alltime → 90 days
-  const d = new Date(now);
-  d.setDate(d.getDate() - 89);
-  return d.toISOString();
+  const sinceDate = new Date(now);
+  sinceDate.setDate(sinceDate.getDate() - 89);
+  return sinceDate.toISOString();
 }
 
 function fmt(n: number) {
@@ -75,12 +87,56 @@ function sourceBadgeColor(source: string) {
   return "#8b7658";
 }
 
+function normalizeRecipients(to?: string[]) {
+  if (!Array.isArray(to)) return REPORT_RECIPIENTS;
+  const clean = to
+    .map((item) => String(item || "").trim())
+    .filter(Boolean);
+  return clean.length ? clean : REPORT_RECIPIENTS;
+}
+
+function reportFromAddress() {
+  const configured =
+    process.env.REPORT_FROM_EMAIL?.trim() ||
+    process.env.RESEND_FROM_EMAIL?.trim() ||
+    process.env.RESEND_FROM?.trim();
+  if (configured) return configured;
+  // Safe fallback for local testing with Resend sandbox domains.
+  return "onboarding@resend.dev";
+}
+
 export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const recipients = to || REPORT_RECIPIENTS;
+  const recipients = normalizeRecipients(to);
   const since = supabaseSince(period);
   const label = periodLabel(period);
   const now = new Date();
+
+  // For daily reports, add upper bound to exclude tomorrow's data
+  let until: string | null = null;
+  if (period === "daily") {
+    const baliUtcOffset = 8 * 60 * 60 * 1000;
+    const baliNow = new Date(now.getTime() + baliUtcOffset);
+    
+    // Calculate ms since midnight Bali time
+    const msSinceMidnightBali = (baliNow.getHours() * 3600 + baliNow.getMinutes() * 60 + baliNow.getSeconds()) * 1000 + baliNow.getMilliseconds();
+    
+    // Midnight Bali time (start of today)
+    const midnightBaliTime = new Date(baliNow.getTime() - msSinceMidnightBali);
+    
+    // Add 24 hours to get midnight tomorrow (end of today)
+    const tomorrowMidnightBaliTime = new Date(midnightBaliTime.getTime() + 24 * 3600 * 1000);
+    
+    // Convert back to UTC
+    const untilUTC = new Date(tomorrowMidnightBaliTime.getTime() - baliUtcOffset);
+    until = untilUTC.toISOString();
+  }
+
+  console.log(`[${period}] Report period: ${label}`);
+  console.log(`[${period}] Query since (UTC): ${since}`);
+  if (until) console.log(`[${period}] Query until (UTC): ${until}`);
+  console.log(`[${period}] Report sent at (Bali): ${now.toLocaleString("en-US", { timeZone: "Asia/Makassar" })}`);
+
 
   const baliDate = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Makassar" }));
   const dateStr = baliDate.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
@@ -90,32 +146,34 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   const isAllTime = period === "alltime";
 
   const buildTrafficQuery = (selectClause: string, head = false) => {
-    return supabaseAdmin
+    const query = supabaseAdmin
       .from("traffic_events")
       .select(selectClause, head ? { count: "exact", head: true } : undefined)
       .neq("source", "admin")
       .neq("event_type", "dashboard_viewed");
+    
+    if (!isAllTime && period === "daily" && until) {
+      return query.gte("created_at", since).lt("created_at", until);
+    } else if (!isAllTime) {
+      return query.gte("created_at", since);
+    }
+    return query;
   };
 
   // Fetch all data in parallel — same queries as /api/dashboard/summary
-  const trafficQuery = isAllTime
-    ? buildTrafficQuery("source,campaign,page,event_type").limit(50000)
-    : buildTrafficQuery("source,campaign,page,event_type").gte("created_at", since).limit(50000);
+  const trafficQuery = buildTrafficQuery("source,campaign,page,event_type").limit(50000);
 
-  const [leadsRes, trafficRowsRes, totalEventsRes, pageViewsRes, bookClicksRes, ga4] = await Promise.all([
+  const [leadsRes, trafficRowsRes, totalEventsRes, pageViewsRes, bookClicksRes, waClicksRes, ga4] = await Promise.all([
     isAllTime
       ? supabaseAdmin.from("leads").select("id, first_name, last_name, source, campaign, status, created_at").order("created_at", { ascending: false })
-      : supabaseAdmin.from("leads").select("id, first_name, last_name, source, campaign, status, created_at").gte("created_at", since).order("created_at", { ascending: false }),
+      : period === "daily" && until
+        ? supabaseAdmin.from("leads").select("id, first_name, last_name, source, campaign, status, created_at").gte("created_at", since).lt("created_at", until).order("created_at", { ascending: false })
+        : supabaseAdmin.from("leads").select("id, first_name, last_name, source, campaign, status, created_at").gte("created_at", since).order("created_at", { ascending: false }),
     trafficQuery,
-    isAllTime
-      ? buildTrafficQuery("id", true)
-      : buildTrafficQuery("id", true).gte("created_at", since),
-    isAllTime
-      ? buildTrafficQuery("id", true).eq("event_type", "page_view")
-      : buildTrafficQuery("id", true).eq("event_type", "page_view").gte("created_at", since),
-    isAllTime
-      ? buildTrafficQuery("id", true).eq("event_type", "cta_click")
-      : buildTrafficQuery("id", true).eq("event_type", "cta_click").gte("created_at", since),
+    buildTrafficQuery("id", true),
+    buildTrafficQuery("event_type", true).eq("event_type", "page_view"),
+    buildTrafficQuery("event_type", true).eq("event_type", "cta_click"),
+    buildTrafficQuery("metadata", true).eq("event_type", "booking_intent").filter("metadata->>link_url", "ilike", "%wa.me%"),
     getGa4ReportForPeriod(ga4StartDate(period)).catch(() => null),
   ]);
 
@@ -133,23 +191,44 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   const totalEvents = totalEventsRes.count || 0;
   const pageViews = pageViewsRes.count || 0;
   const bookClicks = bookClicksRes.count || 0;
+  const waClicks = waClicksRes.count || 0;
   const conversionRate = pageViews > 0 ? ((bookClicks / pageViews) * 100).toFixed(1) : "—";
 
-  // Traffic source breakdown — same as dashboard (from traffic_events, not leads)
+  // GA4 metrics — use as primary traffic source when Supabase data is sparse
+  const ga4ActiveUsers = ga4?.activeUsers ?? 0;
+  const ga4Sessions = ga4?.sessions ?? 0;
+  const ga4EventCount = ga4?.eventCount ?? 0;
+  const ga4AvgDuration = ga4?.avgSessionDuration ?? 0;
+  const ga4NewUsers = ga4?.newUsers ?? 0;
+  const useGa4Traffic = ga4ActiveUsers > 0 && totalEvents === 0;
+
+  // Traffic source breakdown — prefer Supabase; fall back to GA4 if Supabase is empty
   const srcMap: Record<string, number> = {};
   for (const row of trafficRows) {
     const key = row.source || "direct";
     srcMap[key] = (srcMap[key] || 0) + 1;
   }
-  const topSources = Object.entries(srcMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const supabaseSources = Object.entries(srcMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const ga4Sources: [string, number][] = (ga4?.sources || [])
+    .map((s) => [`${s.source}${s.medium && s.medium !== "(none)" ? ` / ${s.medium}` : ""}`, s.activeUsers] as [string, number])
+    .filter(([, n]) => n > 0)
+    .slice(0, 8);
+  const topSources = supabaseSources.length > 0 ? supabaseSources : ga4Sources;
+  const sourcesFromGa4 = supabaseSources.length === 0 && ga4Sources.length > 0;
 
-  // Top pages — same as dashboard
+  // Top pages — prefer Supabase; fall back to GA4 if Supabase is empty
   const pageMap: Record<string, number> = {};
   for (const row of trafficRows) {
     const key = row.page || "/";
     pageMap[key] = (pageMap[key] || 0) + 1;
   }
-  const topPages = Object.entries(pageMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const supabasePages = Object.entries(pageMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const ga4Pages: [string, number][] = (ga4?.topPages || [])
+    .map((p) => [p.path, p.views] as [string, number])
+    .filter(([, n]) => n > 0)
+    .slice(0, 8);
+  const topPages = supabasePages.length > 0 ? supabasePages : ga4Pages;
+  const pagesFromGa4 = supabasePages.length === 0 && ga4Pages.length > 0;
 
   // Campaign breakdown — from traffic_events (same source as dashboard byCampaign)
   const campMap: Record<string, number> = {};
@@ -213,10 +292,32 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
     <div class="header-date">${dateStr} · ${timeStr}</div>
   </div>
 
-  <!-- KPIs — same metrics as admin dashboard -->
+  <!-- KPIs — traffic from GA4 when Supabase data is unavailable, leads always from Supabase -->
   <div class="section">
-    <div class="section-title">Key Performance Indicators</div>
+    <div class="section-title">Key Performance Indicators${useGa4Traffic ? ' <span style="font-size:9px;font-weight:400;color:#888;text-transform:none;letter-spacing:0;">(traffic via GA4)</span>' : ''}</div>
     <div class="kpi-grid">
+      ${useGa4Traffic ? `
+      <div class="kpi">
+        <div class="kpi-value">${fmt(ga4ActiveUsers)}</div>
+        <div class="kpi-label">Active Users</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">${fmt(ga4NewUsers)}</div>
+        <div class="kpi-label">New Users</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">${fmt(ga4Sessions)}</div>
+        <div class="kpi-label">Sessions</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">${fmtDuration(ga4AvgDuration)}</div>
+        <div class="kpi-label">Avg Session</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">${fmt(ga4EventCount)}</div>
+        <div class="kpi-label">Total Events</div>
+      </div>
+      ` : `
       <div class="kpi">
         <div class="kpi-value">${fmt(pageViews)}</div>
         <div class="kpi-label">Page Views</div>
@@ -229,10 +330,15 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
         <div class="kpi-value">${fmt(totalEvents)}</div>
         <div class="kpi-label">Total Events</div>
       </div>
+      <div class="kpi" style="border-left-color:#25D366;">
+        <div class="kpi-value">${fmt(waClicks)}</div>
+        <div class="kpi-label">WhatsApp Clicks</div>
+      </div>
       <div class="kpi">
         <div class="kpi-value">${conversionRate}${conversionRate !== "—" ? "%" : ""}</div>
         <div class="kpi-label">Conversion Rate</div>
       </div>
+      `}
       <div class="kpi highlight">
         <div class="kpi-value">${fmt(totalLeads)}</div>
         <div class="kpi-label">Total Leads</div>
@@ -274,17 +380,18 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   <!-- Traffic Sources — from traffic_events (same as dashboard) -->
   ${topSources.length ? `
   <div class="section">
-    <div class="section-title">Traffic Sources</div>
+    <div class="section-title">Traffic Sources${sourcesFromGa4 ? ' <span style="font-size:9px;font-weight:400;color:#888;text-transform:none;letter-spacing:0;">(via GA4)</span>' : ''}</div>
     ${topSources.map(([src, count]) => {
       const maxCount = topSources[0][1] || 1;
       const pct = Math.round((count / maxCount) * 100);
-      const srcName = src === "direct" ? "Direct" : src.charAt(0).toUpperCase() + src.slice(1);
+      const srcName = sourcesFromGa4 ? src : (src === "direct" ? "Direct" : src.charAt(0).toUpperCase() + src.slice(1));
+      const barColor = sourcesFromGa4 ? "#4285F4" : sourceBadgeColor(src);
       return `<div class="bar-row">
         <div class="bar-label">
           <span>${srcName}</span>
           <span><strong>${fmt(count)}</strong> events</span>
         </div>
-        <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${sourceBadgeColor(src)};"></div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${barColor};"></div></div>
       </div>`;
     }).join("")}
   </div>
@@ -307,10 +414,10 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   <div class="divider"></div>
   ` : ""}
 
-  <!-- Top Pages — from traffic_events (same as dashboard) -->
+  <!-- Top Pages — from traffic_events or GA4 -->
   ${topPages.length ? `
   <div class="section">
-    <div class="section-title">Top Pages</div>
+    <div class="section-title">Top Pages${pagesFromGa4 ? ' <span style="font-size:9px;font-weight:400;color:#888;text-transform:none;letter-spacing:0;">(via GA4)</span>' : ''}</div>
     <table class="table">
       <thead><tr><th>Page</th><th>Views</th></tr></thead>
       <tbody>
@@ -361,11 +468,17 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   const subject = `📊 TS Residence ${label} Report — ${baliDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
 
   const result = await resend.emails.send({
-    from: "TS Residence Reports <noreply@tsresidence.id>",
+    from: reportFromAddress(),
     to: recipients,
     subject,
     html,
   });
 
-  return { ok: !result.error, error: result.error, subject };
+  return {
+    ok: !result.error,
+    error: result.error,
+    subject,
+    from: reportFromAddress(),
+    recipients,
+  };
 }

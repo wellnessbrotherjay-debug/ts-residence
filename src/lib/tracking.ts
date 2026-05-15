@@ -131,7 +131,7 @@ export function getUTMs(): { first: UTMParams; latest: UTMParams } {
       first: firstStr ? JSON.parse(firstStr) : {},
       latest: latestStr ? JSON.parse(latestStr) : {}
     };
-  } catch (e) {
+  } catch {
     return { first: {}, latest: {} };
   }
 }
@@ -205,7 +205,7 @@ export function appendUTMsToUrl(url: string): string {
       }
     });
     return parsedUrl.toString();
-  } catch (e) {
+  } catch {
     return url;
   }
 }
@@ -271,28 +271,53 @@ export function trackEvent(eventName: TrackingEventName, params?: TrackingParams
     // Only generate IDs on client side to prevent hydration mismatches
     const { sessionId, visitorId } = ensureTrackingIds();
 
-    fetch('/api/analytics/track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId,
-        visitorId,
-        eventType: eventName,
-        page: params?.page_path || window.location.pathname,
-        source: latest.utm_source || (document.referrer ? new URL(document.referrer).hostname : "direct"),
-        medium: latest.utm_medium || null,
-        campaign: latest.utm_campaign || null,
-        term: latest.utm_term || null,
-        content: latest.utm_content || null,
-        gclid: latest.gclid || null,
-        fbclid: latest.fbclid || null,
-        referrer: document.referrer || null,
-        metadata: {
-          ...params,
-          device_type: params?.device_type || buildDeviceType()
+    let resolvedSource = "direct";
+    try {
+      resolvedSource = latest.utm_source || (document.referrer ? new URL(document.referrer).hostname : "direct");
+    } catch {
+      resolvedSource = latest.utm_source || "direct";
+    }
+
+    const trackPayload = JSON.stringify({
+      sessionId,
+      visitorId,
+      eventType: eventName,
+      page: params?.page_path || window.location.pathname,
+      source: resolvedSource,
+      medium: latest.utm_medium || null,
+      campaign: latest.utm_campaign || null,
+      term: latest.utm_term || null,
+      content: latest.utm_content || null,
+      gclid: latest.gclid || null,
+      fbclid: latest.fbclid || null,
+      referrer: document.referrer || null,
+      metadata: {
+        ...params,
+        device_type: params?.device_type || buildDeviceType()
+      }
+    });
+
+    // Retry with exponential backoff — max 3 attempts (1s, 2s delays)
+    const postTrackEvent = async (attempt = 1): Promise<void> => {
+      try {
+        const res = await fetch('/api/analytics/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: trackPayload,
+          keepalive: true,
+        });
+        if (!res.ok && attempt < 3) {
+          await new Promise(r => setTimeout(r, attempt * 1000));
+          return postTrackEvent(attempt + 1);
         }
-      })
-    }).catch(() => {});
+      } catch {
+        if (attempt < 3) {
+          await new Promise(r => setTimeout(r, attempt * 1000));
+          return postTrackEvent(attempt + 1);
+        }
+      }
+    };
+    postTrackEvent();
 
   } catch (err) {
     console.warn('Tracking error:', err);

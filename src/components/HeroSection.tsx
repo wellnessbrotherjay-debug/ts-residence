@@ -38,32 +38,22 @@ const HERO_CONTENT = [
 export default function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
-  const [allowAutoRotate, setAllowAutoRotate] = useState(true);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
+  // Compute initial autoRotate state based on viewport/connection
+  const [allowAutoRotate, setAllowAutoRotate] = useState(() => {
+    if (typeof window === "undefined") return true;
     const viewportIsMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (viewportIsMobile) return false;
     type ConnectionInfo = { saveData?: boolean; effectiveType?: string };
     const connection = (navigator as Navigator & { connection?: ConnectionInfo })
       .connection;
     const isConstrainedNetwork =
       Boolean(connection?.saveData) ||
       ["slow-2g", "2g", "3g"].includes(connection?.effectiveType || "");
-
-    // Keep hero static on mobile to avoid repeated large-image decoding.
-    if (viewportIsMobile) {
-      setAllowAutoRotate(false);
-      return;
-    }
-
-    if (isConstrainedNetwork) {
-      setAllowAutoRotate(false);
-    }
-  }, []);
+    return !isConstrainedNetwork;
+  });
 
   useEffect(() => {
-    if (!allowAutoRotate) return;
 
     const interval = setInterval(() => {
       setTransitioning(true);
@@ -106,7 +96,7 @@ export default function HeroSection() {
           <Link href="/easy-living">EASY LIVING</Link>
         </div>
         <div className="home-hero__actions">
-          <Link href="/contact" className="home-hero__btn home-hero__btn--primary">BOOK</Link>
+          <button type="button" onClick={() => window.dispatchEvent(new CustomEvent("booking-modal-open", { detail: {} }))} className="home-hero__btn home-hero__btn--primary">BOOK</button>
           <Link href="/apartments" className="home-hero__btn home-hero__btn--ghost">EXPLORE MORE</Link>
         </div>
       </div>
