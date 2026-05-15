@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import {
   isConfiguredMarketingPassword,
+  isMarketingPasswordConfigured,
   setMarketingSessionCookie,
 } from "@/lib/marketing-auth";
 
 export async function POST(request: Request) {
   try {
+    if (!isMarketingPasswordConfigured()) {
+      return NextResponse.json(
+        { error: "Marketing password is not configured on the server" },
+        { status: 500 },
+      );
+    }
+
     const { password } = await request.json();
     if (!password || !isConfiguredMarketingPassword(password)) {
       return NextResponse.json(

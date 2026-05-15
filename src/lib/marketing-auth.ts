@@ -3,7 +3,6 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 export const MARKETING_SESSION_COOKIE = "ts_marketing_session";
 const MARKETING_SESSION_MAX_AGE = 60 * 60 * 12;
-const DEFAULT_MARKETING_PASSWORD = "tsrmarketing2026";
 
 function normalizeSecret(value?: string | null) {
   const normalized = value?.trim();
@@ -14,7 +13,7 @@ function getMarketingPassword() {
   return (
     normalizeSecret(process.env.MARKETING_PASSWORD) ||
     normalizeSecret(process.env.TS_MARKETING_PASSWORD) ||
-    DEFAULT_MARKETING_PASSWORD
+    null
   );
 }
 
@@ -42,6 +41,10 @@ function signMarketingSession(payload: string) {
 export function isConfiguredMarketingPassword(password: string) {
   const configuredPassword = getMarketingPassword();
   return Boolean(configuredPassword && password.trim() === configuredPassword);
+}
+
+export function isMarketingPasswordConfigured() {
+  return Boolean(getMarketingPassword());
 }
 
 export function createMarketingSessionValue() {
