@@ -1,14 +1,19 @@
 import { NextResponse } from "next/server";
-import { requireAdminRequest } from "@/lib/admin-auth";
+import { requireUtmBuilderRequest } from "@/lib/utm-auth";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    await requireAdminRequest();
+    await requireUtmBuilderRequest();
+
+    // Get brand from query param or default to "ts-residence"
+    const { searchParams } = new URL(request.url);
+    const brand = searchParams.get("brand") || "ts-residence";
 
     const { data, error } = await supabaseAdmin
-      .from("utm_links")
-      .select("id, created_at, name, base_url, utm_source, utm_medium, utm_campaign, utm_content, utm_term, full_url")
+      .from("generated_tracking_links")
+      .select("id, created_at, note_title as name, generated_url as full_url, utm_source, utm_medium, utm_campaign, utm_content, utm_term, brand, campaign_name")
+      .eq("brand", brand)
       .order("created_at", { ascending: false })
       .limit(100);
 
@@ -22,35 +27,51 @@ export async function GET() {
 
     return NextResponse.json(data || []);
   } catch (err) {
-    if (err instanceof Error && err.message === "UNAUTHORIZED_ADMIN_REQUEST") {
+    if (err instanceof Error && err.message === "UNAUTHORIZED_UTM_REQUEST") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     console.error("utm-links GET error", err);
-    return NextResponse.json([], { status: 200 }); // non-fatal: table may not exist yet
+    return NextResponse.json([], { status: 200 });
   }
 }
 
 export async function POST(request: Request) {
   try {
-    await requireAdminRequest();
+    await requireUtmBuilderRequest();
 
     const body = await request.json();
-    const { name, base_url, utm_source, utm_medium, utm_campaign, utm_content, utm_term, full_url } = body;
+    const { name, utm_source, utm_medium, utm_campaign, utm_content, utm_term, full_url, brand = "ts-residence" } = body;
 
-    if (!base_url || !full_url) {
-      return NextResponse.json({ error: "base_url and full_url are required" }, { status: 400 });
+    if (!full_url) {
+      return NextResponse.json({ error: "full_url is required" }, { status: 400 });
     }
 
+    // Map UtmBuilder's "name" field to "note_title", use campaign as campaign_name if not provided
+    const noteTitle = name || `${utm_source} / ${utm_medium} — ${utm_campaign}`;
+    const campaignName = utm_campaign || "unknown";
+
     const { data, error } = await supabaseAdmin
-      .from("utm_links")
-      .insert([{ name, base_url, utm_source, utm_medium, utm_campaign, utm_content, utm_term, full_url }])
-      .select()
+      .from("generated_tracking_links")
+      .insert([{
+        brand,
+        campaign_name: campaignName,
+        note_title: noteTitle,
+        generated_url: full_url,
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        utm_content: utm_content || null,
+        utm_term: utm_term || null,
+        created_by: "admin-utm-builder",
+        is_active: true
+      }])
+      .select("id, created_at, note_title as name, generated_url as full_url, utm_source, utm_medium, utm_campaign, utm_content, utm_term")
       .single();
 
     if (error) {
       if (String(error.code) === "42P01") {
         return NextResponse.json(
-          { error: "utm_links table not found. Run the SQL shown in the UTM Builder to create it." },
+          { error: "generated_tracking_links table not found. Create it in Supabase SQL Editor first." },
           { status: 503 },
         );
       }
@@ -59,7 +80,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(data);
   } catch (err) {
-    if (err instanceof Error && err.message === "UNAUTHORIZED_ADMIN_REQUEST") {
+    if (err instanceof Error && err.message === "UNAUTHORIZED_UTM_REQUEST") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     console.error("utm-links POST error", err);
