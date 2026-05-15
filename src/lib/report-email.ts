@@ -200,11 +200,10 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   const ga4EventCount = ga4?.eventCount ?? 0;
   const ga4AvgDuration = ga4?.avgSessionDuration ?? 0;
   const ga4NewUsers = ga4?.newUsers ?? 0;
-  const supabaseTrafficSparse =
-    ga4ActiveUsers > 0 &&
-    ga4EventCount > 0 &&
-    (totalEvents === 0 || pageViews <= 10 || totalEvents < ga4EventCount * 0.25);
-  const useGa4Traffic = supabaseTrafficSparse;
+  const hasGa4Traffic = ga4ActiveUsers > 0 && ga4EventCount > 0;
+  const weeklySparseSupabaseTraffic =
+    period === "weekly" && (pageViews <= 10 || totalEvents < ga4EventCount * 0.25);
+  const useGa4Traffic = hasGa4Traffic && (totalEvents === 0 || weeklySparseSupabaseTraffic);
 
   // Traffic source breakdown — prefer Supabase; fall back to GA4 if Supabase is empty
   const srcMap: Record<string, number> = {};
