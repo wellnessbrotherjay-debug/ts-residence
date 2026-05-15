@@ -8,6 +8,7 @@ import {
   captureUTMs,
   shouldEnableTracking,
 } from "@/lib/tracking";
+import { detectAndLogAdBlockers } from "@/lib/ad-blocker-detection";
 
 declare global {
   interface Window {
@@ -41,7 +42,58 @@ function appendExternalScript(id: string, src: string) {
   script.id = id;
   script.src = src;
   script.async = true;
+  script.defer = false;
+  // Add integrity and crossorigin for security
+  script.crossOrigin = "anonymous";
   document.head.appendChild(script);
+}
+
+/**
+ * Load tracking scripts through first-party API endpoint
+ * This bypasses ad blockers by masking third-party tracking requests
+ */
+function loadTrackingScript(id: string, type: string) {
+  if (document.getElementById(id)) return;
+
+  const script = document.createElement("script");
+  script.id = id;
+  script.src = `/api/tracking-proxy?type=${type}`;
+  script.async = true;
+  script.defer = false;
+  script.onload = () => {
+    // Script loaded successfully
+    console.debug(`[Tracking] ${type} loaded`);
+  };
+  script.onerror = () => {
+    // Fallback: load directly if proxy fails
+    console.debug(`[Tracking] ${type} proxy failed, using direct load`);
+    loadDirectTrackingScript(type);
+  };
+  document.head.appendChild(script);
+}
+
+/**
+ * Fallback: load tracking scripts directly if proxy is blocked
+ */
+function loadDirectTrackingScript(type: string) {
+  if (type === "gtag" && GA_ID) {
+    appendExternalScript("ga-lib-direct", `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`);
+    appendInlineScript("ga-init-direct", 
+      `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${GA_ID}', { send_page_view: false });`
+    );
+  } else if (type === "gtm" && GTM_ID) {
+    appendInlineScript("gtm-init-direct",
+      `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`
+    );
+  } else if (type === "fbq" && PIXEL_ID) {
+    appendInlineScript("meta-pixel-init-direct",
+      `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('consent', 'revoke');fbq('init', '${PIXEL_ID}');`
+    );
+  } else if (type === "clarity" && CLARITY_ID) {
+    appendInlineScript("clarity-init-direct",
+      `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, 'clarity', 'script', '${CLARITY_ID}');`
+    );
+  }
 }
 
 export function Analytics() {
@@ -67,37 +119,28 @@ export function Analytics() {
     });
     gtag("set", "url_passthrough", true);
 
+    // Load tracking scripts through first-party proxy endpoints
+    // This bypasses ad blockers while maintaining tracking functionality
     if (GTM_ID) {
-      appendInlineScript(
-        "gtm-init",
-        `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`,
-      );
+      loadTrackingScript("gtm-proxy", "gtm");
     }
 
     if (GA_ID) {
-      appendExternalScript(
-        "ga-lib",
-        `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`,
-      );
-      appendInlineScript(
-        "ga-init",
-        `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${GA_ID}', { send_page_view: false });`,
-      );
+      loadTrackingScript("ga-proxy", "gtag");
     }
 
     if (PIXEL_ID) {
-      appendInlineScript(
-        "meta-pixel-init",
-        `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('consent', 'revoke');fbq('init', '${PIXEL_ID}');`,
-      );
+      loadTrackingScript("fbq-proxy", "fbq");
     }
 
     if (CLARITY_ID) {
-      appendInlineScript(
-        "clarity-init",
-        `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, 'clarity', 'script', '${CLARITY_ID}');`,
-      );
+      loadTrackingScript("clarity-proxy", "clarity");
     }
+
+    // Detect ad blockers (runs in background, doesn't block page)
+    detectAndLogAdBlockers().catch(() => {
+      // Silently fail - ad blocker detection is non-critical
+    });
   }, []);
 
   // Track page views on route change manually for single page transition fidelity

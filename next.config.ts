@@ -58,11 +58,23 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; frame-src 'self' https:; connect-src 'self' https:;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.clarity.ms https://tagmanager.google.com; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; frame-src 'self' https: https://www.googletagmanager.com/ns.html; connect-src 'self' https: https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://www.clarity.ms;",
           },
           {
             key: 'X-Frame-Options',
             value: 'ALLOW-FROM https://maps.google.com',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'geolocation=(), microphone=(), camera=(), payment=()',
           },
         ],
       },
@@ -74,6 +86,19 @@ const nextConfig: NextConfig = {
                 {
                   key: 'Cache-Control',
                   value: 'public, max-age=31536000, immutable',
+                },
+              ],
+            },
+            {
+              source: '/api/tracking-proxy',
+              headers: [
+                {
+                  key: 'Cache-Control',
+                  value: 'public, max-age=3600, s-maxage=86400',
+                },
+                {
+                  key: 'Access-Control-Allow-Origin',
+                  value: '*',
                 },
               ],
             },
