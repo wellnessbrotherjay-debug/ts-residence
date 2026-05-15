@@ -101,8 +101,8 @@ function reportFromAddress() {
     process.env.RESEND_FROM_EMAIL?.trim() ||
     process.env.RESEND_FROM?.trim();
   if (configured) return configured;
-  // Safe fallback for local testing with Resend sandbox domains.
-  return "onboarding@resend.dev";
+  // Fall back to the branded sender used by the rest of the app.
+  return "TS Residence <noreply@tsresidence.id>";
 }
 
 export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
@@ -200,7 +200,11 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   const ga4EventCount = ga4?.eventCount ?? 0;
   const ga4AvgDuration = ga4?.avgSessionDuration ?? 0;
   const ga4NewUsers = ga4?.newUsers ?? 0;
-  const useGa4Traffic = ga4ActiveUsers > 0 && totalEvents === 0;
+  const supabaseTrafficSparse =
+    ga4ActiveUsers > 0 &&
+    ga4EventCount > 0 &&
+    (totalEvents === 0 || pageViews <= 10 || totalEvents < ga4EventCount * 0.25);
+  const useGa4Traffic = supabaseTrafficSparse;
 
   // Traffic source breakdown — prefer Supabase; fall back to GA4 if Supabase is empty
   const srcMap: Record<string, number> = {};
@@ -229,6 +233,10 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
     .slice(0, 8);
   const topPages = supabasePages.length > 0 ? supabasePages : ga4Pages;
   const pagesFromGa4 = supabasePages.length === 0 && ga4Pages.length > 0;
+
+  const trafficSourceNote = useGa4Traffic
+    ? `Supabase captured only ${fmt(pageViews)} page views / ${fmt(totalEvents)} total events for this period, so traffic KPIs below are shown via GA4 for accuracy.`
+    : null;
 
   // Campaign breakdown — from traffic_events (same source as dashboard byCampaign)
   const campMap: Record<string, number> = {};
@@ -295,6 +303,7 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   <!-- KPIs — traffic from GA4 when Supabase data is unavailable, leads always from Supabase -->
   <div class="section">
     <div class="section-title">Key Performance Indicators${useGa4Traffic ? ' <span style="font-size:9px;font-weight:400;color:#888;text-transform:none;letter-spacing:0;">(traffic via GA4)</span>' : ''}</div>
+    ${trafficSourceNote ? `<div class="ga4-note" style="margin-bottom:14px;">${trafficSourceNote}</div>` : ""}
     <div class="kpi-grid">
       ${useGa4Traffic ? `
       <div class="kpi">
@@ -467,6 +476,7 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
 
   const subject = `📊 TS Residence ${label} Report — ${baliDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
 
+
   const result = await resend.emails.send({
     from: reportFromAddress(),
     to: recipients,
@@ -474,6 +484,19 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
     html,
   });
 
+  if (result.error) {
+    console.error(`[${period}] Resend error:`, {
+      code: (result.error as any)?.code || "unknown",
+      message: (result.error as any)?.message || String(result.error),
+      details: result.error,
+      from: reportFromAddress(),
+      recipients,
+      htmlLength: html.length,
+      subjectLength: subject.length,
+    });
+  } else {
+    console.log(`[${period}] Email sent successfully:`, result.data?.id);
+  }
   return {
     ok: !result.error,
     error: result.error,
