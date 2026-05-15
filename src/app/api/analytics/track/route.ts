@@ -10,18 +10,18 @@ import { getRequestContext, isLikelyBot } from "@/lib/request-context";
 
 const analyticsSchema = z.object({
   sessionId: z.string().trim().min(1).max(255),
-  visitorId: z.string().trim().max(255).optional(),
+  visitorId: z.string().trim().max(255).nullable().optional(),
   eventType: z.string().trim().min(1).max(64),
-  page: z.string().trim().max(2048).optional(),
-  source: z.string().trim().max(255).optional(),
-  medium: z.string().trim().max(255).optional(),
-  campaign: z.string().trim().max(255).optional(),
-  term: z.string().trim().max(255).optional(),
-  content: z.string().trim().max(255).optional(),
-  referrer: z.string().trim().max(2048).optional(),
-  gclid: z.string().trim().max(255).optional(),
-  fbclid: z.string().trim().max(255).optional(),
-  metadata: z.record(z.string(), z.unknown()).optional(),
+  page: z.string().trim().max(2048).nullable().optional(),
+  source: z.string().trim().max(255).nullable().optional(),
+  medium: z.string().trim().max(255).nullable().optional(),
+  campaign: z.string().trim().max(255).nullable().optional(),
+  term: z.string().trim().max(255).nullable().optional(),
+  content: z.string().trim().max(255).nullable().optional(),
+  referrer: z.string().trim().max(2048).nullable().optional(),
+  gclid: z.string().trim().max(255).nullable().optional(),
+  fbclid: z.string().trim().max(255).nullable().optional(),
+  metadata: z.record(z.string(), z.unknown()).nullable().optional(),
 });
 
 export async function POST(req: Request) {
