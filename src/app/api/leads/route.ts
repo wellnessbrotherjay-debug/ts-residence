@@ -277,6 +277,49 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Could not save lead", details: error }, { status: 500 });
     }
 
+    // 3b. Server-side tracking fallback for WhatsApp capture leads.
+    // This keeps admin metrics accurate even if client-side tracking is blocked.
+    if (ctaClicked === "whatsapp_button") {
+      const fallbackPage = leadPage || page || safeUrl?.pathname || null;
+      const fallbackSessionId = sessionId || `lead_${data?.id || Date.now()}`;
+
+      const { error: trafficFallbackError } = await supabaseAdmin
+        .from("traffic_events")
+        .insert({
+          session_id: fallbackSessionId,
+          visitor_id: visitorId || null,
+          event_type: "booking_intent",
+          page: fallbackPage,
+          source: finalSource,
+          medium: finalMedium,
+          campaign: finalCampaign,
+          term: finalTerm,
+          content: finalContent,
+          referrer: trustedReferrer,
+          gclid: finalGclid,
+          fbclid: finalFbclid,
+          metadata: {
+            link_url: "https://wa.me/6281119028111",
+            link_text: "whatsapp_capture_modal",
+            intent_type: "booking_or_inquiry",
+            cta_clicked: ctaClicked,
+            lead_id: data?.id || null,
+            request_ip: context.ip,
+            request_user_agent: context.userAgent,
+            request_device_type: context.deviceType,
+            request_country: context.country,
+            request_region: context.region,
+            request_city: context.city,
+            request_latitude: context.latitude,
+            request_longitude: context.longitude,
+          },
+        });
+
+      if (trafficFallbackError) {
+        console.error("whatsapp fallback traffic insert error", trafficFallbackError);
+      }
+    }
+
     // 4. Trigger Automations (Resend & Jarvis)
     try {
       const leadName = `${firstName} ${lastName}`;
@@ -333,28 +376,48 @@ export async function POST(req: Request) {
       });
 
       // B. Notification to Team
+      const isWaCapture = ctaClicked === "whatsapp_button";
+      const teamRecipients = [
+        "wellnessbrotherjay@gmail.com",
+        "randolphbubu4@gmail.com",
+        "tsresidence@townsquare.co.id",
+      ];
+      const teamSubject = isWaCapture
+        ? `🟢 WhatsApp Lead: ${leadName} left their email — follow up now`
+        : `New Lead: ${leadName} (${finalSource})`;
+
       await resend.emails.send({
         from: "TS Intelligence <system@tsresidence.id>",
-        to: "wellnessbrotherjay@gmail.com",
-        subject: `New Lead: ${leadName} (${source})`,
+        to: teamRecipients,
+        subject: teamSubject,
         html: `
-          <h2>New High-Intent Lead Captured</h2>
-          <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
-            <tr><td><strong>Name</strong></td><td>${leadName}</td></tr>
-            <tr><td><strong>Email</strong></td><td>${email}</td></tr>
-            <tr><td><strong>Phone</strong></td><td>
-              ${phone ? `${phone} ${countryCode ? `<span style='color:#888'>(WhatsApp country: ${countryCode}${countryName ? ' - ' + countryName : ''})</span>` : ''}` : "N/A"}
-            </td></tr>
-            <tr><td><strong>Stay Duration</strong></td><td>${stayDuration || "N/A"}</td></tr>
-            <tr><td><strong>Message</strong></td><td>${message || "N/A"}</td></tr>
-            <tr><td><strong>Source</strong></td><td>${source} / ${medium || "organic"}</td></tr>
-            <tr><td><strong>Campaign</strong></td><td>${campaign || "N/A"}</td></tr>
-            <tr><td><strong>Landing Page</strong></td><td>${landingPage || "N/A"}</td></tr>
-            <tr><td><strong>Page</strong></td><td>${page || "N/A"}</td></tr>
-            <tr><td><strong>Device</strong></td><td>${deviceType || "N/A"}</td></tr>
-            <tr><td><strong>Click IDs</strong></td><td>${gclid || fbclid || ttclid || "N/A"}</td></tr>
-          </table>
-          <p><a href="https://www.tsresidence.id/admin" style="display: inline-block; padding: 10px 20px; background-color: #8b7658; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px;">View in CRM Dashboard</a></p>
+          <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #e5e5e5;">
+            <div style="background:${isWaCapture ? "#25D366" : "#1a1a1a"};padding:24px 28px;">
+              <p style="color:${isWaCapture ? "#fff" : "#c5a572"};font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 6px;">TS Residence CRM</p>
+              <h1 style="color:#fff;font-size:20px;font-weight:700;margin:0;">${isWaCapture ? "🟢 WhatsApp Lead Captured" : "New Lead Captured"}</h1>
+              ${isWaCapture ? `<p style="color:rgba(255,255,255,0.85);font-size:13px;margin:8px 0 0;">This person clicked your WhatsApp button and left their email. Contact them before they go cold.</p>` : ""}
+            </div>
+            <div style="padding:24px 28px;">
+              <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;color:#888;width:130px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Name</td><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;font-weight:700;">${leadName}</td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;color:#888;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Email</td><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;"><a href="mailto:${email}" style="color:#8b7658;font-weight:600;">${email}</a></td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;color:#888;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Phone</td><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;">${phone ? `${phone}${countryName ? ` (${countryName})` : ""}` : "—"}</td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;color:#888;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Stay Duration</td><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;">${stayDuration || "—"}</td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;color:#888;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Message</td><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;">${message || "—"}</td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;color:#888;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Source</td><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;">${finalSource}${finalMedium ? ` / ${finalMedium}` : ""}</td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;color:#888;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Campaign</td><td style="padding:10px 0;border-bottom:1px solid #f0ebe3;">${finalCampaign || "—"}</td></tr>
+                <tr><td style="padding:10px 0;color:#888;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Page</td><td style="padding:10px 0;">${page || leadPage || "—"}</td></tr>
+              </table>
+              ${isWaCapture ? `
+              <div style="margin-top:20px;background:#f0fdf4;border-radius:8px;padding:16px;border-left:4px solid #25D366;">
+                <p style="margin:0;font-size:13px;color:#166534;font-weight:600;">Suggested action: reply to their email or WhatsApp them directly within 24 hours for the highest chance of closing.</p>
+              </div>` : ""}
+              <div style="margin-top:24px;display:flex;gap:12px;">
+                <a href="https://www.tsresidence.id/admin" style="display:inline-block;padding:12px 20px;background:#8b7658;color:#fff;text-decoration:none;border-radius:6px;font-weight:700;font-size:13px;">View in CRM →</a>
+                ${phone ? `<a href="https://wa.me/${phone.replace(/[^0-9]/g, "")}" style="display:inline-block;padding:12px 20px;background:#25D366;color:#fff;text-decoration:none;border-radius:6px;font-weight:700;font-size:13px;">WhatsApp Them →</a>` : ""}
+              </div>
+            </div>
+          </div>
         `,
       });
 
