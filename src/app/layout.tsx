@@ -7,6 +7,8 @@ import { Analytics } from "@/components/Analytics";
 import { PerformanceMonitor } from "@/components/PerformanceMonitor";
 import { ServiceWorkerRegistration } from "@/components/ServiceWorkerRegistration";
 import { ConsentBanner } from "@/components/ConsentBanner";
+import { WhatsAppCaptureModal } from "@/components/WhatsAppCaptureModal";
+import { BookingModal } from "@/components/BookingModal";
 import { DEFAULT_SEO, SITE_URL } from "@/lib/seo";
 import { UrgencyEngine } from "@/components/UrgencyEngine";
 import { ApartmentQuiz } from "@/components/ApartmentQuiz";
@@ -78,6 +80,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full scroll-smooth antialiased">
       <body className="flex min-h-full flex-col">
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-PRZGL8XM"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="gtm"
+          />
+        </noscript>
         <Suspense fallback={null}>
           <Analytics />
           <PerformanceMonitor />
@@ -85,6 +96,8 @@ export default function RootLayout({
           <UrgencyEngine />
           <ApartmentQuiz />
           <ConsentBanner />
+          <WhatsAppCaptureModal />
+          <BookingModal />
         </Suspense>
         <script
           type="application/ld+json"

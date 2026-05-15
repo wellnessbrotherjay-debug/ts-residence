@@ -16,7 +16,11 @@ declare global {
 }
 
 // Move env access to top-level for static replacement
-const GTM_ID = (process.env.NEXT_PUBLIC_GTM_ID || process.env.next_PUBLIC_GTM_ID)?.trim();
+const GTM_ID = (
+  process.env.NEXT_PUBLIC_GTM_ID ||
+  process.env.next_PUBLIC_GTM_ID ||
+  "GTM-PRZGL8XM"
+)?.trim();
 const GA_ID = (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.next_PUBLIC_GA_MEASUREMENT_ID)?.trim();
 const PIXEL_ID = (process.env.NEXT_PUBLIC_META_PIXEL_ID || process.env.next_PUBLIC_META_PIXEL_ID)?.trim();
 const CLARITY_ID = (process.env.NEXT_PUBLIC_CLARITY_ID || process.env.next_PUBLIC_CLARITY_ID)?.trim();
@@ -190,7 +194,16 @@ export function Analytics() {
           e.preventDefault();
           const { appendUTMsToUrl } = await import("@/lib/tracking");
           const decorated = appendUTMsToUrl(href);
-          window.open(decorated, (target as HTMLAnchorElement).target === "_blank" ? "_blank" : "_self");
+          if (href.includes("wa.me")) {
+            // Show email capture modal before navigating to WhatsApp
+            window.dispatchEvent(
+              new CustomEvent("wa-capture", {
+                detail: { url: decorated, page: window.location.pathname },
+              })
+            );
+          } else {
+            window.open(decorated, (target as HTMLAnchorElement).target === "_blank" ? "_blank" : "_self");
+          }
         }
       }
       trackEvent(eventType, {
