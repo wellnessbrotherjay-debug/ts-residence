@@ -69,3 +69,42 @@ CREATE INDEX IF NOT EXISTS leads_created_at_idx ON public.leads (created_at DESC
 CREATE INDEX IF NOT EXISTS leads_source_idx ON public.leads (source);
 CREATE INDEX IF NOT EXISTS leads_campaign_idx ON public.leads (campaign);
 CREATE INDEX IF NOT EXISTS leads_status_idx ON public.leads (status);
+
+-- Generated UTM tracking links
+CREATE TABLE IF NOT EXISTS public.generated_tracking_links (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
+    brand TEXT NOT NULL,
+    campaign_name TEXT NOT NULL,
+    note_title TEXT NOT NULL,
+    generated_url TEXT NOT NULL,
+    utm_source TEXT,
+    utm_medium TEXT,
+    utm_campaign TEXT,
+    utm_content TEXT,
+    utm_term TEXT,
+    created_by TEXT DEFAULT 'team',
+    is_active BOOLEAN DEFAULT true
+);
+
+CREATE INDEX IF NOT EXISTS idx_generated_links_campaign ON public.generated_tracking_links(campaign_name);
+CREATE INDEX IF NOT EXISTS idx_generated_links_brand ON public.generated_tracking_links(brand);
+
+ALTER TABLE public.generated_tracking_links ENABLE ROW LEVEL SECURITY;
+
+-- Marketing user profiles for UTM builder access
+CREATE TABLE IF NOT EXISTS public.marketing_user_profiles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  username TEXT NOT NULL UNIQUE,
+  display_name TEXT NOT NULL,
+  password_hash TEXT NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  last_login_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_marketing_user_profiles_username ON public.marketing_user_profiles(username);
+CREATE INDEX IF NOT EXISTS idx_marketing_user_profiles_active ON public.marketing_user_profiles(is_active);
+
+ALTER TABLE public.marketing_user_profiles ENABLE ROW LEVEL SECURITY;

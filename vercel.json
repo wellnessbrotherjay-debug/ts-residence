@@ -2,11 +2,15 @@
   "crons": [
     {
       "path": "/api/cron/reports?type=daily",
-      "schedule": "0 10 * * *"
+      "schedule": "0 2 * * *"
     },
     {
       "path": "/api/cron/reports?type=weekly",
-      "schedule": "0 10 * * 5"
+      "schedule": "0 2 * * 5"
+    },
+    {
+      "path": "/api/cron/wa-followup",
+      "schedule": "0 1 * * *"
     }
   ]
 }

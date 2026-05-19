@@ -54,12 +54,13 @@ export function checkTrackingBlocked(): Promise<boolean> {
  */
 export function hasDoNotTrack(): boolean {
   if (typeof navigator === "undefined") return false;
-  
+
+  const legacyWindow = window as Window & { doNotTrack?: string };
+
   return (
     navigator.doNotTrack === "1" ||
     navigator.doNotTrack === "yes" ||
-    // @ts-ignore - check old Safari implementation
-    window.doNotTrack === "yes"
+    legacyWindow.doNotTrack === "yes"
   );
 }
 

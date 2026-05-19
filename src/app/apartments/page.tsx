@@ -109,7 +109,11 @@ export default function Page() {
               for your duration and lifestyle.
             </h3>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap md:mt-10 md:gap-5">
-              <Link href="/contact" className={BTN_GOLD}>
+              <Link
+                href="#"
+                onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent("booking-modal-open", { detail: {} })); }}
+                className={BTN_GOLD}
+              >
                 Contact Concierge
               </Link>
               <Link href="/offers" className={BTN_DARK}>

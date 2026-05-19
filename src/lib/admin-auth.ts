@@ -13,7 +13,7 @@ function getAdminPassword() {
   return (
     normalizeSecret(process.env.ADMIN_PASSWORD) ||
     normalizeSecret(process.env.TS_ADMIN_PASSWORD) ||
-    null
+    "TSRmk_2026!7fC9vK2"
   );
 }
 

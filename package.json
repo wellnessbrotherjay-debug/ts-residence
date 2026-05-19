@@ -10,7 +10,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "obsidian:sync-chat": "node scripts/sync-copilot-chat-to-obsidian.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.0",

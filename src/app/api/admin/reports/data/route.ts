@@ -56,10 +56,10 @@ export async function GET(request: Request) {
       supabaseAdmin
         .from("traffic_events")
         .select("id", { count: "exact", head: true })
-        .in("event_type", ["social_click", "cta_click"])
+        .eq("event_type", "booking_intent")
         .neq("source", "admin")
         .neq("event_type", "dashboard_viewed")
-        .ilike("page", "%wa.me%")
+        .filter("metadata->>link_url", "ilike", "%wa.me%")
         .gte("created_at", sinceISO),
       supabaseAdmin
         .from("traffic_events")

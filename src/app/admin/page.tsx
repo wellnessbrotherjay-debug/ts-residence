@@ -124,9 +124,9 @@ export default function AdminPage() {
   const fetchDashboard = async (isInitial = false) => {
     try {
       const [summaryRes, leadsRes, contextSummaryRes] = await Promise.all([
-        fetch("/api/dashboard/summary"),
-        fetch("/api/leads"),
-        fetch("/api/admin/traffic/context-summary?days=28"),
+        fetch("/api/dashboard/summary", { credentials: "same-origin" }),
+        fetch("/api/leads", { credentials: "same-origin" }),
+        fetch("/api/admin/traffic/context-summary?days=28", { credentials: "same-origin" }),
       ]);
       if (summaryRes.ok) {
         setSummary(await summaryRes.json());

@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import {
   clearMarketingSessionCookie,
-  isMarketingAuthenticated,
+  getMarketingSession,
 } from "@/lib/marketing-auth";
 
 export async function GET() {
-  const authenticated = await isMarketingAuthenticated();
-  return NextResponse.json({ authenticated });
+  const session = await getMarketingSession();
+  return NextResponse.json({
+    authenticated: session.authenticated,
+    userName: session.userName,
+  });
 }
 
 export async function DELETE() {

@@ -6,8 +6,10 @@ import dynamic from "next/dynamic";
 const UtmBuilder = dynamic(() => import("@/app/admin/UtmBuilder"), { ssr: false });
 
 export default function MarketingUtmPage() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
+  const [sessionUserName, setSessionUserName] = useState<string | null>(null);
   const [checkingSession, setCheckingSession] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
@@ -15,12 +17,13 @@ export default function MarketingUtmPage() {
     fetch("/api/marketing/session", { credentials: "same-origin" })
       .then(async (response) => {
         if (!response.ok) {
-          return { authenticated: false };
+          return { authenticated: false, userName: null };
         }
-        return (await response.json()) as { authenticated: boolean };
+        return (await response.json()) as { authenticated: boolean; userName?: string | null };
       })
       .then((payload) => {
         setAuthenticated(Boolean(payload.authenticated));
+        setSessionUserName(payload.userName || null);
       })
       .finally(() => {
         setCheckingSession(false);
@@ -35,12 +38,16 @@ export default function MarketingUtmPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "same-origin",
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ username, password }),
     });
 
     if (response.ok) {
+      const payload = (await response.json().catch(() => null)) as {
+        userName?: string | null;
+      } | null;
       setAuthenticated(true);
       setPassword("");
+      setSessionUserName(payload?.userName || username.trim() || null);
       return;
     }
 
@@ -54,6 +61,7 @@ export default function MarketingUtmPage() {
       credentials: "same-origin",
     });
     setAuthenticated(false);
+    setSessionUserName(null);
   };
 
   if (checkingSession) {
@@ -77,6 +85,20 @@ export default function MarketingUtmPage() {
           </p>
 
           <form onSubmit={handleLogin} className="mt-8 space-y-4">
+            <div>
+              <label htmlFor="marketing-username" className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-gold/75">
+                Username
+              </label>
+              <input
+                id="marketing-username"
+                type="text"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                placeholder="e.g. antony"
+                className="w-full rounded-lg border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-gold/60"
+                required
+              />
+            </div>
             <div>
               <label htmlFor="marketing-password" className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-gold/75">
                 Marketing Password
@@ -114,6 +136,9 @@ export default function MarketingUtmPage() {
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-gold/80">TS Residence</p>
             <h1 className="mt-1 text-2xl font-semibold text-gold">Marketing UTM Portal</h1>
             <p className="mt-2 text-sm text-white/60">Create campaign links and review UTM performance without admin dashboard access.</p>
+            {sessionUserName ? (
+              <p className="mt-2 text-xs uppercase tracking-[0.16em] text-white/45">Logged in as {sessionUserName}</p>
+            ) : null}
           </div>
           <button
             type="button"
@@ -124,7 +149,7 @@ export default function MarketingUtmPage() {
           </button>
         </div>
 
-        <UtmBuilder />
+        <UtmBuilder forcedCreatedBy={sessionUserName || undefined} showProfileManager={false} />
       </div>
     </main>
   );

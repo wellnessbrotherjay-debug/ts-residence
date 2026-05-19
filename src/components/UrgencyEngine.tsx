@@ -24,7 +24,7 @@ export function UrgencyEngine() {
 
   const fetchLiveEvents = async () => {
     try {
-      const res = await fetch('/api/dashboard/summary');
+      const res = await fetch('/api/dashboard/summary', { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         if (data.recentEvents && data.recentEvents.length > 0) {

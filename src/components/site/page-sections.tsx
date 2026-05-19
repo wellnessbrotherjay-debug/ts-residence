@@ -97,9 +97,13 @@ export function ApartmentDetailPage({ slug }: { slug: string }) {
                 </div>
               ))}
             </div>
-            <Link href="/contact" className={`${BTN_SOLID} mt-10`}>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("booking-modal-open", { detail: {} }))}
+              className={`${BTN_SOLID} mt-10`}
+            >
               Book This Apartment
-            </Link>
+            </button>
           </FadeInView>
 
           <FadeInView direction="right">

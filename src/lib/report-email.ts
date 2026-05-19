@@ -484,9 +484,11 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
   });
 
   if (result.error) {
+    const resendError = result.error as { code?: string; message?: string };
+
     console.error(`[${period}] Resend error:`, {
-      code: (result.error as any)?.code || "unknown",
-      message: (result.error as any)?.message || String(result.error),
+      code: resendError.code || "unknown",
+      message: resendError.message || String(result.error),
       details: result.error,
       from: reportFromAddress(),
       recipients,

@@ -27,7 +27,7 @@ export async function GET(req: Request) {
 
   try {
     let scriptContent = "";
-    let contentType = "application/javascript";
+    const contentType = "application/javascript";
 
     const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 

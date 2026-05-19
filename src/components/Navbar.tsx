@@ -319,7 +319,7 @@ export const Navbar = () => {
  
               <div className="flex flex-1 justify-end">
                 <button
-                  onClick={() => setPage("contact")}
+                  onClick={() => window.dispatchEvent(new CustomEvent("booking-modal-open", { detail: {} }))}
                   className="bg-[#8b7658] px-6 py-2.5 font-sans text-xs font-semibold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-[#755f44] xl:px-8 xl:py-3 xl:text-sm"
                 >
                   Book now
@@ -417,8 +417,8 @@ export const Navbar = () => {
             <div className="flex flex-col items-center gap-6 px-6 pb-8">
               <button
                 onClick={() => {
-                  setPage("contact");
                   setIsMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent("booking-modal-open", { detail: {} }));
                 }}
                 className={`${BTN_SOLID} w-full max-w-xs text-center`}
               >

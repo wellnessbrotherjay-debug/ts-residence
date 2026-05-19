@@ -9,6 +9,7 @@ import RotatingAlbum from "../RotatingAlbum";
 import type { Page } from "../../types";
 import { apartmentDetailMap, type ApartmentKey } from "@/lib/apartments-content";
 import { beginImageLoadMeasure, endImageLoadMeasure } from "@/lib/performance";
+import { buildDeviceType, trackEvent } from "@/lib/tracking";
 
 // Map Page type to ApartmentKey for image gallery lookup
 const pageToApartmentKey: Partial<Record<Page, ApartmentKey>> = {
@@ -174,6 +175,13 @@ function ApartmentCard({
 
   const handleBookNow = useCallback(() => {
     const message = `I'm interested in booking a ${apt.name} apartment at TS Residence`;
+    trackEvent("booking_intent", {
+      page_path: window.location.pathname,
+      link_url: "https://wa.me/6281119028111",
+      link_text: `home_apartments_book_${apt.page}`,
+      intent_type: "booking_or_inquiry",
+      device_type: buildDeviceType(),
+    });
     window.open(
       `https://wa.me/6281119028111?text=${encodeURIComponent(message)}`,
       "_blank"
