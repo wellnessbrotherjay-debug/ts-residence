@@ -217,12 +217,12 @@ export default function ReportPanel() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Daily Report</p>
-          <p className="mt-2 text-white/80 text-sm">Sent every day at <strong className="text-white">10:00 AM Bali time</strong></p>
+          <p className="mt-2 text-white/80 text-sm">Sent every day at <strong className="text-white">6:00 PM Bali time</strong></p>
           <p className="mt-1 text-xs text-white/40">Covers yesterday&apos;s traffic, leads, WhatsApp clicks &amp; campaign performance</p>
         </div>
         <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-5">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-400">Weekly Report</p>
-          <p className="mt-2 text-white/80 text-sm">Sent every <strong className="text-white">Friday at 10:00 AM Bali time</strong></p>
+          <p className="mt-2 text-white/80 text-sm">Sent every <strong className="text-white">Friday at 6:00 PM Bali time</strong></p>
           <p className="mt-1 text-xs text-white/40">Full 7-day summary with source attribution, campaign ROI &amp; lead pipeline</p>
         </div>
       </div>

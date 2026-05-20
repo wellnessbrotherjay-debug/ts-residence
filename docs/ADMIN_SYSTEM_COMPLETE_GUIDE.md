@@ -388,12 +388,12 @@ Manually send a report email.
 ### **Cron Endpoints** (Vercel Crons)
 
 #### `GET /api/cron/reports?type=daily` 
-Scheduled daily report (2am UTC = 10am Bali time).
+Scheduled daily report (10am UTC = 6pm Bali time).
 
 **Auth:** `Authorization: Bearer ${CRON_SECRET}` (Vercel injects automatically)
 
 **Features:**
-- Runs daily at 2am UTC
+- Runs daily at 10am UTC
 - Queries traffic from yesterday's Bali timezone boundary
 - Sends to REPORT_RECIPIENTS
 - Fallback: emails are also sent via `/api/admin/reports/send` endpoint
@@ -543,11 +543,11 @@ Team member goes to /admin → UTM Builder
 
 ### **4. Daily Email Reports**
 
-**Schedule:** 2am UTC (10am Bali time) daily
+**Schedule:** 10am UTC (6pm Bali time) daily
 
 **Timezone Fix:**
 The report queries use **Bali timezone (UTC+8)** to calculate date boundaries:
-- When cron runs at 2am UTC = 10am Bali
+- When cron runs at 10am UTC = 6pm Bali
 - Report should include all Bali traffic from yesterday midnight
 - Query window: yesterday Bali midnight → today Bali midnight
 - Converts to UTC ISO format for Supabase query
