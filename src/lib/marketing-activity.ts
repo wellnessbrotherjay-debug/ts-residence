@@ -23,8 +23,8 @@ export interface MarketingUserSession {
 }
 
 // Get or create marketing session
-export function getMarketingSession(): MarketingUserSession {
-  const cookieStore = cookies();
+export async function getMarketingSession(): Promise<MarketingUserSession> {
+  const cookieStore = await cookies();
   const sessionId = cookieStore.get('marketing_session_id')?.value || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
   return {
@@ -48,7 +48,7 @@ export async function trackMarketingActivity(
   } = {}
 ) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const sessionId = cookieStore.get('marketing_session_id')?.value || null;
     const marketingSession = await getMarketingSession();
 
