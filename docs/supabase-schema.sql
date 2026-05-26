@@ -108,3 +108,26 @@ CREATE INDEX IF NOT EXISTS idx_marketing_user_profiles_username ON public.market
 CREATE INDEX IF NOT EXISTS idx_marketing_user_profiles_active ON public.marketing_user_profiles(is_active);
 
 ALTER TABLE public.marketing_user_profiles ENABLE ROW LEVEL SECURITY;
+
+-- Marketing user activity tracking
+CREATE TABLE IF NOT EXISTS public.marketing_user_activities (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  user_id UUID REFERENCES public.marketing_user_profiles(id) ON DELETE CASCADE,
+  username TEXT NOT NULL,
+  activity_type TEXT NOT NULL, -- 'login', 'logout', 'utm_create', 'utm_copy', 'utm_view', 'campaign_create', 'site_visit', 'button_click'
+  activity_data JSONB DEFAULT '{}'::jsonb,
+  page_url TEXT,
+  referrer TEXT,
+  ip_address TEXT,
+  user_agent TEXT,
+  session_id TEXT,
+  duration_seconds INTEGER,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_marketing_activities_user_id ON public.marketing_user_activities(user_id);
+CREATE INDEX IF NOT EXISTS idx_marketing_activities_username ON public.marketing_user_activities(username);
+CREATE INDEX IF NOT EXISTS idx_marketing_activities_type ON public.marketing_user_activities(activity_type);
+CREATE INDEX IF NOT EXISTS idx_marketing_activities_created_at ON public.marketing_user_activities(created_at DESC);
+
+ALTER TABLE public.marketing_user_activities ENABLE ROW LEVEL SECURITY;

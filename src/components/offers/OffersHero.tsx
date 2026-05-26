@@ -35,7 +35,7 @@ export function OffersHero({ ctaHref }: { ctaHref: string }) {
             SPECIAL OFFER OPENING CELEBRATION
           </h1>
           <p className="mt-5 text-base leading-7 text-white/90 md:text-xl md:leading-9 lg:text-2xl lg:leading-10">
-            Stay 3 months, pay 2 months on SOHO apartment category.
+            Stay 3 months, pay 2 months on SOLO apartment category.
           </p>
           <a
             href={ctaHref}

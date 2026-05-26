@@ -208,7 +208,7 @@ export const offers = [
   {
     title: "SPECIAL OFFER OPENING CELEBRATION",
     description:
-      "STAY 3 MONTHS, PAY 2 MONTHS on SOHO apartment category.",
+      "STAY 3 MONTHS, PAY 2 MONTHS on SOLO apartment category.",
     image:
       "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/e21d0685-e347-4234-84bf-5e5c84170a00/public",
     link: "/apartments" as const,

@@ -6,6 +6,7 @@ import {
 } from "@/lib/marketing-auth";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { normalizeMarketingUsername, verifyMarketingPassword } from "@/lib/marketing-users";
+import { trackMarketingLogin } from "@/lib/marketing-activity";
 
 async function writeLoginAudit(entry: {
   username: string;
@@ -135,6 +136,9 @@ export async function POST(request: Request) {
         { status: 500 },
       );
     }
+
+    // Track login activity
+    await trackMarketingLogin(profile?.id || null, resolvedUserName || normalizedUsername);
 
     return NextResponse.json({ success: true, userName: resolvedUserName });
   } catch (error) {
