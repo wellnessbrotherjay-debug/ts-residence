@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { createHmac, timingSafeEqual } from "node:crypto";
 
 export const ADMIN_SESSION_COOKIE = "ts_admin_session";
@@ -24,6 +24,23 @@ function getAdminSessionSecret() {
     normalizeSecret(process.env.TS_ADMIN_PASSWORD) ||
     null
   );
+}
+
+/**
+ * Bearer-token shared secret for server-to-server admin API calls (e.g. the
+ * TSR Leads tab in the schedule-system portal at schedule.htf.solutions).
+ * Set TSR_ADMIN_TOKEN in Vercel env on this project AND on schedule-system to
+ * the same value.
+ */
+function getAdminBearerToken() {
+  return normalizeSecret(process.env.TSR_ADMIN_TOKEN);
+}
+
+function constantTimeEquals(a: string, b: string) {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  if (ab.length !== bb.length) return false;
+  return timingSafeEqual(ab, bb);
 }
 
 function signAdminSession(payload: string) {
@@ -75,6 +92,23 @@ export async function clearAdminSessionCookie() {
 }
 
 export async function isAdminAuthenticated() {
+  // Path 1: server-to-server bearer token (TSR_ADMIN_TOKEN). Used by the
+  // schedule-system portal proxy so staff can manage leads without leaving
+  // schedule.htf.solutions. Cookie path below is still the auth used by the
+  // existing /admin browser UI.
+  const bearerToken = getAdminBearerToken();
+  if (bearerToken) {
+    const headerStore = await headers();
+    const authHeader = headerStore.get("authorization");
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const presented = authHeader.slice("Bearer ".length).trim();
+      if (presented && constantTimeEquals(presented, bearerToken)) {
+        return true;
+      }
+    }
+  }
+
+  // Path 2: HMAC-signed cookie session (existing /admin UI auth).
   const cookieStore = await cookies();
   const cookieValue = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
   if (!cookieValue) {
@@ -91,13 +125,7 @@ export async function isAdminAuthenticated() {
     return false;
   }
 
-  const actualBuffer = Buffer.from(signature);
-  const expectedBuffer = Buffer.from(expectedSignature);
-  if (actualBuffer.length !== expectedBuffer.length) {
-    return false;
-  }
-
-  return timingSafeEqual(actualBuffer, expectedBuffer);
+  return constantTimeEquals(signature, expectedSignature);
 }
 
 export async function requireAdminRequest() {
