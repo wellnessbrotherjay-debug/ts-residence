@@ -37,7 +37,6 @@ const HERO_CONTENT = [
 
 export default function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
 
   // Compute initial autoRotate state based on viewport/connection
   const [allowAutoRotate, setAllowAutoRotate] = useState(() => {
@@ -54,13 +53,8 @@ export default function HeroSection() {
   });
 
   useEffect(() => {
-
     const interval = setInterval(() => {
-      setTransitioning(true);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-        setTransitioning(false);
-      }, 800); // Half of transition duration
+      setCurrentIndex((prev) => (prev + 1) % HERO_IMAGES.length);
     }, 4000);
     return () => clearInterval(interval);
   }, [allowAutoRotate]);
@@ -71,17 +65,21 @@ export default function HeroSection() {
   return (
     <section className="home-hero">
       <div className="home-hero__media">
-        <Image
-          src={HERO_IMAGES[currentIndex]}
-          alt={content.title}
-          fill
-          priority
-          sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 100vw"
-          className={`home-hero__image ${transitioning ? 'transitioning' : ''}`}
-          quality={68}
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-        />
+        {HERO_IMAGES.map((src, index) => (
+          <Image
+            key={src}
+            src={src}
+            alt={HERO_CONTENT[index]?.title ?? content.title}
+            fill
+            priority={index === 0}
+            data-no-image-hover="true"
+            sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 100vw"
+            className={`home-hero__image${index === currentIndex ? " is-active" : ""}`}
+            quality={68}
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+          />
+        ))}
       </div>
       <div className="home-hero__overlay" />
       <div className="home-hero__center">
