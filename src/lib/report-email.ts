@@ -105,7 +105,7 @@ function reportFromAddress() {
   return "TS Residence <noreply@tsresidence.id>";
 }
 
-export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
+export async function buildAndSendReport(period: ReportPeriod, to?: string[], opts?: { buildOnly?: boolean }) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const recipients = normalizeRecipients(to);
   const since = supabaseSince(period);
@@ -475,6 +475,11 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[]) {
 
   const subject = `📊 TS Residence ${label} Report — ${baliDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
 
+  // Build-only: return the composed report so an external sender (LOKI Postfix)
+  // can deliver it from an authenticated @safetykat.com address instead of Resend.
+  if (opts?.buildOnly) {
+    return { ok: true, subject, html, recipients };
+  }
 
   const result = await resend.emails.send({
     from: reportFromAddress(),
