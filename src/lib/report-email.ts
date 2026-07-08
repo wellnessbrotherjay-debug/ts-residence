@@ -478,7 +478,7 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[], op
   // Build-only: return the composed report so an external sender (LOKI Postfix)
   // can deliver it from an authenticated @safetykat.com address instead of Resend.
   if (opts?.buildOnly) {
-    return { ok: true, subject, html, recipients };
+    return { ok: true, error: undefined, subject, from: reportFromAddress(), recipients, html };
   }
 
   const result = await resend.emails.send({
@@ -509,5 +509,6 @@ export async function buildAndSendReport(period: ReportPeriod, to?: string[], op
     subject,
     from: reportFromAddress(),
     recipients,
+    html: html as string | undefined,
   };
 }
