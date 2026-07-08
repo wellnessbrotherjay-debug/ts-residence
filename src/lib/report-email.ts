@@ -105,7 +105,11 @@ function reportFromAddress() {
   return "TS Residence <noreply@tsresidence.id>";
 }
 
-export async function buildAndSendReport(period: ReportPeriod, to?: string[], opts?: { buildOnly?: boolean }) {
+export async function buildAndSendReport(
+  period: ReportPeriod,
+  to?: string[],
+  opts?: { buildOnly?: boolean },
+): Promise<{ ok: boolean; error?: unknown; subject?: string; from?: string; recipients?: string[]; html?: string }> {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const recipients = normalizeRecipients(to);
   const since = supabaseSince(period);
