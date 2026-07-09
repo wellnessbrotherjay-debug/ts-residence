@@ -205,11 +205,11 @@ export async function buildAndSendReport(
   const ga4AvgDuration = ga4?.avgSessionDuration ?? 0;
   const ga4NewUsers = ga4?.newUsers ?? 0;
   const hasGa4Traffic = ga4ActiveUsers > 0 && ga4EventCount > 0;
-  const weeklySparseSupabaseTraffic =
-    period === "weekly" && (pageViews <= 10 || totalEvents < ga4EventCount * 0.25);
-  const useGa4Traffic = hasGa4Traffic && (totalEvents === 0 || weeklySparseSupabaseTraffic);
+  // GA4 is the source of truth for traffic. Use it whenever it has data; the
+  // Supabase pixel is only a fallback when GA4 is unavailable.
+  const useGa4Traffic = hasGa4Traffic;
 
-  // Traffic source breakdown — prefer Supabase; fall back to GA4 if Supabase is empty
+  // Traffic source breakdown — GA4 first (accurate source/medium), Supabase fallback
   const srcMap: Record<string, number> = {};
   for (const row of trafficRows) {
     const key = row.source || "direct";
@@ -220,10 +220,10 @@ export async function buildAndSendReport(
     .map((s) => [`${s.source}${s.medium && s.medium !== "(none)" ? ` / ${s.medium}` : ""}`, s.activeUsers] as [string, number])
     .filter(([, n]) => n > 0)
     .slice(0, 8);
-  const topSources = supabaseSources.length > 0 ? supabaseSources : ga4Sources;
-  const sourcesFromGa4 = supabaseSources.length === 0 && ga4Sources.length > 0;
+  const topSources = ga4Sources.length > 0 ? ga4Sources : supabaseSources;
+  const sourcesFromGa4 = ga4Sources.length > 0;
 
-  // Top pages — prefer Supabase; fall back to GA4 if Supabase is empty
+  // Top pages — GA4 first, Supabase fallback
   const pageMap: Record<string, number> = {};
   for (const row of trafficRows) {
     const key = row.page || "/";
@@ -234,11 +234,11 @@ export async function buildAndSendReport(
     .map((p) => [p.path, p.views] as [string, number])
     .filter(([, n]) => n > 0)
     .slice(0, 8);
-  const topPages = supabasePages.length > 0 ? supabasePages : ga4Pages;
-  const pagesFromGa4 = supabasePages.length === 0 && ga4Pages.length > 0;
+  const topPages = ga4Pages.length > 0 ? ga4Pages : supabasePages;
+  const pagesFromGa4 = ga4Pages.length > 0;
 
   const trafficSourceNote = useGa4Traffic
-    ? `Supabase captured only ${fmt(pageViews)} page views / ${fmt(totalEvents)} total events for this period, so traffic KPIs below are shown via GA4 for accuracy.`
+    ? `Traffic figures are sourced directly from Google Analytics for accuracy.`
     : null;
 
   // Campaign breakdown — from traffic_events (same source as dashboard byCampaign)
