@@ -9,11 +9,19 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   // Accept the existing CRON_SECRET or a dedicated REPORT_BUILD_TOKEN.
-  const secrets = [process.env.CRON_SECRET, process.env.REPORT_BUILD_TOKEN].filter(Boolean) as string[];
-  const authHeader = (request.headers.get("authorization") || "").replace(/^Bearer\s+/i, "");
-  const token = searchParams.get("token") || "";
-  if (secrets.length === 0 || (!secrets.includes(authHeader) && !secrets.includes(token))) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // Trim both sides — pasted env values often carry a trailing space/newline.
+  const cron = (process.env.CRON_SECRET || "").trim();
+  const build = (process.env.REPORT_BUILD_TOKEN || "").trim();
+  const secrets = [cron, build].filter(Boolean);
+  const authHeader = (request.headers.get("authorization") || "").replace(/^Bearer\s+/i, "").trim();
+  const token = (searchParams.get("token") || "").trim();
+  const provided = authHeader || token;
+  if (secrets.length === 0 || !secrets.includes(provided)) {
+    // Non-sensitive diagnostics (lengths only, never the values) to debug mismatches.
+    return NextResponse.json({
+      error: "Unauthorized",
+      diag: { hasCronSecret: !!cron, buildTokenLen: build.length, providedLen: provided.length, match: secrets.includes(provided) },
+    }, { status: 401 });
   }
 
   const type = searchParams.get("type") || "daily";
