@@ -164,7 +164,7 @@ export default function RootLayout({
               </svg>
             </a>
             <a
-              href="https://wa.me/6281119028111?text=HI%20TSR%20i%20want%20to%20find%20out%20more%20about%20your%20luxury%20apartments"
+              href="https://wa.me/6281119028111?text=Hi%20TS%20Residence%2C%20I%27d%20like%20to%20find%20out%20more%20about%20your%20luxury%20apartments."
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-[11px] font-semibold tracking-[0.14em] text-[#0d2a1b] uppercase shadow-2xl transition-transform duration-300 hover:scale-110 md:h-14 md:w-14 md:text-sm"
