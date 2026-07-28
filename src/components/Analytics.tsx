@@ -23,6 +23,12 @@ const GTM_ID = (
   "GTM-PRZGL8XM"
 )?.trim();
 const GA_ID = (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.next_PUBLIC_GA_MEASUREMENT_ID)?.trim();
+// Google Ads shares the gtag.js library with GA4; configured as an extra destination.
+const ADS_ID = (
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ||
+  process.env.next_PUBLIC_GOOGLE_ADS_ID ||
+  "AW-18289471595"
+)?.trim();
 const PIXEL_ID = (process.env.NEXT_PUBLIC_META_PIXEL_ID || process.env.next_PUBLIC_META_PIXEL_ID)?.trim();
 const CLARITY_ID = (process.env.NEXT_PUBLIC_CLARITY_ID || process.env.next_PUBLIC_CLARITY_ID)?.trim();
 
@@ -76,10 +82,10 @@ function loadTrackingScript(id: string, type: string) {
  * Fallback: load tracking scripts directly if proxy is blocked
  */
 function loadDirectTrackingScript(type: string) {
-  if (type === "gtag" && GA_ID) {
-    appendExternalScript("ga-lib-direct", `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`);
-    appendInlineScript("ga-init-direct", 
-      `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${GA_ID}', { send_page_view: false });`
+  if (type === "gtag" && (GA_ID || ADS_ID)) {
+    appendExternalScript("ga-lib-direct", `https://www.googletagmanager.com/gtag/js?id=${GA_ID || ADS_ID}`);
+    appendInlineScript("ga-init-direct",
+      `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());${GA_ID ? `gtag('config', '${GA_ID}', { send_page_view: false });` : ""}${ADS_ID ? `gtag('config', '${ADS_ID}');` : ""}`
     );
   } else if (type === "gtm" && GTM_ID) {
     appendInlineScript("gtm-init-direct",
@@ -125,7 +131,7 @@ export function Analytics() {
       loadTrackingScript("gtm-proxy", "gtm");
     }
 
-    if (GA_ID) {
+    if (GA_ID || ADS_ID) {
       loadTrackingScript("ga-proxy", "gtag");
     }
 

@@ -30,12 +30,14 @@ export async function GET(req: Request) {
     const contentType = "application/javascript";
 
     const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
+    // Google Ads shares the gtag.js library with GA4; configured as an extra destination.
+    const ADS_ID = (process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-18289471595").trim();
 
     switch (scriptType) {
       case "gtag": {
-        if (!GA_ID) {
+        if (!GA_ID && !ADS_ID) {
           return new NextResponse(
-            "console.log('GA not configured');",
+            "console.log('GA/Ads not configured');",
             { status: 200, headers: { "Content-Type": contentType, ...corsHeaders } }
           );
         }
@@ -50,7 +52,7 @@ export async function GET(req: Request) {
   // Load GA script
   var g = d.createElement(s);
   g.async = true;
-  g.src = 'https://www.googletagmanager.com/gtag/js?id=${GA_ID}';
+  g.src = 'https://www.googletagmanager.com/gtag/js?id=${GA_ID || ADS_ID}';
   var f = d.getElementsByTagName(s)[0];
   f.parentNode.insertBefore(g, f);
   
@@ -58,8 +60,7 @@ export async function GET(req: Request) {
   w.dataLayer = w.dataLayer || [];
   function gtag(){w.dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', '${GA_ID}', { 'send_page_view': false });
-})();
+${GA_ID ? `  gtag('config', '${GA_ID}', { 'send_page_view': false });\n` : ""}${ADS_ID ? `  gtag('config', '${ADS_ID}');\n` : ""}})();
 `;
         break;
       }
