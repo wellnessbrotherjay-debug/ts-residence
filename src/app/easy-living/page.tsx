@@ -24,43 +24,8 @@ import {
 } from "@/components/site/animations";
 import { BTN_DARK, BTN_GOLD } from "@/components/site/buttons";
 
-const SVG_FALLBACK = "/globe.svg";
-
-const EASY_IMAGE_REPLACEMENTS: Record<string, string> = {
-  "https://tsresidence.id/wp-content/uploads/2025/08/panoramic-view-of-sunset-on-a-beah-near-tsresidence-scaled.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
-  "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d44e04fa-07c2-4c4a-e25f-7082f2534e00/public",
-  "https://tsresidence.id/wp-content/uploads/2025/09/46cef01afe76ce46f8019d0f518ea165.jpg":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
-  "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/363a5628-6c76-41fd-bac1-16127cdd1500/public",
-  "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
-  "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-hotel.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/8a2ce61d-0aed-4265-e5f8-6e6381d64a00/public",
-  "https://tsresidence.id/wp-content/uploads/2025/10/couple-walking-around-seminyak-e1761017959269.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
-  "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12a96763-9bfb-47d8-8199-4702767d5d00/public",
-  "https://tsresidence.id/wp-content/uploads/2025/08/a-surfer-walking-under-the-sunset-near-ts-residence.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
-  "https://tsresidence.id/wp-content/uploads/2025/10/ts-store-img.webp":
-    "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
-  "https://tsresidence.id/wp-content/uploads/2025/08/bali-island-outline.svg": SVG_FALLBACK,
-};
 
 function resolveEasyImage(src: string) {
-  const replacement = EASY_IMAGE_REPLACEMENTS[src];
-
-  if (replacement) {
-    return replacement;
-  }
-
-  if (src.includes("tsresidence.id/wp-content")) {
-    return src.endsWith(".svg") ? SVG_FALLBACK : src;
-  }
-
   return src;
 }
 
@@ -87,19 +52,19 @@ const seminyakReasons = [
 const easyMoments = [
   {
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/08/panoramic-view-of-sunset-on-a-beah-near-tsresidence-scaled.webp",
+      "/images/panoramic-view-of-sunset-on-a-beah-near-tsresidence-scaled.webp",
     ),
     caption: "Morning commute: Just 5 minutes to Seminyak Beach.",
   },
   {
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d44e04fa-07c2-4c4a-e25f-7082f2534e00/public",
     ),
     caption: "Daily access to rooftop recovery and wellness.",
   },
   {
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/09/46cef01afe76ce46f8019d0f518ea165.jpg",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/306e3181-83b1-4aaa-05c4-2df1bf374200/public",
     ),
     caption: "Refined interiors designed for real-life productivity.",
   },
@@ -137,7 +102,7 @@ const residenceFacilities = [
     description:
       "A professional environment for focus and global connectivity, just levels away.",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "/images/ts-suites-coworking-space-red-dress-woman-scaled.webp",
     ),
     label: "Productivity",
   },
@@ -155,7 +120,7 @@ const residenceFacilities = [
     description:
       "Elevated relaxation with panoramic Seminyak views and signature service.",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d44e04fa-07c2-4c4a-e25f-7082f2534e00/public",
     ),
     label: "Lifestyle",
   },
@@ -164,7 +129,7 @@ const residenceFacilities = [
     description:
       "Curated fashion and essential retail directly within the residence complex.",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
     ),
     label: "Convenience",
   },
@@ -174,93 +139,93 @@ const seminyakHighlights = [
   {
     title: "TS Suites Hotel",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-hotel.webp",
+      "/images/ts-suites-hotel.webp",
     ),
     href: "https://tssuites.com/",
   },
   {
     title: "Strategic Location",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/couple-walking-around-seminyak-e1761017959269.webp",
+      "/images/couple-walking-around-seminyak-e1761017959269.webp",
     ),
   },
   {
     title: "No.1 Wellness Club",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-residence-healthy-living-tsc-yoga-class.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/12a96763-9bfb-47d8-8199-4702767d5d00/public",
     ),
     href: "https://www.no1wellness.com/",
   },
   {
     title: "Free Shuttle Service",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/shuttle-bus-service-by-ts-suites-scaled.webp",
+      "/images/shuttle-bus-service-by-ts-suites-scaled.webp",
     ),
   },
   {
     title: "Seminyak Beach",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/08/a-surfer-walking-under-the-sunset-near-ts-residence.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/4f514205-a99d-4eb4-40fa-f07f05d9bc00/public",
     ),
   },
   {
     title: "Double Six Beach",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/08/lots-of-umbrellas-on-the-beach-during-sunset.webp",
+      "/images/lots-of-umbrellas-on-the-beach-during-sunset.webp",
     ),
   },
   {
     title: "TSTORE",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-store-img.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
     ),
   },
   {
     title: "Restaurant",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/09/mama-san-restaurant-near-ts-residence.jpg",
+      "/images/ts-suies-restaurant-seminyak-bali-scaled.webp",
     ),
   },
   {
     title: "Nightlife",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/09/kudeta-night-club-near-ts-residence.jpg",
+      "/images/people-celebrating-birthday-in-tsresidence-luxurious-rooftop-restaurant.webp",
     ),
   },
   {
     title: "Entertainment",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/09/woobar-near-ts-residence.jpg",
+      "/images/tourist-walking-at-seminyak.webp",
     ),
   },
   {
     title: "Beach Club",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/09/potato-head-beach-club-near-ts-residence.jpg",
+      "/images/ts-residence-near-by-seminyak-beach-e1759392750339.webp",
     ),
   },
   {
     title: "10 min to Hospital",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/siloam-hospital-denpasar-ts-suites-e1761018247329.webp",
+      "/images/siloam-hospital-denpasar-ts-suites-e1761018247329.webp",
     ),
   },
   {
     title: "20 min to Ngurah Rai Airport",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/ngurah-rai-airport-bali-ts-residence.webp",
+      "/images/ngurah-rai-airport-bali-ts-residence.webp",
     ),
   },
   {
     title: "Shopping Center, Dining & Entertainment",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/Beachwalk-shopping-center-kuta.webp",
+      "/images/Beachwalk-shopping-center-kuta.webp",
     ),
   },
   {
     title: "Easy Accessibility",
     image: resolveEasyImage(
-      "https://tsresidence.id/wp-content/uploads/2025/10/Bali-mandara-highway.webp",
+      "/images/Bali-mandara-highway.webp",
     ),
   },
 ];
@@ -328,7 +293,7 @@ export default function Page() {
       >
         <motion.img
           src={resolveEasyImage(
-            "https://tsresidence.id/wp-content/uploads/2025/08/woman-bathing-at-TS-suite-rooftop-pool-during-a-beautiful-sunset.webp",
+            "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/d44e04fa-07c2-4c4a-e25f-7082f2534e00/public",
           )}
           alt="Live in the heart of Seminyak"
           className="absolute inset-0 h-full w-full object-cover"
@@ -390,7 +355,7 @@ export default function Page() {
         <div className="pointer-events-none absolute top-10 -right-88 hidden opacity-[0.07] lg:block">
           <img
             src={resolveEasyImage(
-              "https://tsresidence.id/wp-content/uploads/2025/08/bali-island-outline.svg",
+              "/globe.svg",
             )}
             alt=""
             className="w-216 max-w-none"

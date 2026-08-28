@@ -206,7 +206,7 @@ export function FiveStarPageContent() {
     <div className="w-full">
       <section className="relative flex min-h-[85vh] items-center justify-center">
         <img
-          src="https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp"
+          src="/images/ts-suites-coworking-space-red-dress-woman-scaled.webp"
           alt="Five Star Living"
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -357,7 +357,7 @@ export function EasyLivingPageContent() {
 
         <FadeInView className="mt-24">
           <img
-            src="https://tsresidence.id/wp-content/uploads/2025/10/couple-walking-around-seminyak-e1761017959269.webp"
+            src="/images/couple-walking-around-seminyak-e1761017959269.webp"
             alt="Seminyak Location"
             className="aspect-21/9 h-full w-full object-cover"
           />

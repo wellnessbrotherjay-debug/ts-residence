@@ -11,7 +11,9 @@ import {
 } from "@/lib/api-security";
 import { getRequestContext, isLikelyBot } from "@/lib/request-context";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 const utmTouchSchema = z.object({
   utm_source: z.string().trim().max(120).nullable().optional(),
@@ -355,7 +357,7 @@ export async function POST(req: Request) {
       }
 
       // A. Auto-reply to User
-      await resend.emails.send({
+      await getResend().emails.send({
         from: "TS Residence <reservations@tsresidence.id>",
         to: email,
         subject: "Thank you for your enquiry - TS Residence",
@@ -386,7 +388,7 @@ export async function POST(req: Request) {
         ? `🟢 WhatsApp Lead: ${leadName} left their email — follow up now`
         : `New Lead: ${leadName} (${finalSource})`;
 
-      await resend.emails.send({
+      await getResend().emails.send({
         from: "TS Intelligence <system@tsresidence.id>",
         to: teamRecipients,
         subject: teamSubject,

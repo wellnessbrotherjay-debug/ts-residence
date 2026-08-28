@@ -154,7 +154,7 @@ export const homePillars = [
       "Full privileges of a luxury hotel with coworking, dining, salon, and retail in one polished address.",
     href: "/five-star-living",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "/images/ts-suites-coworking-space-red-dress-woman-scaled.webp",
     stat: "Hotel-grade privileges",
   },
   {
@@ -194,7 +194,7 @@ export const galleryCategories = [
     name: "Facilities",
     handle: "@tssuitesseminyak",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "/images/ts-suites-coworking-space-red-dress-woman-scaled.webp",
   },
   {
     name: "No.1 Wellness Club",
@@ -243,21 +243,21 @@ export const fiveStarFacilities = [
   {
     title: "TS Suites Coworking Space",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/ts-suites-coworking-space-red-dress-woman-scaled.webp",
+      "/images/ts-suites-coworking-space-red-dress-woman-scaled.webp",
   },
   {
     title: "TSTORE",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/09/tstore-designer-hub-ts-residence.webp",
+      "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/331971d0-3b35-4fc1-4c33-6e1dc82fcd00/public",
   },
   {
     title: "Christophe C Salon",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/10/christophe-salon-img-scaled-e1759999189370.webp",
+      "/images/schirstopher-c-salon-ts-residence.webp",
   },
   {
     title: "TS Suites Bar",
     image:
-      "https://tsresidence.id/wp-content/uploads/2025/09/tsbar-seminyak.webp",
+      "/images/ts-residence-isure-Club-restaurant.webp",
   },
 ];

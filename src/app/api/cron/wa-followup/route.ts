@@ -3,7 +3,9 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import { Resend } from "resend";
 import crypto from "crypto";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 function buildUnsubscribeToken(leadId: number | string, email: string) {
   const secret = process.env.LEAD_UNSUBSCRIBE_SECRET || process.env.CRON_SECRET || "ts-default-unsubscribe-secret";
@@ -64,7 +66,7 @@ export async function GET(req: Request) {
     const unsubUrl = `https://www.tsresidence.id/api/leads/unsubscribe?leadId=${lead.id}&email=${encodeURIComponent(email)}&token=${unsubToken}`;
 
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: "TS Residence <reservations@tsresidence.id>",
         to: email,
         subject: "Still thinking about Bali? We're here to help 🌴",

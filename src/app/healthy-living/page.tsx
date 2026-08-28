@@ -100,8 +100,8 @@ const communityMoments = [
     alt: "Yoga class by the pool",
   },
   {
-    src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public",
-    alt: "Pool exercise session",
+    src: "/images/healthy-living-sauna.webp",
+    alt: "Wellness club sauna",
   },
   {
     src: "https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/13c17e41-4ce4-4d5f-b7a8-22b22d8cc600/public",
@@ -231,12 +231,6 @@ export default function Page() {
       <section className="border-gold/30 bg-cream border-b">
         <div className="w-full px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24 xl:px-28">
           <FadeInView className="mx-auto max-w-225 text-center">
-            <img
-              src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public"
-              alt="No. 1 Wellness Studio Logo"
-              className="mx-auto mb-4 w-54 h-27"
-              draggable={false}
-            />
             <div className="font-serif text-gold-dark text-xl font-semibold mb-2 tracking-wide uppercase">No. 1 Wellness Studio</div>
             <div className="text-ink/80 text-lg max-w-2xl mx-auto">A complete wellness ecosystem, integrated with residence life.</div>
           </FadeInView>
@@ -275,12 +269,6 @@ export default function Page() {
                   />
                 </div>
                 <div className="flex min-h-48 flex-col items-center justify-center p-6 md:min-h-56 md:p-7 lg:min-h-70">
-                  <img
-                    src="https://imagedelivery.net/Ysk_B7ELLCDostxgfBMH8A/73f584df-bc97-4d3f-01da-a4337912dd00/public"
-                    alt="No. 1 Wellness Logo"
-                    className="mb-3 h-10 w-auto mx-auto"
-                    draggable={false}
-                  />
                   <div className="text-center">
                     <div className="font-serif text-gold-dark text-lg font-semibold mb-1">{facility.title}</div>
                     <div className="text-ink/80 text-base leading-6 mb-3">{facility.description}</div>
